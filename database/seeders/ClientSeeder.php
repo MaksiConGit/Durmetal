@@ -55,8 +55,8 @@ class ClientSeeder extends Seeder
             'iva_condition_id' => '1',
             'document_type_id' => '1',
             'document_number' => '30708681896',
-            'is_active' => 'true',
-            'client_classfication_id' => '1',
+            'is_active' => '1',
+            'client_classification_id' => '1',
             'created_by' => '1',
             'updated_by' => '1',
         ]);

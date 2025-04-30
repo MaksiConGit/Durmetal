@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('address');
-            $table->foreignId('province_id')->constrained()
+            $table->foreignId('city_id')->constrained()
                                                 ->onDelete('restrict')
                                                 ->onUpdate('cascade');
             $table->string('phone');
