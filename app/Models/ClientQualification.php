@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ClientClassification extends Model
+class ClientQualification extends Model
 {
     //
 }

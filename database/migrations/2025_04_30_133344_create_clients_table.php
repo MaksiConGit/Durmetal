@@ -26,8 +26,9 @@ return new class extends Migration
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
             $table->string('document_number');
+            $table->integer('balance');
             $table->boolean('is_active');
-            $table->foreignId('client_classification_id')->nullable()
+            $table->foreignId('client_qualification_id')->nullable()
                                                         ->constrained()
                                                         ->onDelete('restrict')
                                                         ->onUpdate('cascade');

@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\City;
 use App\Models\Client;
-use App\Models\ClientClassification;
+use App\Models\ClientQualification;
 use App\Models\DocumentType;
+use App\Models\Email;
 use App\Models\IvaCondition;
 use App\Models\Province;
 use App\Models\User;
@@ -43,8 +44,8 @@ class ClientSeeder extends Seeder
             'name' => 'CUIT',
         ]);
 
-        ClientClassification::create([
-            'name' => 'San Nicolás de los Arroyos',
+        ClientQualification::create([
+            'name' => 'Sin calificar',
         ]);
 
         Client::create([
@@ -55,10 +56,21 @@ class ClientSeeder extends Seeder
             'iva_condition_id' => '1',
             'document_type_id' => '1',
             'document_number' => '30708681896',
+            'balance' => '5235664',
             'is_active' => '1',
-            'client_classification_id' => '1',
+            'client_qualification_id' => '1',
             'created_by' => '1',
             'updated_by' => '1',
+        ]);
+
+        Email::create([
+            'text' => 'cliente@cliente',
+            'client_id' => '1',
+        ]);
+
+        Email::create([
+            'text' => 'cliente@cliente1',
+            'client_id' => '1',
         ]);
     }
 }
