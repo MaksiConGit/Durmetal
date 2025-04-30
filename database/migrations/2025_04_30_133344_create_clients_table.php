@@ -25,8 +25,10 @@ return new class extends Migration
             $table->foreignId('document_type_id')->constrained()
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
+            $table->string('document_number');
             $table->boolean('is_active');
-            $table->foreignId('client_classification_id')->constrained()
+            $table->foreignId('client_classification_id')->nullable()
+                                                        ->constrained()
                                                         ->onDelete('restrict')
                                                         ->onUpdate('cascade');
             $table->foreignId('created_by')->constrained('users')
