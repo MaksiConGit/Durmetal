@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('clients', ClientController::class)->names('clients');
 });
 
+Route::get('/test', fn() => 'ok');
 
 
 require __DIR__.'/auth.php';
