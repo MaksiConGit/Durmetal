@@ -72,8 +72,9 @@ class ClientController extends Controller
         $document_types = DocumentType::all();
         $client_qualifications = ClientQualification::all();
         $client_emails = $client->emails;
+        $oldEmails = old('emails', $client_emails->pluck('text')->toArray());
 
-        return view('clients.edit', compact('client', 'cities', 'provinces', 'iva_conditions', 'document_types', 'client_qualifications', 'client_emails'));
+        return view('clients.edit', compact('client', 'cities', 'provinces', 'iva_conditions', 'document_types', 'client_qualifications', 'client_emails', 'oldEmails'));
     }
 
     public function update(StoreClientRequest $request, Client $client)

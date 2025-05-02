@@ -17,7 +17,7 @@ class Client extends Model
         'document_number',
         'balance',
         'is_active',
-        'qualification_id',
+        'client_qualification_id',
         'created_by',
         'updated_by',
     ];

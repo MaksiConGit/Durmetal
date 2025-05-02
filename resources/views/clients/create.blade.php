@@ -64,14 +64,14 @@
                     </x-slot>
                 </x-form-input-select>
 
+                <input type="hidden" name="is_active" value="0">
                 <x-form-input-checkbox>
                     <x-slot name="label">Activo</x-slot>
                     <x-slot name="name">is_active</x-slot>
                     <x-slot name="value">1</x-slot>
                     <x-slot name="color">black</x-slot>
-                    <x-slot name="checked"></x-slot>
+                    <x-slot name="checked">checked</x-slot>
                 </x-form-input-checkbox>
-                <input type="hidden" name="is_active" value="0">
             </div>
 
             <div class="col-md-6 mb-3">
@@ -82,7 +82,6 @@
                     <x-slot name="value">{{old('name')}}</x-slot>
                 </x-form-input-default>
 
-                {{-- @livewire('client-location') --}}
                 @livewire('codigo-postal-provincia')
 
                 <x-form-input-select>
