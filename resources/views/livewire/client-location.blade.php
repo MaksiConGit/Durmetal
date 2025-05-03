@@ -1,0 +1,31 @@
+<div>
+    <x-form-input-select-livewire>
+        <x-slot name="label">Código Postal</x-slot>
+        <x-slot name="livewire">wire:change="seleccionarCp($event.target.value)"</x-slot>
+        <x-slot name="name">cp</x-slot>
+        <x-slot name="option">
+            <option value="" selected hidden></option>
+            @foreach ($cities as $city)
+                <option value="{{ $city->cp }}" {{ old('cp') == $city->cp ? 'selected' : '' }}>
+                    {{ $city->cp }}
+                </option>
+            @endforeach
+        </x-slot>
+    </x-form-input-select>
+
+    <input type="text" name="city_id" hidden required value="{{ $city->id }}">
+    
+    <x-form-input-disabled>
+        <x-slot name="label">Localidad</x-slot>
+        <x-slot name="name"></x-slot>
+        <x-slot name="placeholder"></x-slot>
+        <x-slot name="value">{{$cityName}}</x-slot>
+    </x-form-input-disabled>
+
+    <x-form-input-disabled>
+        <x-slot name="label">Provincia</x-slot>
+        <x-slot name="name"></x-slot>
+        <x-slot name="placeholder"></x-slot>
+        <x-slot name="value">{{$provinceName}}</x-slot>
+    </x-form-input-disabled>
+</div>

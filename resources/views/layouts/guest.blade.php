@@ -18,7 +18,7 @@
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
             <div>
                 <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                    <img src="{{ asset('template/assets/img/Fueguito PNG (2).png') }}" alt="Logo" style="width: 200px; height: auto; border-radius: 50%;">
                 </a>
             </div>
 

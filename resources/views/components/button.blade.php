@@ -1,0 +1,1 @@
+<a class="btn btn-{{$color}}" href="{{$href}}">{{$text}}</a>

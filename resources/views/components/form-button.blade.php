@@ -1,0 +1,1 @@
+<button class="btn btn-{{$color}}">{{$text}}</button>
