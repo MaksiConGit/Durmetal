@@ -93,7 +93,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href="/">
                         <span class="sub-item">Hornos</span>
                       </a>
                     </li>
