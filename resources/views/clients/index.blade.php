@@ -12,5 +12,5 @@
   </x-slot>
 
   @livewire('barra-busqueda')
-
+  
 </x-layout>

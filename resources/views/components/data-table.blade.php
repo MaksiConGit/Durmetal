@@ -16,15 +16,20 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <div class="d-flex align-items-center">
-              <h4 class="card-title">{{ $table_title }}</h4>
-              <a href="{{ route('clients.create') }}" class="btn btn-primary btn-round ms-auto">
-                <i class="fa fa-plus"></i>
-                {{ $add_text }}
-              </a>
+            <div class="d-flex align-items-center justify-content-between">
+              <h4 class="card-title mb-0">{{ $table_title }}</h4>
+              <div class="d-flex">
+                <a href="{{ $export_route }}" class="btn btn-primary btn-round me-2">
+                  <i class="fa fa-download"></i>
+                  Exportar
+                </a>
+                <a href="{{ $create_route }}" class="btn btn-primary btn-round">
+                  <i class="fa fa-plus"></i>
+                  {{ $add_text }}
+                </a>
+              </div>
             </div>
           </div>
-  
           <div class="table-responsive table-container">
             <table id="add-row" class="display table table-striped table-hover table-condensed">
               <thead>
