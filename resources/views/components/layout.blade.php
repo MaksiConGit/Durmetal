@@ -9,7 +9,7 @@
     />
     <link
       rel="icon"
-      href="{{asset('template/assets/img/kaiadmin/favicon.ico')}}"
+      href="{{asset('template/assets/img/Fueguito-PNG.ico')}}"
       type="image/x-icon"
     />
 
@@ -51,10 +51,10 @@
           <div class="logo-header" data-background-color="dark">
             <a href="index.html" class="logo">
               <img
-                src="{{asset('template/assets/img/kaiadmin/logo_light.svg')}}"
+                src="{{asset('template/assets/img/Durmetal PNG.png')}}"
                 alt="navbar brand"
                 class="navbar-brand"
-                height="20"
+                height="120"
               />
             </a>
             <div class="nav-toggle">
@@ -689,7 +689,11 @@
             class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
           >
             <div class="container-fluid">
-
+              <h3 class="fw-bold">{{$title}}</h3>
+              <ul class="breadcrumbs">
+                  {{$breadcrumbs}}
+              </ul>
+              
               <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
                 <li
                   class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
@@ -718,13 +722,14 @@
                 </li>
                 <li class="nav-item topbar-user dropdown hidden-caret">
                   <a
-                    class="dropdown profile-pic"
+                    class="dropdown-toggle profile-pic"
                     data-bs-toggle="dropdown"
+                    href="#"
                     aria-expanded="false"
                   >
                     <div class="avatar-sm">
                       <img
-                        src="{{asset('template/assets/img/user (1).png')}}"
+                        src="{{ asset('template/assets/img/user (1).png') }}"
                         alt="..."
                         class="avatar-img rounded-circle"
                       />
@@ -733,7 +738,21 @@
                       <span class="fw-bold">miguel.caruana</span>
                     </span>
                   </a>
+                
+                  <ul class="dropdown-menu dropdown-user animated fadeIn">
+                    <div class="dropdown-user-scroll scrollbar-outer">
+                      <a class="dropdown-item" href="{{ route('logout') }}"
+                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Logout
+                      </a>
+                
+                      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                      </form>
+                    </div>
+                  </ul>
                 </li>
+                
               </ul>
             </div>
           </nav>
@@ -749,6 +768,8 @@
               
             </div>
 
+        </div>
+       
         </div>
     </div>
     <!--   Core JS Files   -->

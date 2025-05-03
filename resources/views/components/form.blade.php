@@ -1,11 +1,5 @@
 <div class="container">
     <div class="page-inner">
-      <div class="page-header">
-        <h3 class="fw-bold mb-3">{{ $title }}</h3>
-        <ul class="breadcrumbs mb-3">
-          {{ $breadcrumbs }}
-        </ul>
-      </div>
       <div class="row">
         <div class="col-md-12">
           <form action="{{ $action }}" method="POST">
