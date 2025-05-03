@@ -81,15 +81,30 @@
                   class="collapsed"
                   aria-expanded="false"
                 >
-                  <i class="fas fa-home"></i>
-                  <p>Dashboard</p>
+                  <i class="fas fa-layer-group"></i>
+                  <p>Tableros</p>
                   <span class="caret"></span>
                 </a>
                 <div class="collapse" id="dashboard">
                   <ul class="nav nav-collapse">
                     <li>
-                      <a href="../demo1/index.html">
-                        <span class="sub-item">Dashboard 1</span>
+                      <a href="#">
+                        <span class="sub-item">Vacío</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <span class="sub-item">Hornos</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <span class="sub-item">Producción</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <span class="sub-item">Mensajes</span>
                       </a>
                     </li>
                   </ul>
@@ -99,216 +114,510 @@
                 <span class="sidebar-mini-icon">
                   <i class="fa fa-ellipsis-h"></i>
                 </span>
-                <h4 class="text-section">Components</h4>
+                <h4 class="text-section">Componentes</h4>
               </li>
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#base">
-                  <i class="fas fa-layer-group"></i>
-                  <p>Base</p>
+                  <i class="fas fa-cart-plus"></i>
+                  <p>Compras</p>
                   <span class="caret"></span>
                 </a>
                 <div class="collapse" id="base">
                   <ul class="nav nav-collapse">
                     <li>
-                      <a href="components/avatars.html">
-                        <span class="sub-item">Avatars</span>
+                      <a href="#">
+                        <span class="sub-item">Buscar comprobantes</span>
                       </a>
                     </li>
                     <li>
-                      <a href="components/buttons.html">
-                        <span class="sub-item">Buttons</span>
+                      <a href="#">
+                        <span class="sub-item">Ficha del proveedor</span>
                       </a>
                     </li>
                     <li>
-                      <a href="components/gridsystem.html">
-                        <span class="sub-item">Grid System</span>
+                      <a href="#">
+                        <span class="sub-item">Listado de saldos</span>
                       </a>
                     </li>
                     <li>
-                      <a href="components/panels.html">
-                        <span class="sub-item">Panels</span>
+                      <a href="#">
+                        <span class="sub-item">Listado de movimientos por cuentas de gastos</span>
                       </a>
                     </li>
                     <li>
-                      <a href="components/notifications.html">
-                        <span class="sub-item">Notifications</span>
+                      <a href="#">
+                        <span class="sub-item">Resumen de cuenta cte</span>
                       </a>
                     </li>
                     <li>
-                      <a href="components/sweetalert.html">
-                        <span class="sub-item">Sweet Alert</span>
+                      <a href="#">
+                        <span class="sub-item">Resumen mensual de egresos</span>
                       </a>
                     </li>
                     <li>
-                      <a href="components/font-awesome-icons.html">
-                        <span class="sub-item">Font Awesome Icons</span>
+                      <a href="#">
+                        <span class="sub-item">Listado de IVA Compras</span>
                       </a>
                     </li>
                     <li>
-                      <a href="components/simple-line-icons.html">
-                        <span class="sub-item">Simple Line Icons</span>
+                      <a href="#">
+                        <span class="sub-item">Listado de cheques a proveedores</span>
                       </a>
                     </li>
                     <li>
-                      <a href="components/typography.html">
-                        <span class="sub-item">Typography</span>
+                      <a data-bs-toggle="collapse" href="#subnavcompras">
+                        <span class="sub-item">Actualizaciones</span>
+                        <span class="caret"></span>
                       </a>
+                      <div class="collapse" id="subnavcompras">
+                        <ul class="nav nav-collapse subnav">
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Proveedores</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Cuentas de gastos</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </li>
                   </ul>
                 </div>
               </li>
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarLayouts">
-                  <i class="fas fa-th-list"></i>
-                  <p>Sidebar Layouts</p>
+                  <i class="fas fa-money-bill-wave"></i>
+                  <p>Otros egresos</p>
                   <span class="caret"></span>
                 </a>
                 <div class="collapse" id="sidebarLayouts">
                   <ul class="nav nav-collapse">
                     <li>
                       <a href="sidebar-style-2.html">
-                        <span class="sub-item">Sidebar Style 2</span>
+                        <span class="sub-item">Listado entre fechas</span>
                       </a>
                     </li>
                     <li>
-                      <a href="icon-menu.html">
-                        <span class="sub-item">Icon Menu</span>
+                      <a data-bs-toggle="collapse" href="#subnavotrosegresos">
+                        <span class="sub-item">Actualizaciones</span>
+                        <span class="caret"></span>
                       </a>
+                      <div class="collapse" id="subnavotrosegresos">
+                        <ul class="nav nav-collapse subnav">
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Cuentas</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </li>
                   </ul>
                 </div>
               </li>
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#forms">
-                  <i class="fas fa-pen-square"></i>
-                  <p>Forms</p>
+                  <i class="fas fa-dollar-sign"></i>
+                  <p>Ventas</p>
                   <span class="caret"></span>
                 </a>
                 <div class="collapse" id="forms">
                   <ul class="nav nav-collapse">
                     <li>
-                      <a href="forms/forms.html">
-                        <span class="sub-item">Basic Form</span>
+                      <a href="#">
+                        <span class="sub-item">Buscar documentos</span>
                       </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <span class="sub-item">Ficha del cliente</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <span class="sub-item">Listado de saldos</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <span class="sub-item">Resumen de cuenta cte</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#-icons.html">
+                        <span class="sub-item">Listado de IVA Ventas</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#-icons.html">
+                        <span class="sub-item">Listado de cheques a clientes</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#-icons.html">
+                        <span class="sub-item">Listado de trabajos pendientes a facturar</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#-icons.html">
+                        <span class="sub-item">Listado de retenciones</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#-icons.html">
+                        <span class="sub-item">Listado de precios</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#-icons.html">
+                        <span class="sub-item">Valorizar trabajos</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a data-bs-toggle="collapse" href="#subnavventas">
+                        <span class="sub-item">Actualizaciones</span>
+                        <span class="caret"></span>
+                      </a>
+                      <div class="collapse" id="subnavventas">
+                        <ul class="nav nav-collapse subnav">
+                          <li>
+                            <a href="{{route('clients.index')}}">
+                              <span class="sub-item">Clientes</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Precios</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Divisas</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </li>
                   </ul>
                 </div>
               </li>
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#tables">
-                  <i class="fas fa-table"></i>
-                  <p>Tables</p>
+                  <i class="fas fa-cogs"></i>
+                  <p>Producción</p>
                   <span class="caret"></span>
                 </a>
                 <div class="collapse" id="tables">
                   <ul class="nav nav-collapse">
                     <li>
                       <a href="tables/tables.html">
-                        <span class="sub-item">Basic Table</span>
+                        <span class="sub-item">Ingreso de materiales</span>
                       </a>
                     </li>
                     <li>
                       <a href="tables/datatables.html">
-                        <span class="sub-item">Datatables</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#maps">
-                  <i class="fas fa-map-marker-alt"></i>
-                  <p>Maps</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="maps">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="maps/googlemaps.html">
-                        <span class="sub-item">Google Maps</span>
+                        <span class="sub-item">Programación</span>
                       </a>
                     </li>
                     <li>
-                      <a href="maps/jsvectormap.html">
-                        <span class="sub-item">Jsvectormap</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#charts">
-                  <i class="far fa-chart-bar"></i>
-                  <p>Charts</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="charts">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="charts/charts.html">
-                        <span class="sub-item">Chart Js</span>
+                      <a href="tables/datatables.html">
+                        <span class="sub-item">Ingreso de datos</span>
                       </a>
                     </li>
                     <li>
-                      <a href="charts/sparkline.html">
-                        <span class="sub-item">Sparkline</span>
+                      <a href="tables/datatables.html">
+                        <span class="sub-item">Cargas</span>
                       </a>
                     </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a href="widgets.html">
-                  <i class="fas fa-desktop"></i>
-                  <p>Widgets</p>
-                  <span class="badge badge-success">4</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../documentation/index.html">
-                  <i class="fas fa-file"></i>
-                  <p>Documentation</p>
-                  <span class="badge badge-secondary">1</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#submenu">
-                  <i class="fas fa-bars"></i>
-                  <p>Menu Levels</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="submenu">
-                  <ul class="nav nav-collapse">
                     <li>
-                      <a data-bs-toggle="collapse" href="#subnav1">
-                        <span class="sub-item">Level 1</span>
+                      <a data-bs-toggle="collapse" href="#subnavproduccion1">
+                        <span class="sub-item">Reportes</span>
                         <span class="caret"></span>
                       </a>
-                      <div class="collapse" id="subnav1">
+                      <div class="collapse" id="subnavproduccion1">
                         <ul class="nav nav-collapse subnav">
                           <li>
                             <a href="#">
-                              <span class="sub-item">Level 2</span>
+                              <span class="sub-item">Materiales</span>
                             </a>
                           </li>
                           <li>
                             <a href="#">
-                              <span class="sub-item">Level 2</span>
+                              <span class="sub-item">Materiales resumido</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Materiales resumido (Excel)</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Peso por tratamientos entre fechas</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Peso por tratamientos entre fechas resumido</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Trabajos NO APTOS</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Premios</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Premios - Por fecha de aprobación</span>
                             </a>
                           </li>
                         </ul>
                       </div>
                     </li>
                     <li>
-                      <a data-bs-toggle="collapse" href="#subnav2">
-                        <span class="sub-item">Level 1</span>
+                      <a data-bs-toggle="collapse" href="#subnavproduccion2">
+                        <span class="sub-item">Actualizaciones</span>
                         <span class="caret"></span>
                       </a>
-                      <div class="collapse" id="subnav2">
+                      <div class="collapse" id="subnavproduccion2">
                         <ul class="nav nav-collapse subnav">
                           <li>
                             <a href="#">
-                              <span class="sub-item">Level 2</span>
+                              <span class="sub-item">Durezas</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Materiales</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Tratamientos</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Medios de enfriamiento</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Procesos</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Clientes</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Factores Premio</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Asignar factores</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Repartir Premios</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#maps">
+                  <i class="fas fa-sliders-h"></i>
+                  <p>Sistema</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="maps">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a data-bs-toggle="collapse" href="#subnavsistema1">
+                        <span class="sub-item">Configuración</span>
+                        <span class="caret"></span>
+                      </a>
+                      <div class="collapse" id="subnavsistema1">
+                        <ul class="nav nav-collapse subnav">
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Configuración global</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Puntos de venta</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Terminales</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Entornos</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Impresoras fiscales</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Usuarios</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Reglas</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Plantillas de email</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Conversor de Durezas</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Plantillas de Carga</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Condiciones de venta</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Tarjetas</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Tipos de mensajes</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li>
+                      <a data-bs-toggle="collapse" href="#subnavsistema2">
+                        <span class="sub-item">Mantenimiento</span>
+                        <span class="caret"></span>
+                      </a>
+                      <div class="collapse" id="subnavsistema2">
+                        <ul class="nav nav-collapse subnav">
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Actualización de saldos</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Revisar mensajes del sistema</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li>
+                      <a data-bs-toggle="collapse" href="#subnavsistema3">
+                        <span class="sub-item">Desarrollador</span>
+                        <span class="caret"></span>
+                      </a>
+                      <div class="collapse" id="subnavsistema3">
+                        <ul class="nav nav-collapse subnav">
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Base de datos</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Crear tablas</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Consulta CAE</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Consulta parámetros FE</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Scripts</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a data-bs-toggle="collapse" href="#subnavsistema3.1">
+                              <span class="sub-item">IF Epson</span>
+                              <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="subnavsistema3.1">
+                              <ul class="nav nav-collapse subnav">
+                                <li>
+                                  <a href="#">
+                                    <span class="sub-item">Test Info</span>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a href="#">
+                                    <span class="sub-item">Test Características</span>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a href="#">
+                                    <span class="sub-item">Test Contribuyente</span>
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </li>
+                          <li>
+                            <a data-bs-toggle="collapse" href="#subnavsistema3.2">
+                              <span class="sub-item">IF Hasar</span>
+                              <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="subnavsistema3.2">
+                              <ul class="nav nav-collapse subnav">
+                                <li>
+                                  <a href="#">
+                                    <span class="sub-item">Configuración</span>
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Script migraciones</span>
                             </a>
                           </li>
                         </ul>
@@ -316,8 +625,28 @@
                     </li>
                     <li>
                       <a href="#">
-                        <span class="sub-item">Level 1</span>
+                        <span class="sub-item">Mensajes de usuario</span>
                       </a>
+                    </li>
+                    <li>
+                      <a data-bs-toggle="collapse" href="#subnavsistema4">
+                        <span class="sub-item">Actualizaciones</span>
+                        <span class="caret"></span>
+                      </a>
+                      <div class="collapse" id="subnavsistema4">
+                        <ul class="nav nav-collapse subnav">
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Bancos</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Tarjetas</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </li>
                   </ul>
                 </div>
