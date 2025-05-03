@@ -11,10 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('Usuario', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->string('Nombre');
+            $table->string('Usuario')->unique();
+            $table->boolean('SuperUsuario');
+            $table->string('Email')->unique();
+            $table->boolean('NotificarErroresPorEmail');
+            $table->boolean('EnviarReportePlanillaTurno');
+            $table->boolean('UtilizarTurnoEntorno');
+            $table->string('ArticuloShopPorDefecto');
+            $table->string('NroTablero');
+            $table->date('FechaCreacion')->nullable();
+            $table->foreignId('CreadoPor')->constrained('Usuario')
+                                            ->onDelete('restrict')
+                                            ->onUpdate('cascade');
+            $table->date('FechaActualizacion')->nullable();
+            $table->foreignId('ActualizadoPor')->constrained('Usuario')
+                                            ->onDelete('restrict')
+                                            ->onUpdate('cascade');
+            $table->string('Firma')->nullable();
+            $table->boolean('Activo');
+            $table->boolean('CobraPremio');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -42,7 +60,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('Usuario');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }

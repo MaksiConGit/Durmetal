@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('client_qualifications', function (Blueprint $table) {
+        Schema::create('CalificacionCliente', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('Nombre');
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('client_qualifications');
+        Schema::dropIfExists('CalificacionCliente');
     }
 };
