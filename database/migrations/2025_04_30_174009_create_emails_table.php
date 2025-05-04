@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('EmailCliente', function (Blueprint $table) {
+        Schema::create('email_cliente', function (Blueprint $table) {
             $table->id();
             $table->string('Email');
-            $table->foreignId('IdCliente')->constrained('Cliente')
+            $table->foreignId('IdCliente')->constrained('cliente')
                                         ->onDelete('restrict')
                                         ->onUpdate('cascade');
             $table->date('FechaCreacion')->nullable();
-            $table->foreignId('CreadoPor')->constrained('Usuario')
+            $table->foreignId('CreadoPor')->constrained('users')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
             $table->date('FechaActualizacion')->nullable();
-            $table->foreignId('ActualizadoPor')->constrained('Usuario')
+            $table->foreignId('ActualizadoPor')->constrained('users')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
             $table->boolean('Activo');
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('EmailCliente');
+        Schema::dropIfExists('email_cliente');
     }
 };

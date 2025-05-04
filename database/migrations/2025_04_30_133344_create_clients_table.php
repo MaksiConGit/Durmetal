@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Cliente', function (Blueprint $table) {
+        Schema::create('cliente', function (Blueprint $table) {
             $table->id();
             $table->string('Nombre');
             $table->string('Domicilio')->nullable();
-            $table->foreignId('IdLocalidad')->constrained('Localidad')
+            $table->foreignId('IdLocalidad')->constrained('localidad')
                                                 ->onDelete('restrict')
                                                 ->onUpdate('cascade');
             $table->string('Telefono')->nullable();
-            $table->foreignId('IdCondicionIVA')->constrained('CondicionIVA')
+            $table->foreignId('IdCondicionIVA')->constrained('condicion_iva')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
             $table->string('TipoDocumento');
@@ -35,18 +35,18 @@ return new class extends Migration
             $table->boolean('ValidarCuentaPorLimiteSaldo');
             $table->boolean('ValidarCuentaPorSaldoActual');
             $table->boolean('IncluirRemitosEnSaldo');
-            $table->foreignId('IdTipoCliente')->constrained('TipoCliente')
+            $table->foreignId('IdTipoCliente')->constrained('tipo_cliente')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
-            $table->foreignId('IdCalificacionCliente')->constrained('CalificacionCliente')
+            $table->foreignId('IdCalificacionCliente')->constrained('calificacion_cliente')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
             $table->date('FechaCreacion')->nullable();
-            $table->foreignId('CreadoPor')->constrained('Usuario')
+            $table->foreignId('CreadoPor')->constrained('users')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
             $table->date('FechaActualizacion')->nullable();
-            $table->foreignId('ActualizadoPor')->constrained('Usuario')
+            $table->foreignId('ActualizadoPor')->constrained('users')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
             $table->boolean('Activo');
@@ -59,6 +59,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Cliente');
+        Schema::dropIfExists('cliente');
     }
 };

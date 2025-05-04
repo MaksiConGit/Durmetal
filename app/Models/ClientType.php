@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Province extends Model
+class ClientType extends Model
 {
-    protected $table = 'provincia';
+    protected $table = 'tipo_cliente';
     protected $primaryKey = 'ID';
     public $timestamps = false;
 }

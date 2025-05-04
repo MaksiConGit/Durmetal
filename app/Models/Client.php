@@ -6,46 +6,33 @@ use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
+    protected $table = 'cliente';
+    public $timestamps = false;
 
     protected $fillable = [
-        'name',
-        'address',
-        'city_id',
-        'phone',
-        'iva_condition_id',
-        'document_type_id',
-        'document_number',
-        'balance',
-        'is_active',
-        'client_qualification_id',
-        'created_by',
-        'updated_by',
+        'Nombre',
+        'Domicilio',
+        'IdLocalidad',
+        'Telefono',
+        'IdCondicionIVA',
+        'TipoDocumento',
+        'NroDocumento',
+        'LimiteSaldo',
+        'SaldoSistemaAnterior',
+        'Saldo',
+        'CtaCteHabilitada',
+        'CondicionPrecios',
+        'Categoria',
+        'FechaUltimoMovimiento',
+        'EsCuentaMaestra',
+        'ValidarCuentaPorSaldoActual',
+        'IncluirRemitosEnSaldo',
+        'IdTipoCliente',
+        'IdCalificacionCliente',
+        'FechaCreacion',
+        'CreadoPor',
+        'FechaActualizacion',
+        'ActualizadoPor',
+        'Activo'
     ];
-
-    public function ivaCondition()
-    {
-        return $this->belongsTo(IvaCondition::class);
-    }
-
-    public function documentType()
-    {
-        return $this->belongsTo(DocumentType::class);
-    }
-
-    public function clientQualification()
-    {
-        return $this->belongsTo(ClientQualification::class);
-    }
-
-    public function city()
-    {
-        return $this->belongsTo(City::class);
-    }
-
-    public function emails()
-    {
-        return $this->hasMany(Email::class);
-    }
-
-
 }

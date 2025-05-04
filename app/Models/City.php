@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
 {
+    protected $table = 'localidad';
+    public $timestamps = false;
+
     public function province()
     {
         return $this->belongsTo(Province::class);
