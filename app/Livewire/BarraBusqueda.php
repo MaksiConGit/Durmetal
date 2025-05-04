@@ -13,28 +13,25 @@ class BarraBusqueda extends Component
     {
         $clients = Client::where(function ($query) {
             $query->where('id', 'like', '%' . $this->search . '%')
-                  ->orWhere('name', 'like', '%' . $this->search . '%')
-                  ->orWhere('address', 'like', '%' . $this->search . '%')
-                  ->orWhere('phone', 'like', '%' . $this->search . '%')
-                  ->orWhere('document_number', 'like', '%' . $this->search . '%')
+                  ->orWhere('Nombre', 'like', '%' . $this->search . '%')
+                  ->orWhere('Domicilio', 'like', '%' . $this->search . '%')
+                  ->orWhere('Telefono', 'like', '%' . $this->search . '%')
+                  ->orWhere('NroDocumento', 'like', '%' . $this->search . '%')
+                  ->orWhere('TipoDocumento', 'like', '%' . $this->search . '%')
                   
                   // Buscar en ciudad
-                  ->orWhereHas('city', function ($q) {
-                      $q->where('name', 'like', '%' . $this->search . '%')
-                        ->orWhereHas('province', function ($q2) {
-                            $q2->where('name', 'like', '%' . $this->search . '%');
+                  ->orWhereHas('localidad', function ($q) {
+                      $q->where('Nombre', 'like', '%' . $this->search . '%')
+                        ->orWhereHas('provincia', function ($q2) {
+                            $q2->where('Nombre', 'like', '%' . $this->search . '%');
                         });
                   })
     
                   // Buscar en condición IVA
-                  ->orWhereHas('ivaCondition', function ($q) {
-                      $q->where('name', 'like', '%' . $this->search . '%');
-                  })
-    
-                  // Buscar en tipo de documento
-                  ->orWhereHas('documentType', function ($q) {
-                      $q->where('name', 'like', '%' . $this->search . '%');
+                  ->orWhereHas('condicionIVA', function ($q) {
+                      $q->where('Nombre', 'like', '%' . $this->search . '%');
                   });
+
         })->get();
     
         return view('livewire.barra-busqueda', compact('clients'));

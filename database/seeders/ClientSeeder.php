@@ -29,97 +29,97 @@ class ClientSeeder extends Seeder
             'password' => '$2y$12$RfmcqnawgVnwBH4voQSaau3RPNW.OPq8FAuSXIcWlhTRKYfSr0emq',
         ]);
 
-        Province::create([
-            'Nombre' => 'Buenos Aires',
-        ]);
+        // Province::create([
+        //     'Nombre' => 'Buenos Aires',
+        // ]);
 
-        City::create([
-            'Nombre' => 'San Nicolás de los Arroyos',
-            'CP' => 'B2900',
-            'IdProvincia' => '1',
-        ]);
+        // City::create([
+        //     'Nombre' => 'San Nicolás de los Arroyos',
+        //     'CP' => 'B2900',
+        //     'IdProvincia' => '1',
+        // ]);
 
-        IvaCondition::create([
-            'Nombre' => 'Responsable inscripto',
-        ]);
+        // IvaCondition::create([
+        //     'Nombre' => 'Responsable inscripto',
+        // ]);
 
-        ClientQualification::create([
-            'Nombre' => 'Sin calificar',
-        ]);
+        // ClientQualification::create([
+        //     'Nombre' => 'Sin calificar',
+        // ]);
 
-        ClientType::create([
-            'Nombre' => 'General',
-            'FechaCreacion' => null,
-            'CreadoPor' => '1',
-            'FechaActualizacion' => null,
-            'ActualizadoPor' => '1',
-            'Activo' => '1',
-        ]);
-        ClientType::create([
-            'Nombre' => 'Agropecuario',
-            'FechaCreacion' => null,
-            'CreadoPor' => '1',
-            'FechaActualizacion' => null,
-            'ActualizadoPor' => '1',
-            'Activo' => '1',
-        ]);
-        ClientType::create([
-            'Nombre' => 'Tranportista',
-            'FechaCreacion' => null,
-            'CreadoPor' => '1',
-            'FechaActualizacion' => null,
-            'ActualizadoPor' => '1',
-            'Activo' => '1',
-        ]);
+        // ClientType::create([
+        //     'Nombre' => 'General',
+        //     'FechaCreacion' => null,
+        //     'CreadoPor' => '1',
+        //     'FechaActualizacion' => null,
+        //     'ActualizadoPor' => '1',
+        //     'Activo' => '1',
+        // ]);
+        // ClientType::create([
+        //     'Nombre' => 'Agropecuario',
+        //     'FechaCreacion' => null,
+        //     'CreadoPor' => '1',
+        //     'FechaActualizacion' => null,
+        //     'ActualizadoPor' => '1',
+        //     'Activo' => '1',
+        // ]);
+        // ClientType::create([
+        //     'Nombre' => 'Tranportista',
+        //     'FechaCreacion' => null,
+        //     'CreadoPor' => '1',
+        //     'FechaActualizacion' => null,
+        //     'ActualizadoPor' => '1',
+        //     'Activo' => '1',
+        // ]);
 
-        Client::create([
-            'Nombre' => 'DESARROLLOS INDUSTRIALES',
-            'Domicilio' => 'CHACO 74 SAN NICOLÁS',
-            'IdLocalidad' => '1',
-            'Telefono' => '0341-155-481810',
-            'IdCondicionIVA' => '1',
-            'TipoDocumento' => 'CUIT',
-            'NroDocumento' => '30708681896',
-            'LimiteSaldo' => '0',
-            'SaldoSistemaAnterior' => '0',
-            'Saldo' => '0',
-            'CtaCteHabilitada' => '1',
-            'CondicionPrecios' => 'A',
-            'Categoria' => 'E',
-            'FechaUltimoMovimiento' => null,
-            'EsCuentaMaestra' => '0',
-            'ValidarCuentaPorLimiteSaldo' => '0',
-            'ValidarCuentaPorSaldoActual' => '0',
-            'IncluirRemitosEnSaldo' => '0',
-            'IdTipoCliente' => '1',
-            'IdCalificacionCliente' => '1',
-            'FechaCreacion' => null,
-            'CreadoPor' => '1',
-            'FechaActualizacion' => null,
-            'ActualizadoPor' => '1',
-            'Activo' => '1',
-        ]);
+        // Client::create([
+        //     'Nombre' => 'DESARROLLOS INDUSTRIALES',
+        //     'Domicilio' => 'CHACO 74 SAN NICOLÁS',
+        //     'IdLocalidad' => '1',
+        //     'Telefono' => '0341-155-481810',
+        //     'IdCondicionIVA' => '1',
+        //     'TipoDocumento' => 'CUIT',
+        //     'NroDocumento' => '30708681896',
+        //     'LimiteSaldo' => '0',
+        //     'SaldoSistemaAnterior' => '0',
+        //     'Saldo' => '0',
+        //     'CtaCteHabilitada' => '1',
+        //     'CondicionPrecios' => 'A',
+        //     'Categoria' => 'E',
+        //     'FechaUltimoMovimiento' => null,
+        //     'EsCuentaMaestra' => '0',
+        //     'ValidarCuentaPorLimiteSaldo' => '0',
+        //     'ValidarCuentaPorSaldoActual' => '0',
+        //     'IncluirRemitosEnSaldo' => '0',
+        //     'IdTipoCliente' => '1',
+        //     'IdCalificacionCliente' => '1',
+        //     'FechaCreacion' => null,
+        //     'CreadoPor' => '1',
+        //     'FechaActualizacion' => null,
+        //     'ActualizadoPor' => '1',
+        //     'Activo' => '1',
+        // ]);
 
-        Email::create([
-            'Email' => 'cliente@cliente',
-            'IdCliente' => '1',
-            'FechaCreacion' => null,
-            'CreadoPor' => '1',
-            'FechaActualizacion' => null,
-            'ActualizadoPor' => '1',
-            'Activo' => '1',
-            'IdClienteEmail' => '1,cliente@cliente',
-        ]);
+        // Email::create([
+        //     'Email' => 'cliente@cliente',
+        //     'IdCliente' => '1',
+        //     'FechaCreacion' => null,
+        //     'CreadoPor' => '1',
+        //     'FechaActualizacion' => null,
+        //     'ActualizadoPor' => '1',
+        //     'Activo' => '1',
+        //     'IdClienteEmail' => '1,cliente@cliente',
+        // ]);
 
-        Email::create([
-            'Email' => 'cliente@cliente1',
-            'IdCliente' => '1',
-            'FechaCreacion' => null,
-            'CreadoPor' => '1',
-            'FechaActualizacion' => null,
-            'ActualizadoPor' => '1',
-            'Activo' => '1',
-            'IdClienteEmail' => '1,cliente@cliente1',
-        ]);
+        // Email::create([
+        //     'Email' => 'cliente@cliente1',
+        //     'IdCliente' => '1',
+        //     'FechaCreacion' => null,
+        //     'CreadoPor' => '1',
+        //     'FechaActualizacion' => null,
+        //     'ActualizadoPor' => '1',
+        //     'Activo' => '1',
+        //     'IdClienteEmail' => '1,cliente@cliente1',
+        // ]);
     }
 }

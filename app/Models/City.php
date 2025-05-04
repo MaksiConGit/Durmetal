@@ -9,8 +9,8 @@ class City extends Model
     protected $table = 'localidad';
     public $timestamps = false;
 
-    public function province()
+    public function provincia()
     {
-        return $this->belongsTo(Province::class);
+        return $this->belongsTo(Province::class, 'IdProvincia');
     }
 }

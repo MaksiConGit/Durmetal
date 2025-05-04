@@ -35,4 +35,25 @@ class Client extends Model
         'ActualizadoPor',
         'Activo'
     ];
+
+    public function condicionIVA()
+    {
+        return $this->belongsTo(IvaCondition::class, 'IdCondicionIVA');
+    }
+
+    public function calificacionCliente()
+    {
+        return $this->belongsTo(ClientQualification::class, 'IdCalificacionCliente');
+    }
+
+    public function localidad()
+    {
+        return $this->belongsTo(City::class, 'IdLocalidad');
+    }
+
+    public function emails()
+    {
+        return $this->hasMany(Email::class);
+    }
+
 }
