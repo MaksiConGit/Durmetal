@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('condicion_iva', function (Blueprint $table) {
             $table->id();
             $table->string('Nombre');
-            $table->timestamps();
         });
     }
 

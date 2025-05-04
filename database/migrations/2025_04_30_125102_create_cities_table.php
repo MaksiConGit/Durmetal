@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('localidad', function (Blueprint $table) {
             $table->id();
-            $table->string('Nombre');
+            $table->string('Nombre')->nullable();
             $table->string('CP');
             $table->foreignId('IdProvincia')->constrained('provincia')
                                                 ->onDelete('restrict')
                                                 ->onUpdate('cascade');
-            $table->timestamps();
         });
     }
 

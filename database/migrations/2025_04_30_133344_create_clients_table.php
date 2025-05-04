@@ -50,7 +50,6 @@ return new class extends Migration
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
             $table->boolean('Activo');
-            $table->timestamps();
         });
     }
 

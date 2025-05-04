@@ -27,7 +27,6 @@ return new class extends Migration
                                             ->onUpdate('cascade');
             $table->boolean('Activo');
             $table->string('IdClienteEmail');
-            $table->timestamps();
         });
     }
 
