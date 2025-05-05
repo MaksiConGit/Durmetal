@@ -38,48 +38,45 @@
                             
                 <x-form-input-default>
                     <x-slot name="label">Domicilio</x-slot>
-                    <x-slot name="name">address</x-slot>
+                    <x-slot name="name">Domicilio</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('address')}}</x-slot>
+                    <x-slot name="value">{{old('Domicilio')}}</x-slot>
                 </x-form-input-default>
 
                 @livewire('localidad')
 
                 <x-form-input-default>
                     <x-slot name="label">Teléfono</x-slot>
-                    <x-slot name="name">phone</x-slot>
+                    <x-slot name="name">Telefono</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('phone')}}</x-slot>
+                    <x-slot name="value">{{old('Telefono')}}</x-slot>
                 </x-form-input-default>
 
                 <x-form-input-select>
                     <x-slot name="label">Tipo de Documento</x-slot>
-                    <x-slot name="name">document_type_id</x-slot>
+                    <x-slot name="name">TipoDocumento</x-slot>
                     <x-slot name="option">
-                        @foreach ($document_types as $document_type)
-                            <option value="{{ $document_type->id }}" {{$document_type->id == '1' ? 'selected' : ''}}>
-                                {{ $document_type->name }}
-                            </option>
-                        @endforeach
+                            <option value="CUIT">CUIT</option>
+                            <option value="CUIL">CUIL</option>
                     </x-slot>
                 </x-form-input-select>
 
                 <x-form-input-select>
                     <x-slot name="label">Calificación</x-slot>
-                    <x-slot name="name">client_qualification_id</x-slot>
+                    <x-slot name="name">IdCalificacionCliente</x-slot>
                     <x-slot name="option">
-                        @foreach ($client_qualifications as $client_qualification)
-                            <option value="{{ $client_qualification->id }}" {{$client_qualification->id == '1' ? 'selected' : ''}}>
-                                {{ $client_qualification->name }}
+                        @foreach ($calificaciones_cliente as $calificacion_cliente)
+                            <option value="{{ $calificacion_cliente->id }}" {{$calificacion_cliente->id == '1' ? 'selected' : ''}}>
+                                {{ $calificacion_cliente->Nombre }}
                             </option>
                         @endforeach
                     </x-slot>
                 </x-form-input-select>
 
-                <input type="hidden" name="is_active" value="0">
+                <input type="hidden" name="Activo" value="0">
                 <x-form-input-checkbox>
                     <x-slot name="label">Activo</x-slot>
-                    <x-slot name="name">is_active</x-slot>
+                    <x-slot name="name">Activo</x-slot>
                     <x-slot name="value">1</x-slot>
                     <x-slot name="color">black</x-slot>
                     <x-slot name="checked">checked</x-slot>
@@ -89,20 +86,20 @@
             <div class="col-md-6 mb-3">
                 <x-form-input-default>
                     <x-slot name="label">Nombre</x-slot>
-                    <x-slot name="name">name</x-slot>
+                    <x-slot name="name">Nombre</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('name')}}</x-slot>
+                    <x-slot name="value">{{old('Nombre')}}</x-slot>
                 </x-form-input-default>
 
                 @livewire('codigo-postal-provincia')
 
                 <x-form-input-select>
                     <x-slot name="label">Condición IVA</x-slot>
-                    <x-slot name="name">iva_condition_id</x-slot>
+                    <x-slot name="name">IdCondicionIVA</x-slot>
                     <x-slot name="option">
-                        @foreach ($iva_conditions as $iva_condition)
-                            <option value="{{ $iva_condition->id }}" {{$iva_condition->id == '1' ? 'selected' : ''}}>
-                                {{ $iva_condition->name }}
+                        @foreach ($condiciones_IVA as $condicion_IVA)
+                            <option value="{{ $condicion_IVA->id }}" {{$condicion_IVA->id == '1' ? 'selected' : ''}}>
+                                {{ $condicion_IVA->Nombre }}
                             </option>
                         @endforeach
                     </x-slot>

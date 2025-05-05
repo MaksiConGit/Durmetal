@@ -23,14 +23,13 @@ class ClientController extends Controller
 
     public function create()
     {
-        $cities = City::all();
-        $provinces = Province::all();
-        $iva_conditions = IvaCondition::all();
-        $document_types = DocumentType::all();
-        $client_qualifications = ClientQualification::all();
+        $localidades = City::all();
+        $provincias = Province::all();
+        $condiciones_IVA = IvaCondition::all();
+        $calificaciones_cliente = ClientQualification::all();
         $next_id = Client::max('id') + 1;
 
-        return view('clients.create', compact('cities', 'provinces', 'iva_conditions', 'document_types', 'client_qualifications', 'next_id'));
+        return view('clients.create', compact('localidades', 'provincias', 'condiciones_IVA', 'calificaciones_cliente', 'next_id'));
     }
 
     public function store(StoreClientRequest $request)

@@ -2,12 +2,12 @@
     <x-form-input-select-livewire>
         <x-slot name="label">Código Postal</x-slot>
         <x-slot name="livewire">wire:change="seleccionarCp($event.target.value)"</x-slot>
-        <x-slot name="name">cp</x-slot>
+        <x-slot name="name">CP</x-slot>
         <x-slot name="option">
             <option value="" selected hidden></option>
             @foreach ($cities as $city)
-                <option value="{{ $city->cp }}" {{ old('cp') == $city->cp ? 'selected' : '' }}>
-                    {{ $city->cp }}
+                <option value="{{ $city->CP }}" {{ old('CP') == $city->CP ? 'selected' : '' }}>
+                    {{ $city->id }} | {{ $city->CP }} | {{ $city->Nombre }}
                 </option>
             @endforeach
         </x-slot>

@@ -30,8 +30,8 @@
                     <td>{{ $client->id }}</td>
                     <td>{{ $client->Nombre }}</td>
                     <td>{{ $client->Domicilio }}</td>
-                    <td>{{ $client->localidad->Nombre }}</td>
-                    <td>{{ $client->localidad->provincia->Nombre }}</td>
+                    <td>{{ $client->localidad->Nombre ?? 'Ciudad no asignada' }}</td>
+                    <td>{{ $client->localidad->provincia->Nombre ?? 'Provincia no asignada' }}</td>
                     <td>{{ $client->Telefono }}</td>
                     <td>{{ $client->condicionIVA->Nombre }}</td>
                     <td>{{ $client->TipoDocumento }}</td>
