@@ -32,7 +32,7 @@ class StoreClientRequest extends FormRequest
             'IdCondicionIVA' => 'required|integer|exists:condicion_iva,id',
             'IdLocalidad' => 'required|integer|exists:localidad,id',
             'NroDocumento' => 'required|integer',
-            'Saldo' => 'required|integer',
+            'Saldo' => 'required|numeric',
             'emails' => 'nullable|array|max:6',
             'emails.*' => 'nullable|email|max:255',
         ];
