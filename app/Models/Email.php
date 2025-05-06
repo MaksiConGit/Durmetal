@@ -10,7 +10,13 @@ class Email extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'text',
-        'client_id',
+        'Email',
+        'IdCliente',
+        'FechaCreacion',
+        'CreadoPor',
+        'FechaActualizacion',
+        'ActualizadoPor',
+        'Activo',
+        'IdClienteEmail',
     ];
 }

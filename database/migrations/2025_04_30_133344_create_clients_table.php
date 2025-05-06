@@ -24,18 +24,19 @@ return new class extends Migration
                                             ->onUpdate('cascade');
             $table->string('TipoDocumento');
             $table->string('NroDocumento')->nullable();
-            $table->float('LimiteSaldo');
-            $table->float('SaldoSistemaAnterior');
+            $table->float('LimiteSaldo')->nullable();
+            $table->float('SaldoSistemaAnterior')->nullable();
             $table->float('Saldo');
-            $table->boolean('CtaCteHabilitada');
-            $table->string('CondicionPrecios');
-            $table->string('Categoria');
+            $table->boolean('CtaCteHabilitada')->nullable();
+            $table->string('CondicionPrecios')->nullable();
+            $table->string('Categoria')->nullable();
             $table->date('FechaUltimoMovimiento')->nullable();
-            $table->boolean('EsCuentaMaestra');
-            $table->boolean('ValidarCuentaPorLimiteSaldo');
-            $table->boolean('ValidarCuentaPorSaldoActual');
-            $table->boolean('IncluirRemitosEnSaldo');
-            $table->foreignId('IdTipoCliente')->constrained('tipo_cliente')
+            $table->boolean('EsCuentaMaestra')->nullable();
+            $table->boolean('ValidarCuentaPorLimiteSaldo')->nullable();
+            $table->boolean('ValidarCuentaPorSaldoActual')->nullable();
+            $table->boolean('IncluirRemitosEnSaldo')->nullable();
+            $table->foreignId('IdTipoCliente')->nullable()
+                                            ->constrained('tipo_cliente')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
             $table->foreignId('IdCalificacionCliente')->constrained('calificacion_cliente')

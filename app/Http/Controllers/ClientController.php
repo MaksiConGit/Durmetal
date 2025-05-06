@@ -34,23 +34,33 @@ class ClientController extends Controller
 
     public function store(StoreClientRequest $request)
     {
-        // dd($request->all());
         $user_id = Auth::id();
-
+    
         $data = $request->except('emails');
-        $data['created_by'] = $user_id;
-        $data['updated_by'] = $user_id;
+        $data['CreadoPor'] = $user_id;
+        $data['ActualizadoPor'] = $user_id;
         
         $client = Client::create($data);
         
         foreach ($request->emails as $email) {
             if ($email) {
-                $client->emails()->create(['text' => $email]);
+                $client->emails()->create([
+                    'Email' => $email,
+                    'IdCliente' => $client->id,
+                    'CreadoPor' => $user_id,
+                    'FechaCreacion' => now(),
+                    'ActualizadoPor' => $user_id,
+                    'FechaActualizacion' => now(),
+                    'Activo' => 1,
+                    'IdClienteEmail' => $client->id . ',' . $email,
+                ]);
             }
         }
-
+    
         return redirect()->route('clients.index');
     }
+    
+    
     
     // public function show(string $tenant, Product $product)
     // {

@@ -107,16 +107,16 @@
                 
                 <x-form-input-default>
                     <x-slot name="label">N° de Documento</x-slot>
-                    <x-slot name="name">document_number</x-slot>
+                    <x-slot name="name">NroDocumento</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('document_number')}}</x-slot>
+                    <x-slot name="value">{{old('NroDocumento')}}</x-slot>
                 </x-form-input-default>
     
                 <x-form-input-default>
                     <x-slot name="label">Saldo Transportado</x-slot>
-                    <x-slot name="name">balance</x-slot>
+                    <x-slot name="name">Saldo</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('balance')}}</x-slot>
+                    <x-slot name="value">{{old('Saldo')}}</x-slot>
                 </x-form-input-default>
 
             </div>
