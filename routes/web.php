@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TuControlador;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', function () {
@@ -22,9 +24,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('clients', ClientController::class)->names('clients');
 
     Route::get('/export', [ExportController::class, 'export'])->name('clients.export');
+
+    Route::get('/cities/search', [CityController::class, 'search'])->name('cities.search');
+
 });
-
-Route::get('/test', fn() => 'ok');
-
 
 require __DIR__.'/auth.php';

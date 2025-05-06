@@ -13,6 +13,11 @@
         </x-slot>
     </x-form-input-select>
 
+    {{-- <x-form-input-select2>
+        <x-slot name="label">Localidad</x-slot>
+        <x-slot name="name">IdLocalidad</x-slot>
+    </x-form-input-select2> --}}
+
     <x-form-input-disabled>
         <x-slot name="label">Provincia</x-slot>
         <x-slot name="name"></x-slot>

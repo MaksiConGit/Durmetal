@@ -40,6 +40,7 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{{asset('template/assets/css/demo.css')}}" />
+    @yield('css')
     @livewireStyles
   </head>
   <body>
@@ -804,6 +805,8 @@
 
     <!-- Kaiadmin JS -->
     <script src="{{asset('template/assets/js/kaiadmin.min.js')}}"></script>
+    @yield('js')
+
     @livewireScripts
   </body>
 </html>
