@@ -30,71 +30,68 @@
                             
                 <x-form-input-default>
                     <x-slot name="label">Domicilio</x-slot>
-                    <x-slot name="name">address</x-slot>
+                    <x-slot name="name">Domicilio</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('address', $client->address)}}</x-slot>
+                    <x-slot name="value">{{old('Domicilio', $client->Domicilio)}}</x-slot>
                 </x-form-input-default>
 
-                @livewire('localidad-edit', ['initialCityId' => $client->city_id])
+                @livewire('localidad-edit', ['initialCityId' => $client->IdLocalidad])
 
                 <x-form-input-default>
                     <x-slot name="label">Teléfono</x-slot>
-                    <x-slot name="name">phone</x-slot>
+                    <x-slot name="name">Telefono</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('phone', $client->phone)}}</x-slot>
+                    <x-slot name="value">{{old('Telefono', $client->Telefono)}}</x-slot>
                 </x-form-input-default>
 
                 <x-form-input-select>
                     <x-slot name="label">Tipo de Documento</x-slot>
-                    <x-slot name="name">document_type_id</x-slot>
+                    <x-slot name="name">TipoDocumento</x-slot>
                     <x-slot name="option">
-                        @foreach ($document_types as $document_type)
-                            <option value="{{ $document_type->id }}" {{$document_type->id == $client->documentType->id ? 'selected' : ''}}>
-                                {{ $document_type->name }}
-                            </option>
-                        @endforeach
+                            <option value="CUIT">CUIT</option>
+                            <option value="CUIL" {{$client->TipoDocumento == 'CUIL' ? 'selected' : ''}}>CUIL</option>
                     </x-slot>
                 </x-form-input-select>
 
                 <x-form-input-select>
                     <x-slot name="label">Calificación</x-slot>
-                    <x-slot name="name">client_qualification_id</x-slot>
+                    <x-slot name="name">IdCalificacionCliente</x-slot>
                     <x-slot name="option">
                         @foreach ($client_qualifications as $client_qualification)
-                            <option value="{{ $client_qualification->id }}" {{$client_qualification->id == $client->clientQualification->id ? 'selected' : ''}}>
-                                {{ $client_qualification->name }}
+                            <option value="{{ $client_qualification->id }}" {{$client_qualification->id == $client->calificacionCliente->id ? 'selected' : ''}}>
+                                {{ $client_qualification->Nombre }}
                             </option>
                         @endforeach
                     </x-slot>
                 </x-form-input-select>
 
-                <input type="hidden" name="is_active" value="0">
+                <input type="hidden" name="Activo" value="0">
                 <x-form-input-checkbox>
                     <x-slot name="label">Activo</x-slot>
-                    <x-slot name="name">is_active</x-slot>
+                    <x-slot name="name">Activo</x-slot>
                     <x-slot name="value">1</x-slot>
                     <x-slot name="color">black</x-slot>
-                    <x-slot name="checked">{{ old('is_active', $client->is_active) ? 'checked' : '' }}</x-slot>
+                    <x-slot name="checked">{{ old('Activo', $client->Activo) ? 'checked' : '' }}</x-slot>
                 </x-form-input-checkbox>
             </div>
 
             <div class="col-md-6 mb-3">
                 <x-form-input-default>
                     <x-slot name="label">Nombre</x-slot>
-                    <x-slot name="name">name</x-slot>
+                    <x-slot name="name">Nombre</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('name', $client->name)}}</x-slot>
+                    <x-slot name="value">{{old('Nombre', $client->Nombre)}}</x-slot>
                 </x-form-input-default>
 
-                @livewire('codigo-postal-provincia-edit', ['initialCityId' => $client->city_id])
+                @livewire('codigo-postal-provincia-edit', ['initialCityId' => $client->IdLocalidad])
 
                 <x-form-input-select>
                     <x-slot name="label">Condición IVA</x-slot>
-                    <x-slot name="name">iva_condition_id</x-slot>
+                    <x-slot name="name">IdCondicionIVA</x-slot>
                     <x-slot name="option">
                         @foreach ($iva_conditions as $iva_condition)
-                            <option value="{{ $iva_condition->id }}" {{$iva_condition->id == $client->ivaCondition->id ? 'selected' : ''}}>
-                                {{ $iva_condition->name }}
+                            <option value="{{ $iva_condition->id }}" {{$iva_condition->id == $client->condicionIVA->id ? 'selected' : ''}}>
+                                {{ $iva_condition->Nombre }}
                             </option>
                         @endforeach
                     </x-slot>
@@ -102,16 +99,16 @@
                 
                 <x-form-input-default>
                     <x-slot name="label">N° de Documento</x-slot>
-                    <x-slot name="name">document_number</x-slot>
+                    <x-slot name="name">NroDocumento</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('document_number', $client->document_number)}}</x-slot>
+                    <x-slot name="value">{{old('NroDocumento', $client->NroDocumento)}}</x-slot>
                 </x-form-input-default>
     
                 <x-form-input-default>
                     <x-slot name="label">Saldo Transportado</x-slot>
-                    <x-slot name="name">balance</x-slot>
+                    <x-slot name="name">Saldo</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('balance', $client->balance)}}</x-slot>
+                    <x-slot name="value">{{old('Saldo', $client->Saldo)}}</x-slot>
                 </x-form-input-default>
 
             </div>
