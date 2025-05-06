@@ -736,7 +736,7 @@
                       />
                     </div>
                     <span class="profile-username">
-                      <span class="fw-bold">miguel.caruana</span>
+                      <span class="fw-bold">{{$name = Auth::user()->name}}</span>
                     </span>
                   </a>
                 
