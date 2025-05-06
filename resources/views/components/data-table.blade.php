@@ -2,16 +2,38 @@
     .table-condensed td,
     .table-condensed th {
       padding: 0.6rem 0.75rem;
-      font-size: 1rem; /* Aumentado */
+      font-size: 1rem;
       white-space: nowrap;
     }
   
     .table-container {
-      font-size: 1rem; /* Aumentado */
+      font-size: 1rem;
     }
+
+  @media (max-width: 768px) {
+    .btn {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+    }
+
+    .btn-primary {
+      font-size: 0.875rem;
+      padding: 0.4rem 0.8rem;
+    }
+
+    .d-flex {
+      gap: 0.5rem;
+    }
+
+    .table-condensed td,
+    .table-condensed th {
+      padding: 0.4rem 0.5rem;
+      font-size: 0.9rem;
+    }
+  }
+
   </style>
-  
-  <div class="container-fluid"> <!-- Cambiado de container a container-fluid -->
+    <div class="container-fluid">
     <div class="page-inner">
       <div class="col-md-12">
         <div class="card">
@@ -47,12 +69,13 @@
       </div>
     </div>
   </div>
+
   
   <script>
     $(document).ready(function () {
       $("#add-row").DataTable({
         pageLength: 5,
-        scrollX: true // Lo dejamos activado por si hay muchas columnas
+        scrollX: true
       });
   
       var action = '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
