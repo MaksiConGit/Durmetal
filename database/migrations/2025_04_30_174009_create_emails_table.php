@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('email_cliente', function (Blueprint $table) {
             $table->id();
-            $table->string('Email');
             $table->foreignId('IdCliente')->constrained('cliente')
-                                        ->onDelete('restrict')
-                                        ->onUpdate('cascade');
+                                            ->onDelete('restrict')
+                                            ->onUpdate('cascade');
+            $table->string('Email');
             $table->date('FechaCreacion')->nullable();
             $table->foreignId('CreadoPor')->constrained('users')
                                             ->onDelete('restrict')

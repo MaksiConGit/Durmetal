@@ -16,11 +16,16 @@ class CodigoPostalProvinciaEdit extends Component
 
     public function mount($initialCityId = null)
     {
-        $this->cities = City::all();
+        // $this->cities = City::all();
+        $this->cities = City::whereIn('id', function ($query) {
+            $query->select('IdLocalidad')
+                  ->from('cliente')
+                  ->whereNotNull('IdLocalidad');
+        })->orderBy('id')->get();
         $this->initialCityId = $initialCityId;
 
         if ($initialCityId) {
-            $city = City::find($initialCityId)->first();
+            $city = City::find($initialCityId);
             // $city = City::with('provincia')->find($initialCityId);
             if ($city) {
                 $this->CP = $city->CP;
