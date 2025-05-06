@@ -150,7 +150,7 @@
         </x-slot>
         <x-slot name="buttons">
             <x-form-button>
-                <x-slot name="text">Añadir</x-slot>
+                <x-slot name="text">Editar</x-slot>
                 <x-slot name="color">success</x-slot>
             </x-form-button>
             <x-button>
