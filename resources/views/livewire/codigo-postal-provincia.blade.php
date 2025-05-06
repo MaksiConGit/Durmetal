@@ -7,7 +7,7 @@
             <option value="" selected hidden></option>
             @foreach ($cities as $city)
                 <option value="{{ $city->CP }}" {{ old('CP') == $city->CP ? 'selected' : '' }}>
-                    {{ $city->id }} | {{ $city->CP }} | {{ $city->Nombre }}
+                    {{ $city->CP }} | {{ $city->Nombre }}
                 </option>
             @endforeach
         </x-slot>
