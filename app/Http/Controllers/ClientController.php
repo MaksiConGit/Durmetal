@@ -90,6 +90,7 @@ class ClientController extends Controller
         $user_id = Auth::id();
     
         $data = $request->except('emails');
+        $data['FechaActualizacion'] = now();
         $data['ActualizadoPor'] = $user_id;
     
         $client->update($data);
