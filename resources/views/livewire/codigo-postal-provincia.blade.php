@@ -11,6 +11,18 @@
                 </option>
             @endforeach
         </x-slot>
+        <x-slot name="message">
+            @error('CP')
+                {{$message}}
+            @enderror
+        </x-slot>
+        <x-slot name="error">
+            @if ($errors->has('CP'))
+                is-invalid
+            @elseif (old('CP') && ! $errors->has('CP'))
+                is-valid
+            @endif
+        </x-slot>
     </x-form-input-select>
 
     {{-- <x-form-input-select2>
