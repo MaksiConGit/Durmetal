@@ -22,17 +22,17 @@ class StoreClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|integer|max:255',
-            'name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'city_id' => 'required|integer|exists:cities,id',
-            'phone' => 'required|string|max:255',
-            'is_active' => 'required|boolean',
-            'client_qualification_id' => 'required|integer|exists:client_qualifications,id',
-            'iva_condition_id' => 'required|integer|exists:iva_conditions,id',
-            'document_type_id' => 'required|integer|exists:document_types,id',
-            'document_number' => 'required|integer',
-            'balance' => 'required|integer',
+            'id' => 'required|integer',
+            'Domicilio' => 'required|string|max:255',
+            'Telefono' => 'required|string|max:255',
+            'TipoDocumento' => 'required|string',
+            'IdCalificacionCliente' => 'required|integer|exists:calificacion_cliente,id',
+            'Activo' => 'required|boolean',
+            'Nombre' => 'required|string|max:255',
+            'IdCondicionIVA' => 'required|integer|exists:condicion_iva,id',
+            'IdLocalidad' => 'required|integer|exists:localidad,id',
+            'NroDocumento' => 'required|integer',
+            'Saldo' => 'required|numeric',
             'emails' => 'nullable|array|max:6',
             'emails.*' => 'nullable|email|max:255',
         ];

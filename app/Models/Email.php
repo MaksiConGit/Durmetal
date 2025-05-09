@@ -6,8 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Email extends Model
 {
+    protected $table = 'email_cliente';
+    public $timestamps = false;
+
     protected $fillable = [
-        'text',
-        'client_id',
+        'Email',
+        'IdCliente',
+        'FechaCreacion',
+        'CreadoPor',
+        'FechaActualizacion',
+        'ActualizadoPor',
+        'Activo',
+        'IdClienteEmail',
     ];
 }

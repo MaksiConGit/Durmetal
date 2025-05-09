@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
 {
-    public function province()
+    protected $table = 'localidad';
+    public $timestamps = false;
+
+    public function provincia()
     {
-        return $this->belongsTo(Province::class);
+        return $this->belongsTo(Province::class, 'IdProvincia');
     }
 }

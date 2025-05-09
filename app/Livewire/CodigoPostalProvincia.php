@@ -11,16 +11,16 @@ class CodigoPostalProvincia extends Component
     public $cp = '';
     public $provinceName = '';
 
-    public $emitTo = 'localidad'; // nombre del componente al que se emitirá el evento
+    public $emitTo = 'localidad';
 
     public function seleccionarCp($value)
     {
         $this->cp = $value;
-        $city = City::with('province')->where('cp', $value)->first();
-
+        $city = City::where('CP', $value)->first();
+    
         if ($city) {
-            $this->provinceName = $city->province->name;
-            $this->dispatch('actualizarLocalidad', $city->name, $city->id)->to($this->emitTo);
+            $this->provinceName = $city->provincia->Nombre;
+            $this->dispatch('actualizarLocalidad', $city->Nombre, $city->id)->to($this->emitTo);
         } else {
             $this->provinceName = '';
             $this->dispatch('actualizarLocalidad', '', null)->to($this->emitTo);
@@ -31,8 +31,8 @@ class CodigoPostalProvincia extends Component
     {
         $this->cities = City::all();
 
-        if (old('cp')) {
-            $this->seleccionarCp(old('cp'));
+        if (old('CP')) {
+            $this->seleccionarCp(old('CP'));
         }
     }
 

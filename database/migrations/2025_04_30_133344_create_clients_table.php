@@ -11,34 +11,46 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('cliente', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('address');
-            $table->foreignId('city_id')->constrained()
+            $table->string('Nombre');
+            $table->string('Domicilio')->nullable();
+            $table->foreignId('IdLocalidad')->constrained('localidad')
                                                 ->onDelete('restrict')
                                                 ->onUpdate('cascade');
-            $table->string('phone');
-            $table->foreignId('iva_condition_id')->constrained()
+            $table->string('Telefono')->nullable();
+            $table->foreignId('IdCondicionIVA')->constrained('condicion_iva')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
-            $table->foreignId('document_type_id')->constrained()
+            $table->string('TipoDocumento');
+            $table->string('NroDocumento')->nullable();
+            $table->float('LimiteSaldo')->nullable();
+            $table->float('SaldoSistemaAnterior')->nullable();
+            $table->float('Saldo');
+            $table->boolean('CtaCteHabilitada')->nullable();
+            $table->string('CondicionPrecios')->nullable();
+            $table->string('Categoria')->nullable();
+            $table->date('FechaUltimoMovimiento')->nullable();
+            $table->boolean('EsCuentaMaestra')->nullable();
+            $table->boolean('ValidarCuentaPorLimiteSaldo')->nullable();
+            $table->boolean('ValidarCuentaPorSaldoActual')->nullable();
+            $table->boolean('IncluirRemitosEnSaldo')->nullable();
+            $table->foreignId('IdTipoCliente')->nullable()
+                                            ->constrained('tipo_cliente')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
-            $table->string('document_number');
-            $table->integer('balance');
-            $table->boolean('is_active');
-            $table->foreignId('client_qualification_id')->nullable()
-                                                        ->constrained()
-                                                        ->onDelete('restrict')
-                                                        ->onUpdate('cascade');
-            $table->foreignId('created_by')->constrained('users')
+            $table->foreignId('IdCalificacionCliente')->constrained('calificacion_cliente')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
-            $table->foreignId('updated_by')->constrained('users')
+            $table->date('FechaCreacion')->nullable();
+            $table->foreignId('CreadoPor')->constrained('users')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
-            $table->timestamps();
+            $table->date('FechaActualizacion')->nullable();
+            $table->foreignId('ActualizadoPor')->constrained('users')
+                                            ->onDelete('restrict')
+                                            ->onUpdate('cascade');
+            $table->boolean('Activo');
         });
     }
 
@@ -47,6 +59,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('cliente');
     }
 };

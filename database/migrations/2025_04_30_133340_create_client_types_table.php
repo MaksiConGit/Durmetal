@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('email_cliente', function (Blueprint $table) {
+        Schema::create('tipo_cliente', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('IdCliente')->constrained('cliente')
-                                            ->onDelete('restrict')
-                                            ->onUpdate('cascade');
-            $table->string('Email');
+            $table->string('Nombre');
             $table->date('FechaCreacion')->nullable();
             $table->foreignId('CreadoPor')->constrained('users')
                                             ->onDelete('restrict')
@@ -26,7 +23,6 @@ return new class extends Migration
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
             $table->boolean('Activo');
-            $table->string('IdClienteEmail');
         });
     }
 
@@ -35,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('email_cliente');
+        Schema::dropIfExists('tipo_cliente');
     }
 };

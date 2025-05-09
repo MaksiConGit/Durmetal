@@ -23,35 +23,44 @@ class ClientController extends Controller
 
     public function create()
     {
-        $cities = City::all();
-        $provinces = Province::all();
-        $iva_conditions = IvaCondition::all();
-        $document_types = DocumentType::all();
-        $client_qualifications = ClientQualification::all();
+        $localidades = City::all();
+        $provincias = Province::all();
+        $condiciones_IVA = IvaCondition::all();
+        $calificaciones_cliente = ClientQualification::all();
         $next_id = Client::max('id') + 1;
 
-        return view('clients.create', compact('cities', 'provinces', 'iva_conditions', 'document_types', 'client_qualifications', 'next_id'));
+        return view('clients.create', compact('localidades', 'provincias', 'condiciones_IVA', 'calificaciones_cliente', 'next_id'));
     }
 
     public function store(StoreClientRequest $request)
     {
-        // dd($request->all());
         $user_id = Auth::id();
-
+    
         $data = $request->except('emails');
-        $data['created_by'] = $user_id;
-        $data['updated_by'] = $user_id;
+        $data['CreadoPor'] = $user_id;
+        $data['ActualizadoPor'] = $user_id;
         
         $client = Client::create($data);
         
         foreach ($request->emails as $email) {
             if ($email) {
-                $client->emails()->create(['text' => $email]);
+                $client->emails()->create([
+                    'Email' => $email,
+                    'IdCliente' => $client->id,
+                    'CreadoPor' => $user_id,
+                    'FechaCreacion' => now(),
+                    'ActualizadoPor' => $user_id,
+                    'FechaActualizacion' => now(),
+                    'Activo' => 1,
+                    'IdClienteEmail' => $client->id . ',' . $email,
+                ]);
             }
         }
-
+    
         return redirect()->route('clients.index');
     }
+    
+    
     
     // public function show(string $tenant, Product $product)
     // {
@@ -69,12 +78,11 @@ class ClientController extends Controller
         $cities = City::all();
         $provinces = Province::all();
         $iva_conditions = IvaCondition::all();
-        $document_types = DocumentType::all();
         $client_qualifications = ClientQualification::all();
         $client_emails = $client->emails;
-        $oldEmails = old('emails', $client_emails->pluck('text')->toArray());
+        $oldEmails = old('emails', $client_emails->pluck('Email')->toArray());
 
-        return view('clients.edit', compact('client', 'cities', 'provinces', 'iva_conditions', 'document_types', 'client_qualifications', 'client_emails', 'oldEmails'));
+        return view('clients.edit', compact('client', 'cities', 'provinces', 'iva_conditions', 'client_qualifications', 'client_emails', 'oldEmails'));
     }
 
     public function update(StoreClientRequest $request, Client $client)
@@ -82,7 +90,8 @@ class ClientController extends Controller
         $user_id = Auth::id();
     
         $data = $request->except('emails');
-        $data['updated_by'] = $user_id;
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = $user_id;
     
         $client->update($data);
     
@@ -90,7 +99,16 @@ class ClientController extends Controller
     
         foreach ($request->emails as $email) {
             if ($email) {
-                $client->emails()->create(['text' => $email]);
+                $client->emails()->create([
+                    'Email' => $email,
+                    'IdCliente' => $client->id,
+                    'CreadoPor' => $user_id,
+                    'FechaCreacion' => now(),
+                    'ActualizadoPor' => $user_id,
+                    'FechaActualizacion' => now(),
+                    'Activo' => 1,
+                    'IdClienteEmail' => $client->id . ',' . $email,
+                ]);
             }
         }
     

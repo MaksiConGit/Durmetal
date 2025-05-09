@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('iva_conditions', function (Blueprint $table) {
+        Schema::create('condicion_iva', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->timestamps();
+            $table->string('Nombre');
         });
     }
 
@@ -23,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('iva_conditions');
+        Schema::dropIfExists('condicion_iva');
     }
 };

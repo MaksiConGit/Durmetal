@@ -40,6 +40,7 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{{asset('template/assets/css/demo.css')}}" />
+    @yield('css')
     @livewireStyles
   </head>
   <body>
@@ -49,7 +50,7 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
           <div class="logo-header" data-background-color="dark">
-            <a href="index.html" class="logo">
+            <a href="{{ route('index') }}" class="logo">
               <img
                 src="{{asset('template/assets/img/Durmetal PNG.png')}}"
                 alt="navbar brand"
@@ -735,7 +736,7 @@
                       />
                     </div>
                     <span class="profile-username">
-                      <span class="fw-bold">miguel.caruana</span>
+                      <span class="fw-bold">{{$name = Auth::user()->name}}</span>
                     </span>
                   </a>
                 
@@ -804,6 +805,8 @@
 
     <!-- Kaiadmin JS -->
     <script src="{{asset('template/assets/js/kaiadmin.min.js')}}"></script>
+    @yield('js')
+
     @livewireScripts
   </body>
 </html>

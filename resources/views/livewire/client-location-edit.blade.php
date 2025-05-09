@@ -12,7 +12,7 @@
     
     <label>Localidad</label>
     <input type="text" disabled value="{{ $cityName }}">
-    <input type="text" hidden name="city_id" wire:model="city_id" required>
+    <input type="text" hidden name="IdLocalidad" wire:model="IdLocalidad" required>
     
     <label>Provincia</label>
     <input type="text" disabled value="{{ $provinceName }}">

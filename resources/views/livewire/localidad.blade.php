@@ -1,5 +1,5 @@
 <div>
-    <input type="hidden" name="city_id" value="{{ $cityId }}">
+    <input type="hidden" name="IdLocalidad" value="{{ $cityId }}">
 
     <x-form-input-disabled>
         <x-slot name="label">Localidad</x-slot>

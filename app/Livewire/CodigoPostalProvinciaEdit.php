@@ -8,7 +8,7 @@ use Livewire\Component;
 class CodigoPostalProvinciaEdit extends Component
 {
     public $cities;
-    public $cp = '';
+    public $CP = '';
     public $provinceName = '';
     public $initialCityId = null;
 
@@ -16,27 +16,34 @@ class CodigoPostalProvinciaEdit extends Component
 
     public function mount($initialCityId = null)
     {
-        $this->cities = City::all();
+        // $this->cities = City::all();
+        $this->cities = City::whereIn('id', function ($query) {
+            $query->select('IdLocalidad')
+                  ->from('cliente')
+                  ->whereNotNull('IdLocalidad');
+        })->orderBy('id')->get();
         $this->initialCityId = $initialCityId;
 
         if ($initialCityId) {
-            $city = City::with('province')->find($initialCityId);
+            $city = City::find($initialCityId);
+            // $city = City::with('provincia')->find($initialCityId);
             if ($city) {
-                $this->cp = $city->cp;
-                $this->provinceName = $city->province->name;
-                $this->dispatch('actualizarLocalidad', $city->name, $city->id)->to($this->emitTo);
+                $this->CP = $city->CP;
+                $this->provinceName = $city->provincia->Nombre;
+                $this->dispatch('actualizarLocalidad', $city->Nombre, $city->id)->to($this->emitTo);
             }
         }
     }
 
     public function seleccionarCp($value)
     {
-        $this->cp = $value;
-        $city = City::with('province')->where('cp', $value)->first();
+        $this->CP = $value;
+        $city = City::where('CP', $value)->first();
 
         if ($city) {
-            $this->provinceName = $city->province->name;
-            $this->dispatch('actualizarLocalidad', $city->name, $city->id)->to($this->emitTo);
+            // dd($city);
+            $this->provinceName = $city->provincia->Nombre;
+            $this->dispatch('actualizarLocalidad', $city->Nombre, $city->id)->to($this->emitTo);
         } else {
             $this->provinceName = '';
             $this->dispatch('actualizarLocalidad', '', null)->to($this->emitTo);

@@ -6,46 +6,53 @@ use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
+    protected $table = 'cliente';
+    public $timestamps = false;
 
     protected $fillable = [
-        'name',
-        'address',
-        'city_id',
-        'phone',
-        'iva_condition_id',
-        'document_type_id',
-        'document_number',
-        'balance',
-        'is_active',
-        'client_qualification_id',
-        'created_by',
-        'updated_by',
+        'Nombre',
+        'Domicilio',
+        'IdLocalidad',
+        'Telefono',
+        'IdCondicionIVA',
+        'TipoDocumento',
+        'NroDocumento',
+        'LimiteSaldo',
+        'SaldoSistemaAnterior',
+        'Saldo',
+        'CtaCteHabilitada',
+        'CondicionPrecios',
+        'Categoria',
+        'FechaUltimoMovimiento',
+        'EsCuentaMaestra',
+        'ValidarCuentaPorSaldoActual',
+        'IncluirRemitosEnSaldo',
+        'IdTipoCliente',
+        'IdCalificacionCliente',
+        'FechaCreacion',
+        'CreadoPor',
+        'FechaActualizacion',
+        'ActualizadoPor',
+        'Activo'
     ];
 
-    public function ivaCondition()
+    public function condicionIVA()
     {
-        return $this->belongsTo(IvaCondition::class);
+        return $this->belongsTo(IvaCondition::class, 'IdCondicionIVA');
     }
 
-    public function documentType()
+    public function calificacionCliente()
     {
-        return $this->belongsTo(DocumentType::class);
+        return $this->belongsTo(ClientQualification::class, 'IdCalificacionCliente');
     }
 
-    public function clientQualification()
+    public function localidad()
     {
-        return $this->belongsTo(ClientQualification::class);
-    }
-
-    public function city()
-    {
-        return $this->belongsTo(City::class);
+        return $this->belongsTo(City::class, 'IdLocalidad');
     }
 
     public function emails()
     {
-        return $this->hasMany(Email::class);
+        return $this->hasMany(Email::class, 'IdCliente');
     }
-
-
 }

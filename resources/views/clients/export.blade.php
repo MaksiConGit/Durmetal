@@ -17,15 +17,15 @@
         @foreach ($clients as $client)
             <tr>
                 <td>{{ $client->id }}</td>
-                <td>{{ $client->name }}</td>
-                <td>{{ $client->address }}</td>
-                <td>{{ $client->city->name }}</td>
-                <td>{{ $client->city->province->name }}</td>
-                <td>{{ $client->phone }}</td>
-                <td>{{ $client->ivaCondition->name }}</td>
-                <td>{{ $client->documentType->name }}</td>
-                <td>{{ $client->document_number }}</td>
-                <td>{{ $client->is_active == 1 ? 'Sí' : 'No' }}</td>  
+                <td>{{ $client->Nombre }}</td>
+                <td>{{ $client->Domicilio }}</td>
+                <td>{{ $client->localidad->Nombre }}</td>
+                <td>{{ $client->localidad->provincia->Nombre }}</td>
+                <td>{{ $client->Telefono }}</td>
+                <td>{{ $client->condicionIVA->Nombre }}</td>
+                <td>{{ $client->TipoDocumento }}</td>
+                <td>{{ $client->NroDocumento }}</td>
+                <td>{{ $client->Activo == 1 ? 'Sí' : 'No' }}</td>  
             </tr>
         @endforeach
     </tbody>

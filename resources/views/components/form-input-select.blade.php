@@ -3,10 +3,12 @@
     >{{$label}}</label
   >
   <select
-    class="form-select form-control"
+    class="form-select form-control {{$error}}"
     id="{{$name}}"
     name="{{$name}}"
   >
   {{$option}}
   </select>
+  <small class="form-text text-muted"
+  >{{$message}}</small>
 </div>
