@@ -3,6 +3,8 @@
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\ItemOrdenTrabajoController;
+use App\Http\Controllers\OrdenTrabajoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TuControlador;
 use Illuminate\Support\Facades\Route;
@@ -23,10 +25,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('clients', ClientController::class)->names('clients');
-
     Route::get('/export', [ExportController::class, 'export'])->name('clients.export');
-
     Route::get('/cities/search', [CityController::class, 'search'])->name('cities.search');
+
+    Route::resource('orden-trabajo', OrdenTrabajoController::class)->names('orden-trabajo');
+    Route::resource('item-orden-trabajo', ItemOrdenTrabajoController::class)->names('item-orden-trabajo');
 
 });
 
