@@ -29,7 +29,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/cities/search', [CityController::class, 'search'])->name('cities.search');
 
     Route::resource('orden-trabajo', OrdenTrabajoController::class)->names('orden-trabajo');
-    Route::resource('item-orden-trabajo', ItemOrdenTrabajoController::class)->names('item-orden-trabajo');
+
+    Route::get('/item-orden-trabajo/create/{orden_trabajo}', [ItemOrdenTrabajoController::class, 'create'])->name('item-orden-trabajo.create');
+    Route::post('/item-orden-trabajo/{orden_trabajo}', [ItemOrdenTrabajoController::class, 'store'])->name('item-orden-trabajo.store');
+
+    // Route::resource('item-orden-trabajo', ItemOrdenTrabajoController::class)->names('item-orden-trabajo');
 
 });
 

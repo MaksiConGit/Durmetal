@@ -8,6 +8,44 @@ class ItemOrdenTrabajo extends Model
 {
     protected $table = 'item_orden_trabajo';
     public $timestamps = false;
+    
+    protected $fillable = [
+        // Campos validados actualmente
+        'IdOrdenTrabajo',
+        'IdMaterial',
+        'IdTratamiento',
+        'IdDureza',
+        'Descripcion',
+        'Cantidad',
+        'Peso',
+        'DurezaSolicitadaMinima',
+        'DurezaSolicitadaMaxima',
+        'Estado',
+        'Observaciones',
+        'FechaActualizacionEstado',
+        'CreadoPor',
+        'FechaCreacion',
+        'ActualizadoPor',
+        'FechaActualizacion',
+        'Activo',
+
+        // Campos comentados en las reglas de validación (por si se usan después)
+        'ItemNumero',
+        'NroDeposito',
+        'CodigoComplejidad',
+        'Coeficiente',
+        'PrecioUnitario',
+        'Total',
+        'AfectaPlanillaTurno',
+        'ControlarStock',
+        'CertificadoEmitido',
+        'CantidadCertificadosImpresos',
+        'CantidadCertificadosEnviadosPorCorreo',
+        'CantidadProgramaciones',
+        'ConNotaEnvio',
+        'IDEstadoConNotaEnvio',
+        'IDIdOrdenTrabajoIdMaterialIdTratamientoCodigoComplejidadEstado',
+    ];
 
     public function material()
     {
@@ -22,5 +60,10 @@ class ItemOrdenTrabajo extends Model
     public function dureza()
     {
         return $this->belongsTo(Dureza::class, 'IdMaterial');
+    }
+
+    public function ordenTrabajo()
+    {
+        return $this->belongsTo(ItemOrdenTrabajo::class, 'IdOrdenTrabajo');
     }
 }

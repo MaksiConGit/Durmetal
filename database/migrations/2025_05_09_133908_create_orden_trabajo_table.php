@@ -6,61 +6,55 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('orden_trabajo', function (Blueprint $table) {
             $table->id();
-            $table->string('Letra');
+            $table->string('Letra')->nullable();
             $table->integer('PuntoVenta');
             $table->integer('Numero');
-            $table->string('NumeroCompleto');
-            $table->integer('NumeroRemitoCliente');
-            $table->date('FechaEmision');
+            $table->string('NumeroCompleto')->nullable();
+            $table->integer('NumeroRemitoCliente')->nullable();
+            $table->date('FechaEmision')->nullable();
             $table->date('FechaVencimiento')->nullable();
-            $table->boolean('AfectarPlanillaTurno');
-            $table->string('CondicionPrecios');
-            $table->foreignId('IdCliente')->constrained('cliente')
-                                            ->onDelete('restrict')
-                                            ->onUpdate('cascade');
-            $table->string('RazonSocial');
-            $table->foreignId('IdCondicionIva')->constrained('condicion_iva')
+            $table->boolean('AfectarPlanillaTurno')->nullable();
+            $table->string('CondicionPrecios')->nullable();
+            $table->foreignId('IdCliente')->nullable()->constrained('cliente')
                                                         ->onDelete('restrict')
                                                         ->onUpdate('cascade');
-            $table->string('TipoDocumentoCliente');
-            $table->string('NumeroDocumentoCliente', 20);
-            $table->string('Direccion');
-            $table->string('Localidad');
-            $table->string('Provincia');
-            $table->string('Estado');
-            $table->float('Total');
+            $table->string('RazonSocial')->nullable();
+            $table->foreignId('IdCondicionIva')->nullable()->constrained('condicion_iva')
+                                                            ->onDelete('restrict')
+                                                            ->onUpdate('cascade');
+            $table->string('TipoDocumentoCliente')->nullable();
+            $table->string('NumeroDocumentoCliente', 20)->nullable();
+            $table->string('Direccion')->nullable();
+            $table->string('Localidad')->nullable();
+            $table->string('Provincia')->nullable();
+            $table->string('Estado')->nullable();
+            $table->float('Total')->nullable();
             $table->string('Observaciones')->nullable();
-            $table->integer('NumeroTurno');
-            $table->integer('ReferenciaTurno');
-            $table->float('AjusteCtaCtePlanillaTurno');
+            $table->integer('NumeroTurno')->nullable();
+            $table->integer('ReferenciaTurno')->nullable();
+            $table->float('AjusteCtaCtePlanillaTurno')->nullable();
             $table->date('FechaCreacion')->nullable();
-            $table->foreignId('CreadoPor')->constrained('users')
-                                            ->onDelete('restrict')
-                                            ->onUpdate('cascade');
+            $table->foreignId('CreadoPor')->nullable()->constrained('users')
+                                                        ->onDelete('restrict')
+                                                        ->onUpdate('cascade');
             $table->date('FechaActualizacion')->nullable();
-            $table->foreignId('ActualizadoPor')->constrained('users')
-                                            ->onDelete('restrict')
-                                            ->onUpdate('cascade');
-            $table->boolean('Activo');
-            $table->float('PuntoVentaNumero');
-            $table->string('IdClienteEstado');
-            $table->string('IdClienteFechaEmisionPuntoVentaNumero');
-            $table->integer('CantidadImpresiones');
-            $table->integer('CantidadEnviosPorCorreo');
-            $table->boolean('Archivado');
+            $table->foreignId('ActualizadoPor')->nullable()->constrained('users')
+                                                            ->onDelete('restrict')
+                                                            ->onUpdate('cascade');
+            $table->boolean('Activo')->nullable();
+            $table->float('PuntoVentaNumero')->nullable();
+            $table->string('IdClienteEstado')->nullable();
+            $table->string('IdClienteFechaEmisionPuntoVentaNumero')->nullable();
+            $table->integer('CantidadImpresiones')->nullable();
+            $table->integer('CantidadEnviosPorCorreo')->nullable();
+            $table->boolean('Archivado')->nullable();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('orden_trabajo');

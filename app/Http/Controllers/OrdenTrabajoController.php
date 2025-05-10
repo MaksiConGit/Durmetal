@@ -16,7 +16,6 @@ class OrdenTrabajoController extends Controller
         return view('orden-trabajo.create', compact('pto_ventas', 'next_orden_numero'));
     }
 
-
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -28,11 +27,17 @@ class OrdenTrabajoController extends Controller
 
         if (OrdenTrabajo::where('Numero', $numero)->exists()) {
             $orden_trabajo = OrdenTrabajo::where('Numero', $numero)->first();
-            $items_orden_trabajo = $orden_trabajo->itemsOrdenTrabajo;
         } else {
             // $orden_trabajo = OrdenTrabajo::create($data);
         }
 
-        return view('orden-trabajo.index', compact('orden_trabajo', 'items_orden_trabajo'));
+        return redirect()->route('orden-trabajo.show', $orden_trabajo);
+    }
+
+    public function show(OrdenTrabajo $orden_trabajo)
+    {    
+        $items_orden_trabajo = $orden_trabajo->itemsOrdenTrabajo;
+
+        return view('orden-trabajo.show', compact('orden_trabajo', 'items_orden_trabajo'));
     }
 }
