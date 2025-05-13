@@ -1,10 +1,12 @@
 <?php
 
+use App\Exports\OrdenesTrabajoExport;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ItemOrdenTrabajoController;
 use App\Http\Controllers\OrdenTrabajoController;
+use App\Http\Controllers\OrdenTrabajoExportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TuControlador;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/item-orden-trabajo/{item_orden_trabajo}/edit', [ItemOrdenTrabajoController::class, 'edit'])->name('item-orden-trabajo.edit');
     Route::put('/item-orden-trabajo/{item_orden_trabajo}', [ItemOrdenTrabajoController::class, 'update'])->name('item-orden-trabajo.update');
     Route::delete('/item-orden-trabajo/{item_orden_trabajo}', [ItemOrdenTrabajoController::class, 'destroy'])->name('item-orden-trabajo.destroy');
+    Route::get('/exportar-orden/{id}', [OrdenTrabajoExportController::class, 'export'])->name('orden-trabajo.export');
+
 
 });
 

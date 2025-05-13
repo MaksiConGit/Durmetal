@@ -12,7 +12,7 @@
         <x-data-table >
       
         <x-slot name="table_title">Órden de Trabajo</x-slot>
-        <x-slot name="export_route">{{ route('clients.export') }}</x-slot>
+        <x-slot name="export_route">{{ route('orden-trabajo.export', $orden_trabajo->id) }}</x-slot>
         <x-slot name="create_route">{{ route('item-orden-trabajo.create', $orden_trabajo) }}</x-slot>
         <x-slot name="add_text">Añadir Item</x-slot>
         <x-slot name="head_tr">
