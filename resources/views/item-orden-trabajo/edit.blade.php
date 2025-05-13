@@ -19,7 +19,7 @@
 
             <div class="col-md-4 mb-3">
 
-              <input type="hidden" name="IdOrdenTrabajo" value="{{$item_orden_trabajo->ordenTrabajo->id}}">
+              <input type="hidden" name="IdOrdenTrabajo" value="{{$item_orden_trabajo->IdOrdenTrabajo}}">
 
                 <x-form-input-default>
                     <x-slot name="label">Item Nro</x-slot>
@@ -274,7 +274,7 @@
             <x-button>
                 <x-slot name="text">Volver</x-slot>
                 <x-slot name="color">danger</x-slot>
-                <x-slot name="href">{{ route('clients.index') }}</x-slot>
+                <x-slot name="href">{{ route('orden-trabajo.show', $item_orden_trabajo->IdOrdenTrabajo) }}</x-slot>
             </x-button>
         </x-slot>
     </x-form>
