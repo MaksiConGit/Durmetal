@@ -28,7 +28,6 @@ class ItemOrdenTrabajoController extends Controller
 
     public function store(StoreItemOrdenTrabajoRequest $request)
     {
-
         $data = $request->validated();
 
         $user_id = Auth::id();
@@ -58,8 +57,51 @@ class ItemOrdenTrabajoController extends Controller
         
         $item_orden_trabajo = ItemOrdenTrabajo::create($data);
 
-        // dd($item_orden_trabajo);
     
         return redirect()->route('orden-trabajo.show', $item_orden_trabajo->ordenTrabajo);
     }
+
+    public function edit(ItemOrdenTrabajo $item_orden_trabajo)
+    {   
+        $durezas = Dureza::all();
+        $tratamientos = Tratamiento::all();
+        $materiales = Material::all();
+
+        return view('item-orden-trabajo.edit', compact('item_orden_trabajo', 'durezas', 'tratamientos', 'materiales'));
+    }
+
+    public function update(StoreItemOrdenTrabajoRequest $request, ItemOrdenTrabajo $item_orden_trabajo)
+    {
+        $data = $request->validated();
+
+        $user_id = Auth::id();
+    
+        $data['FechaActualizacionEstado'] = now();
+        $data['CreadoPor'] = $user_id;
+        $data['FechaCreacion'] = now();
+        $data['ActualizadoPor'] = $user_id;
+        $data['FechaActualizacion'] = now();
+        $data['Activo'] = 1;
+
+        $data['ItemNumero'] = 1;
+        $data['NroDeposito'] = 1;
+        $data['CodigoComplejidad'] = 1;
+        $data['Coeficiente'] = '0.000';
+        $data['PrecioUnitario'] = '0.000';
+        $data['Total'] = '0.00';
+        $data['AfectaPlanillaTurno'] = 1;
+        $data['ControlarStock'] = 1;
+        $data['CertificadoEmitido'] = 1;
+        $data['CantidadCertificadosImpresos'] = 1;
+        $data['CantidadCertificadosEnviadosPorCorreo'] = 1;
+        $data['CantidadProgramaciones'] = 1;
+        $data['ConNotaEnvio'] = 1;
+        $data['IDEstadoConNotaEnvio'] = 1;
+        $data['IDIdOrdenTrabajoIdMaterialIdTratamientoCodigoComplejidadEstado'] = 1;
+
+        $item_orden_trabajo->update($data);
+    
+        return redirect()->route('orden-trabajo.show', $item_orden_trabajo->ordenTrabajo);
+    }
+
 }

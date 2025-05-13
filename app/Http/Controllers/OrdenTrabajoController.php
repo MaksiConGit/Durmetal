@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ItemOrdenTrabajo;
 use App\Models\OrdenTrabajo;
 use App\Models\PuntoDeVenta;
 use Illuminate\Http\Request;

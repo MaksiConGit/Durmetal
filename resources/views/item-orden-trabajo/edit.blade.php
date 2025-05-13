@@ -12,20 +12,20 @@
 
     <x-form>
         <x-slot name="card_title">Añadir Item de Orden de Trabajo</x-slot>
-        <x-slot name="action">{{ route('item-orden-trabajo.store', $orden_trabajo->id) }}</x-slot>
-        <x-slot name="method"></x-slot>
+        <x-slot name="action">{{ route('item-orden-trabajo.update',  $item_orden_trabajo->id) }}</x-slot>
+        <x-slot name="method">@method('PUT')</x-slot>
 
         <x-slot name="inputs">
 
             <div class="col-md-4 mb-3">
 
-              <input type="hidden" name="IdOrdenTrabajo" value="{{$orden_trabajo->id}}">
+              <input type="hidden" name="IdOrdenTrabajo" value="{{$item_orden_trabajo->ordenTrabajo->id}}">
 
                 <x-form-input-default>
                     <x-slot name="label">Item Nro</x-slot>
                     <x-slot name="name">id</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('id', $next_item_id)}}</x-slot>
+                    <x-slot name="value">{{old('id', $item_orden_trabajo->id)}}</x-slot>
                     <x-slot name="message">
                         @error('id')
                             {{$message}}
@@ -44,7 +44,7 @@
                     <x-slot name="label">Cantidad</x-slot>
                     <x-slot name="name">Cantidad</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('Cantidad')}}</x-slot>
+                    <x-slot name="value">{{old('Cantidad', $item_orden_trabajo->Cantidad)}}</x-slot>
                     <x-slot name="message">
                         @error('Cantidad')
                             {{$message}}
@@ -64,7 +64,7 @@
                     <x-slot name="name">IdDureza</x-slot>
                     <x-slot name="option">
                       @foreach ($durezas as $dureza)
-                        <option value="{{$dureza->id}}">{{$dureza->Nombre}}</option>
+                        <option value="{{$dureza->id}}" {{$item_orden_trabajo->dureza->id == $dureza->id ? 'selected' : ''}} >{{$dureza->Nombre}}</option>
                       @endforeach
                     </x-slot>
                     <x-slot name="message">
@@ -86,7 +86,7 @@
                     <x-slot name="name">IdMaterial</x-slot>
                     <x-slot name="option">
                       @foreach ($materiales as $material)
-                        <option value="{{$material->id}}">{{$material->Nombre}}</option>
+                        <option value="{{$material->id}}" {{$item_orden_trabajo->material->id == $material->id ? 'selected' : ''}} >{{$material->Nombre}}</option>
                       @endforeach
                     </x-slot>
                     <x-slot name="message">
@@ -109,7 +109,7 @@
                     <x-slot name="label">Descripción</x-slot>
                     <x-slot name="name">Descripcion</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('Descripcion')}}</x-slot>
+                    <x-slot name="value">{{old('Descripcion', $item_orden_trabajo->Descripcion)}}</x-slot>
                     <x-slot name="message">
                         @error('Descripcion')
                             {{$message}}
@@ -128,7 +128,7 @@
                     <x-slot name="label">Peso</x-slot>
                     <x-slot name="name">Peso</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('Peso')}}</x-slot>
+                    <x-slot name="value">{{old('Peso', $item_orden_trabajo->Peso)}}</x-slot>
                     <x-slot name="message">
                         @error('Peso')
                             {{$message}}
@@ -147,7 +147,7 @@
                     <x-slot name="label">DSMIN</x-slot>
                     <x-slot name="name">DurezaSolicitadaMinima</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('DurezaSolicitadaMinima')}}</x-slot>
+                    <x-slot name="value">{{old('DurezaSolicitadaMinima', $item_orden_trabajo->DurezaSolicitadaMinima)}}</x-slot>
                     <x-slot name="message">
                         @error('DurezaSolicitadaMinima')
                             {{$message}}
@@ -207,7 +207,7 @@
                 <x-slot name="name">IdTratamiento</x-slot>
                 <x-slot name="option">
                   @foreach ($tratamientos as $tratamiento)
-                    <option value="{{$tratamiento->id}}">{{$tratamiento->Nombre}}</option>
+                    <option value="{{$tratamiento->id}}" {{$item_orden_trabajo->tratamiento->id == $tratamiento->id ? 'selected' : ''}} >{{$tratamiento->Nombre}}</option>
                   @endforeach
                 </x-slot>
                 <x-slot name="message">
@@ -228,7 +228,7 @@
                   <x-slot name="label">DSMAX</x-slot>
                   <x-slot name="name">DurezaSolicitadaMaxima</x-slot>
                   <x-slot name="placeholder"></x-slot>
-                  <x-slot name="value">{{old('DurezaSolicitadaMaxima')}}</x-slot>
+                  <x-slot name="value">{{old('DurezaSolicitadaMaxima', $item_orden_trabajo->DurezaSolicitadaMaxima)}}</x-slot>
                   <x-slot name="message">
                       @error('DurezaSolicitadaMaxima')
                           {{$message}}
@@ -247,9 +247,9 @@
                   <x-slot name="label">Estado</x-slot>
                   <x-slot name="name">Estado</x-slot>
                   <x-slot name="option">
-                      <option value="PENDIENTE">Pendiente</option>
-                      <option value="APROBADO">Aprobado</option>
-                      <option value="NO APTO">No Apto</option>
+                      <option value="PENDIENTE" {{$item_orden_trabajo->Estado == 'PENDIENTE' ? 'selected' : ''}} >Pendiente</option>
+                      <option value="APROBADO" {{$item_orden_trabajo->Estado == 'APROBADO' ? 'selected' : ''}}>Aprobado</option>
+                      <option value="NO APTO" {{$item_orden_trabajo->Estado == 'NO APTO' ? 'selected' : ''}} >No Apto</option>
                   </x-slot>
                   <x-slot name="message">
                       @error('Estado')

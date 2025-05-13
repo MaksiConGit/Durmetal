@@ -43,10 +43,10 @@
                     <td class="text-center align-middle">
                         <div class="d-flex justify-content-center align-items-center gap-3">
                           <a
-                            href="{{ route('clients.edit', $items_orden_trabajo) }}"
+                            href="{{ route('item-orden-trabajo.edit', $items_orden_trabajo) }}"
                             class="btn btn-link btn-primary p-0"
                             data-bs-toggle="tooltip"
-                            title="Editar cliente"
+                            title="Editar item"
                           >
                             <i class="fa fa-edit fa-lg"></i>
                           </a>
@@ -62,7 +62,7 @@
                               type="submit"
                               class="btn btn-link btn-danger p-0"
                               data-bs-toggle="tooltip"
-                              title="Eliminar cliente"
+                              title="Eliminar item"
                             >
                               <i class="fa fa-times fa-lg"></i>
                             </button>
