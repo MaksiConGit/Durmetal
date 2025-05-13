@@ -104,4 +104,13 @@ class ItemOrdenTrabajoController extends Controller
         return redirect()->route('orden-trabajo.show', $item_orden_trabajo->ordenTrabajo);
     }
 
+    public function destroy(ItemOrdenTrabajo $item_orden_trabajo)
+    {
+        $orden_trabajo = $item_orden_trabajo->IdOrdenTrabajo;
+        
+        $item_orden_trabajo->delete();
+    
+        return redirect()->route('orden-trabajo.show', $orden_trabajo);
+    }
+
 }

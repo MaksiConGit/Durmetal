@@ -32,9 +32,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/item-orden-trabajo/create/{orden_trabajo}', [ItemOrdenTrabajoController::class, 'create'])->name('item-orden-trabajo.create');
     Route::post('/item-orden-trabajo/{orden_trabajo}', [ItemOrdenTrabajoController::class, 'store'])->name('item-orden-trabajo.store');
-
     Route::get('/item-orden-trabajo/{item_orden_trabajo}/edit', [ItemOrdenTrabajoController::class, 'edit'])->name('item-orden-trabajo.edit');
     Route::put('/item-orden-trabajo/{item_orden_trabajo}', [ItemOrdenTrabajoController::class, 'update'])->name('item-orden-trabajo.update');
+    Route::delete('/item-orden-trabajo/{item_orden_trabajo}', [ItemOrdenTrabajoController::class, 'destroy'])->name('item-orden-trabajo.destroy');
 
 });
 

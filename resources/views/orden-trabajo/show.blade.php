@@ -51,7 +51,7 @@
                             <i class="fa fa-edit fa-lg"></i>
                           </a>
                           <form
-                            action="{{ route('clients.destroy', $items_orden_trabajo) }}"
+                            action="{{ route('item-orden-trabajo.destroy', $items_orden_trabajo) }}"
                             method="POST"
                             onsubmit="return confirm('¿Estás seguro de que quieres eliminar este cliente?')"
                             class="m-0 p-0"
