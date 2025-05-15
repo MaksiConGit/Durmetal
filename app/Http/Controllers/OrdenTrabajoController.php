@@ -32,7 +32,13 @@ class OrdenTrabajoController extends Controller
         if (OrdenTrabajo::where('Numero', $numero)->exists()) {
             $orden_trabajo = OrdenTrabajo::where('Numero', $numero)->first();
         } else {
-            // $orden_trabajo = OrdenTrabajo::create($data);
+
+            $data = $request->all();
+
+            $orden_trabajo = OrdenTrabajo::create([
+                    'PuntoVenta' => $data['pto_venta_id'],
+                    'Numero' => $data['Numero'],
+                ]);
         }
 
         return redirect()->route('orden-trabajo.edit', $orden_trabajo);
@@ -70,7 +76,9 @@ class OrdenTrabajoController extends Controller
         $data['AfectarPlanillaTurno'] = 1;
         $data['CondicionPrecios'] = 1;
 
-        $data['RazonSocial'] = $orden_trabajo->cliente->Nombre;
+        $cliente = Client::find($data['IdCliente']);
+
+        $data['RazonSocial'] = $cliente->Nombre;
         $data['IdCondicionIva'] = 1;
         $data['TipoDocumentoCliente'] = 1;
         $data['NumeroDocumentoCliente'] = 1;
