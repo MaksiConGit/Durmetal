@@ -274,7 +274,7 @@
             <x-button>
                 <x-slot name="text">Volver</x-slot>
                 <x-slot name="color">danger</x-slot>
-                <x-slot name="href">{{ route('orden-trabajo.show', $orden_trabajo) }}</x-slot>
+                <x-slot name="href">{{ route('orden-trabajo.edit', $orden_trabajo) }}</x-slot>
             </x-button>
         </x-slot>
     </x-form>

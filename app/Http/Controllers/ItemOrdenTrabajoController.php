@@ -58,7 +58,7 @@ class ItemOrdenTrabajoController extends Controller
         $item_orden_trabajo = ItemOrdenTrabajo::create($data);
 
     
-        return redirect()->route('orden-trabajo.show', $item_orden_trabajo->ordenTrabajo);
+        return redirect()->route('orden-trabajo.edit', $item_orden_trabajo->IdOrdenTrabajo);
     }
 
     public function edit(ItemOrdenTrabajo $item_orden_trabajo)
