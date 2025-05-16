@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrdenTrabajoRequest;
+use App\Mail\OrdenCreadaMail;
 use App\Models\Client;
 use App\Models\ItemOrdenTrabajo;
 use App\Models\OrdenTrabajo;
 use App\Models\PuntoDeVenta;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class OrdenTrabajoController extends Controller
 {
@@ -101,5 +104,15 @@ class OrdenTrabajoController extends Controller
         $orden_trabajo->update($data);
     
         return redirect()->route('orden-trabajo.show', $orden_trabajo);
+    }
+
+
+    public function mail()
+    {
+        // $user_id = Auth::id();
+        Mail::to('asd@asd.com')->send(new OrdenCreadaMail);
+        // $items_orden_trabajo = $orden_trabajo->itemsOrdenTrabajo;
+
+        return redirect()->route('orden-trabajo.show', 1);
     }
 }

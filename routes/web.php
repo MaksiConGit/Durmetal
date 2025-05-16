@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/cities/search', [CityController::class, 'search'])->name('cities.search');
 
     Route::resource('orden-trabajo', OrdenTrabajoController::class)->names('orden-trabajo');
+    Route::get('enviar-mail', [OrdenTrabajoController::class, 'mail'])->name('enviar.mail');
 
     Route::get('/item-orden-trabajo/create/{orden_trabajo}', [ItemOrdenTrabajoController::class, 'create'])->name('item-orden-trabajo.create');
     Route::post('/item-orden-trabajo/{orden_trabajo}', [ItemOrdenTrabajoController::class, 'store'])->name('item-orden-trabajo.store');
@@ -38,8 +39,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/item-orden-trabajo/{item_orden_trabajo}', [ItemOrdenTrabajoController::class, 'update'])->name('item-orden-trabajo.update');
     Route::delete('/item-orden-trabajo/{item_orden_trabajo}', [ItemOrdenTrabajoController::class, 'destroy'])->name('item-orden-trabajo.destroy');
     Route::get('/exportar-orden/{id}', [OrdenTrabajoExportController::class, 'export'])->name('orden-trabajo.export');
-
-
 });
 
 require __DIR__.'/auth.php';

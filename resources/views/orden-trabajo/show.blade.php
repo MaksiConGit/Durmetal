@@ -21,7 +21,7 @@
             <span class="fs-5">Enviar a Impresora</span>
         </a>
 
-        <a href="" class="btn btn-warning btn-lg px-4 py-3 mb-2" style="min-width: 240px;">
+        <a href="{{ route('enviar.mail') }}" class="btn btn-warning btn-lg px-4 py-3 mb-2" style="min-width: 240px;">
             <i class="fas fa-envelope fa-2x d-block mb-2"></i>
             <span class="fs-5">Enviar por Correo</span>
         </a>
