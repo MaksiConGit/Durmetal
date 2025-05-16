@@ -20,7 +20,7 @@ class OrdenTrabajoController extends Controller
         $pto_ventas = PuntoDeVenta::all();
         $next_orden_numero = OrdenTrabajo::max('Numero') + 1;
 
-        return view('orden-trabajo.create', compact('pto_ventas', 'next_orden_numero'));
+        return view('produccion.orden-trabajo.create', compact('pto_ventas', 'next_orden_numero'));
     }
 
     public function store(Request $request)
@@ -51,7 +51,7 @@ class OrdenTrabajoController extends Controller
     {    
         $items_orden_trabajo = $orden_trabajo->itemsOrdenTrabajo;
 
-        return view('orden-trabajo.show', compact('orden_trabajo', 'items_orden_trabajo'));
+        return view('produccion.orden-trabajo.show', compact('orden_trabajo', 'items_orden_trabajo'));
     }
 
     public function edit(OrdenTrabajo $orden_trabajo)
@@ -61,7 +61,7 @@ class OrdenTrabajoController extends Controller
         $pto_ventas = PuntoDeVenta::all();
         $clientes = Client::all();
 
-        return view('orden-trabajo.edit', compact('orden_trabajo', 'items_orden_trabajo', 'clientes', 'pto_ventas'));
+        return view('produccion.orden-trabajo.edit', compact('orden_trabajo', 'items_orden_trabajo', 'clientes', 'pto_ventas'));
     }
 
     public function update(StoreOrdenTrabajoRequest $request, OrdenTrabajo $orden_trabajo)

@@ -23,7 +23,7 @@ class ItemOrdenTrabajoController extends Controller
         $materiales = Material::all();
         // cc?
 
-        return view('item-orden-trabajo.create', compact('orden_trabajo', 'next_item_id', 'durezas', 'tratamientos', 'materiales'));
+        return view('produccion.item-orden-trabajo.create', compact('orden_trabajo', 'next_item_id', 'durezas', 'tratamientos', 'materiales'));
     }
 
     public function store(StoreItemOrdenTrabajoRequest $request)
@@ -67,7 +67,7 @@ class ItemOrdenTrabajoController extends Controller
         $tratamientos = Tratamiento::all();
         $materiales = Material::all();
 
-        return view('item-orden-trabajo.edit', compact('item_orden_trabajo', 'durezas', 'tratamientos', 'materiales'));
+        return view('produccion.item-orden-trabajo.edit', compact('item_orden_trabajo', 'durezas', 'tratamientos', 'materiales'));
     }
 
     public function update(StoreItemOrdenTrabajoRequest $request, ItemOrdenTrabajo $item_orden_trabajo)
