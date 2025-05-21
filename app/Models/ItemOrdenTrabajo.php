@@ -64,6 +64,6 @@ class ItemOrdenTrabajo extends Model
 
     public function ordenTrabajo()
     {
-        return $this->belongsTo(ItemOrdenTrabajo::class, 'IdOrdenTrabajo');
+        return $this->belongsTo(OrdenTrabajo::class, 'IdOrdenTrabajo');
     }
 }

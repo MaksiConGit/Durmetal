@@ -319,7 +319,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="tables/datatables.html">
+                      <a href="{{ route('programacion.index') }}">
                         <span class="sub-item">Programación</span>
                       </a>
                     </li>

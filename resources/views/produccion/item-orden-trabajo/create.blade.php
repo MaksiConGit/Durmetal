@@ -2,7 +2,7 @@
     <x-slot name="title">Producción</x-slot>
     <x-slot name="breadcrumbs">
         <li class="nav-home">
-            <a href="#"><i class="fas fa-money-bill-wave"></i></a>
+            <a href="#"><i class="fas fa-cogs"></i></a>
         </li>
         <li class="separator"><i class="icon-arrow-right"></i></li>
         <li class="nav-item"><a href="#">Ingreso de materiales</a></li>
