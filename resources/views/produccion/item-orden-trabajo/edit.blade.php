@@ -23,18 +23,18 @@
 
                 <x-form-input-default>
                     <x-slot name="label">Item Nro</x-slot>
-                    <x-slot name="name">id</x-slot>
+                    <x-slot name="name">ItemNumero</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('id', $item_orden_trabajo->id)}}</x-slot>
+                    <x-slot name="value">{{old('ItemNumero', $item_orden_trabajo->ItemNumero)}}</x-slot>
                     <x-slot name="message">
-                        @error('id')
+                        @error('ItemNumero')
                             {{$message}}
                         @enderror
                     </x-slot>
                     <x-slot name="error">
-                        @if ($errors->has('id'))
+                        @if ($errors->has('ItemNumero'))
                             is-invalid
-                        @elseif (old('id') && ! $errors->has('id'))
+                        @elseif (old('ItemNumero') && ! $errors->has('ItemNumero'))
                             is-valid
                         @endif
                     </x-slot>

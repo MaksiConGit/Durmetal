@@ -33,8 +33,8 @@ class StoreItemOrdenTrabajoRequest extends FormRequest
             'DurezaSolicitadaMaxima' => 'required|integer|min:0|gte:DurezaSolicitadaMinima',
             'Estado' => 'required|string|max:50',
             'Observaciones' => 'nullable|string|max:255',
-
-            // 'ItemNumero' => 'required|integer',
+            'ItemNumero' => 'required|integer',
+            
             // 'NroDeposito' => 'required|integer',
             // 'CodigoComplejidad' => 'required|integer',
             // 'Coeficiente' => 'required|numeric|min:0',

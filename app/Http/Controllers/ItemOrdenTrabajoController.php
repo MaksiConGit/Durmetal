@@ -16,14 +16,14 @@ class ItemOrdenTrabajoController extends Controller
 {
     public function create(OrdenTrabajo $orden_trabajo)
     {
-        $next_item_id = ItemOrdenTrabajo::max('id') + 1;
+        $count_items = ItemOrdenTrabajo::where('IdOrdenTrabajo', $orden_trabajo->id)->count() + 1;
 
         $durezas = Dureza::all();
         $tratamientos = Tratamiento::all();
         $materiales = Material::all();
         // cc?
 
-        return view('produccion.item-orden-trabajo.create', compact('orden_trabajo', 'next_item_id', 'durezas', 'tratamientos', 'materiales'));
+        return view('produccion.item-orden-trabajo.create', compact('orden_trabajo', 'count_items', 'durezas', 'tratamientos', 'materiales'));
     }
 
     public function store(StoreItemOrdenTrabajoRequest $request)
@@ -39,7 +39,6 @@ class ItemOrdenTrabajoController extends Controller
         $data['FechaActualizacion'] = now();
         $data['Activo'] = 1;
 
-        $data['ItemNumero'] = 1;
         $data['NroDeposito'] = 1;
         $data['CodigoComplejidad'] = 1;
         $data['Coeficiente'] = '0.000';
@@ -56,7 +55,6 @@ class ItemOrdenTrabajoController extends Controller
         $data['IDIdOrdenTrabajoIdMaterialIdTratamientoCodigoComplejidadEstado'] = 1;
         
         $item_orden_trabajo = ItemOrdenTrabajo::create($data);
-
     
         return redirect()->route('orden-trabajo.edit', $item_orden_trabajo->IdOrdenTrabajo);
     }
