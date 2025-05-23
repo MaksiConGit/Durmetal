@@ -11,60 +11,58 @@
     </x-slot>
 
     <div class="col-md-4 mb-3">
-            <x-form-input-select-disabled>
-                <x-slot name="label">Punto de Venta</x-slot>
-                <x-slot name="name">PuntoVenta</x-slot>
-                <x-slot name="option">
-                    @foreach ($pto_ventas as $pto_venta)
-                        <option value="{{$pto_venta->id}}" {{$pto_venta->id == $orden_trabajo->PuntoVenta ? 'selected' : ''}}>{{$pto_venta->Nombre}}</option>                            
-                    @endforeach
-                </x-slot>
-                <x-slot name="message"></x-slot>
-                <x-slot name="error"></x-slot>
-            </x-form-input-select-disabled>
+        <x-form-input-select-disabled>
+            <x-slot name="label">Punto de Venta</x-slot>
+            <x-slot name="name">PuntoVenta</x-slot>
+            <x-slot name="option">
+                @foreach ($pto_ventas as $pto_venta)
+                    <option value="{{$pto_venta->id}}" {{$pto_venta->id == $orden_trabajo->PuntoVenta ? 'selected' : ''}}>{{$pto_venta->Nombre}}</option>                            
+                @endforeach
+            </x-slot>
+            <x-slot name="message"></x-slot>
+            <x-slot name="error"></x-slot>
+        </x-form-input-select-disabled>
 
-            <x-form-input-select-disabled>
-                <x-slot name="label">Código Cliente</x-slot>
-                <x-slot name="name">IdCliente</x-slot>
-                <x-slot name="option">
-                    @foreach ($clientes as $cliente)
-                        <option value="{{$cliente->id}}" {{$cliente->id == $orden_trabajo->IdCliente ? 'selected' : ''}}>{{$cliente->id}} | {{$cliente->Nombre}}</option>                            
-                    @endforeach
-                </x-slot>
-                <x-slot name="message"></x-slot>
-                <x-slot name="error"></x-slot>
-            </x-form-input-select-disabled>
-          </div>
+        <x-form-input-select-disabled>
+            <x-slot name="label">Código Cliente</x-slot>
+            <x-slot name="name">IdCliente</x-slot>
+            <x-slot name="option">
+                @foreach ($clientes as $cliente)
+                    <option value="{{$cliente->id}}" {{$cliente->id == $orden_trabajo->IdCliente ? 'selected' : ''}}>{{$cliente->id}} | {{$cliente->Nombre}}</option>                            
+                @endforeach
+            </x-slot>
+            <x-slot name="message"></x-slot>
+            <x-slot name="error"></x-slot>
+        </x-form-input-select-disabled>
+    </div>
 
-          <div class="col-md-4 mb-3">
+    <div class="col-md-4 mb-3">
+        <x-form-input-disabled>
+            <x-slot name="label">Número</x-slot>
+            <x-slot name="name">Numero</x-slot>
+            <x-slot name="placeholder"></x-slot>
+            <x-slot name="value">{{old('Numero', $orden_trabajo->Numero)}}</x-slot>
+        <x-slot name="message"></x-slot>
+        <x-slot name="error"></x-slot>
+        </x-form-input-disabled>
 
-              <x-form-input-disabled>
-                  <x-slot name="label">Número</x-slot>
-                  <x-slot name="name">Numero</x-slot>
-                  <x-slot name="placeholder"></x-slot>
-                  <x-slot name="value">{{old('Numero', $orden_trabajo->Numero)}}</x-slot>
-                <x-slot name="message"></x-slot>
-                <x-slot name="error"></x-slot>
-              </x-form-input-disabled>
+        <x-form-input-date-disabled>
+            <x-slot name="label">Fecha de Emisión</x-slot>
+            <x-slot name="name">FechaEmision</x-slot>
+            <x-slot name="value">{{ now()->toDateString() }}</x-slot>
+        </x-form-input-date-disabled>
+    </div>
 
-              <x-form-input-date-disabled>
-                <x-slot name="label">Fecha de Emisión</x-slot>
-                <x-slot name="name">FechaEmision</x-slot>
-                <x-slot name="value">{{ now()->toDateString() }}</x-slot>
-            </x-form-input-date-disabled>
-
-          </div>
-
-            <div class="col-md-4 mb-3">
-                <x-form-input-disabled>
-                <x-slot name="label">N° Remito Cliente</x-slot>
-                <x-slot name="name">NumeroRemitoCliente</x-slot>
-                <x-slot name="placeholder"></x-slot>
-                <x-slot name="value">{{old('NumeroRemitoCliente', $orden_trabajo->NumeroRemitoCliente)}}</x-slot>
-                <x-slot name="message"></x-slot>
-                <x-slot name="error"></x-slot>
-                </x-form-input-disabled>
-            </div>
+    <div class="col-md-4 mb-3">
+        <x-form-input-disabled>
+        <x-slot name="label">N° Remito Cliente</x-slot>
+        <x-slot name="name">NumeroRemitoCliente</x-slot>
+        <x-slot name="placeholder"></x-slot>
+        <x-slot name="value">{{old('NumeroRemitoCliente', $orden_trabajo->NumeroRemitoCliente)}}</x-slot>
+        <x-slot name="message"></x-slot>
+        <x-slot name="error"></x-slot>
+        </x-form-input-disabled>
+    </div>
 
     <x-form>
         <x-slot name="card_title">Añadir Item de Orden de Trabajo</x-slot>

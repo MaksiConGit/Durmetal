@@ -67,8 +67,11 @@ class ItemOrdenTrabajoController extends Controller
         $durezas = Dureza::all();
         $tratamientos = Tratamiento::all();
         $materiales = Material::all();
+        $pto_ventas = PuntoDeVenta::all();
+        $clientes = Client::all();
+        $orden_trabajo = $item_orden_trabajo->ordenTrabajo;
 
-        return view('produccion.item-orden-trabajo.edit', compact('item_orden_trabajo', 'durezas', 'tratamientos', 'materiales'));
+        return view('produccion.item-orden-trabajo.edit', compact('item_orden_trabajo', 'durezas', 'tratamientos', 'materiales', 'pto_ventas', 'clientes', 'orden_trabajo'));
     }
 
     public function update(StoreItemOrdenTrabajoRequest $request, ItemOrdenTrabajo $item_orden_trabajo)
