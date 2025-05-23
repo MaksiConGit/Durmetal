@@ -19,7 +19,7 @@ class OrdenesTrabajoExport implements FromView
     {
         $orden = $this->orden_trabajo->load('itemsOrdenTrabajo');
 
-        return view('orden-trabajo.export', [
+        return view('produccion.orden-trabajo.export', [
             'orden_trabajo' => $orden
         ]);
     }
