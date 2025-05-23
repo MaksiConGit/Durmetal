@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreItemOrdenTrabajoRequest;
+use App\Models\Client;
 use App\Models\Dureza;
 use App\Models\ItemOrdenTrabajo;
 use App\Models\Material;
 use App\Models\OrdenTrabajo;
 use App\Models\PointOfSale;
+use App\Models\PuntoDeVenta;
 use App\Models\Tratamiento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,9 +23,10 @@ class ItemOrdenTrabajoController extends Controller
         $durezas = Dureza::all();
         $tratamientos = Tratamiento::all();
         $materiales = Material::all();
-        // cc?
+        $pto_ventas = PuntoDeVenta::all();
+        $clientes = Client::all();
 
-        return view('produccion.item-orden-trabajo.create', compact('orden_trabajo', 'count_items', 'durezas', 'tratamientos', 'materiales'));
+        return view('produccion.item-orden-trabajo.create', compact('orden_trabajo', 'count_items', 'durezas', 'tratamientos', 'materiales', 'pto_ventas', 'clientes'));
     }
 
     public function store(StoreItemOrdenTrabajoRequest $request)
