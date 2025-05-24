@@ -42,32 +42,43 @@
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
   <script>
-    $('#IdLocalidad').select2({
-      ajax: {
-        url: '{{ route("cities.search") }}',
-        dataType: 'json',
-        delay: 250,
-        data: function (params) {
-          return {
-            q: params.term || '',
-            page: params.page || 1
-          };
-        },
-        processResults: function (data, params) {
-          params.page = params.page || 1;
+    $(document).ready(function() {
+      var defaultOption = @json($selectedUser);
 
-          return {
-            results: data.items,
-            pagination: {
-              more: data.more
-            }
-          };
+      var $select = $('#{{$name}}');
+
+      $select.select2({
+        ajax: {
+          url: '{{$route}}',
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            return {
+              q: params.term || '',
+              page: params.page || 1
+            };
+          },
+          processResults: function (data, params) {
+            params.page = params.page || 1;
+
+            return {
+              results: data.items,
+              pagination: {
+                more: data.more
+              }
+            };
+          },
+          cache: true
         },
-        cache: true
-      },
-      placeholder: 'Selecciona una ciudad',
-      minimumInputLength: 0
+        placeholder: '{{$placeholder}}',
+        minimumInputLength: 0
+      });
+
+      if (defaultOption) {
+        var option = new Option(defaultOption.text, defaultOption.id, true, true);
+        $select.append(option).trigger('change');
+      }
     });
-
   </script>
+
 @endsection

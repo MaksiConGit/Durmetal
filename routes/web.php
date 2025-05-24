@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('clients', ClientController::class)->names('clients');
+    Route::get('/clientes/buscar', [ClientController::class, 'search'])->name('clientes.buscar');
     Route::get('/export', [ExportController::class, 'export'])->name('clients.export');
     Route::get('/cities/search', [CityController::class, 'search'])->name('cities.search');
 

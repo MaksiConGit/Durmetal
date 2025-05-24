@@ -61,7 +61,19 @@ class OrdenTrabajoController extends Controller
         $pto_ventas = PuntoDeVenta::all();
         $clientes = Client::all();
 
-        return view('produccion.orden-trabajo.edit', compact('orden_trabajo', 'items_orden_trabajo', 'clientes', 'pto_ventas'));
+        $cliente = $orden_trabajo->cliente;
+
+        if ($cliente) {
+            $selectedUser = [
+                'id' => $cliente->id,
+                'text' => "$cliente->id | $cliente->Nombre"
+            ];
+        }
+        else {
+            $selectedUser = null;
+        }
+
+        return view('produccion.orden-trabajo.edit', compact('orden_trabajo', 'items_orden_trabajo', 'clientes', 'pto_ventas', 'selectedUser'));
     }
 
     public function update(StoreOrdenTrabajoRequest $request, OrdenTrabajo $orden_trabajo)

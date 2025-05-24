@@ -38,27 +38,14 @@
                 </x-slot>
             </x-form-input-select>
 
-            <x-form-input-select>
-                <x-slot name="label">Código Cliente</x-slot>
-                <x-slot name="name">IdCliente</x-slot>
-                <x-slot name="option">
-                    @foreach ($clientes as $cliente)
-                        <option value="{{$cliente->id}}" {{$cliente->id == $orden_trabajo->IdCliente ? 'selected' : ''}}>{{$cliente->id}} | {{$cliente->Nombre}}</option>                            
-                    @endforeach
-                </x-slot>
-                <x-slot name="message">
-                    @error('IdCliente')
-                        {{$message}}
-                    @enderror
-                </x-slot>
-                <x-slot name="error">
-                    @if ($errors->has('IdCliente'))
-                        is-invalid
-                    @elseif (old('IdCliente') && ! $errors->has('IdCliente'))
-                        is-valid
-                    @endif
-                </x-slot>
-            </x-form-input-select>
+            @include('components.form-input-select2', [
+                'name' => 'IdCliente',
+                'label' => 'Cliente',
+                'route' => route('clientes.buscar'),
+                'placeholder' => 'Selecciona un cliente',
+                'selected' => $clienteSeleccionado ?? null
+            ])
+
           </div>
 
           <div class="col-md-4 mb-3">
@@ -142,7 +129,7 @@
                         <td>{{ $items_orden_trabajo->DurezaSolicitadaMinima }}</td>
                         <td>{{ $items_orden_trabajo->DurezaSolicitadaMaxima }}</td>
                         <td class="text-center align-middle">
-                            <div class="d-flex justify-content-center align-items-center gap-3">
+                            <div class="d-flex align-items-center gap-3 ms-3">
                               <a
                                 href="{{ route('item-orden-trabajo.edit', $items_orden_trabajo) }}"
                                 class="btn btn-link btn-primary p-0"
