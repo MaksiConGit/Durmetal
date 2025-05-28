@@ -54,12 +54,12 @@ class ItemOrdenTrabajo extends Model
 
     public function tratamiento()
     {
-        return $this->belongsTo(Tratamiento::class, 'IdMaterial');
+        return $this->belongsTo(Tratamiento::class, 'IdTratamiento');
     }
 
     public function dureza()
     {
-        return $this->belongsTo(Dureza::class, 'IdMaterial');
+        return $this->belongsTo(Dureza::class, 'IdDureza');
     }
 
     public function ordenTrabajo()
