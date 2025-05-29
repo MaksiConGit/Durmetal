@@ -33,8 +33,8 @@
   }
 
   </style>
-    <div class="container-fluid">
-    <div class="page-inner">
+    {{-- <div class="container-fluid"> --}}
+    {{-- <div class="page-inner"> --}}
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
@@ -67,8 +67,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    {{-- </div> --}}
+  {{-- </div> --}}
 
   
   <script>

@@ -24,7 +24,7 @@
       id="{{$name}}"
       value="{{$value}}"
       class="colorinput-input"
-      {{$checked}}
+      {{ $checked }}
       {{$livewire}}
     />
     <span class="colorinput-color bg-{{$color}}"></span>
