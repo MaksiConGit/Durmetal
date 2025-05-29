@@ -14,10 +14,9 @@
         <x-slot name="method"></x-slot>
         <x-slot name="inputs">
 
-            <x-data-table>
+            <x-data-table-no-plus>
                 <x-slot name="table_title">Trabajos Seleccionados</x-slot>
                 <x-slot name="export_route"></x-slot>
-                <x-slot name="create_route"></x-slot>
                 <x-slot name="add_text">Añadir Item</x-slot>
 
                 <x-slot name="head_tr">
@@ -87,7 +86,7 @@
                         <th>DSMIN - DSMAX</th>
                     </tr>
                 </x-slot>
-            </x-data-table>
+            </x-data-table-no-plus>
 
             <div class="col-md-12 mb-3">
 
