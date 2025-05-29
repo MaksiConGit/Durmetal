@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProgramacionRequest;
 use App\Models\Client;
 use App\Models\ItemOrdenTrabajo;
+use App\Models\MedioEnfriamiento;
+use App\Models\Programacion;
+use App\Models\TipoProgramacion;
 use App\Models\Tratamiento;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProgramacionController extends Controller
 {
@@ -20,12 +26,56 @@ class ProgramacionController extends Controller
     
     public function create(Request $request)
     {
-        // Obtenemos los IDs desde la query string
         $selectedItemIds = explode(',', $request->query('items'));
 
-        // Ahora podés usar los IDs para buscar los items, por ejemplo:
         $items = ItemOrdenTrabajo::whereIn('id', $selectedItemIds)->get();
 
-        return view('produccion.programacion.create', compact('items', 'selectedItemIds'));
+        $tratamientos = Tratamiento::all();
+        $usuarios = User::all();
+        $tipos_programacion = TipoProgramacion::all();
+        $medios_enfriamiento = MedioEnfriamiento::all();
+
+        return view('produccion.programacion.create', compact('items', 'selectedItemIds', 'tratamientos', 'usuarios', 'tipos_programacion', 'medios_enfriamiento'));
+    }
+
+    public function store(StoreProgramacionRequest $request)
+    {
+        $user_id = Auth::id();
+    
+        $data = $request->all();
+
+        foreach ($request->ItemOrdenTrabajoIds as $index => $itemOrdenTrabajoId) {
+            if ($itemOrdenTrabajoId) {
+
+                $item_orden_trabajo = ItemOrdenTrabajo::find($itemOrdenTrabajoId);
+
+                Programacion::create([
+                    'IdItemOrdenTrabajo' => $item_orden_trabajo->id,
+                    'DurezaMinima' => $item_orden_trabajo->DurezaSolicitadaMinima,
+                    'DurezaMaxima' => $item_orden_trabajo->DurezaSolicitadaMaxima,
+                    'IdTipoProgramacion' => $data['IdTipoProgramacion'],
+                    'Cantidad' => $data['Cantidad'][$index],
+                    'Reproceso' => $data['Reproceso'][$index],
+                    'FechaCreacion' => now(),
+                    'FechaCarga' => $data['FechaCarga'],
+                    'FechaDescarga' => $data['FechaDescarga'],
+                    'Temperatura' => $data['Temperatura'],
+                    'IdMedioEnfriamiento' => $data['IdMedioEnfriamiento'],
+                    'NumeroHorno' => $data['NumeroHorno'],
+                    'EjecutadoPorOperador' => $data['EjecutadoPorOperador'],
+                    'CreadoPor' => $user_id,
+                    'ActualizadoPor' => $user_id,
+                    'FechaActualizacion' => now(),
+                    'Activo' => '1',
+
+                    // 'NumeroProgramacion' => $data[''],
+                    // 'Apto' => $data[''],
+
+                ]);
+
+            }
+        }
+    
+        return redirect()->route('index');
     }
 }
