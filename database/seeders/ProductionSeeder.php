@@ -14,11 +14,14 @@ use App\Models\ImpresoraFiscal;
 use App\Models\ItemOrdenTrabajo;
 use App\Models\IvaCondition;
 use App\Models\Material;
+use App\Models\MedioEnfriamiento;
 use App\Models\OrdenTrabajo;
+use App\Models\Programacion;
 use App\Models\Province;
 use App\Models\PuntoDeVenta;
 use App\Models\SecuenciaPtoVenta;
 use App\Models\TipoCbte;
+use App\Models\TipoProgramacion;
 use App\Models\Tratamiento;
 use App\Models\User;
 use Carbon\Carbon;
@@ -169,6 +172,43 @@ class ProductionSeeder extends Seeder
             'ConNotaEnvio' => '0',
             'IDEstadoConNotaEnvio' => '93494,APROBADO,0s',
             'IDIdOrdenTrabajoIdMaterialIdTratamientoCodigoComplejidadEstado' => '93494,55217,179,40.0.APROBADO',
+        ]);
+
+        MedioEnfriamiento::create([
+            'Nombre' => 'AF',
+            'Orden' => '5',
+            'Predeterminado' => '1',
+        ]);
+
+        TipoProgramacion::create([
+            'Nombre' => 'TEMPLADO',
+            'Tipo' => 'PCO',
+            'Orden' => '1',
+            'Predeterminado' => '1',
+            'RequiereNumeracionSiempre' => '0',
+            'NombreTipo' => 'TEMPLADO,PCO',
+        ]);
+
+        Programacion::create([
+            'IdItemOrdenTrabajo' => '1',
+            'NumeroProgramacion' => '1',
+            'DurezaMinima' => '62',
+            'DurezaMaxima' => '63',
+            'IdTipoProgramacion' => '1',
+            'Cantidad' => '2.000',
+            'Apto' => 'SI',
+            'Reproceso' => '0',
+            'FechaCreacion' => '2025-05-27 20:16:17',
+            'FechaCarga' => '2025-05-27 20:16:17',
+            'FechaDescarga' => '2025-05-28 20:16:17',
+            'Temperatura' => '150',
+            'IdMedioEnfriamiento' => '1',
+            'NumeroHorno' => '1',
+            'EjecutadoPorOperador' => '1',
+            'CreadoPor' => '1',
+            'FechaActualizacion' => '2025-05-27 20:16:17',
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
         ]);
     }
 }
