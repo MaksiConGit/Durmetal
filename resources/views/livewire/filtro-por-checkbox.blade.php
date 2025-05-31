@@ -61,14 +61,20 @@
                         <tr>
                             <td>0</td>
                             <td>
-                                <x-form-input-checkbox-livewire>
+                                {{-- <x-form-input-checkbox-livewire>
                                     <x-slot name="label">{{ in_array($item_orden_trabajo->id, $selectedItemIds) }}</x-slot>
                                     <x-slot name="name"></x-slot>
                                     <x-slot name="value">{{ $item_orden_trabajo->id }}</x-slot>
                                     <x-slot name="color">black</x-slot>
                                     <x-slot name="checked"></x-slot>
                                     <x-slot name="livewire">wire:model.live="selectedItemIds"</x-slot>
-                                </x-form-input-checkbox-livewire>
+                                </x-form-input-checkbox-livewire> --}}
+                                <td>
+                                    <label for="">
+                                        <input type="checkbox" name="" id="" wire:model.live="selectedItemIds" value="{{ $item_orden_trabajo->id }}">
+                                        {{ in_array($item_orden_trabajo->id, $selectedItemIds) }}
+                                    </label>
+                                </td>
                             </td>
                             <td>{{ $item_orden_trabajo->Descripcion }}</td>
                             <td>{{ $item_orden_trabajo->ordenTrabajo->cliente->Nombre ?? 'Sin razón social' }}</td>
