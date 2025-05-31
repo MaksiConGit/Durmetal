@@ -54,24 +54,41 @@ class OrdenTrabajoController extends Controller
         return view('produccion.orden-trabajo.show', compact('orden_trabajo', 'items_orden_trabajo'));
     }
 
-    public function edit(OrdenTrabajo $orden_trabajo)
+    public function edit(OrdenTrabajo $orden_trabajo, Request $request)
     {    
         $items_orden_trabajo = $orden_trabajo->itemsOrdenTrabajo;
 
         $pto_ventas = PuntoDeVenta::all();
         $clientes = Client::all();
 
-        $cliente = $orden_trabajo->cliente;
+        $punto_venta = $request->query('PuntoVenta');
+        $id_cliente = $request->query('IdCliente');
+        $numero = $request->query('Numero');
+        $fecha_emision = $request->query('FechaEmision');
+        $numero_remito_cliente = $request->query('NumeroRemitoCliente');
+
+        if ($id_cliente) {
+            $cliente = Client::find($id_cliente);
+        } else {
+            $cliente = $orden_trabajo->cliente;
+        }
 
         if ($cliente) {
             $selectedUser = [
                 'id' => $cliente->id,
                 'text' => "$cliente->id | $cliente->Nombre"
             ];
-        }
-        else {
+        } else {
             $selectedUser = null;
         }
+
+        session()->put([
+            'PuntoVenta' => $punto_venta ?? ($orden_trabajo->PuntoVenta ?? ''),
+            'IdCliente' => $id_cliente ?? ($orden_trabajo->IdCliente ?? ($cliente->id ?? '')),
+            'Numero' => $numero ?? ($orden_trabajo->Numero ?? ''),
+            'FechaEmision' => $fecha_emision ?? ($orden_trabajo->FechaEmision ?? now()->toDateString()),
+            'NumeroRemitoCliente' => $numero_remito_cliente ?? ($orden_trabajo->NumeroRemitoCliente ?? ''),
+        ]);
 
         return view('produccion.orden-trabajo.edit', compact('orden_trabajo', 'items_orden_trabajo', 'clientes', 'pto_ventas', 'selectedUser'));
     }

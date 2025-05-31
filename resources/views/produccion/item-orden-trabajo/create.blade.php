@@ -16,7 +16,7 @@
             <x-slot name="name">PuntoVenta</x-slot>
             <x-slot name="option">
                 @foreach ($pto_ventas as $pto_venta)
-                    <option value="{{$pto_venta->id}}" {{$pto_venta->id == $orden_trabajo->PuntoVenta ? 'selected' : ''}}>{{$pto_venta->Nombre}}</option>                            
+                    <option value="{{$pto_venta->id}}" {{$pto_venta->id == $punto_venta ? 'selected' : ''}}>{{$pto_venta->Nombre}}</option>                            
                 @endforeach
             </x-slot>
             <x-slot name="message"></x-slot>
@@ -28,7 +28,7 @@
             <x-slot name="name">IdCliente</x-slot>
             <x-slot name="option">
                 @foreach ($clientes as $cliente)
-                    <option value="{{$cliente->id}}" {{$cliente->id == $orden_trabajo->IdCliente ? 'selected' : ''}}>{{$cliente->id}} | {{$cliente->Nombre}}</option>                            
+                    <option value="{{$cliente->id}}" {{$cliente->id == $id_cliente ? 'selected' : ''}}>{{$cliente->id}} | {{$cliente->Nombre}}</option>                            
                 @endforeach
             </x-slot>
             <x-slot name="message"></x-slot>
@@ -41,7 +41,7 @@
             <x-slot name="label">Número</x-slot>
             <x-slot name="name">Numero</x-slot>
             <x-slot name="placeholder"></x-slot>
-            <x-slot name="value">{{old('Numero', $orden_trabajo->Numero)}}</x-slot>
+            <x-slot name="value">{{old('Numero', $numero)}}</x-slot>
         <x-slot name="message"></x-slot>
         <x-slot name="error"></x-slot>
         </x-form-input-disabled>
@@ -49,7 +49,7 @@
         <x-form-input-date-disabled>
             <x-slot name="label">Fecha de Emisión</x-slot>
             <x-slot name="name">FechaEmision</x-slot>
-            <x-slot name="value">{{ now()->toDateString() }}</x-slot>
+            <x-slot name="value">{{old('FechaEmision', $fecha_emision)}}</x-slot>
         </x-form-input-date-disabled>
     </div>
 
@@ -58,7 +58,7 @@
         <x-slot name="label">N° Remito Cliente</x-slot>
         <x-slot name="name">NumeroRemitoCliente</x-slot>
         <x-slot name="placeholder"></x-slot>
-        <x-slot name="value">{{old('NumeroRemitoCliente', $orden_trabajo->NumeroRemitoCliente)}}</x-slot>
+        <x-slot name="value">{{old('NumeroRemitoCliente', $numero_remito_cliente)}}</x-slot>
         <x-slot name="message"></x-slot>
         <x-slot name="error"></x-slot>
         </x-form-input-disabled>
@@ -73,7 +73,13 @@
 
             <div class="col-md-4 mb-3">
 
-              <input type="hidden" name="IdOrdenTrabajo" value="{{$orden_trabajo->id}}">
+                <input type="hidden" name="IdOrdenTrabajo" value="{{$orden_trabajo->id}}">
+                <input type="hidden" name="PuntoVenta" value="{{ $punto_venta }}">
+                <input type="hidden" name="IdCliente" value="{{ $id_cliente }}">
+                <input type="hidden" name="Numero" value="{{ $numero }}">
+                <input type="hidden" name="FechaEmision" value="{{ $fecha_emision }}">
+                <input type="hidden" name="NumeroRemitoCliente" value="{{ $numero_remito_cliente }}">
+
 
                 <x-form-input-default>
                     <x-slot name="label">Item Nro</x-slot>
@@ -333,11 +339,35 @@
                 <x-slot name="text">Añadir</x-slot>
                 <x-slot name="color">success</x-slot>
             </x-form-button>
-            <x-button>
+            <x-button-js>
                 <x-slot name="text">Volver</x-slot>
                 <x-slot name="color">danger</x-slot>
                 <x-slot name="href">{{ route('orden-trabajo.edit', $orden_trabajo) }}</x-slot>
-            </x-button>
+                <x-slot name="js">onclick="redirigirAVolverConInputs()"</x-slot>
+            </x-button-js>
         </x-slot>
     </x-form>
+
+    <script>
+        function redirigirAVolverConInputs() {
+            const ordenTrabajoId = @json($orden_trabajo->id);
+
+            const puntoVenta = document.querySelector('[name="PuntoVenta"]').value;
+            const idCliente = document.querySelector('[name="IdCliente"]').value;
+            const numero = document.querySelector('[name="Numero"]').value;
+            const fechaEmision = document.querySelector('[name="FechaEmision"]').value;
+            const numeroRemitoCliente = document.querySelector('[name="NumeroRemitoCliente"]').value;
+
+            const url = new URL(`{{ url('/orden-trabajo') }}/${ordenTrabajoId}/edit`);
+            url.searchParams.append('PuntoVenta', puntoVenta);
+            url.searchParams.append('IdCliente', idCliente);
+            url.searchParams.append('Numero', numero);
+            url.searchParams.append('FechaEmision', fechaEmision);
+            url.searchParams.append('NumeroRemitoCliente', numeroRemitoCliente);
+
+            window.location.href = url.toString();
+        }
+    </script>
+
+
 </x-layout>
