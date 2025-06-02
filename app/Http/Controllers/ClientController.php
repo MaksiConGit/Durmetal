@@ -129,18 +129,26 @@ class ClientController extends Controller
     {
         $query = $request->input('q');
 
-        $clientes = \App\Models\Client::where('Nombre', 'like', '%' . $query . '%')
-            ->orderBy('id')
-            ->paginate(10);
+        $clientes = \App\Models\Client::query()
+            ->when($query, function ($q) use ($query) {
+                $q->where('nombre', 'like', '%' . $query . '%');
 
-        return response()->json([
-            'items' => $clientes->map(function ($cliente) {
+                if (is_numeric($query)) {
+                    $q->orWhere('id', $query);
+                }
+            })
+            ->get()
+            ->map(function ($cliente) {
                 return [
                     'id' => $cliente->id,
-                    'text' => "$cliente->id | $cliente->Nombre"
+                    'text' => "{$cliente->id} | {$cliente->Nombre}"
                 ];
-            }),
-            'more' => $clientes->hasMorePages()
+            });
+
+        return response()->json([
+            'items' => $clientes,
+            'more' => false // si no usás paginación
         ]);
     }
+
 }    
