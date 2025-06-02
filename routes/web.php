@@ -9,6 +9,7 @@ use App\Http\Controllers\OrdenTrabajoController;
 use App\Http\Controllers\OrdenTrabajoExportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramacionController;
+use App\Http\Controllers\ProgramacionExportController;
 use App\Http\Controllers\TuControlador;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/item-orden-trabajo/{item_orden_trabajo}', [ItemOrdenTrabajoController::class, 'destroy'])->name('item-orden-trabajo.destroy');
     Route::get('/exportar-orden/{id}', [OrdenTrabajoExportController::class, 'export'])->name('orden-trabajo.export');
 
+    Route::get('/programacion/export', [ProgramacionExportController::class, 'export'])->name('programacion.export');
     Route::resource('programacion', ProgramacionController::class)->names('programacion');
 
 });

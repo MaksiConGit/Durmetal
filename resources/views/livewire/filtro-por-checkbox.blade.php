@@ -36,7 +36,7 @@
 
             <x-data-table-no-plus>
                 <x-slot name="table_title">Items Órden de Trabajo</x-slot>
-                <x-slot name="export_route"></x-slot>
+                <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
                 <x-slot name="add_text">Añadir Item</x-slot>
 
                 <x-slot name="head_tr">
