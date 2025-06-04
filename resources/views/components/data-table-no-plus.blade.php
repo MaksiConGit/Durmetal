@@ -45,10 +45,6 @@
                   <i class="fa fa-download"></i>
                   Exportar
                 </a>
-                <a href="{{ $create_route }}" class="btn btn-primary btn-round">
-                  <i class="fa fa-plus"></i>
-                  {{ $add_text }}
-                </a>
               </div>
             </div>
           </div>

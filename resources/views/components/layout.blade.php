@@ -314,12 +314,12 @@
                 <div class="collapse" id="tables">
                   <ul class="nav nav-collapse">
                     <li>
-                      <a href="tables/tables.html">
+                      <a href="{{ route('orden-trabajo.create') }}">
                         <span class="sub-item">Ingreso de materiales</span>
                       </a>
                     </li>
                     <li>
-                      <a href="tables/datatables.html">
+                      <a href="{{ route('programacion.index') }}">
                         <span class="sub-item">Programación</span>
                       </a>
                     </li>

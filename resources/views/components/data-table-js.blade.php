@@ -45,10 +45,10 @@
                   <i class="fa fa-download"></i>
                   Exportar
                 </a>
-                <a href="{{ $create_route }}" class="btn btn-primary btn-round">
-                  <i class="fa fa-plus"></i>
-                  {{ $add_text }}
-                </a>
+                  <a href="#" {{$js}} class="btn btn-primary btn-round">
+                    <i class="fa fa-plus"></i>
+                    Añadir Item
+                  </a>
               </div>
             </div>
           </div>
@@ -92,5 +92,6 @@
         $("#addRowModal").modal("hide");
       });
     });
+
   </script>
   

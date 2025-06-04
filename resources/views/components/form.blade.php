@@ -1,5 +1,5 @@
-<div class="container">
-    <div class="page-inner">
+{{-- <div class="container"> --}}
+    {{-- <div class="page-inner"> --}}
       <div class="row">
         <div class="col-md-12">
           <form action="{{ $action }}" method="POST">
@@ -21,6 +21,6 @@
           </form>
         </div>
       </div>
-    </div>
-  </div>
+    {{-- </div> --}}
+  {{-- </div> --}}
   

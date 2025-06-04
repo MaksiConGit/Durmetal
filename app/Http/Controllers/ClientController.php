@@ -124,4 +124,31 @@ class ClientController extends Controller
     
         return redirect()->route('clients.index');
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+
+        $clientes = \App\Models\Client::query()
+            ->when($query, function ($q) use ($query) {
+                $q->where('nombre', 'like', '%' . $query . '%');
+
+                if (is_numeric($query)) {
+                    $q->orWhere('id', $query);
+                }
+            })
+            ->get()
+            ->map(function ($cliente) {
+                return [
+                    'id' => $cliente->id,
+                    'text' => "{$cliente->id} | {$cliente->Nombre}"
+                ];
+            });
+
+        return response()->json([
+            'items' => $clientes,
+            'more' => false // si no usás paginación
+        ]);
+    }
+
 }    
