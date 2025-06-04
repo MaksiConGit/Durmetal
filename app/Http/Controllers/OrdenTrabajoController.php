@@ -32,12 +32,15 @@ class OrdenTrabajoController extends Controller
 
         $numero = $validated['Numero'];
 
+        $data = $request->all();
+
         if (OrdenTrabajo::where('Numero', $numero)->exists()) {
             $orden_trabajo = OrdenTrabajo::where('Numero', $numero)->first();
-        } else {
-
-            $data = $request->all();
-
+            $orden_trabajo->update([
+                'PuntoVenta' => $data['pto_venta_id'],
+            ]);
+        }
+        else {
             $orden_trabajo = OrdenTrabajo::create([
                     'PuntoVenta' => $data['pto_venta_id'],
                     'Numero' => $data['Numero'],
