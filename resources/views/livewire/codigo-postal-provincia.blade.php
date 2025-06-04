@@ -12,9 +12,11 @@
             @endforeach
         </x-slot>
         <x-slot name="message">
-            @error('CP')
-                {{$message}}
-            @enderror
+            @if ($errors->has('CP'))
+                {{ $errors->first('CP') }}
+            @elseif (old('CP'))
+                Todo correcto
+            @endif
         </x-slot>
         <x-slot name="error">
             @if ($errors->has('CP'))
