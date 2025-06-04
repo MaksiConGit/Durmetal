@@ -34,6 +34,7 @@ class StoreItemOrdenTrabajoRequest extends FormRequest
             'Estado' => 'required|string|max:50',
             'Observaciones' => 'nullable|string|max:255',
             'ItemNumero' => 'required|integer',
+            'Cantidad' => 'required|numeric|min:0',
             
             // 'NroDeposito' => 'required|integer',
             // 'CodigoComplejidad' => 'required|integer',

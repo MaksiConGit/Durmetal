@@ -223,14 +223,15 @@
                     <x-slot name="message">
                         @if ($errors->has('DurezaSolicitadaMinima'))
                             {{ $errors->first('DurezaSolicitadaMinima') }}
-                        @elseif (old('DurezaSolicitadaMinima'))
+                        @elseif (session()->has('_old_input') && old('DurezaSolicitadaMinima') !== null && ! $errors->has('DurezaSolicitadaMinima'))
                             Todo correcto
                         @endif
                     </x-slot>
+
                     <x-slot name="error">
                         @if ($errors->has('DurezaSolicitadaMinima'))
                             is-invalid
-                        @elseif (old('DurezaSolicitadaMinima') && ! $errors->has('DurezaSolicitadaMinima'))
+                        @elseif (session()->has('_old_input') && old('DurezaSolicitadaMinima') !== null && ! $errors->has('DurezaSolicitadaMinima'))
                             is-valid
                         @endif
                     </x-slot>
@@ -296,17 +297,18 @@
                     <x-slot name="message">
                         @if ($errors->has('DurezaSolicitadaMaxima'))
                             {{ $errors->first('DurezaSolicitadaMaxima') }}
-                        @elseif (old('DurezaSolicitadaMaxima'))
+                        @elseif (session()->has('_old_input') && old('DurezaSolicitadaMaxima') !== null && ! $errors->has('DurezaSolicitadaMaxima'))
                             Todo correcto
                         @endif
                     </x-slot>
-                  <x-slot name="error">
-                      @if ($errors->has('DurezaSolicitadaMaxima'))
-                          is-invalid
-                      @elseif (old('DurezaSolicitadaMaxima') && ! $errors->has('DurezaSolicitadaMaxima'))
-                          is-valid
-                      @endif
-                  </x-slot>
+
+                    <x-slot name="error">
+                        @if ($errors->has('DurezaSolicitadaMaxima'))
+                            is-invalid
+                        @elseif (session()->has('_old_input') && old('DurezaSolicitadaMaxima') !== null && ! $errors->has('DurezaSolicitadaMaxima'))
+                            is-valid
+                        @endif
+                    </x-slot>
               </x-form-input-default>
 
               <x-form-input-select>
