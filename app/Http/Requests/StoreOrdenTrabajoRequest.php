@@ -14,11 +14,11 @@ class StoreOrdenTrabajoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'PuntoVenta' => 'required|integer',
+            'PuntoVenta' => 'required|exists:pto_venta,id',
             'Numero' => 'required|integer',
             'NumeroRemitoCliente' => 'nullable|integer',
-            'FechaEmision' => 'nullable|date',
-            'IdCliente' => 'nullable|integer|exists:cliente,id',
+            'FechaEmision' => 'required|date',
+            'IdCliente' => 'required|integer|exists:cliente,id',
 
             // 'Letra' => 'nullable|string|max:1',
             // 'NumeroCompleto' => 'nullable|string|max:255',
