@@ -106,7 +106,7 @@
                     <x-slot name="label">Cantidad</x-slot>
                     <x-slot name="name">Cantidad</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('Cantidad')}}</x-slot>
+                    <x-slot name="value">{{old('Cantidad', "1.00")}}</x-slot>
                     <x-slot name="message">
                         @if ($errors->has('Cantidad'))
                             {{ $errors->first('Cantidad') }}
@@ -198,7 +198,7 @@
                     <x-slot name="label">Peso</x-slot>
                     <x-slot name="name">Peso</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('Peso')}}</x-slot>
+                    <x-slot name="value">{{old('Peso', "0.00")}}</x-slot>
                     <x-slot name="message">
                         @if ($errors->has('Peso'))
                             {{ $errors->first('Peso') }}
@@ -219,7 +219,7 @@
                     <x-slot name="label">DSMIN</x-slot>
                     <x-slot name="name">DurezaSolicitadaMinima</x-slot>
                     <x-slot name="placeholder"></x-slot>
-                    <x-slot name="value">{{old('DurezaSolicitadaMinima')}}</x-slot>
+                    <x-slot name="value">{{old('DurezaSolicitadaMinima', 0)}}</x-slot>
                     <x-slot name="message">
                         @if ($errors->has('DurezaSolicitadaMinima'))
                             {{ $errors->first('DurezaSolicitadaMinima') }}
@@ -292,7 +292,7 @@
                   <x-slot name="label">DSMAX</x-slot>
                   <x-slot name="name">DurezaSolicitadaMaxima</x-slot>
                   <x-slot name="placeholder"></x-slot>
-                  <x-slot name="value">{{old('DurezaSolicitadaMaxima')}}</x-slot>
+                  <x-slot name="value">{{old('DurezaSolicitadaMaxima', 0)}}</x-slot>
                     <x-slot name="message">
                         @if ($errors->has('DurezaSolicitadaMaxima'))
                             {{ $errors->first('DurezaSolicitadaMaxima') }}
