@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/exportar-orden/{id}', [OrdenTrabajoExportController::class, 'export'])->name('orden-trabajo.export');
 
     Route::get('/programacion/export', [ProgramacionExportController::class, 'export'])->name('programacion.export');
+    Route::get('programacion/{item_orden_trabajo}', [ProgramacionController::class, 'show'])->name('programacion.show');
     Route::resource('programacion', ProgramacionController::class)->names('programacion');
 
 });
