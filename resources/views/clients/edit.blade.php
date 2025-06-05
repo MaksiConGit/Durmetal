@@ -27,17 +27,19 @@
                     <x-slot name="placeholder"></x-slot>
                     <x-slot name="value">{{old('id', $client->id)}}</x-slot>
                     <x-slot name="message">
-                        @error('id')
-                            {{$message}}
-                        @enderror
-                    </x-slot>
-                    <x-slot name="error">
                         @if ($errors->has('id'))
-                            is-invalid
-                        @elseif (old('id') && ! $errors->has('id'))
-                            is-valid
+                            {{ $errors->first('id') }}
+                        @elseif (old('id'))
+                            Todo correcto
                         @endif
                     </x-slot>
+                  <x-slot name="error">
+                      @if ($errors->has('id'))
+                          is-invalid
+                      @elseif (old('id') && ! $errors->has('id'))
+                          is-valid
+                      @endif
+                  </x-slot>
                 </x-form-input-default>
                             
                 <x-form-input-default>
@@ -46,17 +48,19 @@
                     <x-slot name="placeholder"></x-slot>
                     <x-slot name="value">{{old('Domicilio', $client->Domicilio)}}</x-slot>
                     <x-slot name="message">
-                        @error('Domicilio')
-                            {{$message}}
-                        @enderror
-                    </x-slot>
-                    <x-slot name="error">
                         @if ($errors->has('Domicilio'))
-                            is-invalid
-                        @elseif (old('Domicilio') && ! $errors->has('Domicilio'))
-                            is-valid
+                            {{ $errors->first('Domicilio') }}
+                        @elseif (old('Domicilio'))
+                            Todo correcto
                         @endif
                     </x-slot>
+                  <x-slot name="error">
+                      @if ($errors->has('Domicilio'))
+                          is-invalid
+                      @elseif (old('Domicilio') && ! $errors->has('Domicilio'))
+                          is-valid
+                      @endif
+                  </x-slot>
                 </x-form-input-default>
 
                 @livewire('localidad-edit', ['initialCityId' => $client->IdLocalidad])
@@ -67,17 +71,19 @@
                     <x-slot name="placeholder"></x-slot>
                     <x-slot name="value">{{old('Telefono', $client->Telefono)}}</x-slot>
                     <x-slot name="message">
-                        @error('Telefono')
-                            {{$message}}
-                        @enderror
-                    </x-slot>
-                    <x-slot name="error">
                         @if ($errors->has('Telefono'))
-                            is-invalid
-                        @elseif (old('Telefono') && ! $errors->has('Telefono'))
-                            is-valid
+                            {{ $errors->first('Telefono') }}
+                        @elseif (old('Telefono'))
+                            Todo correcto
                         @endif
                     </x-slot>
+                  <x-slot name="error">
+                      @if ($errors->has('Telefono'))
+                          is-invalid
+                      @elseif (old('Telefono') && ! $errors->has('Telefono'))
+                          is-valid
+                      @endif
+                  </x-slot>
                 </x-form-input-default>
 
                 <x-form-input-select>
@@ -88,17 +94,19 @@
                             <option value="CUIL" {{$client->TipoDocumento == 'CUIL' ? 'selected' : ''}}>CUIL</option>
                     </x-slot>
                     <x-slot name="message">
-                        @error('TipoDocumento')
-                            {{$message}}
-                        @enderror
-                    </x-slot>
-                    <x-slot name="error">
                         @if ($errors->has('TipoDocumento'))
-                            is-invalid
-                        @elseif (old('TipoDocumento') && ! $errors->has('TipoDocumento'))
-                            is-valid
+                            {{ $errors->first('TipoDocumento') }}
+                        @elseif (old('TipoDocumento'))
+                            Todo correcto
                         @endif
                     </x-slot>
+                  <x-slot name="error">
+                      @if ($errors->has('TipoDocumento'))
+                          is-invalid
+                      @elseif (old('TipoDocumento') && ! $errors->has('TipoDocumento'))
+                          is-valid
+                      @endif
+                  </x-slot>
                 </x-form-input-select>
 
                 <x-form-input-select>
@@ -112,17 +120,19 @@
                         @endforeach
                     </x-slot>
                     <x-slot name="message">
-                        @error('IdCalificacionCliente')
-                            {{$message}}
-                        @enderror
-                    </x-slot>
-                    <x-slot name="error">
                         @if ($errors->has('IdCalificacionCliente'))
-                            is-invalid
-                        @elseif (old('IdCalificacionCliente') && ! $errors->has('IdCalificacionCliente'))
-                            is-valid
+                            {{ $errors->first('IdCalificacionCliente') }}
+                        @elseif (old('IdCalificacionCliente'))
+                            Todo correcto
                         @endif
                     </x-slot>
+                  <x-slot name="error">
+                      @if ($errors->has('IdCalificacionCliente'))
+                          is-invalid
+                      @elseif (old('IdCalificacionCliente') && ! $errors->has('IdCalificacionCliente'))
+                          is-valid
+                      @endif
+                  </x-slot>
                 </x-form-input-select>
 
                 <input type="hidden" name="Activo" value="0">
@@ -142,17 +152,19 @@
                     <x-slot name="placeholder"></x-slot>
                     <x-slot name="value">{{old('Nombre', $client->Nombre)}}</x-slot>
                     <x-slot name="message">
-                        @error('Nombre')
-                            {{$message}}
-                        @enderror
-                    </x-slot>
-                    <x-slot name="error">
                         @if ($errors->has('Nombre'))
-                            is-invalid
-                        @elseif (old('Nombre') && ! $errors->has('Nombre'))
-                            is-valid
+                            {{ $errors->first('Nombre') }}
+                        @elseif (old('Nombre'))
+                            Todo correcto
                         @endif
                     </x-slot>
+                  <x-slot name="error">
+                      @if ($errors->has('Nombre'))
+                          is-invalid
+                      @elseif (old('Nombre') && ! $errors->has('Nombre'))
+                          is-valid
+                      @endif
+                  </x-slot>
                 </x-form-input-default>
 
                 @livewire('codigo-postal-provincia-edit', ['initialCityId' => $client->IdLocalidad])
@@ -168,17 +180,19 @@
                         @endforeach
                     </x-slot>
                     <x-slot name="message">
-                        @error('IdCondiciónIVA')
-                            {{$message}}
-                        @enderror
-                    </x-slot>
-                    <x-slot name="error">
-                        @if ($errors->has('IdCondiciónIVA'))
-                            is-invalid
-                        @elseif (old('IdCondiciónIVA') && ! $errors->has('IdCondiciónIVA'))
-                            is-valid
+                        @if ($errors->has('IdCondicionIVA'))
+                            {{ $errors->first('IdCondicionIVA') }}
+                        @elseif (old('IdCondicionIVA'))
+                            Todo correcto
                         @endif
                     </x-slot>
+                  <x-slot name="error">
+                      @if ($errors->has('IdCondicionIVA'))
+                          is-invalid
+                      @elseif (old('IdCondicionIVA') && ! $errors->has('IdCondicionIVA'))
+                          is-valid
+                      @endif
+                  </x-slot>
                 </x-form-input-select>
                 
                 <x-form-input-default>
@@ -187,17 +201,19 @@
                     <x-slot name="placeholder"></x-slot>
                     <x-slot name="value">{{old('NroDocumento', $client->NroDocumento)}}</x-slot>
                     <x-slot name="message">
-                        @error('NroDocumento')
-                            {{$message}}
-                        @enderror
-                    </x-slot>
-                    <x-slot name="error">
                         @if ($errors->has('NroDocumento'))
-                            is-invalid
-                        @elseif (old('NroDocumento') && ! $errors->has('NroDocumento'))
-                            is-valid
+                            {{ $errors->first('NroDocumento') }}
+                        @elseif (old('NroDocumento'))
+                            Todo correcto
                         @endif
                     </x-slot>
+                  <x-slot name="error">
+                      @if ($errors->has('NroDocumento'))
+                          is-invalid
+                      @elseif (old('NroDocumento') && ! $errors->has('NroDocumento'))
+                          is-valid
+                      @endif
+                  </x-slot>
                 </x-form-input-default>
     
                 <x-form-input-default>
@@ -206,17 +222,19 @@
                     <x-slot name="placeholder"></x-slot>
                     <x-slot name="value">{{old('Saldo', $client->Saldo)}}</x-slot>
                     <x-slot name="message">
-                        @error('Saldo')
-                            {{$message}}
-                        @enderror
-                    </x-slot>
-                    <x-slot name="error">
                         @if ($errors->has('Saldo'))
-                            is-invalid
-                        @elseif (old('Saldo') && ! $errors->has('Saldo'))
-                            is-valid
+                            {{ $errors->first('Saldo') }}
+                        @elseif (old('Saldo'))
+                            Todo correcto
                         @endif
                     </x-slot>
+                  <x-slot name="error">
+                      @if ($errors->has('Saldo'))
+                          is-invalid
+                      @elseif (old('Saldo') && ! $errors->has('Saldo'))
+                          is-valid
+                      @endif
+                  </x-slot>
                 </x-form-input-default>
 
             </div>

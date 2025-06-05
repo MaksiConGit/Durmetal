@@ -27,16 +27,18 @@
                 @endforeach
                 </x-slot>
                 <x-slot name="message">
-                @error('PuntoVenta')
-                    {{$message}}
-                @enderror
+                    @if ($errors->has('PuntoVenta'))
+                        {{ $errors->first('PuntoVenta') }}
+                    @elseif (old('PuntoVenta'))
+                        Todo correcto
+                    @endif
                 </x-slot>
                 <x-slot name="error">
-                @if ($errors->has('PuntoVenta'))
-                    is-invalid
-                @elseif (old('PuntoVenta') && ! $errors->has('PuntoVenta'))
-                    is-valid
-                @endif
+                    @if ($errors->has('PuntoVenta'))
+                        is-invalid
+                    @elseif (old('PuntoVenta') && ! $errors->has('PuntoVenta'))
+                        is-valid
+                    @endif
                 </x-slot>
             </x-form-input-select>
         </div>
@@ -48,15 +50,17 @@
             <x-slot name="placeholder"></x-slot>
             <x-slot name="value">{{old('Numero', session('Numero'))}}</x-slot>
             <x-slot name="message">
-                @error('Numero')
-                {{$message}}
-                @enderror
+                @if ($errors->has('Numero'))
+                    {{ $errors->first('Numero') }}
+                @elseif (old('Numero'))
+                    Todo correcto
+                @endif
             </x-slot>
             <x-slot name="error">
                 @if ($errors->has('Numero'))
-                is-invalid
+                    is-invalid
                 @elseif (old('Numero') && ! $errors->has('Numero'))
-                is-valid
+                    is-valid
                 @endif
             </x-slot>
             </x-form-input-default>
@@ -71,30 +75,46 @@
 
         <div class="col-md-3">
             <x-form-input-date>
-            <x-slot name="label">Fecha de Emisión</x-slot>
-            <x-slot name="name">FechaEmision</x-slot>
-            <x-slot name="value">{{old('FechaEmision', session('FechaEmision'))}}</x-slot>
+                <x-slot name="label">Fecha de Emisión</x-slot>
+                <x-slot name="name">FechaEmision</x-slot>
+                <x-slot name="value">{{old('FechaEmision', session('FechaEmision'))}}</x-slot>
+                <x-slot name="message">
+                    @if ($errors->has('FechaEmision'))
+                        {{ $errors->first('FechaEmision') }}
+                    @elseif (old('FechaEmision'))
+                        Todo correcto
+                    @endif
+                </x-slot>
+                <x-slot name="error">
+                    @if ($errors->has('FechaEmision'))
+                        is-invalid
+                    @elseif (old('FechaEmision') && ! $errors->has('FechaEmision'))
+                        is-valid
+                    @endif
+                </x-slot>
             </x-form-input-date>
         </div>
 
         <div class="col-md-3">
             <x-form-input-default>
-            <x-slot name="label">N° Remito Cliente</x-slot>
-            <x-slot name="name">NumeroRemitoCliente</x-slot>
-            <x-slot name="placeholder"></x-slot>
-            <x-slot name="value">{{old('NumeroRemitoCliente', session('NumeroRemitoCliente'))}}</x-slot>
-            <x-slot name="message">
-                @error('NumeroRemitoCliente')
-                {{$message}}
-                @enderror
-            </x-slot>
-            <x-slot name="error">
-                @if ($errors->has('NumeroRemitoCliente'))
-                is-invalid
-                @elseif (old('NumeroRemitoCliente') && ! $errors->has('NumeroRemitoCliente'))
-                is-valid
-                @endif
-            </x-slot>
+                <x-slot name="label">N° Remito Cliente</x-slot>
+                <x-slot name="name">NumeroRemitoCliente</x-slot>
+                <x-slot name="placeholder"></x-slot>
+                <x-slot name="value">{{old('NumeroRemitoCliente', session('NumeroRemitoCliente'))}}</x-slot>
+                <x-slot name="message">
+                    @if ($errors->has('NumeroRemitoCliente'))
+                        {{ $errors->first('NumeroRemitoCliente') }}
+                    @elseif (session()->has('_old_input') && ! $errors->has('NumeroRemitoCliente'))
+                        Todo correcto
+                    @endif
+                </x-slot>
+                <x-slot name="error">
+                    @if ($errors->has('NumeroRemitoCliente'))
+                        is-invalid
+                    @elseif (session()->has('_old_input') && ! $errors->has('NumeroRemitoCliente'))
+                        is-valid
+                    @endif
+                </x-slot>
             </x-form-input-default>
         </div>
 
@@ -103,12 +123,24 @@
     <div class="row mb-3">
 
         <div class="col-md-5">
+
+            @php
+                $message = $errors->first('IdCliente') 
+                    ?: (old('IdCliente') ? 'Todo correcto' : null);
+
+                $error = $errors->has('IdCliente')
+                    ? 'is-invalid'
+                    : (old('IdCliente') ? 'is-valid' : null);
+            @endphp
+
             @include('components.form-input-select2', [
             'name' => 'IdCliente',
             'label' => 'Cliente',
             'route' => route('clientes.buscar'),
             'placeholder' => 'Selecciona un cliente',
-            'selected' => $clienteSeleccionado ?? null
+            'selected' => $clienteSeleccionado ?? null,
+            'message' => $message,
+            'error' => $error,
             ])
         </div>
 

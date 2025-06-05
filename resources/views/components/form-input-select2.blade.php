@@ -26,11 +26,13 @@
 
 <div class="form-group">
   <label for="{{$name}}">{{$label}}</label>
-  <select class="js-example-basic-single form-select form-control"
+  <select class="js-example-basic-single form-select form-control {{$error}}"
     id="{{$name}}"
     name="{{$name}}"
   >
   </select>
+    <small class="form-text text-muted"
+  >{{$message}}</small>
 </div>
 
 @section('css')
