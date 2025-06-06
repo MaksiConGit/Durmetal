@@ -1,5 +1,5 @@
 <x-layout>
-    <x-slot name="title">Ventas</x-slot>
+    <x-slot name="title">Tableros</x-slot>
     <x-slot name="breadcrumbs">
         <li class="nav-home">
             <a href="#"><i class="fas fa-layer-group"></i></a>
