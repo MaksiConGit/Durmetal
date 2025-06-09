@@ -44,8 +44,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/item-orden-trabajo/{item_orden_trabajo}', [ItemOrdenTrabajoController::class, 'destroy'])->name('item-orden-trabajo.destroy');
     Route::get('/exportar-orden/{id}', [OrdenTrabajoExportController::class, 'export'])->name('orden-trabajo.export');
 
-    Route::get('/programacion/export', [ProgramacionExportController::class, 'export'])->name('programacion.export');
-    Route::resource('programacion', ProgramacionController::class)->names('programacion');
+    Route::get('programacion', [ProgramacionController::class, 'index'])->name('programacion.index');
+    Route::get('programacion/create', [ProgramacionController::class, 'create'])->name('programacion.create');
+    Route::post('programacion', [ProgramacionController::class, 'store'])->name('programacion.store');
+    Route::get('programacion/export', [ProgramacionExportController::class, 'export'])->name('programacion.export');
+    Route::get('programacion/{item_orden_trabajo}', [ProgramacionController::class, 'show'])->name('programacion.show');
 
 });
 

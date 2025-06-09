@@ -9,6 +9,7 @@ use App\Models\ItemOrdenTrabajo;
 use App\Models\Material;
 use App\Models\OrdenTrabajo;
 use App\Models\PointOfSale;
+use App\Models\Programacion;
 use App\Models\PuntoDeVenta;
 use App\Models\Tratamiento;
 use Illuminate\Http\Request;

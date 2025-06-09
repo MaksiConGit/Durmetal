@@ -30,4 +30,20 @@ class Programacion extends Model
         'ActualizadoPor',
         'Activo',
     ];
+
+    public function tipoProgramacion()
+    {
+        return $this->belongsTo(TipoProgramacion::class, 'IdTipoProgramacion');
+    }
+
+    public function medioEnfriamiento()
+    {
+        return $this->belongsTo(MedioEnfriamiento::class, 'IdMedioEnfriamiento');
+    }
+
+    public function ejecutadoPorOperador()
+    {
+        return $this->belongsTo(User::class, 'EjecutadoPorOperador');
+    }
+
 }

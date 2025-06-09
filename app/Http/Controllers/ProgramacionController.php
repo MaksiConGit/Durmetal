@@ -78,4 +78,13 @@ class ProgramacionController extends Controller
     
         return redirect()->route('index');
     }
+    
+    public function show(ItemOrdenTrabajo $item_orden_trabajo)
+    {
+        // dd($item_orden_trabajo);
+        $programaciones = Programacion::where('IdItemOrdenTrabajo', $item_orden_trabajo->id)->get();
+
+        return view('produccion.programacion.show', compact('item_orden_trabajo', 'programaciones'));
+    }
+
 }
