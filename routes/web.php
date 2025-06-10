@@ -1,6 +1,7 @@
 <?php
 
 use App\Exports\OrdenesTrabajoExport;
+use App\Http\Controllers\CargaController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ExportController;
@@ -49,6 +50,11 @@ Route::middleware('auth')->group(function () {
     Route::post('programacion', [ProgramacionController::class, 'store'])->name('programacion.store');
     Route::get('programacion/export', [ProgramacionExportController::class, 'export'])->name('programacion.export');
     Route::get('programacion/{item_orden_trabajo}', [ProgramacionController::class, 'show'])->name('programacion.show');
+
+    Route::get('/cargas', [CargaController::class, 'index'])->name('cargas.index');
+    // Route::get('/cargas/{programacion}', [CargaController::class, 'show'])->name('cargas.show');
+    Route::get('cargas/{ids}', [CargaController::class, 'show'])->name('cargas.show');
+
 
 });
 

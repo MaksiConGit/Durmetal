@@ -29,4 +29,19 @@ class Carga extends Model
         'NumeroHorno',
         'FechaCargaFechaDescargaNumeroHorno',
     ];
+
+    public function medioEnfriamiento()
+    {
+        return $this->belongsTo(MedioEnfriamiento::class, 'IdMedioEnfriamiento');
+    }
+
+    public function ejecutadoPorOperador()
+    {
+        return $this->belongsTo(User::class, 'EjecutadoPorOperador');
+    }
+
+    public function programaciones()
+    {
+        return $this->belongsToMany(ItemOrdenTrabajo::class, 'IdItemOrdenTrabajo');
+    }
 }

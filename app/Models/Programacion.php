@@ -46,4 +46,9 @@ class Programacion extends Model
         return $this->belongsTo(User::class, 'EjecutadoPorOperador');
     }
 
+    public function itemOrdenTrabajo()
+    {
+        return $this->belongsTo(ItemOrdenTrabajo::class, 'IdItemOrdenTrabajo');
+    }
+
 }
