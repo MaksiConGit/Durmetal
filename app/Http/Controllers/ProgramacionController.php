@@ -77,29 +77,6 @@ class ProgramacionController extends Controller
             }
         }
 
-        $next_numero = Carga::max('id') + 1;
-
-        Carga::create([
-            'Numero' => $next_numero,
-            'Referencia' => date('Y'),
-            'FechaCarga' => $data['FechaCarga'],
-            // 'HoraCarga' => ,
-            'FechaDescarga' => $data['FechaDescarga'],
-            // 'HoraDescarga' => ,
-            'TiempoProceso' => 0,
-            'TemperaturaProceso' => $data['Temperatura'],
-            'IdMedioEnfriamiento' => $data['IdMedioEnfriamiento'],
-            'EjecutadoPorOperador' => $data['EjecutadoPorOperador'],
-            'FechaCreacion' => now(),
-            'CreadoPor' => $user_id,
-            'FechaActualizacion' => now(),
-            'ActualizadoPor' => $user_id,
-            'Activo' => 1,
-            'NumeroReferencia' => $next_numero . "," . date('Y'),
-            'NumeroHorno' => $data['NumeroHorno'],
-            'FechaCargaFechaDescargaNumeroHorno' => $data['FechaCarga'] . $data['FechaDescarga'] . $data['NumeroHorno'],
-        ]);
-    
         return redirect()->route('index');
     }
     
