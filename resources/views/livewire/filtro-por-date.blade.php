@@ -6,7 +6,28 @@
         <x-slot name="inputs">
 
             <x-data-table-no-plus>
-                <x-slot name="table_title"></x-slot>
+                <x-slot name="table_title">
+                    <div class="d-flex gap-3 align-items-end">
+                        <x-form-input-date-livewire>
+                            <x-slot name="label">Desde Fecha Carga</x-slot>
+                            <x-slot name="name">FechaCarga</x-slot>
+                            <x-slot name="value">{{ old('FechaCarga') }}</x-slot>
+                            <x-slot name="message"></x-slot>
+                            <x-slot name="error"></x-slot>
+                            <x-slot name="livewire">wire:model.live="FechaCarga"</x-slot>
+                        </x-form-input-date-livewire>
+
+                        <x-form-input-date-livewire>
+                            <x-slot name="label">Hasta Fecha Descarga</x-slot>
+                            <x-slot name="name">FechaDescarga</x-slot>
+                            <x-slot name="value">{{ old('FechaDescarga') }}</x-slot>
+                            <x-slot name="message"></x-slot>
+                            <x-slot name="error"></x-slot>
+                            <x-slot name="livewire">wire:model.live="FechaDescarga"</x-slot>
+                        </x-form-input-date-livewire>
+                    </div>
+                </x-slot>
+
                 <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
                 <x-slot name="add_text">Añadir Item</x-slot>
 
