@@ -329,7 +329,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="tables/datatables.html">
+                      <a href="{{ route('cargas.index') }}">
                         <span class="sub-item">Cargas</span>
                       </a>
                     </li>

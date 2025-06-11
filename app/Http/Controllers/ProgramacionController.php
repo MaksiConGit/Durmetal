@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProgramacionRequest;
+use App\Models\Carga;
 use App\Models\Client;
 use App\Models\ItemOrdenTrabajo;
 use App\Models\MedioEnfriamiento;
@@ -43,6 +44,8 @@ class ProgramacionController extends Controller
         $user_id = Auth::id();
     
         $data = $request->all();
+        
+        // dd($data);
 
         foreach ($request->ItemOrdenTrabajoIds as $index => $itemOrdenTrabajoId) {
             if ($itemOrdenTrabajoId) {
@@ -75,7 +78,7 @@ class ProgramacionController extends Controller
 
             }
         }
-    
+
         return redirect()->route('index');
     }
     

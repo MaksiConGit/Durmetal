@@ -26,8 +26,8 @@ return new class extends Migration
             $table->string('Apto')->nullable();
             $table->boolean('Reproceso');
             $table->date('FechaCreacion')->nullable();
-            $table->date('FechaCarga');
-            $table->date('FechaDescarga');
+            $table->dateTime('FechaCarga');
+            $table->dateTime('FechaDescarga');
             $table->integer('Temperatura');
             $table->foreignId('IdMedioEnfriamiento')->constrained('medio_enfriamiento')
                                                     ->onDelete('restrict')

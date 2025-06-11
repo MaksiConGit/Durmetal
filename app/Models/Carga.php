@@ -4,37 +4,31 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Programacion extends Model
+class Carga extends Model
 {
-    protected $table = 'programacion';
+    protected $table = 'carga';
     public $timestamps = false;
 
     protected $fillable = [
-        'IdItemOrdenTrabajo',
-        'NumeroProgramacion',
-        'DurezaMinima',
-        'DurezaMaxima',
-        'IdTipoProgramacion',
-        'Cantidad',
-        'Apto',
-        'Reproceso',
-        'FechaCreacion',
+        'Numero',
+        'Referencia',
         'FechaCarga',
+        'HoraCarga',
         'FechaDescarga',
-        'Temperatura',
+        'HoraDescarga',
+        'TiempoProceso',
+        'TemperaturaProceso',
         'IdMedioEnfriamiento',
-        'NumeroHorno',
         'EjecutadoPorOperador',
+        'FechaCreacion',
         'CreadoPor',
         'FechaActualizacion',
         'ActualizadoPor',
         'Activo',
+        'NumeroReferencia',
+        'NumeroHorno',
+        'FechaCargaFechaDescargaNumeroHorno',
     ];
-
-    public function tipoProgramacion()
-    {
-        return $this->belongsTo(TipoProgramacion::class, 'IdTipoProgramacion');
-    }
 
     public function medioEnfriamiento()
     {
@@ -46,9 +40,8 @@ class Programacion extends Model
         return $this->belongsTo(User::class, 'EjecutadoPorOperador');
     }
 
-    public function itemOrdenTrabajo()
+    public function programaciones()
     {
-        return $this->belongsTo(ItemOrdenTrabajo::class, 'IdItemOrdenTrabajo');
+        return $this->belongsToMany(ItemOrdenTrabajo::class, 'IdItemOrdenTrabajo');
     }
-
 }
