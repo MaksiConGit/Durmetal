@@ -1,17 +1,23 @@
 <?php
 
-use App\Exports\OrdenesTrabajoExport;
+use App\Http\Controllers\AsignarFactorController;
 use App\Http\Controllers\CargaController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DurezaController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\FactorPremioController;
 use App\Http\Controllers\ItemOrdenTrabajoController;
+use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\MedioEnfriamientoController;
 use App\Http\Controllers\OrdenTrabajoController;
 use App\Http\Controllers\OrdenTrabajoExportController;
+use App\Http\Controllers\ProcesoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramacionController;
 use App\Http\Controllers\ProgramacionExportController;
-use App\Http\Controllers\TuControlador;
+use App\Http\Controllers\RepartirPremioController;
+use App\Http\Controllers\TratamientoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', function () {
@@ -56,6 +62,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/cargas/{ids}/edit', [CargaController::class, 'edit'])->name('cargas.edit');
     Route::put('/cargas/{ids}', [CargaController::class, 'update'])->name('cargas.update');
     Route::delete('/cargas/{programacion}', [CargaController::class, 'destroy'])->name('cargas.destroy');
+
+    Route::resource('actualizaciones/durezas', DurezaController::class)->names('durezas');
+    Route::resource('actualizaciones/materiales', MaterialController::class)->names('materiales')->parameters(['materiales' => 'material']);;
+    Route::resource('actualizaciones/tratamientos', TratamientoController::class)->names('tratamientos');
+    Route::resource('actualizaciones/medios-enfriamiento', MedioEnfriamientoController::class)->names('medios-enfriamiento');
+    Route::resource('actualizaciones/procesos', ProcesoController::class)->names('procesos');
+    Route::resource('actualizaciones/clientes', ClientController::class)->names('clientes');
+    Route::resource('actualizaciones/factores-premio', FactorPremioController::class)->names('factores-premio');
+    Route::resource('actualizaciones/asignar-factores', AsignarFactorController::class)->names('asignar-factores');
+    Route::resource('actualizaciones/repartir-premios', RepartirPremioController::class)->names('repartir-premios');
 
 });
 

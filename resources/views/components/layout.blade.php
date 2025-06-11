@@ -391,47 +391,47 @@
                       <div class="collapse" id="subnavproduccion2">
                         <ul class="nav nav-collapse subnav">
                           <li>
-                            <a href="#">
+                            <a href="{{ route('durezas.index') }}">
                               <span class="sub-item">Durezas</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('materiales.index') }}">
                               <span class="sub-item">Materiales</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('tratamientos.index') }}">
                               <span class="sub-item">Tratamientos</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('medios-enfriamiento.index') }}">
                               <span class="sub-item">Medios de enfriamiento</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('procesos.index') }}">
                               <span class="sub-item">Procesos</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('clients.index') }}">
                               <span class="sub-item">Clientes</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('factores-premio.index') }}">
                               <span class="sub-item">Factores Premio</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('asignar-factores.index') }}">
                               <span class="sub-item">Asignar factores</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('repartir-premios.index') }}">
                               <span class="sub-item">Repartir Premios</span>
                             </a>
                           </li>
