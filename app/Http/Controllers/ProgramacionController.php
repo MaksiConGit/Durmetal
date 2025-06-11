@@ -44,6 +44,8 @@ class ProgramacionController extends Controller
         $user_id = Auth::id();
     
         $data = $request->all();
+        
+        // dd($data);
 
         foreach ($request->ItemOrdenTrabajoIds as $index => $itemOrdenTrabajoId) {
             if ($itemOrdenTrabajoId) {

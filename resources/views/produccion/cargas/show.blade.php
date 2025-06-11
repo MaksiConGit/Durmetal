@@ -89,7 +89,7 @@
                                 {{$programacion->itemOrdenTrabajo->ordenTrabajo->cliente->Nombre ?? 'Sin razón social' }}
                             </td>
                             <td>{{ $programacion->itemOrdenTrabajo->ordenTrabajo->Numero }}/{{ $programacion->itemOrdenTrabajo->ItemNumero }}</td>
-                            <td>{{ $programacion->medioEnfriamiento->Nombre }}</td>
+                            <td>{{ $programacion->tipoProgramacion->Nombre }}</td>
                             <td>{{ $programacion->Reproceso == 0 ? '' : 'RP' }}</td>
                             <td>{{ $programacion->Cantidad }}</td>
                             <td>{{ $programacion->Apto == 'SI' ? 'APTO' : ''}}</td>

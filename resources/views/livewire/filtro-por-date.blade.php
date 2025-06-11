@@ -40,6 +40,7 @@
                         <th>Temperatura</th>
                         <th>ENF.</th>
                         <th>Ejec. Por</th>
+                        <th>Opciones</th>
                     </tr>
                 </x-slot>
 
@@ -55,6 +56,35 @@
                             <td>{{ $programacion->Temperatura }}</td>
                             <td>{{ $programacion->medioEnfriamiento->Nombre }}</td>
                             <td>{{ $programacion->ejecutadoPorOperador->name }}</td>
+                            <td class="text-center align-middle">
+                                <div class="d-flex justify-content-center align-items-center gap-3">
+                                <a
+                                    href="{{ route('cargas.edit', $programacion->programacion_ids) }}"
+                                    class="btn btn-link btn-primary p-0"
+                                    data-bs-toggle="tooltip"
+                                    title="Editar carga"
+                                >
+                                    <i class="fa fa-edit fa-lg"></i>
+                                </a>
+                                <form
+                                    action="{{ route('cargas.destroy', $programacion->programacion_ids) }}"
+                                    method="POST"
+                                    onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta carga?')"
+                                    class="m-0 p-0"
+                                >
+                                    @csrf
+                                    @method('DELETE')
+                                    <button
+                                    type="submit"
+                                    class="btn btn-link btn-danger p-0"
+                                    data-bs-toggle="tooltip"
+                                    title="Eliminar carga"
+                                    >
+                                    <i class="fa fa-times fa-lg"></i>
+                                    </button>
+                                </form>
+                                </div>
+                            </td>
                         </tr>
                     @empty
                         <tr><td colspan="12">No se encontraron resultados.</td></tr>
@@ -70,6 +100,7 @@
                         <th>Temperatura</th>
                         <th>ENF.</th>
                         <th>Ejec. Por</th>
+                        <th>Opciones</th>
                     </tr>
                 </x-slot>
             </x-data-table-no-plus>

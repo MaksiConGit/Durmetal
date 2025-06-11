@@ -52,9 +52,10 @@ Route::middleware('auth')->group(function () {
     Route::get('programacion/{item_orden_trabajo}', [ProgramacionController::class, 'show'])->name('programacion.show');
 
     Route::get('/cargas', [CargaController::class, 'index'])->name('cargas.index');
-    // Route::get('/cargas/{programacion}', [CargaController::class, 'show'])->name('cargas.show');
     Route::get('cargas/{ids}', [CargaController::class, 'show'])->name('cargas.show');
-
+    Route::get('/cargas/{ids}/edit', [CargaController::class, 'edit'])->name('cargas.edit');
+    Route::put('/cargas/{ids}', [CargaController::class, 'update'])->name('cargas.update');
+    Route::delete('/cargas/{programacion}', [CargaController::class, 'destroy'])->name('cargas.destroy');
 
 });
 
