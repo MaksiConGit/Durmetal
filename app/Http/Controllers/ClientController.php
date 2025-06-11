@@ -147,7 +147,7 @@ class ClientController extends Controller
 
         return response()->json([
             'items' => $clientes,
-            'more' => false // si no usás paginación
+            'more' => false
         ]);
     }
 

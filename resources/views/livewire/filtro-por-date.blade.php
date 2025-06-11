@@ -1,9 +1,7 @@
 <div>
-    <x-form>
-        <x-slot name="card_title">Cargas</x-slot>
-        <x-slot name="action"></x-slot>
-        <x-slot name="method"></x-slot>
-        <x-slot name="inputs">
+    <x-card-buttons>
+        <x-slot name="title">Cargas</x-slot>
+        <x-slot name="body">
 
             <x-data-table-no-plus>
                 <x-slot name="table_title">
@@ -112,5 +110,5 @@
                 <x-slot name="href">{{ route('index') }}</x-slot>
             </x-button>
         </x-slot>
-    </x-form>
+    </x-card-buttons>
 </div>

@@ -78,5 +78,22 @@ class CargaController extends Controller
         return redirect()->route('index');
     }
 
+    public function destroy($ids)
+    {
+        $idsArray = explode(',', $ids);
+
+        $programaciones = Programacion::whereIn('id', $idsArray)
+            ->with(['medioEnfriamiento', 'ejecutadoPorOperador'])
+            ->get();
+
+        foreach ($programaciones as $programacion) {
+            if ($programacion) {
+                $programacion->delete();
+            }
+        }
+    
+        return redirect()->route('cargas.index');
+    }
+
     
 }
