@@ -8,4 +8,13 @@ class TipoProgramacion extends Model
 {
     protected $table = 'tipo_programacion';
     public $timestamps = false;
+
+    protected $fillable = [
+        'Nombre',
+        'Tipo',
+        'Orden',
+        'Predeterminado',
+        'RequiereNumeracionSiempre',
+        'NombreTipo',
+    ];
 }
