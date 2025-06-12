@@ -68,8 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('actualizaciones/tratamientos', TratamientoController::class)->names('tratamientos');
     Route::resource('actualizaciones/medios-enfriamiento', MedioEnfriamientoController::class)->names('medios-enfriamiento')->parameters(['medios-enfriamiento' => 'medio_enfriamiento']);
     Route::resource('actualizaciones/procesos', ProcesoController::class)->names('procesos');
-    Route::resource('actualizaciones/clientes', ClientController::class)->names('clientes');
-    Route::resource('actualizaciones/factores-premio', FactorPremioController::class)->names('factores-premio');
+    Route::resource('actualizaciones/factores-premio', FactorPremioController::class)->names('factores-premio')->parameters(['factores-premio' => 'factor_premio']);
     Route::resource('actualizaciones/asignar-factores', AsignarFactorController::class)->names('asignar-factores');
     Route::resource('actualizaciones/repartir-premios', RepartirPremioController::class)->names('repartir-premios');
 
