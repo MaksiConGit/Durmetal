@@ -64,9 +64,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cargas/{programacion}', [CargaController::class, 'destroy'])->name('cargas.destroy');
 
     Route::resource('actualizaciones/durezas', DurezaController::class)->names('durezas');
-    Route::resource('actualizaciones/materiales', MaterialController::class)->names('materiales')->parameters(['materiales' => 'material']);;
+    Route::resource('actualizaciones/materiales', MaterialController::class)->names('materiales')->parameters(['materiales' => 'material']);
     Route::resource('actualizaciones/tratamientos', TratamientoController::class)->names('tratamientos');
-    Route::resource('actualizaciones/medios-enfriamiento', MedioEnfriamientoController::class)->names('medios-enfriamiento');
+    Route::resource('actualizaciones/medios-enfriamiento', MedioEnfriamientoController::class)->names('medios-enfriamiento')->parameters(['medios-enfriamiento' => 'medio_enfriamiento']);
     Route::resource('actualizaciones/procesos', ProcesoController::class)->names('procesos');
     Route::resource('actualizaciones/clientes', ClientController::class)->names('clientes');
     Route::resource('actualizaciones/factores-premio', FactorPremioController::class)->names('factores-premio');
