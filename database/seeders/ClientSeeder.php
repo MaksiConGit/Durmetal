@@ -27,6 +27,20 @@ class ClientSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@admin',
             'password' => '$2y$12$RfmcqnawgVnwBH4voQSaau3RPNW.OPq8FAuSXIcWlhTRKYfSr0emq',
+            'SuperUsuario' => 1,
+            'NotificarErroresPorEmail' => 0,
+            'EnviarReportePlanillaTurno' => 0,
+            'UtilizarTurnoEntorno' => 1,
+            'ArticuloShopPorDefecto' => '1',
+            'NroTablero' => '1',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Activo' => 1,
+            'Firma' => null,
+            'CobraPremio' => 1,
+            'IndiceBasePremio' => 1.0,
         ]);
 
         Province::create([

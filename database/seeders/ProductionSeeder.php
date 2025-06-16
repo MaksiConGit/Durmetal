@@ -10,6 +10,8 @@ use App\Models\ClientType;
 use App\Models\DocumentType;
 use App\Models\Dureza;
 use App\Models\Email;
+use App\Models\FactorPremio;
+use App\Models\FactorPremioUsuario;
 use App\Models\ImpresoraFiscal;
 use App\Models\ItemOrdenTrabajo;
 use App\Models\IvaCondition;
@@ -207,6 +209,58 @@ class ProductionSeeder extends Seeder
             'EjecutadoPorOperador' => '1',
             'CreadoPor' => '1',
             'FechaActualizacion' => '2025-05-27 20:16:17',
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        FactorPremio::create([
+            'Nombre' => 'Proactividad',
+            'ValorPredeterminado' => '1.00',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        FactorPremio::create([
+            'Nombre' => 'Presentismo',
+            'ValorPredeterminado' => '2.00',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        FactorPremio::create([
+            'Nombre' => 'Predisposición Trab. en Equipo',
+            'ValorPredeterminado' => '1.00',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        FactorPremioUsuario::create([
+            'IdUsuario' => '1',
+            'IdFactorPremio' => '1',
+            'Valor' => '2.00',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        FactorPremioUsuario::create([
+            'IdUsuario' => '1',
+            'IdFactorPremio' => '2',
+            'Valor' => '1.00',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
             'ActualizadoPor' => '1',
             'Activo' => '1',
         ]);

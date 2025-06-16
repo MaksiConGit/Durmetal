@@ -70,13 +70,13 @@ Route::middleware('auth')->group(function () {
     Route::resource('actualizaciones/medios-enfriamiento', MedioEnfriamientoController::class)->names('medios-enfriamiento')->parameters(['medios-enfriamiento' => 'medio_enfriamiento']);
     Route::resource('actualizaciones/procesos', ProcesoController::class)->names('procesos');
     Route::resource('actualizaciones/factores-premio', FactorPremioController::class)->names('factores-premio')->parameters(['factores-premio' => 'factor_premio']);
-    Route::resource('actualizaciones/asignar-factores', AsignarFactorController::class)->names('asignar-factores');
     
     Route::get('actualizaciones/tratamientos/{tratamiento}/precio/create', [CodigoComplejidadController::class, 'create'])->name('precios.create');
     Route::post('actualizaciones/precios', [CodigoComplejidadController::class, 'store'])->name('precios.store');
     Route::get('actualizaciones/precios/{precio}/edit', [CodigoComplejidadController::class, 'edit'])->name('precios.edit');
     Route::delete('actualizaciones/tratamientos/{tratamiento}/precios/{precio}', [CodigoComplejidadController::class, 'destroy'])->name('precios.destroy');
 
+    Route::resource('actualizaciones/asignar-factores', AsignarFactorController::class)->names('asignar-factores')->parameters(['asignar-factores' => 'usuario']);
     Route::resource('actualizaciones/repartir-premios', RepartirPremioController::class)->names('repartir-premios');
 
 });
