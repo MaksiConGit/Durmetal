@@ -152,9 +152,6 @@
 
             </form>
 
-            <div class="text-end">
-                <strong>Promedio:</strong> {{ $this->promedio }}
-            </div>
         </td>
     </tr>
 </tbody>
