@@ -10,13 +10,18 @@
     font-size: 1rem;
   }
 
-  /* Expandible */
   .expandable-body {
-    display: none;
+    transition: all 0.3s ease;
   }
 
-  tr[data-widget="expandable-table"][aria-expanded="true"] + .expandable-body {
-    display: table-row;
+  .expandable-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .expandable-body.open .expandable-content {
+    max-height: 500px; /* Ajusta según el contenido máximo esperado */
   }
 
   tr[data-widget="expandable-table"] {
@@ -51,6 +56,7 @@
   }
 </style>
 
+
 <div class="col-md-12">
   <div class="card">
     <div class="card-header">
@@ -63,6 +69,7 @@
         </div>
       </div>
     </div>
+
     <div class="table-responsive table-container accordion" id="accordionTabla">
       <table id="add-row" class="display table table-hover table-condensed">
         <thead>
@@ -71,9 +78,7 @@
         <tfoot>
           {{ $foot_tr }}
         </tfoot>
-        <tbody>
           {{ $body_tr }}
-        </tbody>
       </table>
     </div>
   </div>
@@ -86,26 +91,28 @@
       scrollX: true
     });
 
-    var action = '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-
     $("#addRowButton").click(function () {
+      const action = '<td><div class="form-button-action"><button class="btn btn-link btn-primary btn-lg"><i class="fa fa-edit"></i></button><button class="btn btn-link btn-danger"><i class="fa fa-times"></i></button></div></td>';
       $("#add-row")
-        .dataTable()
-        .fnAddData([
+        .DataTable()
+        .row.add([
           $("#addName").val(),
           $("#addPosition").val(),
           $("#addOffice").val(),
           action,
-        ]);
+        ])
+        .draw();
       $("#addRowModal").modal("hide");
     });
-  });
 
-  document.addEventListener('DOMContentLoaded', function () {
+    // Animación expandible
     document.querySelectorAll('tr[data-widget="expandable-table"]').forEach(row => {
       row.addEventListener('click', () => {
-        const isExpanded = row.getAttribute('aria-expanded') === 'true';
-        row.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+        const nextRow = row.nextElementSibling;
+        const isOpen = nextRow.classList.contains('open');
+
+        nextRow.classList.toggle('open', !isOpen);
+        row.setAttribute('aria-expanded', !isOpen);
       });
     });
   });
