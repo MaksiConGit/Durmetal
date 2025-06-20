@@ -11,33 +11,33 @@ class FiltroPorCheckbox extends Component
     public $selectedIds = [];
     public $selectedItemIds = [];
 
-    // public function updatedSelectedItemIds()
-    // {
-    //     dd($this->selectedItemIds);
-    // }
+    public function getItemsProperty()
+    {
+        // Estados permitidos
+        $estadosPermitidos = ['PENDIENTE', 'APROBADO'];
 
-public function getItemsProperty()
-{
-    // No hay filtros => mostrar todos los ítems
-    if (empty($this->selectedIds)) {
-        return ItemOrdenTrabajo::all();
+        // No hay filtros => mostrar todos los ítems válidos
+        if (empty($this->selectedIds)) {
+            return ItemOrdenTrabajo::whereIn('Estado', $estadosPermitidos)->get();
+        }
+
+        // Hay filtros => anteponer los seleccionados
+        $selectedItems = collect();
+        if (!empty($this->selectedItemIds)) {
+            $selectedItems = ItemOrdenTrabajo::whereIn('id', $this->selectedItemIds)
+                ->whereIn('Estado', $estadosPermitidos)
+                ->get();
+        }
+
+        $filteredItems = ItemOrdenTrabajo::whereIn('IdTratamiento', $this->selectedIds)
+            ->whereIn('Estado', $estadosPermitidos)
+            ->when(!empty($this->selectedItemIds), function ($query) {
+                return $query->whereNotIn('id', $this->selectedItemIds);
+            })
+            ->get();
+
+        return $selectedItems->concat($filteredItems);
     }
-
-    // Hay filtros => aplicar lógica de anteponer seleccionados
-    $selectedItems = collect();
-    if (!empty($this->selectedItemIds)) {
-        $selectedItems = ItemOrdenTrabajo::whereIn('id', $this->selectedItemIds)->get();
-    }
-
-    $filteredItems = ItemOrdenTrabajo::whereIn('IdTratamiento', $this->selectedIds)
-        ->when(!empty($this->selectedItemIds), function ($query) {
-            return $query->whereNotIn('id', $this->selectedItemIds);
-        })
-        ->get();
-
-    return $selectedItems->concat($filteredItems);
-}
-
 
     public function render()
     {

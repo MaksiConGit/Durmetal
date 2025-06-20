@@ -20,7 +20,7 @@ class ProgramacionController extends Controller
     {
         $tratamientos = Tratamiento::all();
         $clientes = Client::all();
-        $items_orden_trabajo = ItemOrdenTrabajo::all();
+        $items_orden_trabajo = ItemOrdenTrabajo::whereIn('Estado', ['PENDIENTE', 'APROBADO'])->get();
 
         return view('produccion.programacion.index', compact('tratamientos', 'clientes', 'items_orden_trabajo'));
     }
