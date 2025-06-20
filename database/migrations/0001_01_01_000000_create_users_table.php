@@ -14,24 +14,21 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            // $table->boolean('SuperUsuario');
+            $table->boolean('SuperUsuario');
             $table->string('email')->unique();
-            // $table->boolean('NotificarErroresPorEmail');
-            // $table->boolean('EnviarReportePlanillaTurno');
-            // $table->boolean('UtilizarTurnoEntorno');
-            // $table->string('ArticuloShopPorDefecto');
-            // $table->string('NroTablero');
-            // $table->date('FechaCreacion')->nullable();
-            // $table->foreignId('CreadoPor')->constrained('Usuario')
-            //                                 ->onDelete('restrict')
-            //                                 ->onUpdate('cascade');
-            // $table->date('FechaActualizacion')->nullable();
-            // $table->foreignId('ActualizadoPor')->constrained('Usuario')
-            //                                 ->onDelete('restrict')
-            //                                 ->onUpdate('cascade');
-            // $table->string('Firma')->nullable();
-            // $table->boolean('Activo');
-            // $table->boolean('CobraPremio');
+            $table->boolean('NotificarErroresPorEmail');
+            $table->boolean('EnviarReportePlanillaTurno');
+            $table->boolean('UtilizarTurnoEntorno');
+            $table->string('ArticuloShopPorDefecto');
+            $table->string('NroTablero');
+            $table->date('FechaCreacion')->nullable();
+            $table->integer('CreadoPor');
+            $table->date('FechaActualizacion')->nullable();
+            $table->integer('ActualizadoPor');
+            $table->boolean('Activo');
+            $table->string('Firma')->nullable();
+            $table->boolean('CobraPremio');
+            $table->float('IndiceBasePremio');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

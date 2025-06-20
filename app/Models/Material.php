@@ -8,4 +8,10 @@ class Material extends Model
 {
     protected $table = 'material';
     public $timestamps = false;
+
+    protected $fillable = [
+        'Nombre',
+        'Descripcion',
+        'Predeterminado'
+    ];
 }

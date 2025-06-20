@@ -8,4 +8,10 @@ class Dureza extends Model
 {
     protected $table = 'dureza';
     public $timestamps = false;
+
+    protected $fillable = [
+        'Nombre',
+        'Descripcion',
+        'Predeterminado'
+    ];
 }
