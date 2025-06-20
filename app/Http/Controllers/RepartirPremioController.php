@@ -39,8 +39,8 @@ class RepartirPremioController extends Controller
             'Estado' => $data['Estado'],
             'FechaCreacion' => now(),
             'CreadoPor' => $user_id,
-            'FechaModificacion' => now(),
-            'ModificadoPor' => $user_id,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => $user_id,
         ]);
 
         foreach ($data['IdUsuario'] as $index => $IdUsuario) {
@@ -53,72 +53,51 @@ class RepartirPremioController extends Controller
                 'Premio' => $data['Premio'][$index],
                 'FechaCreacion' => now(),
                 'CreadoPor' => $user_id,
-                'FechaModificacion' => now(),
-                'ModificadoPor' => $user_id,
+                'FechaActualizacion' => now(),
+                'ActualizadoPor' => $user_id,
             ]);
         }
     
         return redirect()->route('repartir-premios.index');
     }
 
-    public function edit(Dureza $dureza)
+    public function edit(Premio $premio)
     {
-        return view('produccion.actualizaciones.repartir-premios.edit', compact('dureza'));
+        return view('produccion.actualizaciones.repartir-premios.edit', compact('premio'));
     }
 
-    public function update(Request $request, User $usuario)
+    public function update(StorePremioRequest $request, Premio $premio)
     {
         $data = $request->all();
 
         $user_id = Auth::id();
-        
-        $usuario->update([
-            'IndiceBasePremio' => $data['IndiceBasePremio'][$usuario->id],
+
+        $premio->update([
+            'Nombre' => $data['Nombre'],
+            'FechaDesde' => $data['FechaDesde'],
+            'FechaHasta' => $data['FechaHasta'],
+            'Premio' => $data['PremioTotal'],
+            'Estado' => $data['Estado'],
             'FechaActualizacion' => now(),
             'ActualizadoPor' => $user_id,
         ]);
 
-        foreach ($data['IdFactores'] as $index => $IdFactor) {
+        foreach ($data['IdUsuario'] as $index => $IdUsuario) {
 
-            $factor_premio_usuario = FactorPremioUsuario::where('IdUsuario', $usuario->id)->where('IdFactorPremio', $IdFactor)->first();
+            $item_premio = ItemPremio::where('IdPremio', $premio->id)->where('IdUsuario', $IdUsuario);
 
-            if ($data['FactorActivo'][$index]) {
-
-                if ($factor_premio_usuario) {
-
-                    $factor_premio_usuario->update([
-                        'Valor' => $data['ValorFactor'][$index],
-                        'FechaActualizacion' => now(),
-                        'ActualizadoPor' => $user_id,
-                    ]);
-
-                }
-                else{
-
-                    $factor_premio_usuario = FactorPremioUsuario::create([
-                        'IdUsuario' => $usuario->id,
-                        'IdFactorPremio' => $IdFactor,
-                        'Valor' => $data['ValorFactor'][$index],
-                        'FechaCreacion' => now(),
-                        'CreadoPor' => $user_id,
-                        'FechaActualizacion' => now(),
-                        'ActualizadoPor' => $user_id,
-                        'Activo' => 1,
-                    ]);
-                    
-                }
-
-            }
-            else{
-
-                if ($factor_premio_usuario) {
-                    $factor_premio_usuario->delete();
-                }
-
-            }
-
+            $item_premio->update([
+                'IdPremio' => $premio->id,
+                'IdUsuario' => $data['IdUsuario'][$index],
+                'PremioBase' => $data['PremioBase'][$index] ?? 0,
+                'IndiceBase' => $data['IndiceBase'][$index],
+                'Coeficiente' => $data['Coeficiente'][$index],
+                'Premio' => $data['Premio'][$index],
+                'FechaActualizacion' => now(),
+                'ActualizadoPor' => $user_id,
+            ]);
         }
-    
+
         return redirect()->route('repartir-premios.index');
     }
 

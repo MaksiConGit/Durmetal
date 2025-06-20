@@ -272,7 +272,7 @@ class ProductionSeeder extends Seeder
             'FechaDesde' => now(),
             'FechaHasta' => now(),
             'Premio' => 1000000.22,
-            'Estado' => 'COMPLETADO',
+            'Estado' => 'COMPLETO',
             'FechaCreacion' => now(),
             'CreadoPor' => '1',
             'FechaActualizacion' => now(),

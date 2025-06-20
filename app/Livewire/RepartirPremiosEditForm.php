@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 
-class RepartirPremiosForm extends Component
+class RepartirPremiosEditForm extends Component
 {
     public $empleados = [];
 
@@ -14,17 +14,21 @@ class RepartirPremiosForm extends Component
 
     public $indiceBasePremios = [];
     public $totalPremios = 0;
+    public $items_premio = [];
 
-    public function mount($empleados)
+    public function mount($premio, $items_premio)
     {
-        $this->empleados = $empleados;
+        $this->items_premio = $items_premio;
 
-        foreach ($empleados as $empleado) {
-            $id = $empleado->id;
-            $this->bases[$id] = null;
-            $this->coeficientes[$id] = number_format(1, 2, '.', '');
-            $this->indiceBasePremios[$id] = number_format($empleado->IndiceBasePremio ?? 0, 2, '.', '');
-            $this->premios[$id] = 0;
+        foreach ($items_premio as $item) {
+            $usuario = $item->usuario;
+            $usuarioId = $usuario->id;
+
+            $this->empleados[$usuarioId] = $usuario;
+            $this->bases[$usuarioId] = number_format($item->PremioBase, 2, '.', '');
+            $this->indiceBasePremios[$usuarioId] = number_format($item->IndiceBase, 2, '.', '');
+            $this->coeficientes[$usuarioId] = number_format($item->Coeficiente, 2, '.', '');
+            $this->premios[$usuarioId] = $item->Premio;
         }
 
         $this->recalcularTotal();
@@ -67,6 +71,6 @@ class RepartirPremiosForm extends Component
 
     public function render()
     {
-        return view('livewire.repartir-premios-form');
+        return view('livewire.repartir-premios-edit-form');
     }
 }
