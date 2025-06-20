@@ -14,10 +14,12 @@ use App\Models\FactorPremio;
 use App\Models\FactorPremioUsuario;
 use App\Models\ImpresoraFiscal;
 use App\Models\ItemOrdenTrabajo;
+use App\Models\ItemPremio;
 use App\Models\IvaCondition;
 use App\Models\Material;
 use App\Models\MedioEnfriamiento;
 use App\Models\OrdenTrabajo;
+use App\Models\Premio;
 use App\Models\Programacion;
 use App\Models\Province;
 use App\Models\PuntoDeVenta;
@@ -263,6 +265,31 @@ class ProductionSeeder extends Seeder
             'FechaActualizacion' => now(),
             'ActualizadoPor' => '1',
             'Activo' => '1',
+        ]);
+
+        Premio::create([
+            'Nombre' => 'JUNIO 2025',
+            'FechaDesde' => now(),
+            'FechaHasta' => now(),
+            'Premio' => 1000000.22,
+            'Estado' => 'COMPLETADO',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+        ]);
+
+        ItemPremio::create([
+            'IdPremio' => '1',
+            'IdUsuario' => 1,
+            'PremioBase' => 300000,
+            'IndiceBase' => 1,
+            'Coeficiente' => 0.9,
+            'Premio' => 300000 * 1 * 0.9,
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
         ]);
     }
 }

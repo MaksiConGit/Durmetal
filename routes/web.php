@@ -77,7 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('actualizaciones/tratamientos/{tratamiento}/precios/{precio}', [CodigoComplejidadController::class, 'destroy'])->name('precios.destroy');
 
     Route::resource('actualizaciones/asignar-factores', AsignarFactorController::class)->names('asignar-factores')->parameters(['asignar-factores' => 'usuario']);
-    Route::resource('actualizaciones/repartir-premios', RepartirPremioController::class)->names('repartir-premios');
+    Route::resource('actualizaciones/repartir-premios', RepartirPremioController::class)->names('repartir-premios')->parameters(['repartir-premios' => 'premio']);
 
 });
 
