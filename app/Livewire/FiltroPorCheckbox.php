@@ -13,15 +13,12 @@ class FiltroPorCheckbox extends Component
 
     public function getItemsProperty()
     {
-        // Estados permitidos
         $estadosPermitidos = ['PENDIENTE', 'APROBADO'];
 
-        // No hay filtros => mostrar todos los ítems válidos
         if (empty($this->selectedIds)) {
             return ItemOrdenTrabajo::whereIn('Estado', $estadosPermitidos)->get();
         }
 
-        // Hay filtros => anteponer los seleccionados
         $selectedItems = collect();
         if (!empty($this->selectedItemIds)) {
             $selectedItems = ItemOrdenTrabajo::whereIn('id', $this->selectedItemIds)

@@ -44,13 +44,18 @@ class ProgramacionController extends Controller
         $user_id = Auth::id();
     
         $data = $request->all();
-        
+
         // dd($data);
 
         foreach ($request->ItemOrdenTrabajoIds as $index => $itemOrdenTrabajoId) {
             if ($itemOrdenTrabajoId) {
 
                 $item_orden_trabajo = ItemOrdenTrabajo::find($itemOrdenTrabajoId);
+
+                
+                if ($data['NumeroProgramacion'] == 0) {
+                    $data['NumeroProgramacion'] = $item_orden_trabajo->programacion->max('NumeroProgramacion') + 1;
+                }
 
                 Programacion::create([
                     'IdItemOrdenTrabajo' => $item_orden_trabajo->id,
@@ -70,8 +75,8 @@ class ProgramacionController extends Controller
                     'ActualizadoPor' => $user_id,
                     'FechaActualizacion' => now(),
                     'Activo' => '1',
-
-                    // 'NumeroProgramacion' => $data[''],
+                    'NumeroProgramacion' => $data['NumeroProgramacion'][$index],
+                    
                     // 'Apto' => $data[''],
 
                 ]);

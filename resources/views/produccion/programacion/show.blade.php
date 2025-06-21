@@ -87,21 +87,32 @@
                 </x-slot>
 
                 <x-slot name="body_tr">
-                    @foreach ($item_orden_trabajo->programacion as $programacion)
-                        <tr>
-                            <td>H{{ $programacion->NumeroHorno }} | {{ $programacion->tipoProgramacion->Nombre }}</td>
-                            <td>{{ $programacion->Reproceso == 0 ? '' : 'RP' }}</td>
-                            <td>{{ $programacion->Cantidad }}</td>
-                            <td>{{ $programacion->Apto == 'SI' ? 'APTO' : 'NO APTO'}}</td>
-                            <td>{{ $programacion->FechaCarga }}</td>
-                            <td>{{ $programacion->FechaDescarga }}</td>
-                            <td>{{ $programacion->ejecutadoPorOperador->name }}</td>
-                            <td>{{ $programacion->Temperatura }}</td>
-                            <td>{{ $programacion->medioEnfriamiento->Nombre }}</td>
-                            <td>{{ $programacion->DurezaMinima }}</td>
-                            <td>{{ $programacion->DurezaMaxima }}</td>
-                        </tr>
+                    @php
+                        $programacionesAgrupadas = $item_orden_trabajo->programacion->groupBy('NumeroProgramacion');
+                    @endphp
+
+                    @foreach ($programacionesAgrupadas as $numeroProgramacion => $grupo)
+                        @foreach ($grupo as $index => $programacion)
+                            <tr>
+                                <td>
+                                    H{{ $programacion->NumeroHorno }} |
+                                    {{ $programacion->tipoProgramacion->Nombre }}
+                                    {{ $numeroProgramacion }}-{{ $index + 1 }}
+                                </td>
+                                <td>{{ $programacion->Reproceso == 0 ? '' : 'RP' }}</td>
+                                <td>{{ $programacion->Cantidad }}</td>
+                                <td>{{ $programacion->Apto == 'SI' ? 'APTO' : 'NO APTO'}}</td>
+                                <td>{{ $programacion->FechaCarga }}</td>
+                                <td>{{ $programacion->FechaDescarga }}</td>
+                                <td>{{ $programacion->ejecutadoPorOperador->name }}</td>
+                                <td>{{ $programacion->Temperatura }}</td>
+                                <td>{{ $programacion->medioEnfriamiento->Nombre }}</td>
+                                <td>{{ $programacion->DurezaMinima }}</td>
+                                <td>{{ $programacion->DurezaMaxima }}</td>
+                            </tr>
+                        @endforeach
                     @endforeach
+
                 </x-slot>
 
                 <x-slot name="foot_tr">

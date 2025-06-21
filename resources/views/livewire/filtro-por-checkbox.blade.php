@@ -71,7 +71,14 @@
                                 </button> --}}
                                 <a href="{{ route('programacion.show', $item_orden_trabajo) }}">Ver</a>
                             </td>
-                            <td>{{ count($item_orden_trabajo->programacion) }}</td>
+
+                            @php
+                                $programaciones_filtradas = $item_orden_trabajo->programacion
+                                    ->unique('NumeroProgramacion');
+                            @endphp
+
+                            <td>{{ $programaciones_filtradas->count() }}</td>
+
                             <td>
                                 {{-- <x-form-input-checkbox-livewire>
                                     <x-slot name="label">{{ in_array($item_orden_trabajo->id, $selectedItemIds) }}</x-slot>
