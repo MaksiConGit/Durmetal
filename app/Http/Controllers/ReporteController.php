@@ -25,4 +25,9 @@ class ReporteController extends Controller
         return view('produccion.reportes.materiales-resumido-excel.index');
     }
 
+    public function pesos()
+    {
+        return view('produccion.reportes.pesos.index');
+    }
+
 }
