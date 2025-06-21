@@ -83,6 +83,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('reportes/materiales', [ReporteController::class, 'materiales'])->name('reportes.materiales');
     Route::get('reportes/materiales-resumido', [ReporteController::class, 'materialesResumido'])->name('reportes.materiales-resumido');
+    Route::get('reportes/materiales-resumido-excel', [ReporteController::class, 'materialesResumidoExcel'])->name('reportes.materiales-resumido-excel');
 
 
 

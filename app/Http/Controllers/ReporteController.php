@@ -20,11 +20,9 @@ class ReporteController extends Controller
         return view('produccion.reportes.materiales-resumido.index');
     }
 
-    public function reportes()
+    public function materialesResumidoExcel()
     {
-        $materiales = Material::all();
-
-        return view('produccion.actualizaciones.materiales.index', compact('materiales'));
+        return view('produccion.reportes.materiales-resumido-excel.index');
     }
 
 }

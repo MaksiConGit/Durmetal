@@ -351,7 +351,7 @@
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('reportes.materiales-resumido-excel') }}">
                               <span class="sub-item">Materiales resumido (Excel)</span>
                             </a>
                           </li>
