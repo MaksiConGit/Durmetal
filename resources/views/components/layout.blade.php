@@ -366,7 +366,7 @@
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('reportes.trabajos-no-aptos') }}">
                               <span class="sub-item">Trabajos NO APTOS</span>
                             </a>
                           </li>

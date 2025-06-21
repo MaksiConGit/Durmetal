@@ -88,6 +88,7 @@ Route::middleware('auth')->group(function () {
     Route::get('reportes/peso-por-tratamientos', [ReporteController::class, 'pesos'])->name('reportes.pesos');
     Route::get('reportes/peso-por-tratamientos-resumido', [ReporteController::class, 'pesosResumido'])->name('reportes.pesos-resumido');
 
+    Route::get('reportes/trabajos-no-aptos', [ReporteController::class, 'trabajosNoAptos'])->name('reportes.trabajos-no-aptos');
 
 });
 

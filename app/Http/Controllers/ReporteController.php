@@ -35,4 +35,9 @@ class ReporteController extends Controller
         return view('produccion.reportes.pesos-resumido.index');
     }
 
+    public function trabajosNoAptos()
+    {
+        return view('produccion.reportes.trabajos-no-aptos.index');
+    }
+
 }
