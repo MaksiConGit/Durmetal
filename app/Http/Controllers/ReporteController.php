@@ -15,6 +15,11 @@ class ReporteController extends Controller
         return view('produccion.reportes.materiales.index');
     }
 
+    public function materialesResumido()
+    {
+        return view('produccion.reportes.materiales-resumido.index');
+    }
+
     public function reportes()
     {
         $materiales = Material::all();

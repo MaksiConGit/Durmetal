@@ -346,7 +346,7 @@
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('reportes.materiales-resumido') }}">
                               <span class="sub-item">Materiales resumido</span>
                             </a>
                           </li>
