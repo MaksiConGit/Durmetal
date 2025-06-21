@@ -341,7 +341,7 @@
                       <div class="collapse" id="subnavproduccion1">
                         <ul class="nav nav-collapse subnav">
                           <li>
-                            <a href="#">
+                            <a href="{{ route('reportes.materiales') }}">
                               <span class="sub-item">Materiales</span>
                             </a>
                           </li>

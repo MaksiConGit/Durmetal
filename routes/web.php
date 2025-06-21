@@ -18,6 +18,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramacionController;
 use App\Http\Controllers\ProgramacionExportController;
 use App\Http\Controllers\RepartirPremioController;
+use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\TratamientoController;
 use Illuminate\Support\Facades\Route;
 
@@ -78,6 +79,11 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('actualizaciones/asignar-factores', AsignarFactorController::class)->names('asignar-factores')->parameters(['asignar-factores' => 'usuario']);
     Route::resource('actualizaciones/repartir-premios', RepartirPremioController::class)->names('repartir-premios')->parameters(['repartir-premios' => 'premio']);
+
+
+    Route::get('reportes/materiales', [ReporteController::class, 'materiales'])->name('reportes.materiales');
+
+
 
 });
 
