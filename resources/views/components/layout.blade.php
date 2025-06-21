@@ -361,7 +361,7 @@
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('reportes.pesos-resumido') }}">
                               <span class="sub-item">Peso por tratamientos entre fechas resumido</span>
                             </a>
                           </li>

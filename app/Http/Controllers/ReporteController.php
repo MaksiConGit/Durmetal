@@ -30,4 +30,9 @@ class ReporteController extends Controller
         return view('produccion.reportes.pesos.index');
     }
 
+    public function pesosResumido()
+    {
+        return view('produccion.reportes.pesos-resumido.index');
+    }
+
 }
