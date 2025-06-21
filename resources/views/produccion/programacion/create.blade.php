@@ -38,13 +38,35 @@
                 </x-slot>
 
                 <x-slot name="body_tr">
-                    @forelse ($items as $index => $item_orden_trabajo)
+
+                    <tbody>
+                        @forelse ($items as $index => $item_orden_trabajo)
+                            @livewire('item-programacion-row', ['item' => $item_orden_trabajo, 'index' => $index], key($item_orden_trabajo->id))
+                        @empty
+                            <tr><td colspan="12">No se encontraron resultados.</td></tr>
+                        @endforelse 
+                    </tbody>
+
+
+                    {{-- @forelse ($items as $index => $item_orden_trabajo)
                         <tr>
                             <input type="hidden" name="ItemOrdenTrabajoIds[]" value="{{ $item_orden_trabajo->id }}">
                             <td>{{ $item_orden_trabajo->Descripcion }}</td>
                             <td>
-                                <select name="" id="">
-                                    <option value="">Nueva</option>
+                                <select name="NumeroProgramacion" id="">
+
+                                    <option value="0">Nueva</option>
+                                                            
+                                    @php
+                                        $programaciones = $item_orden_trabajo->programacion->filter(function ($programacion) use ($item_orden_trabajo) {
+                                            return $programacion->Cantidad < $item_orden_trabajo->Cantidad;
+                                        });
+                                    @endphp  
+
+                                    @foreach ($programaciones as $programacion)
+                                        <option value="{{$programacion->NumeroProgramacion}}">{{$programacion->tipoProgramacion->Nombre}} {{$programacion->NumeroProgramacion}}</option>
+                                    @endforeach
+
                                 </select>
                             </td>
                             <td>
@@ -66,7 +88,7 @@
                         </tr>
                     @empty
                         <tr><td colspan="12">No se encontraron resultados.</td></tr>
-                    @endforelse
+                    @endforelse --}}
                 </x-slot>
 
                 <x-slot name="foot_tr">
@@ -281,6 +303,17 @@
                 </div>
 
             </div>
+
+            @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 
         </x-slot>
         <x-slot name="buttons">

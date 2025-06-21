@@ -14,7 +14,8 @@ class StoreProgramacionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'NumeroProgramacion' => 'nullable|string|max:50',
+            'NumeroProgramacion' => 'required|array',
+            'NumeroProgramacion.*' => 'nullable|string|max:50',
             'DurezaMinima' => 'numeric|min:0',
             'DurezaMaxima' => 'numeric|min:0|gte:DurezaMinima',
             'IdTipoProgramacion' => 'required|integer|exists:tipo_programacion,id',
