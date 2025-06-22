@@ -371,7 +371,7 @@
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('reportes.premios') }}">
                               <span class="sub-item">Premios</span>
                             </a>
                           </li>

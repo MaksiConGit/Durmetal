@@ -40,6 +40,11 @@ class ReporteController extends Controller
         return view('produccion.reportes.trabajos-no-aptos.index');
     }
 
+    public function premios()
+    {
+        return view('produccion.reportes.premios.index');
+    }
+
     public function premiosPorAprobacion()
     {
         return view('produccion.reportes.premios-por-aprobacion.index');

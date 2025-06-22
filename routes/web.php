@@ -93,6 +93,9 @@ Route::middleware('auth')->group(function () {
     Route::get('reportes/premios-por-aprobacion', [ReporteController::class, 'premiosPorAprobacion'])->name('reportes.premios-por-aprobacion');
     Route::put('reportes/premios-por-aprobacion', [ReporteController::class, 'premiosPorAprobacionUpdate'])->name('reportes.premios-por-aprobacion.update');
 
+    Route::get('reportes/premios', [ReporteController::class, 'premios'])->name('reportes.premios');
+
+
 
 });
 
