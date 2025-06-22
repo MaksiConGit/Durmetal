@@ -139,7 +139,6 @@
             <tr>
                 <th>Fecha</th>
                 <th>Cli.</th>
-                <th>OTI</th>
                 <th>Cant.</th>
                 <th>Peso</th>
                 <th>Trat.</th>
@@ -154,7 +153,6 @@
                 <tr class="border-t">
                     <td>{{ $item_orden_trabajo->FechaCreacion }}</td>
                     <td>{{ $item_orden_trabajo->ordenTrabajo->cliente->id }}</td>
-                    <td>{{ $item_orden_trabajo->ordenTrabajo->NumeroCompleto }}</td>
                     <td>{{ number_format($item_orden_trabajo->Cantidad, 2, '.', '') }}</td>
                     <td>{{ number_format($item_orden_trabajo->Peso, 2, '.', '') }}</td>
                     <td>{{ $item_orden_trabajo->tratamiento->Nombre }}</td>
@@ -173,7 +171,6 @@
             <tr>
                 <th>Fecha</th>
                 <th>Cli.</th>
-                <th>OTI</th>
                 <th>Cant.</th>
                 <th>Peso</th>
                 <th>Trat.</th>
