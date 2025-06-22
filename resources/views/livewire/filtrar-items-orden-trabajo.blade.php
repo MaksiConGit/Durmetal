@@ -105,24 +105,26 @@
 
         <div class="card-body">
             <div class="row">
-                <label class="mr-2">Materiales</label>
-                <div class="d-flex flex-wrap gap-2">
-                    @forelse ($materiales as $material)
+                <div class="col-md-10">
+                    <label class="mr-2">Materiales</label>
+                    <div class="d-flex justify-content-start flex-wrap gap-2 rounded p-2" style="max-height: 200px; overflow-y: auto;">
+                        @forelse ($materiales as $material)
 
-                        <x-form-input-checkbox-livewire>
-                            <x-slot name="label">{{$material->Nombre}}</x-slot>
-                            <x-slot name="name"></x-slot>
-                            <x-slot name="value">{{ $material->id }}</x-slot>
-                            <x-slot name="color">black</x-slot>
-                            <x-slot name="checked"></x-slot>
-                            <x-slot name="livewire">wire:model.live="materiales_seleccionados"</x-slot>
-                        </x-form-input-checkbox-livewire>
+                            <x-form-input-checkbox-livewire>
+                                <x-slot name="label">{{$material->Nombre}}</x-slot>
+                                <x-slot name="name">{{$material->id}}</x-slot>
+                                <x-slot name="value">{{ $material->id }}</x-slot>
+                                <x-slot name="color">black</x-slot>
+                                <x-slot name="checked"></x-slot>
+                                <x-slot name="livewire">wire:model.live="materiales_seleccionados"</x-slot>
+                            </x-form-input-checkbox-livewire>
 
-                    @empty
+                        @empty
 
-                        <tr><td colspan="11">No se encontraron tratamientos.</td></tr>
-                        
-                    @endforelse
+                            <tr><td colspan="11">No se encontraron tratamientos.</td></tr>
+                            
+                        @endforelse
+                    </div>
                 </div>
             </div>
         </div>
