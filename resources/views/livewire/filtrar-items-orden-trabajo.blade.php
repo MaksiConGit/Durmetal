@@ -31,7 +31,7 @@
                         </x-form-input-date-livewire>
 
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
 
                         {{-- @php
                             $message = $errors->first('IdCliente') 
