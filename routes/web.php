@@ -8,6 +8,7 @@ use App\Http\Controllers\CodigoComplejidadController;
 use App\Http\Controllers\DurezaController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FactorPremioController;
+use App\Http\Controllers\IngresoDatosController;
 use App\Http\Controllers\ItemOrdenTrabajoController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MedioEnfriamientoController;
@@ -81,6 +82,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('actualizaciones/repartir-premios', RepartirPremioController::class)->names('repartir-premios')->parameters(['repartir-premios' => 'premio']);
 
 
+    Route::get('ingreso-datos', [IngresoDatosController::class, 'index'])->name('ingreso-datos.index');
+    Route::put('ingreso-datos', [IngresoDatosController::class, 'update'])->name('ingreso-datos.update');
+
+
     Route::get('reportes/materiales', [ReporteController::class, 'materiales'])->name('reportes.materiales');
     Route::get('reportes/materiales-resumido', [ReporteController::class, 'materialesResumido'])->name('reportes.materiales-resumido');
     Route::get('reportes/materiales-resumido-excel', [ReporteController::class, 'materialesResumidoExcel'])->name('reportes.materiales-resumido-excel');
@@ -94,6 +99,7 @@ Route::middleware('auth')->group(function () {
     Route::put('reportes/premios-por-aprobacion', [ReporteController::class, 'premiosPorAprobacionUpdate'])->name('reportes.premios-por-aprobacion.update');
 
     Route::get('reportes/premios', [ReporteController::class, 'premios'])->name('reportes.premios');
+
 
 
 
