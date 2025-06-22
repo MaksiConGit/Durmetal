@@ -40,4 +40,32 @@ class ReporteController extends Controller
         return view('produccion.reportes.trabajos-no-aptos.index');
     }
 
+    public function premiosPorAprobacion()
+    {
+        return view('produccion.reportes.premios-por-aprobacion.index');
+    }
+
+    public function premiosPorAprobacionUpdate(Request $request)
+    {
+        $request->validate([
+            'ItemOrdenTrabajo_ids' => 'required|array|min:1',
+            'FechaActualizacionEstado' => 'required|date',
+        ]);
+
+        $data = $request->all();
+
+        foreach ($data['ItemOrdenTrabajo_ids'] as $item_orden_trabajo_id) {
+
+            $item_orden_trabajo = ItemOrdenTrabajo::find($item_orden_trabajo_id);
+
+            if ($item_orden_trabajo) {
+                $item_orden_trabajo->update([
+                    'FechaActualizacionEstado' => $data['FechaActualizacionEstado'],
+                ]);
+            }
+        }
+    
+        return redirect()->route('reportes.premios-por-aprobacion')->with('success', 'Fechas actualizadas');
+    }
+
 }

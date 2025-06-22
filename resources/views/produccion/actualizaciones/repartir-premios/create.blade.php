@@ -121,7 +121,7 @@
 
         </div>
 
-        @livewire('repartir-premios-form', ['empleados' => $empleados])
+        @livewire('repartir-premios-form', ['empleados' => $empleados, 'total' => $total])
 
     </x-slot>
     <x-slot name="buttons">

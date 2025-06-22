@@ -90,6 +90,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('reportes/trabajos-no-aptos', [ReporteController::class, 'trabajosNoAptos'])->name('reportes.trabajos-no-aptos');
 
+    Route::get('reportes/premios-por-aprobacion', [ReporteController::class, 'premiosPorAprobacion'])->name('reportes.premios-por-aprobacion');
+    Route::put('reportes/premios-por-aprobacion', [ReporteController::class, 'premiosPorAprobacionUpdate'])->name('reportes.premios-por-aprobacion.update');
+
+
 });
 
 require __DIR__.'/auth.php';

@@ -376,7 +376,7 @@
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('reportes.premios-por-aprobacion') }}">
                               <span class="sub-item">Premios - Por fecha de aprobación</span>
                             </a>
                           </li>
