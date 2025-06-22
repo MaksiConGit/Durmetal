@@ -67,7 +67,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-10">
-                    <label class="mr-2">Materiales</label>
+                    <label class="mr-2">Tratamientos</label>
                     <div class="d-flex justify-content-start flex-wrap gap-2 rounded p-2" style="max-height: 200px; overflow-y: auto;">
                         @forelse ($tratamientos as $tratamiento)
 
