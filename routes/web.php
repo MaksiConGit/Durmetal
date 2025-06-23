@@ -8,6 +8,7 @@ use App\Http\Controllers\CodigoComplejidadController;
 use App\Http\Controllers\DurezaController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FactorPremioController;
+use App\Http\Controllers\IngresoDatosController;
 use App\Http\Controllers\ItemOrdenTrabajoController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MedioEnfriamientoController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramacionController;
 use App\Http\Controllers\ProgramacionExportController;
 use App\Http\Controllers\RepartirPremioController;
+use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\TratamientoController;
 use Illuminate\Support\Facades\Route;
 
@@ -78,6 +80,28 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('actualizaciones/asignar-factores', AsignarFactorController::class)->names('asignar-factores')->parameters(['asignar-factores' => 'usuario']);
     Route::resource('actualizaciones/repartir-premios', RepartirPremioController::class)->names('repartir-premios')->parameters(['repartir-premios' => 'premio']);
+
+
+    Route::get('ingreso-datos', [IngresoDatosController::class, 'index'])->name('ingreso-datos.index');
+    Route::put('ingreso-datos', [IngresoDatosController::class, 'update'])->name('ingreso-datos.update');
+
+
+    Route::get('reportes/materiales', [ReporteController::class, 'materiales'])->name('reportes.materiales');
+    Route::get('reportes/materiales-resumido', [ReporteController::class, 'materialesResumido'])->name('reportes.materiales-resumido');
+    Route::get('reportes/materiales-resumido-excel', [ReporteController::class, 'materialesResumidoExcel'])->name('reportes.materiales-resumido-excel');
+
+    Route::get('reportes/peso-por-tratamientos', [ReporteController::class, 'pesos'])->name('reportes.pesos');
+    Route::get('reportes/peso-por-tratamientos-resumido', [ReporteController::class, 'pesosResumido'])->name('reportes.pesos-resumido');
+
+    Route::get('reportes/trabajos-no-aptos', [ReporteController::class, 'trabajosNoAptos'])->name('reportes.trabajos-no-aptos');
+
+    Route::get('reportes/premios-por-aprobacion', [ReporteController::class, 'premiosPorAprobacion'])->name('reportes.premios-por-aprobacion');
+    Route::put('reportes/premios-por-aprobacion', [ReporteController::class, 'premiosPorAprobacionUpdate'])->name('reportes.premios-por-aprobacion.update');
+
+    Route::get('reportes/premios', [ReporteController::class, 'premios'])->name('reportes.premios');
+
+
+
 
 });
 

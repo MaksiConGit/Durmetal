@@ -18,11 +18,13 @@ class RepartirPremioController extends Controller
         return view('produccion.actualizaciones.repartir-premios.index', compact('premios'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $empleados = User::where('CobraPremio', 1)->get();
 
-        return view('produccion.actualizaciones.repartir-premios.create', compact('empleados'));
+        $total = $request->query('total');
+
+        return view('produccion.actualizaciones.repartir-premios.create', compact('empleados', 'total'));
     }
 
     public function store(StorePremioRequest $request)

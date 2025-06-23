@@ -11,24 +11,30 @@ class RepartirPremiosForm extends Component
     public $bases = [];
     public $coeficientes = [];
     public $premios = [];
+    public $total = 0;
 
     public $indiceBasePremios = [];
     public $totalPremios = 0;
 
-    public function mount($empleados)
+    public function mount($empleados, $total = 0)
     {
         $this->empleados = $empleados;
+        $this->total = floatval($total);
+
+        $cantidad = count($empleados);
+        $base_individual = $cantidad > 0 ? $this->total / $cantidad : 0;
 
         foreach ($empleados as $empleado) {
             $id = $empleado->id;
-            $this->bases[$id] = null;
+            $this->bases[$id] = number_format($base_individual, 2, '.', '');
             $this->coeficientes[$id] = number_format(1, 2, '.', '');
             $this->indiceBasePremios[$id] = number_format($empleado->IndiceBasePremio ?? 0, 2, '.', '');
-            $this->premios[$id] = 0;
+            $this->premios[$id] = $base_individual * $this->indiceBasePremios[$id] * $this->coeficientes[$id];
         }
 
         $this->recalcularTotal();
     }
+
 
 
     public function updatedBases()

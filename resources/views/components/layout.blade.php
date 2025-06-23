@@ -324,7 +324,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="tables/datatables.html">
+                      <a href="{{ route('ingreso-datos.index') }}">
                         <span class="sub-item">Ingreso de datos</span>
                       </a>
                     </li>
@@ -341,42 +341,42 @@
                       <div class="collapse" id="subnavproduccion1">
                         <ul class="nav nav-collapse subnav">
                           <li>
-                            <a href="#">
+                            <a href="{{ route('reportes.materiales') }}">
                               <span class="sub-item">Materiales</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('reportes.materiales-resumido') }}">
                               <span class="sub-item">Materiales resumido</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('reportes.materiales-resumido-excel') }}">
                               <span class="sub-item">Materiales resumido (Excel)</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('reportes.pesos') }}">
                               <span class="sub-item">Peso por tratamientos entre fechas</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('reportes.pesos-resumido') }}">
                               <span class="sub-item">Peso por tratamientos entre fechas resumido</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('reportes.trabajos-no-aptos') }}">
                               <span class="sub-item">Trabajos NO APTOS</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('reportes.premios') }}">
                               <span class="sub-item">Premios</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('reportes.premios-por-aprobacion') }}">
                               <span class="sub-item">Premios - Por fecha de aprobación</span>
                             </a>
                           </li>
