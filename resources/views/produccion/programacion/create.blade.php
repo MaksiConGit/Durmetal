@@ -43,52 +43,10 @@
                         @forelse ($items as $index => $item_orden_trabajo)
                             @livewire('item-programacion-row', ['item' => $item_orden_trabajo, 'index' => $index], key($item_orden_trabajo->id))
                         @empty
-                            <tr><td colspan="12">No se encontraron resultados.</td></tr>
+                            <tr><td colspan="13">No se encontraron resultados.</td></tr>
                         @endforelse 
                     </tbody>
 
-
-                    {{-- @forelse ($items as $index => $item_orden_trabajo)
-                        <tr>
-                            <input type="hidden" name="ItemOrdenTrabajoIds[]" value="{{ $item_orden_trabajo->id }}">
-                            <td>{{ $item_orden_trabajo->Descripcion }}</td>
-                            <td>
-                                <select name="NumeroProgramacion" id="">
-
-                                    <option value="0">Nueva</option>
-                                                            
-                                    @php
-                                        $programaciones = $item_orden_trabajo->programacion->filter(function ($programacion) use ($item_orden_trabajo) {
-                                            return $programacion->Cantidad < $item_orden_trabajo->Cantidad;
-                                        });
-                                    @endphp  
-
-                                    @foreach ($programaciones as $programacion)
-                                        <option value="{{$programacion->NumeroProgramacion}}">{{$programacion->tipoProgramacion->Nombre}} {{$programacion->NumeroProgramacion}}</option>
-                                    @endforeach
-
-                                </select>
-                            </td>
-                            <td>
-                                <input type="text" name="Cantidad[]" id="" value="{{ number_format($item_orden_trabajo->Cantidad, 3, '.', '') }}">
-                            </td>
-                            <td>
-                                <input type="hidden" name="Reproceso[{{$index}}]" value="0">
-                                <input type="checkbox" name="Reproceso[{{$index}}]" id="Reproceso[{{$index}}]" value="1">
-                            </td>
-                            <td>{{ $item_orden_trabajo->ordenTrabajo->cliente->Nombre ?? 'Sin razón social' }}</td>
-                            <td>{{ $item_orden_trabajo->FechaCreacion }}</td>
-                            <td>{{ $item_orden_trabajo->ordenTrabajo->Numero }}/{{ $item_orden_trabajo->ItemNumero }}</td>
-                            <td>{{ $item_orden_trabajo->Cantidad }}</td>
-                            <td>{{ $item_orden_trabajo->Peso }}</td>
-                            <td>{{ $item_orden_trabajo->tratamiento->Nombre }}</td>
-                            <td>{{ $item_orden_trabajo->material->Nombre }}</td>
-                            <td>{{ $item_orden_trabajo->dureza->Nombre }}</td>
-                            <td>{{ $item_orden_trabajo->DurezaSolicitadaMinima }} - {{ $item_orden_trabajo->DurezaSolicitadaMaxima }}</td>
-                        </tr>
-                    @empty
-                        <tr><td colspan="12">No se encontraron resultados.</td></tr>
-                    @endforelse --}}
                 </x-slot>
 
                 <x-slot name="foot_tr">
@@ -303,17 +261,6 @@
                 </div>
 
             </div>
-
-            @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
 
         </x-slot>
         <x-slot name="buttons">

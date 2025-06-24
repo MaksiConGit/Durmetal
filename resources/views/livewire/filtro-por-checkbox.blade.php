@@ -215,7 +215,7 @@
 
                             <td>
                                 <label for="">
-                                    <input type="checkbox" name="" id="" wire:model.live="selectedItemIds" value="{{ $item_orden_trabajo->id }}">
+                                    <input type="checkbox" name="" id="" wire:model.live="selectedItemIds" value="{{ $item_orden_trabajo->id }}" onclick="event.stopPropagation();">
                                     {{ in_array($item_orden_trabajo->id, $selectedItemIds) }}
                                 </label>
                             </td>

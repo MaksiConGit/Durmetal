@@ -27,6 +27,10 @@ class ProgramacionController extends Controller
     
     public function create(Request $request)
     {
+        if (!$request->has('items') || empty($request->query('items'))) {
+            return redirect()->route('programacion.index');
+        }
+
         $selectedItemIds = explode(',', $request->query('items'));
 
         $items = ItemOrdenTrabajo::whereIn('id', $selectedItemIds)->get();
