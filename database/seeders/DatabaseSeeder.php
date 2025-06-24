@@ -16,13 +16,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([
-        //     ClientSeeder::class,
-        //     ProductionSeeder::class,
-        // ]);
+        $this->call([
+            ClientSeeder::class,
+            ProductionSeeder::class,
+        ]);
 
-        // Tratamiento::factory(20)->create();
-        // Material::factory(20)->create();
+        Tratamiento::factory(20)->create();
+        Material::factory(20)->create();
         Client::factory(200)->create();
 
     }
