@@ -271,14 +271,14 @@
                                                         <tr>
                                                             <td class="text-start align-middle">
                                                                 <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
-                                                                                                <a
-                                href="{{ route('programacion.edit', $programacion->id) }}"
-                                class="btn btn-link btn-primary p-0"
-                                data-bs-toggle="tooltip"
-                                title="Editar dureza"
-                            >
-                                <i class="fa fa-edit fa-lg"></i>
-                            </a>
+                                                                    <a
+                                                                        href="{{ route('programacion.edit', $programacion->id) }}"
+                                                                        class="btn btn-link btn-primary p-0"
+                                                                        data-bs-toggle="tooltip"
+                                                                        title="Editar programación"
+                                                                    >
+                                                                        <i class="fa fa-edit fa-lg"></i>
+                                                                    </a>
                                                                     <button 
                                                                         type="button"
                                                                         class="btn btn-link btn-danger p-0"
