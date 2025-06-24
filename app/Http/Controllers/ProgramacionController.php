@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProgramacionRequest;
+use App\Http\Requests\UpdateProgramacionRequest;
 use App\Models\Carga;
 use App\Models\Client;
 use App\Models\ItemOrdenTrabajo;
@@ -93,10 +94,42 @@ class ProgramacionController extends Controller
     
     public function show(ItemOrdenTrabajo $item_orden_trabajo)
     {
-        // dd($item_orden_trabajo);
         $programaciones = Programacion::where('IdItemOrdenTrabajo', $item_orden_trabajo->id)->get();
 
         return view('produccion.programacion.show', compact('item_orden_trabajo', 'programaciones'));
+    }
+
+    public function edit(Programacion $programacion)
+    {
+        $item = $programacion->itemOrdenTrabajo;
+
+        $tratamientos = Tratamiento::all();
+        $usuarios = User::all();
+        $tipos_programacion = TipoProgramacion::all();
+        $medios_enfriamiento = MedioEnfriamiento::all();
+
+        return view('produccion.programacion.edit', compact('item', 'programacion', 'tratamientos', 'usuarios', 'tipos_programacion', 'medios_enfriamiento'));
+    }
+
+    public function update(UpdateProgramacionRequest $request, Programacion $programacion)
+    {
+        $user_id = Auth::id();
+    
+        $data = $request->all();
+
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = $user_id;
+
+        $programacion->update($data);
+
+        return redirect()->route('index');
+    }
+
+    public function destroy(Programacion $programacion)
+    {
+        $programacion->delete();
+    
+        return redirect()->route('programacion.index');
     }
 
 }

@@ -246,6 +246,7 @@
 
                                             <x-slot name="head_tr">
                                                 <tr>
+                                                    <th>Opciones</th>
                                                     <th>Programacion</th>
                                                     <th>RP</th>
                                                     <th>Cantidad</th>
@@ -268,6 +269,27 @@
                                                 @foreach ($programacionesAgrupadas as $numeroProgramacion => $grupo)
                                                     @foreach ($grupo as $index => $programacion)
                                                         <tr>
+                                                            <td class="text-start align-middle">
+                                                                <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
+                                                                                                <a
+                                href="{{ route('programacion.edit', $programacion->id) }}"
+                                class="btn btn-link btn-primary p-0"
+                                data-bs-toggle="tooltip"
+                                title="Editar dureza"
+                            >
+                                <i class="fa fa-edit fa-lg"></i>
+                            </a>
+                                                                    <button 
+                                                                        type="button"
+                                                                        class="btn btn-link btn-danger p-0"
+                                                                        data-bs-toggle="tooltip"
+                                                                        title="Eliminar programación"
+                                                                        onclick="confirmDelete({{ $programacion->id }})"
+                                                                    >
+                                                                        <i class="fa fa-times fa-lg"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
                                                             <td>
                                                                 H{{ $programacion->NumeroHorno }} |
                                                                 {{ $programacion->tipoProgramacion->Nombre }}
@@ -348,6 +370,10 @@
         </x-slot>
     </x-form>
 
+    <form id="delete-form" method="POST" style="display:none;">
+        @csrf
+        @method('DELETE')
+    </form>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -368,5 +394,16 @@
         });
         });
   </script>
+
+    <script>
+        function confirmDelete(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta programación?')) {
+                const form = document.getElementById('delete-form');
+                form.action = "{{ route('programacion.destroy', ':id') }}".replace(':id', id);
+                form.submit();
+            }
+        }
+    </script>
+
 
 </div>
