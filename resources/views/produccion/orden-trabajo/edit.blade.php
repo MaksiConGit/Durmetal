@@ -120,31 +120,8 @@
 
     </div>
 
-    <div class="row mb-3">
+    @livewire('buscar-codigo-cliente')
 
-        <div class="col-md-5">
-
-            @php
-                $message = $errors->first('IdCliente') 
-                    ?: (old('IdCliente') ? 'Todo correcto' : null);
-
-                $error = $errors->has('IdCliente')
-                    ? 'is-invalid'
-                    : (old('IdCliente') ? 'is-valid' : null);
-            @endphp
-
-            @include('components.form-input-select2', [
-            'name' => 'IdCliente',
-            'label' => 'Cliente',
-            'route' => route('clientes.buscar'),
-            'placeholder' => 'Selecciona un cliente',
-            'selected' => $clienteSeleccionado ?? null,
-            'message' => $message,
-            'error' => $error,
-            ])
-        </div>
-
-    </div>
 
     <x-data-table-js>
         <x-slot name="table_title">Items Órden de Trabajo</x-slot>
