@@ -266,7 +266,7 @@
                                                     $programacionesAgrupadas = $item_orden_trabajo->programacion->groupBy('NumeroProgramacion');
                                                 @endphp
 
-                                                @foreach ($programacionesAgrupadas as $numeroProgramacion => $grupo)
+                                                @forelse ($programacionesAgrupadas as $numeroProgramacion => $grupo)
                                                     @foreach ($grupo as $index => $programacion)
                                                         <tr>
                                                             <td class="text-start align-middle">
@@ -307,12 +307,14 @@
                                                             <td>{{ $programacion->DurezaMaxima }}</td>
                                                         </tr>
                                                     @endforeach
-                                                @endforeach
-
+                                                @empty
+                                                    <tr><td colspan="12">No se encontraron resultados.</td></tr>
+                                                @endforelse
                                             </x-slot>
 
                                             <x-slot name="foot_tr">
                                                 <tr>
+                                                    <th>Opciones</th>
                                                     <th>Programacion</th>
                                                     <th>RP</th>
                                                     <th>Cantidad</th>

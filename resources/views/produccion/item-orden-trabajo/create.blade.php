@@ -337,16 +337,18 @@
             </div>
         </x-slot>
         <x-slot name="buttons">
-            <x-form-button>
-                <x-slot name="text">Aceptar</x-slot>
-                <x-slot name="color">success</x-slot>
-            </x-form-button>
-            <x-button-js>
-                <x-slot name="text">Volver</x-slot>
-                <x-slot name="color">danger</x-slot>
-                <x-slot name="href">{{ route('orden-trabajo.edit', $orden_trabajo) }}</x-slot>
-                <x-slot name="js">onclick="redirigirAVolverConInputs()"</x-slot>
-            </x-button-js>
+            <div class="d-flex justify-content-end gap-2">
+                <x-form-button>
+                    <x-slot name="text">Aceptar</x-slot>
+                    <x-slot name="color">success</x-slot>
+                </x-form-button>
+                <x-button-js>
+                    <x-slot name="text">Volver</x-slot>
+                    <x-slot name="color">danger</x-slot>
+                    <x-slot name="href">{{ route('orden-trabajo.edit', $orden_trabajo) }}</x-slot>
+                    <x-slot name="js">onclick="redirigirAVolverConInputs()"</x-slot>
+                </x-button-js>
+            </div>
         </x-slot>
     </x-form>
 
