@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Client;
 use App\Models\Material;
 use App\Models\Tratamiento;
 use App\Models\User;
@@ -20,8 +21,9 @@ class DatabaseSeeder extends Seeder
         //     ProductionSeeder::class,
         // ]);
 
-        Tratamiento::factory(20)->create();
-        Material::factory(20)->create();
+        // Tratamiento::factory(20)->create();
+        // Material::factory(20)->create();
+        Client::factory(200)->create();
 
     }
 }

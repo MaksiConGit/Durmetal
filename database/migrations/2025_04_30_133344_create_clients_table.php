@@ -42,11 +42,11 @@ return new class extends Migration
             $table->foreignId('IdCalificacionCliente')->constrained('calificacion_cliente')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
-            $table->date('FechaCreacion')->nullable();
+            $table->dateTime('FechaCreacion')->nullable();
             $table->foreignId('CreadoPor')->constrained('users')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
-            $table->date('FechaActualizacion')->nullable();
+            $table->dateTime('FechaActualizacion')->nullable();
             $table->foreignId('ActualizadoPor')->constrained('users')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
