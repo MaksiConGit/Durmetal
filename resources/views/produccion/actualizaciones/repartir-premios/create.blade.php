@@ -8,6 +8,8 @@
         <li class="nav-item"><a href="#">Actualizaciones</a></li>
         <li class="separator"><i class="icon-arrow-right"></i></li>
         <li class="nav-item"><a href="#">Repartir Premios</a></li>
+        <li class="separator"><i class="icon-arrow-right"></i></li>
+        <li class="nav-item"><a href="#">Añadir Premios</a></li>
     </x-slot>
     <x-form>
         <x-slot name="card_title">Repartir premios por producción</x-slot>

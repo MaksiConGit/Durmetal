@@ -15,6 +15,7 @@
 
     <x-panel-horizontal>
         <x-slot name="title">Tratamiento: "{{$tratamiento->Nombre}}"</x-slot>
+        
         <x-slot name="panel1">General</x-slot>
         <x-slot name="body1">
 
@@ -95,20 +96,25 @@
 
                 </x-slot>
                 <x-slot name="buttons">
-                    <x-form-button>
-                        <x-slot name="text">Guardar</x-slot>
-                        <x-slot name="color">success</x-slot>
-                    </x-form-button>
-                    <x-button>
-                        <x-slot name="text">Cancelar</x-slot>
-                        <x-slot name="color">danger</x-slot>
-                        <x-slot name="href">{{ route('tratamientos.index') }}</x-slot>
-                    </x-button>
+                    <div class="col text-end">
+                        <x-form-button>
+                            <x-slot name="text">Guardar</x-slot>
+                            <x-slot name="color">success</x-slot>
+                        </x-form-button>
+                        <x-button>
+                            <x-slot name="text">Cancelar</x-slot>
+                            <x-slot name="color">danger</x-slot>
+                            <x-slot name="href">{{ route('tratamientos.index') }}</x-slot>
+                        </x-button>
+                    </div>
                 </x-slot>
             </x-form>
+            </div>
 
         </x-slot>
+
         <x-slot name="panel2">Precios</x-slot>
+
         <x-slot name="body2">
 
             <x-data-table>

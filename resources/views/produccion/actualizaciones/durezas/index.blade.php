@@ -31,7 +31,7 @@
                 <tr>
                     <td>{{ $dureza->Nombre }}</td>
                     <td>{{ $dureza->Descripcion }}</td>
-                    <td>{{ $dureza->Predeterminado == 1 ? 'Sí' : 'No' }}</td>
+                    <td><input type="checkbox" name="" id="" disabled {{ $dureza->Predeterminado == 1 ? 'checked' : 'N' }}></td>
                     <td class="text-start align-middle">
                         <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
                             <a

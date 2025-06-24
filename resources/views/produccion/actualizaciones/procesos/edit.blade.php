@@ -10,11 +10,11 @@
         <li class="separator"><i class="icon-arrow-right"></i></li>
         <li class="nav-item"><a href="#">Procesos</a></li>
         <li class="separator"><i class="icon-arrow-right"></i></li>
-        <li class="nav-item"><a href="#">Añadir procesos</a></li>
+        <li class="nav-item"><a href="#">Editar procesos</a></li>
   </x-slot>
 
     <x-form>
-        <x-slot name="card_title">Añadir proceso</x-slot>
+        <x-slot name="card_title">Editar proceso</x-slot>
         <x-slot name="action">{{ route('procesos.update', $proceso) }}</x-slot>
         <x-slot name="method">@method('PUT')</x-slot>
 

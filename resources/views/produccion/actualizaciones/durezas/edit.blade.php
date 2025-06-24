@@ -10,11 +10,11 @@
         <li class="separator"><i class="icon-arrow-right"></i></li>
         <li class="nav-item"><a href="#">Durezas</a></li>
         <li class="separator"><i class="icon-arrow-right"></i></li>
-        <li class="nav-item"><a href="#">Añadir durezas</a></li>
+        <li class="nav-item"><a href="#">Editar durezas</a></li>
   </x-slot>
 
     <x-form>
-        <x-slot name="card_title">Añadir dureza</x-slot>
+        <x-slot name="card_title">Editar dureza</x-slot>
         <x-slot name="action">{{ route('durezas.update', $dureza) }}</x-slot>
         <x-slot name="method">@method('PUT')</x-slot>
 
@@ -79,15 +79,17 @@
 
         </x-slot>
         <x-slot name="buttons">
-            <x-form-button>
-                <x-slot name="text">Guardar</x-slot>
-                <x-slot name="color">success</x-slot>
-            </x-form-button>
-            <x-button>
-                <x-slot name="text">Cancelar</x-slot>
-                <x-slot name="color">danger</x-slot>
-                <x-slot name="href">{{ route('durezas.index') }}</x-slot>
-            </x-button>
+            <div class="d-flex justify-content-end gap-2">
+                <x-form-button>
+                    <x-slot name="text">Guardar</x-slot>
+                    <x-slot name="color">success</x-slot>
+                </x-form-button>
+                <x-button>
+                    <x-slot name="text">Cancelar</x-slot>
+                    <x-slot name="color">danger</x-slot>
+                    <x-slot name="href">{{ route('durezas.index') }}</x-slot>
+                </x-button>
+            </div>
         </x-slot>
     </x-form>
 </x-layout>

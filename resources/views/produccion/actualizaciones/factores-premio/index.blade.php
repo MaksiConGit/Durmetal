@@ -31,7 +31,7 @@
                 <tr>
                     <td>{{ $factor_premio->Nombre }}</td>
                     <td>{{ number_format($factor_premio->ValorPredeterminado, 2, '.', '') }}</td>
-                    <td>{{ $factor_premio->Activo == 1 ? 'Sí' : 'No' }}</td>
+                    <td><input type="checkbox" name="" id="" disabled {{ $factor_premio->Activo == 1 ? 'checked' : 'N' }}></td>
                     <td class="text-start align-middle">
                         <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
                             <a
@@ -54,7 +54,7 @@
                                     type="submit"
                                     class="btn btn-link btn-danger p-0"
                                     data-bs-toggle="tooltip"
-                                    title="Eliminar factor spremio"
+                                    title="Eliminar factor premio"
                                 >
                                     <i class="fa fa-times fa-lg"></i>
                                 </button>

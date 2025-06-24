@@ -10,11 +10,11 @@
         <li class="separator"><i class="icon-arrow-right"></i></li>
         <li class="nav-item"><a href="#">Medios de enfriamiento</a></li>
         <li class="separator"><i class="icon-arrow-right"></i></li>
-        <li class="nav-item"><a href="#">Añadir medios de enfriamiento</a></li>
+        <li class="nav-item"><a href="#">Editar medios de enfriamiento</a></li>
   </x-slot>
 
     <x-form>
-        <x-slot name="card_title">Añadir medio de enfriamiento</x-slot>
+        <x-slot name="card_title">Editar medios de enfriamiento</x-slot>
         <x-slot name="action">{{ route('medios-enfriamiento.update', $medio_enfriamiento) }}</x-slot>
         <x-slot name="method">@method('PUT')</x-slot>
 
@@ -54,15 +54,17 @@
 
         </x-slot>
         <x-slot name="buttons">
-            <x-form-button>
-                <x-slot name="text">Guardar</x-slot>
-                <x-slot name="color">success</x-slot>
-            </x-form-button>
-            <x-button>
-                <x-slot name="text">Cancelar</x-slot>
-                <x-slot name="color">danger</x-slot>
-                <x-slot name="href">{{ route('medios-enfriamiento.index') }}</x-slot>
-            </x-button>
+            <div class="d-flex justify-content-end gap-2">
+                <x-form-button>
+                    <x-slot name="text">Guardar</x-slot>
+                    <x-slot name="color">success</x-slot>
+                </x-form-button>
+                <x-button>
+                    <x-slot name="text">Cancelar</x-slot>
+                    <x-slot name="color">danger</x-slot>
+                    <x-slot name="href">{{ route('medios-enfriamiento.index') }}</x-slot>
+                </x-button>
+            </div>
         </x-slot>
     </x-form>
 </x-layout>

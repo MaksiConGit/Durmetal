@@ -163,15 +163,17 @@
 
         </x-slot>
         <x-slot name="buttons">
-            <x-form-button>
-                <x-slot name="text">Guardar</x-slot>
-                <x-slot name="color">success</x-slot>
-            </x-form-button>
-            <x-button>
-                <x-slot name="text">Cancelar</x-slot>
-                <x-slot name="color">danger</x-slot>
-                <x-slot name="href">{{ route('tratamientos.edit', $precio->tratamiento) }}</x-slot>
-            </x-button>
+            <div class="col text-end">
+                <x-form-button>
+                    <x-slot name="text">Guardar</x-slot>
+                    <x-slot name="color">success</x-slot>
+                </x-form-button>
+                <x-button>
+                    <x-slot name="text">Cancelar</x-slot>
+                    <x-slot name="color">danger</x-slot>
+                    <x-slot name="href">{{ route('tratamientos.edit', $precio->tratamiento) }}</x-slot>
+                </x-button>
+            </div>
         </x-slot>
     </x-form>
 </x-layout>
