@@ -120,31 +120,8 @@
 
     </div>
 
-    <div class="row mb-3">
+    @livewire('buscar-codigo-cliente')
 
-        <div class="col-md-5">
-
-            @php
-                $message = $errors->first('IdCliente') 
-                    ?: (old('IdCliente') ? 'Todo correcto' : null);
-
-                $error = $errors->has('IdCliente')
-                    ? 'is-invalid'
-                    : (old('IdCliente') ? 'is-valid' : null);
-            @endphp
-
-            @include('components.form-input-select2', [
-            'name' => 'IdCliente',
-            'label' => 'Cliente',
-            'route' => route('clientes.buscar'),
-            'placeholder' => 'Selecciona un cliente',
-            'selected' => $clienteSeleccionado ?? null,
-            'message' => $message,
-            'error' => $error,
-            ])
-        </div>
-
-    </div>
 
     <x-data-table-js>
         <x-slot name="table_title">Items Órden de Trabajo</x-slot>
@@ -167,45 +144,37 @@
         </x-slot>
         <x-slot name="body_tr">
 
-            @forelse ($items_orden_trabajo as $items_orden_trabajo)
+            @forelse ($items_orden_trabajo as $item_orden_trabajo)
                 <tr>
-                    <td>{{ $items_orden_trabajo->Descripcion }}</td>
-                    <td>{{ $items_orden_trabajo->material->Nombre }}</td>
-                    <td>{{ $items_orden_trabajo->Cantidad }}</td>
-                    <td>{{ $items_orden_trabajo->Peso }}</td>
-                    <td>{{ $items_orden_trabajo->tratamiento->Nombre }}</td>
-                    <td>{{ $items_orden_trabajo->dureza->Nombre }}</td>
-                    <td>{{ $items_orden_trabajo->DurezaSolicitadaMinima }}</td>
-                    <td>{{ $items_orden_trabajo->DurezaSolicitadaMaxima }}</td>
-                    <td class="text-center align-middle">
-                        <div class="d-flex align-items-center gap-3 ms-3">
+                    <td>{{ $item_orden_trabajo->Descripcion }}</td>
+                    <td>{{ $item_orden_trabajo->material->Nombre }}</td>
+                    <td>{{ $item_orden_trabajo->Cantidad }}</td>
+                    <td>{{ $item_orden_trabajo->Peso }}</td>
+                    <td>{{ $item_orden_trabajo->tratamiento->Nombre }}</td>
+                    <td>{{ $item_orden_trabajo->dureza->Nombre }}</td>
+                    <td>{{ $item_orden_trabajo->DurezaSolicitadaMinima }}</td>
+                    <td>{{ $item_orden_trabajo->DurezaSolicitadaMaxima }}</td>
+                    <td class="text-start align-middle">
+                        <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
                             <a
-                            href="{{ route('item-orden-trabajo.edit', $items_orden_trabajo) }}"
-                            class="btn btn-link btn-primary p-0"
-                            data-bs-toggle="tooltip"
-                            title="Editar item"
+                                href="{{ route('item-orden-trabajo.edit', $item_orden_trabajo->id) }}"
+                                class="btn btn-link btn-primary p-0"
+                                data-bs-toggle="tooltip"
+                                title="Editar ítem"
                             >
-                            <i class="fa fa-edit fa-lg"></i>
+                                <i class="fa fa-edit fa-lg"></i>
                             </a>
-                            {{-- <form
-                            action="{{ route('item-orden-trabajo.destroy', $items_orden_trabajo) }}"
-                            method="POST"
-                            onsubmit="return confirm('¿Estás seguro de que quieres eliminar este cliente?')"
-                            class="m-0 p-0"
-                            >
-                            @csrf
-                            @method('DELETE')
-                            <button
-                                type="submit"
+                            <button 
+                                type="button"
                                 class="btn btn-link btn-danger p-0"
                                 data-bs-toggle="tooltip"
-                                title="Eliminar item"
+                                title="Eliminar ítem"
+                                onclick="confirmDelete({{ $item_orden_trabajo->id }})"
                             >
                                 <i class="fa fa-times fa-lg"></i>
                             </button>
-                            </form> --}}
                         </div>
-                        </td>
+                    </td>
                         
                 </tr>
             @empty
@@ -229,17 +198,35 @@
 
     </x-slot>
     <x-slot name="buttons">
-        <x-form-button>
-            <x-slot name="text">Guardar</x-slot>
-            <x-slot name="color">success</x-slot>
-        </x-form-button>
-        <x-button>
-            <x-slot name="text">Cancelar</x-slot>
-            <x-slot name="color">danger</x-slot>
-            <x-slot name="href">{{ route('index') }}</x-slot>
-        </x-button>
+        <div class="d-flex justify-content-end gap-2">
+            <x-form-button>
+                <x-slot name="text">Guardar</x-slot>
+                <x-slot name="color">success</x-slot>
+            </x-form-button>
+            <x-button>
+                <x-slot name="text">Cancelar</x-slot>
+                <x-slot name="color">danger</x-slot>
+                <x-slot name="href">{{ route('index') }}</x-slot>
+            </x-button>
+        </div>
     </x-slot>
   </x-form>
+
+      <form id="delete-form" method="POST" style="display:none;">
+        @csrf
+        @method('DELETE')
+    </form>
+
+
+    <script>
+        function confirmDelete(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar este ítem?')) {
+                const form = document.getElementById('delete-form');
+                form.action = "{{ route('item-orden-trabajo.destroy', ':id') }}".replace(':id', id);
+                form.submit();
+            }
+        }
+    </script>
 
   <script>
     

@@ -31,7 +31,7 @@
                 <tr>
                     <td>{{ $tratamiento->Nombre }}</td>
                     <td>{{ $tratamiento->Descripcion }}</td>
-                    <td>{{ $tratamiento->Predeterminado == 1 ? 'Sí' : 'No' }}</td>
+                    <td><input type="checkbox" name="" id="" disabled {{ $tratamiento->Predeterminado == 1 ? 'checked' : '' }}></td>
                     <td class="text-start align-middle">
                         <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
                             <a

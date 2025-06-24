@@ -57,8 +57,11 @@ Route::middleware('auth')->group(function () {
     Route::get('programacion', [ProgramacionController::class, 'index'])->name('programacion.index');
     Route::get('programacion/create', [ProgramacionController::class, 'create'])->name('programacion.create');
     Route::post('programacion', [ProgramacionController::class, 'store'])->name('programacion.store');
+    Route::get('/programacion/{programacion}/edit', [ProgramacionController::class, 'edit'])->name('programacion.edit');
+    Route::put('programacion/{programacion}', [ProgramacionController::class, 'update'])->name('programacion.update');
     Route::get('programacion/export', [ProgramacionExportController::class, 'export'])->name('programacion.export');
     Route::get('programacion/{item_orden_trabajo}', [ProgramacionController::class, 'show'])->name('programacion.show');
+    Route::delete('/programacion/{programacion}', [ProgramacionController::class, 'destroy'])->name('programacion.destroy');
 
     Route::get('/cargas', [CargaController::class, 'index'])->name('cargas.index');
     Route::get('cargas/{ids}', [CargaController::class, 'show'])->name('cargas.show');

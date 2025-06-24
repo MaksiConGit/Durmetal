@@ -152,7 +152,7 @@ class ItemOrdenTrabajoController extends Controller
         
         $item_orden_trabajo->delete();
     
-        return redirect()->route('orden-trabajo.show', $orden_trabajo);
+        return redirect()->route('orden-trabajo.edit', $orden_trabajo);
     }
 
 }

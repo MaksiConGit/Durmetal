@@ -8,12 +8,12 @@
         <li class="separator"><i class="icon-arrow-right"></i></li>
         <li class="nav-item"><a href="#">Actualizaciones</a></li>
         <li class="separator"><i class="icon-arrow-right"></i></li>
-        <li class="nav-item"><a href="#">Medios Enfriamiento</a></li>
+        <li class="nav-item"><a href="#">Medios de Enfriamiento</a></li>
   </x-slot>
     
     <x-data-table >
       
-        <x-slot name="table_title">Medios Enfriamiento</x-slot>
+        <x-slot name="table_title">Medios de Enfriamiento</x-slot>
         <x-slot name="export_route">{{ route('clients.export') }}</x-slot>
         <x-slot name="create_route">{{ route('medios-enfriamiento.create') }}</x-slot>
         <x-slot name="add_text">Añadir medio enfriamiento</x-slot>
@@ -29,7 +29,7 @@
             @forelse ($medios_enfriamiento as $medio_enfriamiento)
                 <tr>
                     <td>{{ $medio_enfriamiento->Nombre }}</td>
-                    <td>{{ $medio_enfriamiento->Predeterminado == 1 ? 'Sí' : 'No' }}</td>
+                    <td><input type="checkbox" name="" id="" disabled {{ $medio_enfriamiento->Predeterminado == 1 ? 'checked' : 'N' }}></td>
                     <td class="text-start align-middle">
                         <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
                             <a

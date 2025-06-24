@@ -10,8 +10,8 @@
 
     <x-form>
         <x-slot name="card_title">Programar</x-slot>
-        <x-slot name="action">{{ route('programacion.store') }}</x-slot>
-        <x-slot name="method"></x-slot>
+        <x-slot name="action">{{ route('programacion.update', $programacion) }}</x-slot>
+        <x-slot name="method">@method('PUT')</x-slot>
         <x-slot name="inputs">
 
             <x-data-table-no-plus>
@@ -23,28 +23,50 @@
                     <tr>
                         <th>Descripción</th>
                         <th>Programacion</th>
-                        <th>A programar</th>
+                        <th>N° Prog.</th>
+                        <th>Cantidad.</th>
                         <th>RP</th>
-                        <th>Razón Social</th>
-                        <th>Fecha</th>
-                        <th>OTI</th>
-                        <th>Cant.</th>
-                        <th>Peso</th>
-                        <th>Trat.</th>
-                        <th>Material</th>
-                        <th>Dureza</th>
-                        <th>DSMIN - DSMAX</th>
+                        <th>Apto</th>
+                        <th>Fecha Carga</th>
+                        <th>Fecha Descarga</th>
+                        <th>Ejec. Por</th>
+                        <th>Temperatura</th>
+                        <th>Medio Enf.</th>
+                        <th>DMIN</th>
+                        <th>DMAX</th>
                     </tr>
                 </x-slot>
 
                 <x-slot name="body_tr">
 
                     <tbody>
-                        @forelse ($items as $index => $item_orden_trabajo)
-                            @livewire('item-programacion-row', ['item' => $item_orden_trabajo, 'index' => $index], key($item_orden_trabajo->id))
-                        @empty
-                            <tr><td colspan="13">No se encontraron resultados.</td></tr>
-                        @endforelse 
+
+                        <tr>
+                            <input type="hidden" name="ItemOrdenTrabajoId" value="{{ $item->id }}">
+                            <td>{{ $item->Descripcion }}</td>
+                            <td>H{{ $programacion->NumeroHorno }} | {{ $programacion->tipoProgramacion->Nombre }}</td>
+                            <td>{{ $programacion->NumeroProgramacion }}</td>
+                            <td><input type="text" name="Cantidad" value="{{ number_format($programacion->Cantidad, 3, '.', '') }}"></td>
+                            <td>
+                                <input type="hidden" name="Reproceso" value="0">
+                                <input type="checkbox" name="Reproceso" id="Reproceso" value="1" {{ $programacion->Reproceso == '1' ? 'checked' : '' }}>
+                            </td>
+                            <td>
+                                @if ($programacion->Apto == 'SI')
+                                    Apto
+                                @elseif ($programacion->Apto == 'NO')
+                                    No Apto
+                                @endif
+                            </td>
+                            <td>{{ $programacion->FechaCarga }}</td>
+                            <td>{{ $programacion->FechaDescarga }}</td>
+                            <td>{{ $programacion->ejecutadoPorOperador->name }}</td>
+                            <td>{{ $programacion->Temperatura }}</td>
+                            <td>{{ $programacion->medioEnfriamiento->Nombre }}</td>
+                            <td>{{ $programacion->DurezaMinima }}</td>
+                            <td>{{ $programacion->DurezaMaxima }}</td>
+                        </tr>
+
                     </tbody>
 
                 </x-slot>
@@ -53,17 +75,17 @@
                     <tr>
                         <th>Descripción</th>
                         <th>Programacion</th>
-                        <th>A programar</th>
+                        <th>N° Prog.</th>
+                        <th>Cantidad.</th>
                         <th>RP</th>
-                        <th>Razón Social</th>
-                        <th>Fecha</th>
-                        <th>OTI</th>
-                        <th>Cant.</th>
-                        <th>Peso</th>
-                        <th>Trat.</th>
-                        <th>Material</th>
-                        <th>Dureza</th>
-                        <th>DSMIN - DSMAX</th>
+                        <th>Apto</th>
+                        <th>Fecha Carga</th>
+                        <th>Fecha Descarga</th>
+                        <th>Ejec. Por</th>
+                        <th>Temperatura</th>
+                        <th>Medio Enf.</th>
+                        <th>DMIX</th>
+                        <th>DMAX</th>
                     </tr>
                 </x-slot>
             </x-data-table-no-plus>
@@ -79,7 +101,10 @@
                             <x-slot name="name">IdTipoProgramacion</x-slot>
                             <x-slot name="option">
                                 @foreach ($tipos_programacion as $tipo_programacion)
-                                    <option value="{{$tipo_programacion->id}}" {{$tipo_programacion->id == old('IdTipoProgramacion') ? 'selected' : ''}}>{{$tipo_programacion->Nombre}}</option>
+                                    <option value="{{$tipo_programacion->id}}"
+                                        {{$tipo_programacion->id == old('IdTipoProgramacion', $programacion->tipoProgramacion->id) ? 'selected' : ''}}>
+                                            {{$tipo_programacion->Nombre}}
+                                    </option>
                                 @endforeach
                             </x-slot>
                             <x-slot name="message">
@@ -108,7 +133,7 @@
                         <x-form-input-datetime-local>
                             <x-slot name="label">Fecha Carga</x-slot>
                             <x-slot name="name">FechaCarga</x-slot>
-                            <x-slot name="value">{{ old('FechaCarga', now()->format('Y-m-d\TH:i')) }}</x-slot>
+                            <x-slot name="value">{{ old('FechaCarga', $programacion->FechaCarga) }}</x-slot>
                             <x-slot name="message">
                                 @if ($errors->has('FechaCarga'))
                                     {{ $errors->first('FechaCarga') }}
@@ -130,7 +155,7 @@
                         <x-form-input-datetime-local>
                             <x-slot name="label">Fecha Descarga</x-slot>
                             <x-slot name="name">FechaDescarga</x-slot>
-                            <x-slot name="value">{{ old('FechaDescarga') }}</x-slot>
+                            <x-slot name="value">{{ old('FechaDescarga', $programacion->FechaDescarga) }}</x-slot>
                             <x-slot name="message">
                                 @if ($errors->has('FechaDescarga'))
                                     {{ $errors->first('FechaDescarga') }}
@@ -154,7 +179,9 @@
                             <x-slot name="name">EjecutadoPorOperador</x-slot>
                             <x-slot name="option">
                                 @foreach ($usuarios as $usuario)
-                                    <option value="{{$usuario->id}}" {{$usuario->id == old('EjecutadoPorOperador') ? 'selected' : ''}}>{{$usuario->name}}</option>                            
+                                    <option value="{{$usuario->id}}"
+                                        {{$usuario->id == old('EjecutadoPorOperador', $programacion->ejecutadoPorOperador->id) ? 'selected' : ''}}>
+                                            {{$usuario->name}}</option>                            
                                 @endforeach
                             </x-slot>
                             <x-slot name="message">
@@ -182,27 +209,27 @@
                             <x-slot name="label">Horno</x-slot>
                             <x-slot name="inputs">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="NumeroHorno" id="horno1" value="1" checked/>
+                                    <input class="form-check-input" type="radio" name="NumeroHorno" id="horno1" value="1" {{$programacion->NumeroHorno == 1 ? 'checked' : ''}}/>
                                     <label class="form-check-label" for="horno1">H1</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="NumeroHorno" id="horno2" value="2" />
+                                    <input class="form-check-input" type="radio" name="NumeroHorno" id="horno2" value="2" {{$programacion->NumeroHorno == 2 ? 'checked' : ''}}/>
                                     <label class="form-check-label" for="horno2">H2</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="NumeroHorno" id="horno3" value="3" />
+                                    <input class="form-check-input" type="radio" name="NumeroHorno" id="horno3" value="3" {{$programacion->NumeroHorno == 3 ? 'checked' : ''}}/>
                                     <label class="form-check-label" for="horno3">H3</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="NumeroHorno" id="horno4" value="4" />
+                                    <input class="form-check-input" type="radio" name="NumeroHorno" id="horno4" value="4" {{$programacion->NumeroHorno == 4 ? 'checked' : ''}}/>
                                     <label class="form-check-label" for="horno4">H4</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="NumeroHorno" id="horno5" value="5" />
+                                    <input class="form-check-input" type="radio" name="NumeroHorno" id="horno5" value="5" {{$programacion->NumeroHorno == 5 ? 'checked' : ''}}/>
                                     <label class="form-check-label" for="horno5">H5</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="NumeroHorno" id="horno6" value="6" />
+                                    <input class="form-check-input" type="radio" name="NumeroHorno" id="horno6" value="6" {{$programacion->NumeroHorno == 6 ? 'checked' : ''}}/>
                                     <label class="form-check-label" for="horno6">H6</label>
                                 </div>
                             </x-slot>
@@ -214,7 +241,7 @@
                             <x-slot name="label">Temperatura</x-slot>
                             <x-slot name="name">Temperatura</x-slot>
                             <x-slot name="placeholder"></x-slot>
-                            <x-slot name="value">{{ old('Temperatura', 850) }}</x-slot>
+                            <x-slot name="value">{{ old('Temperatura', $programacion->Temperatura) }}</x-slot>
                             <x-slot name="message">
                                 @if ($errors->has('Temperatura'))
                                     {{ $errors->first('Temperatura') }}
@@ -238,7 +265,10 @@
                             <x-slot name="name">IdMedioEnfriamiento</x-slot>
                             <x-slot name="option">
                                 @foreach ($medios_enfriamiento as $medio_enfriamiento)
-                                    <option value="{{ $medio_enfriamiento->id }}" {{$medio_enfriamiento->id == old('IdMedioEnfriamiento') ? 'selected' : ''}}>{{$medio_enfriamiento->Nombre}}</option>                            
+                                    <option value="{{ $medio_enfriamiento->id }}"
+                                        {{$medio_enfriamiento->id == old('IdMedioEnfriamiento', $programacion->medioEnfriamiento->id) ? 'selected' : ''}}>
+                                        {{$medio_enfriamiento->Nombre}}
+                                    </option>                            
                                 @endforeach
                             </x-slot>
                             <x-slot name="message">

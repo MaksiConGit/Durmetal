@@ -79,15 +79,17 @@
 
         </x-slot>
         <x-slot name="buttons">
-            <x-form-button>
-                <x-slot name="text">Guardar</x-slot>
-                <x-slot name="color">success</x-slot>
-            </x-form-button>
-            <x-button>
-                <x-slot name="text">Cancelar</x-slot>
-                <x-slot name="color">danger</x-slot>
-                <x-slot name="href">{{ route('durezas.index') }}</x-slot>
-            </x-button>
+            <div class="d-flex justify-content-end gap-2">
+                <x-form-button>
+                    <x-slot name="text">Guardar</x-slot>
+                    <x-slot name="color">success</x-slot>
+                </x-form-button>
+                <x-button>
+                    <x-slot name="text">Cancelar</x-slot>
+                    <x-slot name="color">danger</x-slot>
+                    <x-slot name="href">{{ route('durezas.index') }}</x-slot>
+                </x-button>
+            </div>
         </x-slot>
     </x-form>
 </x-layout>

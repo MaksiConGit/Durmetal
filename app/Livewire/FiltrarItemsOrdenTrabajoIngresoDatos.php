@@ -18,6 +18,12 @@ class FiltrarItemsOrdenTrabajoIngresoDatos extends Component
 
     public $cliente_id = null;
 
+    public function mount()
+    {
+        $this->fecha_fin = now()->format('Y-m-d');
+        $this->fecha_inicio = now()->subMonth()->format('Y-m-d');
+    }
+
     public function render()
     {
         $query = ItemOrdenTrabajo::with([

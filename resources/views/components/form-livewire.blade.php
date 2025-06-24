@@ -2,7 +2,7 @@
     {{-- <div class="page-inner"> --}}
       <div class="row">
         <div class="col-md-12">
-          <form action="{{ $action }}" method="POST">
+          <form action="{{ $action }}" method="POST" {{$livewire}}>
             @csrf
             {{$method}}
             <div class="card">

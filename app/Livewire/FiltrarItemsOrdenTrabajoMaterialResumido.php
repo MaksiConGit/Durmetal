@@ -17,6 +17,12 @@ class FiltrarItemsOrdenTrabajoMaterialResumido extends Component
     public $materiales_seleccionados = [];
     public $cliente_id = null;
 
+    public function mount()
+    {
+        $this->fecha_fin = Carbon::now()->format('Y-m-d');
+        $this->fecha_inicio = Carbon::now()->subMonths(3)->format('Y-m-d');
+    }
+
     public function render()
     {
         $query = ItemOrdenTrabajo::with([
