@@ -290,12 +290,12 @@
                             </a>
                           </li>
                           <li>
-                            <a href="{{ route('tratamientos.index') }}">
+                            <a href="#">
                               <span class="sub-item">Precios</span>
                             </a>
                           </li>
                           <li>
-                            <a href="{{ route('divisas.edit') }}">
+                            <a href="#">
                               <span class="sub-item">Divisas</span>
                             </a>
                           </li>

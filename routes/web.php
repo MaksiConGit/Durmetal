@@ -5,7 +5,6 @@ use App\Http\Controllers\CargaController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CodigoComplejidadController;
-use App\Http\Controllers\DivisasController;
 use App\Http\Controllers\DurezaController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FactorPremioController;
@@ -105,10 +104,6 @@ Route::middleware('auth')->group(function () {
     Route::get('reportes/premios', [ReporteController::class, 'premios'])->name('reportes.premios');
 
 
-    // Ventas
-
-    Route::get('divisas', [DivisasController::class, 'edit'])->name('divisas.edit');
-    Route::put('divisas/{configuracion_global}', [DivisasController::class, 'update'])->name('divisas.update');
 
 
 });

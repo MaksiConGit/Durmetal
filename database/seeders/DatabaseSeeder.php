@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ClientSeeder::class,
             ProductionSeeder::class,
-            VentasSeeder::class,
         ]);
 
         Tratamiento::factory(20)->create();
