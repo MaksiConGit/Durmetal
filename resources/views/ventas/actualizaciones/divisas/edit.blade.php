@@ -1,17 +1,16 @@
 <x-layout>
-    <x-slot name="title">Producción</x-slot>
+    <x-slot name="title">Ventas</x-slot>
     <x-slot name="breadcrumbs">
         <li class="nav-home">
-            <a href="#"><i class="fas fa-cogs"></i></a>
+            <a href="#"><i class="fas fa-dollar-sign"></i></a>
         </li>
         <li class="separator"><i class="icon-arrow-right"></i></li>
-        <li class="nav-item"><a href="#">Ingreso de materiales</a></li>
+        <li class="nav-item"><a href="#">Actualizaciones</a></li>
         <li class="separator"><i class="icon-arrow-right"></i></li>
-        <li class="nav-item"><a href="#">Selección de Orden de Trabajo</a></li>
+        <li class="nav-item"><a href="#">Divisas</a></li>
     </x-slot>
 
     <x-form>
-        <x-slot name="title">Durmetal</x-slot>
         <x-slot name="card_title">Divisas</x-slot>
         <x-slot name="action">{{ route('divisas.update', $configuracion_global) }}</x-slot>
         <x-slot name="method">@method('PUT')</x-slot>
@@ -63,18 +62,6 @@
                 </x-form-input-date-disabled>
 
             </div>
-
-            @if ($errors->any())
-    <div class="alert alert-danger">
-        <strong>Se encontraron los siguientes errores:</strong>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
 
         </x-slot>
         <x-slot name="buttons">
