@@ -258,7 +258,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#-icons.html">
+                      <a href="{{ route('ventas.trabajos-sin-facturar') }}">
                         <span class="sub-item">Listado de trabajos pendientes a facturar</span>
                       </a>
                     </li>

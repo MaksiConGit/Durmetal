@@ -6,6 +6,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CodigoComplejidadController;
 use App\Http\Controllers\DivisasController;
+use App\Http\Controllers\DocumentosController;
 use App\Http\Controllers\DurezaController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FactorPremioController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\ProgramacionExportController;
 use App\Http\Controllers\RepartirPremioController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\TratamientoController;
+use App\Http\Controllers\VentasController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', function () {
@@ -106,11 +108,18 @@ Route::middleware('auth')->group(function () {
 
 
     // Ventas
-
     Route::get('divisas', [DivisasController::class, 'edit'])->name('divisas.edit');
     Route::put('divisas/{configuracion_global}', [DivisasController::class, 'update'])->name('divisas.update');
 
+    Route::get('documentos', [DocumentosController::class, 'index'])->name('documentos.index');
+    Route::get('nota-de-envio/{id}', [DocumentosController::class, 'notaDeEnvio'])->name('documentos.nota-de-envio');
+    Route::get('factura-de-venta/{id}', [DocumentosController::class, 'facturaDeVenta'])->name('documentos.factura-de-venta');
+    Route::get('nota-de-debito/{id}', [DocumentosController::class, 'notaDeDebito'])->name('documentos.nota-de-debito');
+    Route::get('nota-de-credito/{id}', [DocumentosController::class, 'notaDeCredito'])->name('documentos.nota-de-credito');
+    Route::get('recibo-de-venta/{id}', [DocumentosController::class, 'reciboDeVenta'])->name('documentos.recibo-de-venta');
 
+
+    Route::get('trabajos-pendientes-de-facturar', [VentasController::class, 'trabajosSinFacturar'])->name('ventas.trabajos-sin-facturar');
 });
 
 require __DIR__.'/auth.php';
