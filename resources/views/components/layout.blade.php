@@ -263,7 +263,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#-icons.html">
+                      <a href="{{ route('ventas.listado-de-retenciones') }}">
                         <span class="sub-item">Listado de retenciones</span>
                       </a>
                     </li>

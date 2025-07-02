@@ -111,15 +111,8 @@ Route::middleware('auth')->group(function () {
     Route::get('divisas', [DivisasController::class, 'edit'])->name('divisas.edit');
     Route::put('divisas/{configuracion_global}', [DivisasController::class, 'update'])->name('divisas.update');
 
-    Route::get('documentos', [DocumentosController::class, 'index'])->name('documentos.index');
-    Route::get('nota-de-envio/{id}', [DocumentosController::class, 'notaDeEnvio'])->name('documentos.nota-de-envio');
-    Route::get('factura-de-venta/{id}', [DocumentosController::class, 'facturaDeVenta'])->name('documentos.factura-de-venta');
-    Route::get('nota-de-debito/{id}', [DocumentosController::class, 'notaDeDebito'])->name('documentos.nota-de-debito');
-    Route::get('nota-de-credito/{id}', [DocumentosController::class, 'notaDeCredito'])->name('documentos.nota-de-credito');
-    Route::get('recibo-de-venta/{id}', [DocumentosController::class, 'reciboDeVenta'])->name('documentos.recibo-de-venta');
-
-
     Route::get('trabajos-pendientes-de-facturar', [VentasController::class, 'trabajosSinFacturar'])->name('ventas.trabajos-sin-facturar');
+    Route::get('listado-de-retenciones', [VentasController::class, 'listadoDeRetenciones'])->name('ventas.listado-de-retenciones');
 });
 
 require __DIR__.'/auth.php';

@@ -15,4 +15,11 @@ class VentasController extends Controller
 
         return view('ventas.trabajos-sin-facturar.index', compact('clientes', 'items_orden_trabajo'));
     }
+
+    public function listadoDeRetenciones()
+    {
+        $clientes = Client::limit(20)->get();
+
+        return view('ventas.listado-de-retenciones.index', compact('clientes'));
+    }
 }
