@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\ConfiguracionGlobal;
+use App\Models\FactorPremio;
+use App\Models\FactorPremioUsuario;
+use App\Models\ItemPremio;
+use App\Models\Premio;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -61,6 +65,83 @@ class VentasSeeder extends Seeder
             'FechaActualizacionUSD_ARS' => Carbon::now()->subDays(1),
             'FechaEmisionValidaDesde' => 20240101,
             'FechaEmisionValidaHasta' => 20241231,
+        ]);
+
+        FactorPremio::create([
+            'Nombre' => 'Proactividad',
+            'ValorPredeterminado' => '1.00',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        FactorPremio::create([
+            'Nombre' => 'Presentismo',
+            'ValorPredeterminado' => '2.00',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        FactorPremio::create([
+            'Nombre' => 'Predisposición Trab. en Equipo',
+            'ValorPredeterminado' => '1.00',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        FactorPremioUsuario::create([
+            'IdUsuario' => '1',
+            'IdFactorPremio' => '1',
+            'Valor' => '2.00',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        FactorPremioUsuario::create([
+            'IdUsuario' => '1',
+            'IdFactorPremio' => '2',
+            'Valor' => '1.00',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        Premio::create([
+            'Nombre' => 'JUNIO 2025',
+            'FechaDesde' => now(),
+            'FechaHasta' => now(),
+            'Premio' => 1000000.22,
+            'Estado' => 'COMPLETO',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+        ]);
+
+        ItemPremio::create([
+            'IdPremio' => '1',
+            'IdUsuario' => 1,
+            'PremioBase' => 300000,
+            'IndiceBase' => 1,
+            'Coeficiente' => 0.9,
+            'Premio' => 300000 * 1 * 0.9,
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
         ]);
     }
 }

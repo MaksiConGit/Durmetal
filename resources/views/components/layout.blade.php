@@ -268,7 +268,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#-icons.html">
+                      <a href="{{ route('ventas.listado-de-precios') }}">
                         <span class="sub-item">Listado de precios</span>
                       </a>
                     </li>

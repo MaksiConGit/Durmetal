@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\ConfiguracionGlobal;
 use App\Models\ItemOrdenTrabajo;
+use App\Models\Tratamiento;
 use Illuminate\Http\Request;
 
 class VentasController extends Controller
@@ -21,5 +23,13 @@ class VentasController extends Controller
         $clientes = Client::limit(20)->get();
 
         return view('ventas.listado-de-retenciones.index', compact('clientes'));
+    }
+    
+    public function listadoDePrecios()
+    {
+        $tratamientos = Tratamiento::all();
+        $configuracion_global = ConfiguracionGlobal::first();
+
+        return view('ventas.listado-de-precios.index', compact('tratamientos', 'configuracion_global'));
     }
 }
