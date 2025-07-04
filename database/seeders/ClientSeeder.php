@@ -25,9 +25,9 @@ class ClientSeeder extends Seeder
     {
         User::create([
             'name' => 'admin',
-            'email' => 'admin@admin',
-            'password' => '$2y$12$RfmcqnawgVnwBH4voQSaau3RPNW.OPq8FAuSXIcWlhTRKYfSr0emq',
+            'Usuario' => 'admin.admin',
             'SuperUsuario' => 1,
+            'email' => 'admin@admin',
             'NotificarErroresPorEmail' => 0,
             'EnviarReportePlanillaTurno' => 0,
             'UtilizarTurnoEntorno' => 1,
@@ -41,6 +41,7 @@ class ClientSeeder extends Seeder
             'Firma' => null,
             'CobraPremio' => 1,
             'IndiceBasePremio' => 1.0,
+            'password' => '$2y$12$RfmcqnawgVnwBH4voQSaau3RPNW.OPq8FAuSXIcWlhTRKYfSr0emq',
         ]);
 
         Province::create([

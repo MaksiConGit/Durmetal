@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('LocalidadEmpresa');
             $table->string('ProvinciaEmpresa');
             $table->integer('CodigoSucursal');
+            $table->float('ImporteMinimoRetencionIIBB');
+            $table->integer('CodigoPostalEmpresa');
             $table->integer('NroAgenteEmpresa');
             $table->boolean('EsAgenteRetencionGanancias');
             $table->boolean('EsAgenteRetencionIIBB');
@@ -51,11 +53,12 @@ return new class extends Migration
             $table->boolean('Activo');
             $table->string('CuentaEmailCertificados');
             $table->string('ServidorSMTPCertificados');
-            $table->string('UsuariosSMTPCertificados');
+            $table->integer('PuertoSMTPCertificados');
+            $table->string('UsuarioSMTPCertificados');
             $table->string('ClaveSMTPCertificados');
             $table->integer('TiempoDeEsperaSMTPCertificados');
             $table->integer('OpcionSMTPCertificados');
-            $table->string('CuentaEmailCCOCertificados');
+            $table->string('CuentaEmailCCOCertificados')->nullable();
             $table->boolean('RemitenteCCOCertificados');
             $table->boolean('ValidarProgramacionesSinDatosDurezas');
             $table->string('NombreLogo');

@@ -21,7 +21,6 @@ return new class extends Migration
             $table->date('FechaUltimoCierreZ');
             $table->integer('PuertoComOcxIFEpson');
             $table->integer('VelocidadOcxIFEpson');
-            $table->timestamps();
         });
     }
 
