@@ -1,14 +1,43 @@
 <style>
-    .table-condensed td,
-    .table-condensed th {
-      padding: 0.6rem 0.75rem;
-      font-size: 1rem;
-      white-space: nowrap;
-    }
-  
-    .table-container {
-      font-size: 1rem;
-    }
+  .table-condensed td,
+  .table-condensed th {
+    padding: 0.6rem 0.75rem;
+    font-size: 1rem;
+    white-space: nowrap;
+    min-width: 120px;
+  }
+
+  .table-fixed-header {
+    width: max-content; /* Permite ancho dinámico */
+    border-collapse: collapse;
+  }
+
+  .table-fixed-header thead th,
+  .table-fixed-header tfoot td {
+    position: sticky;
+    background: #fff;
+    z-index: 2;
+  }
+
+  .table-fixed-header thead th {
+    top: 0;
+    border-bottom: 2px solid #dee2e6;
+  }
+
+  .table-fixed-header tfoot td {
+    bottom: 0;
+    border-top: 2px solid #dee2e6;
+  }
+
+  .scroll-table-wrapper {
+    width: 100%;
+    overflow-x: auto; /* ✅ Scroll horizontal */
+  }
+
+  .scroll-table-body {
+    max-height: 500px;       /* ✅ Scroll vertical */
+    overflow-y: auto;
+  }
 
   @media (max-width: 768px) {
     .btn {
@@ -31,64 +60,44 @@
       font-size: 0.9rem;
     }
   }
+</style>
 
-  </style>
-    {{-- <div class="container-fluid"> --}}
-    {{-- <div class="page-inner"> --}}
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <div class="d-flex align-items-center justify-content-between">
-              <h4 class="card-title mb-0">{{ $table_title }}</h4>
-              <div class="d-flex">
-                <a href="{{ $export_route }}" class="btn btn-primary btn-round me-2">
-                  <i class="fa fa-download"></i>
-                  Exportar
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="table-responsive table-container">
-            <table id="add-row" class="display table table-striped table-hover table-condensed">
-              <thead>
-                {{ $head_tr }}
-              </thead>
-              <tfoot>
-                {{ $foot_tr }}
-              </tfoot>
-              <tbody>
-                {{ $body_tr }}
-              </tbody>
-            </table>
-          </div>
-          <div class="card-action">
-            {{ $buttons }}
-          </div>
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header">
+      <div class="d-flex align-items-center justify-content-between">
+        <h4 class="card-title mb-0">{{ $table_title }}</h4>
+        <div class="d-flex">
+          <a href="{{ $export_route }}" class="btn btn-primary btn-round me-2">
+            <i class="fa fa-download"></i> Exportar
+          </a>
+          @isset($create_route)
+            <a href="{{ $create_route }}" class="btn btn-primary btn-round">
+              <i class="fa fa-plus"></i> {{ $add_text }}
+            </a>
+          @endisset
         </div>
-    {{-- </div> --}}
-  {{-- </div> --}}
+      </div>
+    </div>
 
-  
-  <script>
-    $(document).ready(function () {
-      $("#add-row").DataTable({
-        pageLength: 5,
-        scrollX: true
-      });
-  
-      var action = '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-  
-      $("#addRowButton").click(function () {
-        $("#add-row")
-          .dataTable()
-          .fnAddData([
-            $("#addName").val(),
-            $("#addPosition").val(),
-            $("#addOffice").val(),
-            action,
-          ]);
-        $("#addRowModal").modal("hide");
-      });
-    });
-  </script>
-  
+    <div class="scroll-table-wrapper">
+      <div class="scroll-table-body">
+        <table class="table table-striped table-hover table-condensed table-fixed-header">
+          <thead>
+            {{ $head_tr }}
+          </thead>
+          <tfoot>
+            {{ $foot_tr }}
+          </tfoot>
+          <tbody>
+            {{ $body_tr }}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card-action">
+      {{ $buttons }}
+    </div>
+  </div>
+</div>

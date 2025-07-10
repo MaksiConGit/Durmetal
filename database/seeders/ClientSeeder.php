@@ -24,6 +24,7 @@ class ClientSeeder extends Seeder
     public function run(): void
     {
         User::create([
+            'id' => '700',
             'name' => 'admin',
             'Usuario' => 'admin.admin',
             'SuperUsuario' => 1,
@@ -36,7 +37,7 @@ class ClientSeeder extends Seeder
             'FechaCreacion' => now(),
             'CreadoPor' => 1,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 700,
             'Activo' => 1,
             'Firma' => null,
             'CobraPremio' => 1,
@@ -45,45 +46,50 @@ class ClientSeeder extends Seeder
         ]);
 
         Province::create([
+            'id' => '700',
             'Nombre' => 'Buenos Aires',
         ]);
 
         City::create([
+            'id' => '700',
             'Nombre' => 'San Nicolás de los Arroyos',
             'CP' => 'B2900',
-            'IdProvincia' => '1',
+            'IdProvincia' => '700',
         ]);
 
         IvaCondition::create([
+            'id' => '700',
             'Nombre' => 'Responsable inscripto',
         ]);
 
         ClientQualification::create([
+            'id' => '700',
             'Nombre' => 'Sin calificar',
         ]);
 
         ClientType::create([
+            'id' => '700',
             'Nombre' => 'General',
             'FechaCreacion' => null,
-            'CreadoPor' => '1',
+            'CreadoPor' => '700',
             'FechaActualizacion' => null,
-            'ActualizadoPor' => '1',
+            'ActualizadoPor' => '700',
             'Activo' => '1',
         ]);
         ClientType::create([
             'Nombre' => 'Agropecuario',
             'FechaCreacion' => null,
-            'CreadoPor' => '1',
+            'CreadoPor' => '700',
             'FechaActualizacion' => null,
-            'ActualizadoPor' => '1',
+            'ActualizadoPor' => '700',
             'Activo' => '1',
         ]);
         ClientType::create([
             'Nombre' => 'Tranportista',
             'FechaCreacion' => null,
-            'CreadoPor' => '1',
+            'CreadoPor' => '700',
             'FechaActualizacion' => null,
-            'ActualizadoPor' => '1',
+            'ActualizadoPor' => '700',
             'Activo' => '1',
         ]);
 
@@ -109,9 +115,9 @@ class ClientSeeder extends Seeder
             'IdTipoCliente' => '1',
             'IdCalificacionCliente' => '1',
             'FechaCreacion' => null,
-            'CreadoPor' => '1',
+            'CreadoPor' => '700',
             'FechaActualizacion' => null,
-            'ActualizadoPor' => '1',
+            'ActualizadoPor' => '700',
             'Activo' => '1',
         ]);
 
@@ -119,9 +125,9 @@ class ClientSeeder extends Seeder
             'Email' => 'cliente@cliente',
             'IdCliente' => '1',
             'FechaCreacion' => null,
-            'CreadoPor' => '1',
+            'CreadoPor' => '700',
             'FechaActualizacion' => null,
-            'ActualizadoPor' => '1',
+            'ActualizadoPor' => '700',
             'Activo' => '1',
             'IdClienteEmail' => '1,cliente@cliente',
         ]);
@@ -130,9 +136,9 @@ class ClientSeeder extends Seeder
             'Email' => 'cliente@cliente1',
             'IdCliente' => '1',
             'FechaCreacion' => null,
-            'CreadoPor' => '1',
+            'CreadoPor' => '700',
             'FechaActualizacion' => null,
-            'ActualizadoPor' => '1',
+            'ActualizadoPor' => '700',
             'Activo' => '1',
             'IdClienteEmail' => '1,cliente@cliente1',
         ]);

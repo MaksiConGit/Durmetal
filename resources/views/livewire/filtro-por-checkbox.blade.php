@@ -16,7 +16,7 @@
                                 <x-slot name="label">{{$tratamiento->Nombre}}</x-slot>
                                 <x-slot name="name">{{$tratamiento->id}}</x-slot>
                                 <x-slot name="value">{{ $tratamiento->id }}</x-slot>
-                                <x-slot name="color">black</x-slot>
+                                <x-slot name="color">primary</x-slot>
                                 <x-slot name="checked"></x-slot>
                                 <x-slot name="livewire">wire:model.live="selectedIds"</x-slot>
                             </x-form-input-checkbox-livewire>
@@ -27,6 +27,34 @@
                             
                         @endforelse
                     </div>
+
+                    {{-- <div class="p-3 border rounded" style="max-height: 250px; overflow-y: auto; background-color: #f8f9fa;">
+                        <div class="row g-3">
+                            @forelse ($tratamientos as $tratamiento)
+                                <div class="col-12 col-sm-6 col-md-4">
+                                    <div class="form-check">
+                                        <input
+                                            type="checkbox"
+                                            class="form-check-input"
+                                            id="tratamiento_{{ $tratamiento->id }}"
+                                            value="{{ $tratamiento->id }}"
+                                            wire:model.live="selectedIds"
+                                            name="tratamientos[]"
+                                        >
+                                        <label class="form-check-label" for="tratamiento_{{ $tratamiento->id }}">
+                                            {{ $tratamiento->Nombre }}
+                                        </label>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="col-12">
+                                    <div class="alert alert-warning mb-0">No se encontraron tratamientos.</div>
+                                </div>
+                            @endforelse
+                        </div>
+                    </div> --}}
+
+
                 </div>
             </div>
         </div>

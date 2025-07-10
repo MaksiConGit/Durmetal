@@ -208,10 +208,10 @@ class ProductionSeeder extends Seeder
             'Temperatura' => '150',
             'IdMedioEnfriamiento' => '1',
             'NumeroHorno' => '1',
-            'EjecutadoPorOperador' => '1',
-            'CreadoPor' => '1',
+            'EjecutadoPorOperador' => '700',
+            'CreadoPor' => '700',
             'FechaActualizacion' => '2025-05-27 20:16:17',
-            'ActualizadoPor' => '1',
+            'ActualizadoPor' => '700',
             'Activo' => '1',
         ]);
 
@@ -268,6 +268,7 @@ class ProductionSeeder extends Seeder
         ]);
 
         Premio::create([
+            'id' => '700',
             'Nombre' => 'JUNIO 2025',
             'FechaDesde' => now(),
             'FechaHasta' => now(),
@@ -280,7 +281,7 @@ class ProductionSeeder extends Seeder
         ]);
 
         ItemPremio::create([
-            'IdPremio' => '1',
+            'IdPremio' => '700',
             'IdUsuario' => 1,
             'PremioBase' => 300000,
             'IndiceBase' => 1,

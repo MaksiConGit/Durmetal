@@ -18,9 +18,10 @@ class FiltroPorCheckbox extends Component
 
     public function getItemsProperty()
     {
-        $estadosPermitidos = ['PENDIENTE', 'APROBADO'];
-
-        $query = ItemOrdenTrabajo::whereIn('Estado', $estadosPermitidos);
+        $query = ItemOrdenTrabajo::where('Estado', 'PENDIENTE')
+            ->whereHas('ordenTrabajo', function ($q) {
+                $q->whereIn('Estado', ['PENDIENTE', 'COMPLETO']);
+            });
 
         if (!empty($this->selectedIds)) {
             $query->whereIn('IdTratamiento', $this->selectedIds);
@@ -44,7 +45,10 @@ class FiltroPorCheckbox extends Component
 
         if (!empty($this->selectedItemIds)) {
             $selectedItems = ItemOrdenTrabajo::whereIn('id', $this->selectedItemIds)
-                ->whereIn('Estado', $estadosPermitidos)
+                ->where('Estado', 'PENDIENTE')
+                ->whereHas('ordenTrabajo', function ($q) {
+                    $q->whereIn('Estado', ['PENDIENTE', 'COMPLETO']);
+                })
                 ->get();
 
             $filteredItems = $query->whereNotIn('id', $this->selectedItemIds)->get();
@@ -54,6 +58,7 @@ class FiltroPorCheckbox extends Component
 
         return $query->get();
     }
+
 
     public function render()
     {
