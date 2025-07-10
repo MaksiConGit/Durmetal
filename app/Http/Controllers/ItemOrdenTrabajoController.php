@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreItemOrdenTrabajoRequest;
+use App\Models\Certificado;
 use App\Models\Client;
 use App\Models\Dureza;
 use App\Models\ItemOrdenTrabajo;
@@ -61,6 +62,7 @@ class ItemOrdenTrabajoController extends Controller
         $data['ActualizadoPor'] = $user_id;
         $data['FechaActualizacion'] = now();
         $data['Activo'] = 1;
+        $data['Estado'] = 'PENDIENTE';
 
         $data['NroDeposito'] = 1;
         $data['CodigoComplejidad'] = 1;
@@ -79,6 +81,19 @@ class ItemOrdenTrabajoController extends Controller
         
         $item_orden_trabajo = ItemOrdenTrabajo::create($data);
 
+
+        if ($data['NroPlano']) {
+            Certificado::create([
+                'IdItemOrdenTrabajo' => $item_orden_trabajo->id,
+                'Nombre' => $data['NroPlano'],
+                'NroPlano' => $data['NroPlano'],
+                'CantidadImpresiones' => 0,
+                'CantidadEnviosPorCorreo' => 0,
+                'Cantidad' => $item_orden_trabajo->Cantidad,
+                'IdUsuario' => $user_id,
+                'Predeterminado' => 1,
+            ]);
+        }
 
         $orden_trabajo = OrdenTrabajo::find($item_orden_trabajo->IdOrdenTrabajo);
 

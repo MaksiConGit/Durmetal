@@ -31,10 +31,10 @@ class StoreItemOrdenTrabajoRequest extends FormRequest
             'Peso' => 'required|numeric|min:0',
             'DurezaSolicitadaMinima' => 'required|integer|min:0',
             'DurezaSolicitadaMaxima' => 'required|integer|min:0|gte:DurezaSolicitadaMinima',
-            'Estado' => 'required|string|max:50',
             'Observaciones' => 'nullable|string|max:255',
             'ItemNumero' => 'required|integer',
             'Cantidad' => 'required|numeric|min:0',
+            'NroPlano' => 'nullable|max:255',
             
             // 'NroDeposito' => 'required|integer',
             // 'CodigoComplejidad' => 'required|integer',
