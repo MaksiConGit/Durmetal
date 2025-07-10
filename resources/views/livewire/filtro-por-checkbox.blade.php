@@ -321,7 +321,13 @@
                                                             <td>
                                                                 H{{ $programacion->NumeroHorno }} |
                                                                 {{ $programacion->tipoProgramacion->Nombre }}
-                                                                {{ $numeroProgramacion }}-{{ $index + 1 }}
+
+                                                                @if (count($grupo) > 1)
+                                                                    {{ $numeroProgramacion }}-{{ $index + 1 }}
+                                                                @else
+                                                                    {{ $numeroProgramacion }}
+                                                                @endif
+                                                                
                                                             </td>
                                                             <td>{{ $programacion->Reproceso == 0 ? '' : 'RP' }}</td>
                                                             <td>{{ $programacion->Cantidad }}</td>
