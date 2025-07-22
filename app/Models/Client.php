@@ -57,4 +57,9 @@ class Client extends Model
     {
         return $this->hasMany(Email::class, 'IdCliente');
     }
+
+    public function ordenesTrabajo()
+    {
+        return $this->hasMany(OrdenTrabajo::class, 'IdCliente');
+    }
 }

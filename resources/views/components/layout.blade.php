@@ -233,7 +233,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href="{{ route('ventas.ficha-del-cliente') }}">
                         <span class="sub-item">Ficha del cliente</span>
                       </a>
                     </li>

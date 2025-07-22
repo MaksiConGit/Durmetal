@@ -147,4 +147,25 @@ class OrdenTrabajoController extends Controller
 
         return redirect()->route('orden-trabajo.show', 1);
     }
+
+    public function destroy(OrdenTrabajo $orden_trabajo)
+    {
+        $cliente = $orden_trabajo->cliente;
+
+        foreach ($orden_trabajo->itemsOrdenTrabajo as $item_orden_trabajo) {
+
+            foreach ($item_orden_trabajo->programacion as $programacion) {
+
+                $programacion->delete();
+
+            }
+
+            $item_orden_trabajo->delete();
+
+        }
+
+        $orden_trabajo->delete();
+    
+        return redirect()->route('ventas.ficha-del-cliente.show', $cliente);
+    }
 }

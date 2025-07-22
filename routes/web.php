@@ -114,6 +114,10 @@ Route::middleware('auth')->group(function () {
     Route::get('trabajos-pendientes-de-facturar', [VentasController::class, 'trabajosSinFacturar'])->name('ventas.trabajos-sin-facturar');
     Route::get('listado-de-retenciones', [VentasController::class, 'listadoDeRetenciones'])->name('ventas.listado-de-retenciones');
     Route::get('listado-de-precios', [VentasController::class, 'listadoDePrecios'])->name('ventas.listado-de-precios');
+
+    Route::get('ficha-del-cliente', [VentasController::class, 'fichaDelCliente'])->name('ventas.ficha-del-cliente');
+    Route::get('ficha-del-cliente/{cliente}', [VentasController::class, 'fichaDelClienteShow'])->name('ventas.ficha-del-cliente.show');
+    Route::get('ficha-del-cliente/create/{cliente}', [VentasController::class, 'fichaDelClienteOrdenCreate'])->name('ventas.ficha-del-cliente-orden.create');
 });
 
 require __DIR__.'/auth.php';
