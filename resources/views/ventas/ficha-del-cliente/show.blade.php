@@ -37,7 +37,7 @@
                 <x-slot name="body_tr">
 
                     @forelse ($ordenes_trabajo as $index => $orden_trabajo)
-                        <tr class="border-t bg-gray-50 toggle-expand" data-id="{{ $orden_trabajo->id }}" style="cursor:pointer;" aria-expanded="false">
+                        <tr class="border-t bg-gray-50 toggle-expand" data-id="ot{{ $orden_trabajo->id }}" style="cursor:pointer;" aria-expanded="false">
                             <td class="text-start align-middle">
                                 <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
                                     <a
@@ -67,7 +67,7 @@
                             <td>{{ $orden_trabajo->CantidadEnviosPorCorreo }}</td>
                         </tr>
 
-                        <tr class="expandable-body" data-for="{{ $orden_trabajo->id }}" style="display: none;">
+                        <tr class="expandable-body" data-for="ot{{ $orden_trabajo->id }}" style="display: none;">
 
                             <td colspan="12">
 
@@ -185,98 +185,317 @@
 
         </x-slot>
 
+
         <x-slot name="panel2">Notas de Envío</x-slot>
 
         <x-slot name="body2">
 
-            {{-- <x-data-table>
+              <x-data-table-acordion>
+                <x-slot name="table_title">Notas de Envío</x-slot>
+                <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
+                <x-slot name="add_text">Añadir Nota de Envío</x-slot>
+                <x-slot name="create_route">{{ route('ventas.ficha-del-cliente-orden.create', $cliente) }}</x-slot>
 
-                <x-slot name="table_title">Códigos de Complejidad</x-slot>
-                <x-slot name="export_route">{{ route('clients.export') }}</x-slot>
-                <x-slot name="create_route">{{ route('precios.create', $tratamiento) }}</x-slot>
-                <x-slot name="add_text">Añadir Código de Complejidad</x-slot>
                 <x-slot name="head_tr">
                     <tr>
-                        <th></th>
-                        <th>CC</th>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Divisa</th>
-                        <th>% Coeficiente</th>
-                        <th>Coeficiente</th>
                         <th>Opciones</th>
+                        <th>Fecha</th>
+                        <th>Número</th>
+                        <th>N° Doc. Asociado</th>
+                        <th>Razón Social</th>
+                        <th>% Descuento</th>
+                        <th>Subtotal</th>
+                        <th>IVA</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Impresiones</th>
+                        <th>Correos</th>
                     </tr>
                 </x-slot>
+
                 <x-slot name="body_tr">
-            
-                    @forelse ($precios as $precio)
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="" id="" wire:model.live="selectedItemIds" value="{{ $precio->id }}">
-                            </td>
-                            <td>{{ $precio->CC }}</td>
-                            <td>{{ $precio->Descripcion }}</td>
-                            <td>{{ $precio->Precio }}</td>
-                            <td>{{ $precio->Divisa }}</td>
-                            <td>{{ $precio->PorcentajeCoeficiente }}</td>
-                            <td>{{ $precio->Coeficiente }}</td>
+
+                    @forelse ($notas_de_envio as $index => $nota_de_envio)
+                        <tr class="border-t bg-gray-50 toggle-expand" data-id="ne{{ $nota_de_envio->id }}" style="cursor:pointer;" aria-expanded="false">
                             <td class="text-start align-middle">
                                 <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
                                     <a
-                                        href="{{ route('precios.edit', $precio) }}"
+                                        href="{{ route('orden-trabajo.edit', $nota_de_envio->id) }}"
                                         class="btn btn-link btn-primary p-0"
                                         data-bs-toggle="tooltip"
-                                        title="Editar precio"
+                                        title="Editar órden de trabajo"
                                     >
                                         <i class="fa fa-edit fa-lg"></i>
                                     </a>
-                                    <form
-                                        action="{{ route('precios.destroy', ['tratamiento' => $tratamiento, 'precio' => $precio]) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta precio?')"
-                                        class="m-0 p-0"
+                                    <button 
+                                        type="button"
+                                        class="btn btn-link btn-danger p-0"
+                                        data-bs-toggle="tooltip"
+                                        title="Eliminar órden de trabajo"
+                                        onclick="confirmDelete({{ $nota_de_envio->id }}, {{ $cliente->id }})"
                                     >
-                                        @csrf
-                                        @method('DELETE')
-                                        <button
-                                            type="submit"
-                                            class="btn btn-link btn-danger p-0"
-                                            data-bs-toggle="tooltip"
-                                            title="Eliminar precio"
-                                        >
-                                            <i class="fa fa-times fa-lg"></i>
-                                        </button>
-                                    </form>
+                                        <i class="fa fa-times fa-lg"></i>
+                                    </button>
                                 </div>
                             </td>
-
-                            
+                            <td>{{ $nota_de_envio->FechaEmision }}</td>
+                            <td>{{ $nota_de_envio->NumeroCompleto }}</td>
+                            <td></td>
+                            <td>{{ $nota_de_envio->cliente->Nombre ?? 'Sin razón social' }}</td>
+                            <td>{{  number_format($nota_de_envio->PorcentajeDescuento, 2, '.', '') }}</td>
+                            <td>{{  number_format($nota_de_envio->Neto, 2, '.', '') }}</td>
+                            <td>{{  number_format($nota_de_envio->IVA, 2, '.', '') }}</td>
+                            <td>{{  number_format($nota_de_envio->Total, 2, '.', '') }}</td>
+                            <td>{{ $nota_de_envio->Estado }}</td>
+                            <td>{{ $nota_de_envio->CantidadImpresiones }}</td>
+                            <td>{{ $nota_de_envio->CantidadEnviosPorCorreo }}</td>
                         </tr>
+
+                        <tr class="expandable-body" data-for="ne{{ $nota_de_envio->id }}" style="display: none;">
+
+                            <td colspan="12">
+
+                                <x-card-no-buttons>
+
+                                    <x-slot name="body">
+
+                                        <x-data-table-no-plus-no-export>
+                                            <x-slot name="table_title">Items Órden Trabajo</x-slot>
+                                            <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
+                                            <x-slot name="add_text">Añadir Item</x-slot>
+
+                                            <x-slot name="head_tr">
+                                                <tr>
+                                                    <th>N°</th>
+                                                    <th>OTI</th>
+                                                    <th>Descripción</th>
+                                                    <th>Cant.</th>
+                                                    <th>Peso</th>
+                                                    <th>CC</th>
+                                                    <th>Coefic.</th>
+                                                    <th>Precio U.</th>
+                                                    <th>% Desc</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </x-slot>
+
+                                            <x-slot name="body_tr">
+
+                                                @forelse ($nota_de_envio->itemsNotaEnvio as $index => $item_nota_envio)
+                                                    <tr>
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td>{{ $item_nota_envio->itemOrdenTrabajo->ordenTrabajo->NumeroCompleto }}</td>
+                                                        <td>{{ $item_nota_envio->Descripcion }}</td>
+                                                        <td>{{ $item_nota_envio->Cantidad }}</td>
+                                                        <td>{{ $item_nota_envio->Peso }}</td>
+                                                        <td>{{ $item_nota_envio->CodigoComplejidad }}</td>
+                                                        <td>{{ $item_nota_envio->Coeficiente }}</td>
+                                                        <td>{{ $item_nota_envio->PrecioUnitario }}</td>
+                                                        <td>{{ $item_nota_envio->PorcentajeDescuento }}</td>
+                                                        <td>{{ $item_nota_envio->Total }}</td>
+                                                    </tr>
+                                                @empty
+                                                    <tr><td colspan="12">No se encontraron resultados.</td></tr>
+                                                @endforelse
+                                            </x-slot>
+
+                                            <x-slot name="foot_tr">
+                                                <tr>
+                                                    <th>N°</th>
+                                                    <th>OTI</th>
+                                                    <th>Descripción</th>
+                                                    <th>Cant.</th>
+                                                    <th>Peso</th>
+                                                    <th>CC</th>
+                                                    <th>Coefic.</th>
+                                                    <th>Precio U.</th>
+                                                    <th>% Desc</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </x-slot>
+                                        </x-data-table-no-plus-no-export>
+                                    </x-slot>
+                                </x-card-no-buttons>
+                            </td>
+                        </tr>
+
                     @empty
-                        <tr><td colspan="11">No se encontraron resultados.</td></tr>
+                        <tr><td colspan="12">No se encontraron resultados.</td></tr>
                     @endforelse
                 </x-slot>
+
                 <x-slot name="foot_tr">
                     <tr>
-                        <th></th>
-                        <th>CC</th>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Divisa</th>
-                        <th>% Coeficiente</th>
-                        <th>Coeficiente</th>
                         <th>Opciones</th>
+                        <th>Fecha</th>
+                        <th>Número</th>
+                        <th>N° Doc. Asociado</th>
+                        <th>Razón Social</th>
+                        <th>% Descuento</th>
+                        <th>Subtotal</th>
+                        <th>IVA</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Impresiones</th>
+                        <th>Correos</th>
                     </tr>
                 </x-slot>
-
-            </x-data-table> --}}
+            </x-data-table-acordion>
 
         </x-slot>
 
         
         <x-slot name="panel3">Facturas</x-slot>
 
-        <x-slot name="body3"></x-slot>
+        <x-slot name="body3">
+            
+            <x-data-table-acordion>
+                <x-slot name="table_title">Facturas</x-slot>
+                <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
+                <x-slot name="add_text">Añadir Factura</x-slot>
+                <x-slot name="create_route">{{ route('ventas.ficha-del-cliente-orden.create', $cliente) }}</x-slot>
+
+                <x-slot name="head_tr">
+                    <tr>
+                        <th>Opciones</th>
+                        <th>Fecha</th>
+                        <th>Número</th>
+                        <th>Razón Social</th>
+                        <th>Subtotal</th>
+                        <th>IVA</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Impresiones</th>
+                        <th>Correos</th>
+                    </tr>
+                </x-slot>
+
+                <x-slot name="body_tr">
+
+                    @forelse ($facturas as $index => $factura)
+                        <tr class="border-t bg-gray-50 toggle-expand" data-id="fa{{ $factura->id }}" style="cursor:pointer;" aria-expanded="false">
+                            <td class="text-start align-middle">
+                                <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
+                                    <a
+                                        href="{{ route('orden-trabajo.edit', $factura->id) }}"
+                                        class="btn btn-link btn-primary p-0"
+                                        data-bs-toggle="tooltip"
+                                        title="Editar órden de trabajo"
+                                    >
+                                        <i class="fa fa-edit fa-lg"></i>
+                                    </a>
+                                    <button 
+                                        type="button"
+                                        class="btn btn-link btn-danger p-0"
+                                        data-bs-toggle="tooltip"
+                                        title="Eliminar órden de trabajo"
+                                        onclick="confirmDelete({{ $factura->id }}, {{ $cliente->id }})"
+                                    >
+                                        <i class="fa fa-times fa-lg"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>{{ $factura->FechaEmision }}</td>
+                            <td>{{ $factura->NumeroCompleto }}</td>
+                            <td>{{ $factura->RazonSocial }}</td>
+                            <td>{{  number_format($factura->Neto, 2, '.', '') }}</td>
+                            <td>{{  number_format($factura->IVA, 2, '.', '') }}</td>
+                            <td>{{  number_format($factura->Total, 2, '.', '') }}</td>
+                            <td>{{ $factura->Estado }}</td>
+                            <td>{{ $factura->CantidadImpresiones }}</td>
+                            <td>{{ $factura->CantidadEnviosPorCorreo }}</td>
+                        </tr>
+
+                        <tr class="expandable-body" data-for="fa{{ $factura->id }}" style="display: none;">
+
+                            <td colspan="12">
+
+                                <x-card-no-buttons>
+
+                                    <x-slot name="body">
+
+                                        <x-data-table-no-plus-no-export>
+                                            <x-slot name="table_title">Items Órden Trabajo</x-slot>
+                                            <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
+                                            <x-slot name="add_text">Añadir Item</x-slot>
+
+                                            <x-slot name="head_tr">
+                                                <tr>
+                                                    <th>N°</th>
+                                                    <th>OTI</th>
+                                                    <th>Descripción</th>
+                                                    <th>Cant.</th>
+                                                    <th>Peso</th>
+                                                    <th>CC</th>
+                                                    <th>Coefic.</th>
+                                                    <th>Precio U.</th>
+                                                    <th>% Desc</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </x-slot>
+
+                                            <x-slot name="body_tr">
+
+                                                @forelse ($nota_de_envio->itemsNotaEnvio as $index => $item_nota_envio)
+                                                    <tr>
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td>{{ $item_nota_envio->itemOrdenTrabajo->ordenTrabajo->NumeroCompleto }}</td>
+                                                        <td>{{ $item_nota_envio->Descripcion }}</td>
+                                                        <td>{{ $item_nota_envio->Cantidad }}</td>
+                                                        <td>{{ $item_nota_envio->Peso }}</td>
+                                                        <td>{{ $item_nota_envio->CodigoComplejidad }}</td>
+                                                        <td>{{ $item_nota_envio->Coeficiente }}</td>
+                                                        <td>{{ $item_nota_envio->PrecioUnitario }}</td>
+                                                        <td>{{ $item_nota_envio->PorcentajeDescuento }}</td>
+                                                        <td>{{ $item_nota_envio->Total }}</td>
+                                                    </tr>
+                                                @empty
+                                                    <tr><td colspan="12">No se encontraron resultados.</td></tr>
+                                                @endforelse
+                                            </x-slot>
+
+                                            <x-slot name="foot_tr">
+                                                <tr>
+                                                    <th>N°</th>
+                                                    <th>OTI</th>
+                                                    <th>Descripción</th>
+                                                    <th>Cant.</th>
+                                                    <th>Peso</th>
+                                                    <th>CC</th>
+                                                    <th>Coefic.</th>
+                                                    <th>Precio U.</th>
+                                                    <th>% Desc</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </x-slot>
+                                        </x-data-table-no-plus-no-export>
+                                    </x-slot>
+                                </x-card-no-buttons>
+                            </td>
+                        </tr>
+
+                    @empty
+                        <tr><td colspan="12">No se encontraron resultados.</td></tr>
+                    @endforelse
+                </x-slot>
+
+                <x-slot name="foot_tr">
+                    <tr>
+                        <th>Opciones</th>
+                        <th>Fecha</th>
+                        <th>Número</th>
+                        <th>Razón Social</th>
+                        <th>Subtotal</th>
+                        <th>IVA</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Impresiones</th>
+                        <th>Correos</th>
+                    </tr>
+                </x-slot>
+            </x-data-table-acordion>
+        
+        </x-slot>
 
         <x-slot name="panel4">Recibos</x-slot>
 

@@ -44,8 +44,10 @@ class VentasController extends Controller
     public function fichaDelClienteShow(Client $cliente)
     {
         $ordenes_trabajo = $cliente->OrdenesTrabajo;
+        $notas_de_envio = $cliente->notasDeEnvio;
+        $facturas = $cliente->facturas;
 
-        return view('ventas.ficha-del-cliente.show', compact('cliente', 'ordenes_trabajo'));
+        return view('ventas.ficha-del-cliente.show', compact('cliente', 'ordenes_trabajo', 'notas_de_envio', 'facturas'));
     }
 
     public function fichaDelClienteOrdenCreate(Client $cliente)

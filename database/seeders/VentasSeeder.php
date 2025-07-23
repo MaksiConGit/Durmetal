@@ -200,7 +200,7 @@ class VentasSeeder extends Seeder
             'CodigoComplejidad' => 3,
             'Coeficiente' => 1.25,
             'PrecioUnitario' => 5000.00,
-            'ProcentajeDescuento' => 10.00,
+            'PorcentajeDescuento' => 10.00,
             'Total' => 9000.00,
             'Estado' => 'PENDIENTE',
             'FechaCreacion' => Carbon::now()->subDays(1)->toDateString(),

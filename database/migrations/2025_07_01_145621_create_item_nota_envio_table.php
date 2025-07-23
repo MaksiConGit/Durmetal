@@ -26,7 +26,7 @@ return new class extends Migration
             $table->integer('CodigoComplejidad');
             $table->float('Coeficiente');
             $table->float('PrecioUnitario');
-            $table->float('ProcentajeDescuento');
+            $table->float('PorcentajeDescuento');
             $table->float('Total');
             $table->string('Estado')->nullable();
             $table->date('FechaCreacion')->nullable();

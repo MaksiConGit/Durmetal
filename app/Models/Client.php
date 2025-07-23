@@ -62,4 +62,14 @@ class Client extends Model
     {
         return $this->hasMany(OrdenTrabajo::class, 'IdCliente');
     }
+
+    public function notasDeEnvio()
+    {
+        return $this->hasMany(NotaEnvio::class, 'IdCliente');
+    }
+
+    public function facturas()
+    {
+        return $this->hasMany(FacturaVenta::class, 'IdCliente');
+    }
 }

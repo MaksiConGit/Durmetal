@@ -13,4 +13,9 @@ class NotaEnvio extends Model
     {
         return $this->belongsTo(Client::class, 'IdCliente');
     }
+
+    public function itemsNotaEnvio()
+    {
+        return $this->hasMany(ItemNotaEnvio::class, 'IdNotaEnvio');
+    }
 }
