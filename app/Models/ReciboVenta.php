@@ -13,4 +13,9 @@ class ReciboVenta extends Model
     {
         return $this->belongsTo(Client::class, 'IdCliente');
     }
+
+    public function itemsReciboVenta()
+    {
+        return $this->hasMany(ItemReciboVenta::class, 'IdReciboVenta');
+    }
 }

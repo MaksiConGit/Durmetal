@@ -10,9 +10,11 @@ use App\Models\Premio;
 use App\Models\FacturaVenta;
 use App\Models\ImpuestoIva;
 use App\Models\ItemFacturaVenta;
+use App\Models\ItemMinutaVenta;
 use App\Models\ItemNotaCreditoVenta;
 use App\Models\ItemNotaEnvio;
 use App\Models\ItemReciboVenta;
+use App\Models\MinutaVenta;
 use App\Models\NotaCreditoVenta;
 use App\Models\NotaEnvio;
 use App\Models\ReciboVenta;
@@ -462,7 +464,7 @@ class VentasSeeder extends Seeder
             'CantidadImpresiones' => 1,
             'CantidadEnviosPorCorreo' => 0,
             'DescripcionSaldoTransportado' => 'Saldo a favor anterior',
-            'ImporteSaldoTrasportado' => 0.00
+            'ImporteSaldoTransportado' => 0.00
         ]);
         
         ItemReciboVenta::create([
@@ -475,6 +477,32 @@ class VentasSeeder extends Seeder
             'FechaActualizacion' => Carbon::now(),
             'ActualizadoPor' => 1,
             'Activo' => 1
+        ]);
+
+        MinutaVenta::create([
+            'Numero' => 1,
+            'NumeroCompleto' => 'MV-2025-' . str_pad(1, 4, '0', STR_PAD_LEFT),
+            'FechaEmision' => Carbon::now()->subDays(rand(1, 30)),
+            'IdCliente' => 1,
+            'TipoOperacion' => 'Venta',
+            'Estado' => 'Emitido',
+            'Total' => rand(1000, 5000),
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+        ]);
+
+        ItemMinutaVenta::create([
+            'IdMinutaVenta' => 1,
+            'Descripcion' => 'Producto o servicio',
+            'Total' => rand(200, 1000),
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
         ]);
     }
 }

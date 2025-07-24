@@ -53,7 +53,7 @@ return new class extends Migration
             $table->integer('CantidadImpresiones');
             $table->integer('CantidadEnviosPorCorreo');
             $table->string('DescripcionSaldoTransportado')->nullable();
-            $table->float('ImporteSaldoTrasportado');
+            $table->float('ImporteSaldoTransportado');
         });
     }
 

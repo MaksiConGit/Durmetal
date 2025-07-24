@@ -13,4 +13,9 @@ class NotaCreditoVenta extends Model
     {
         return $this->belongsTo(Client::class, 'IdCliente');
     }
+
+    public function itemsNotaCredito()
+    {
+        return $this->hasMany(ItemNotaCreditoVenta::class, 'IdNotaCreditoVenta');
+    }
 }

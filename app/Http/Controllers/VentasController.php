@@ -45,9 +45,13 @@ class VentasController extends Controller
     {
         $ordenes_trabajo = $cliente->OrdenesTrabajo;
         $notas_de_envio = $cliente->notasDeEnvio;
-        $facturas = $cliente->facturas;
+        $facturas = $cliente->facturasVenta;
+        $recibos = $cliente->recibosVenta;
+        $notas_de_credito = $cliente->notasDeCredito;
+        $notas_de_debito = $cliente->facturasVenta->where('EsNotaDeDebito', 1);
+        $minutas = $cliente->minutas;
 
-        return view('ventas.ficha-del-cliente.show', compact('cliente', 'ordenes_trabajo', 'notas_de_envio', 'facturas'));
+        return view('ventas.ficha-del-cliente.show', compact('cliente', 'ordenes_trabajo', 'notas_de_envio', 'facturas', 'recibos', 'notas_de_credito', 'notas_de_debito', 'minutas'));
     }
 
     public function fichaDelClienteOrdenCreate(Client $cliente)

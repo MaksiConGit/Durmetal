@@ -13,4 +13,9 @@ class FacturaVenta extends Model
     {
         return $this->belongsTo(Client::class, 'IdCliente');
     }
+
+    public function itemsFacturaVenta()
+    {
+        return $this->hasMany(ItemFacturaVenta::class, 'IdFacturaVenta');
+    }
 }
