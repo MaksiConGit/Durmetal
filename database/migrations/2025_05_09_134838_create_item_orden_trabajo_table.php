@@ -39,7 +39,7 @@ return new class extends Migration
             $table->boolean('AfectaPlanillaTurno');
             $table->boolean('ControlarStock');
             $table->string('Estado');
-            $table->date('FechaActualizacionEstado');
+            $table->date('FechaActualizacionEstado')->nullable();
             $table->date('FechaCreacion')->nullable();
             $table->foreignId('CreadoPor')->constrained('users')
                                             ->onDelete('restrict')

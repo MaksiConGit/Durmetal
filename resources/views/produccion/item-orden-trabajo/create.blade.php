@@ -236,32 +236,27 @@
                         @endif
                     </x-slot>
                 </x-form-input-default>
-
-                <x-form-input-select>
-                    <x-slot name="label">CC</x-slot>
-                    <x-slot name="name"></x-slot>
-                    <x-slot name="option">
-                    </x-slot>
-                    <x-slot name="message">
-                        Todo correcto
-                    </x-slot>
-                    <x-slot name="error">
-                        is-valid
-                    </x-slot>
-                </x-form-input-select>
             </div>
 
             <div class="col-md-4 mb-3">
               <x-form-input-default>
-                  <x-slot name="label">Nro Plano</x-slot>
-                  <x-slot name="name"></x-slot>
-                  <x-slot name="placeholder"></x-slot>
-                  <x-slot name="value"></x-slot>
+                    <x-slot name="label">Nro Plano</x-slot>
+                    <x-slot name="name">NroPlano</x-slot>
+                    <x-slot name="placeholder"></x-slot>
+                    <x-slot name="value"></x-slot>
                     <x-slot name="message">
-                        Todo correcto
+                        @if ($errors->has('NroPlano'))
+                            {{ $errors->first('NroPlano') }}
+                        @elseif (old('NroPlano'))
+                            Todo correcto
+                        @endif
                     </x-slot>
                     <x-slot name="error">
-                        is-valid
+                        @if ($errors->has('NroPlano'))
+                            is-invalid
+                        @elseif (old('NroPlano') && ! $errors->has('NroPlano'))
+                            is-valid
+                        @endif
                     </x-slot>
               </x-form-input-default>
 
@@ -310,30 +305,6 @@
                         @endif
                     </x-slot>
               </x-form-input-default>
-
-              <x-form-input-select>
-                  <x-slot name="label">Estado</x-slot>
-                  <x-slot name="name">Estado</x-slot>
-                  <x-slot name="option">
-                      <option value="PENDIENTE">Pendiente</option>
-                      <option value="APROBADO">Aprobado</option>
-                      <option value="NO APTO">No Apto</option>
-                  </x-slot>
-                    <x-slot name="message">
-                        @if ($errors->has('Estado'))
-                            {{ $errors->first('Estado') }}
-                        @elseif (old('Estado'))
-                            Todo correcto
-                        @endif
-                    </x-slot>
-                  <x-slot name="error">
-                      @if ($errors->has('Estado'))
-                          is-invalid
-                      @elseif (old('Estado') && ! $errors->has('Estado'))
-                          is-valid
-                      @endif
-                  </x-slot>
-              </x-form-input-select>
             </div>
         </x-slot>
         <x-slot name="buttons">

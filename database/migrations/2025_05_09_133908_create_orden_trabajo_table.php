@@ -37,6 +37,7 @@ return new class extends Migration
             $table->integer('NumeroTurno')->nullable();
             $table->integer('ReferenciaTurno')->nullable();
             $table->float('AjusteCtaCtePlanillaTurno')->nullable();
+            $table->integer('IdEntorno')->nullable();
             $table->date('FechaCreacion')->nullable();
             $table->foreignId('CreadoPor')->nullable()->constrained('users')
                                                         ->onDelete('restrict')

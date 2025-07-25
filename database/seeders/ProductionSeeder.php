@@ -393,5 +393,83 @@ class ProductionSeeder extends Seeder
             'ActualizadoPor' => '1',
             'Activo' => '1',
         ]);
+
+        FactorPremio::create([
+            'Nombre' => 'Proactividad',
+            'ValorPredeterminado' => '1.00',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        FactorPremio::create([
+            'Nombre' => 'Presentismo',
+            'ValorPredeterminado' => '2.00',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        FactorPremio::create([
+            'Nombre' => 'Predisposición Trab. en Equipo',
+            'ValorPredeterminado' => '1.00',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        FactorPremioUsuario::create([
+            'IdUsuario' => '1',
+            'IdFactorPremio' => '1',
+            'Valor' => '2.00',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        FactorPremioUsuario::create([
+            'IdUsuario' => '1',
+            'IdFactorPremio' => '2',
+            'Valor' => '1.00',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        Premio::create([
+            'id' => '1',
+            'Nombre' => 'JUNIO 2025',
+            'FechaDesde' => now(),
+            'FechaHasta' => now(),
+            'Premio' => 1000000.22,
+            'Estado' => 'COMPLETO',
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+        ]);
+
+        ItemPremio::create([
+            'IdPremio' => '1',
+            'IdUsuario' => 1,
+            'PremioBase' => 300000,
+            'IndiceBase' => 1,
+            'Coeficiente' => 0.9,
+            'Premio' => 300000 * 1 * 0.9,
+            'FechaCreacion' => now(),
+            'CreadoPor' => '1',
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => '1',
+        ]);
     }
 }

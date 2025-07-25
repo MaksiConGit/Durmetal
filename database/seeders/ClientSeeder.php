@@ -24,10 +24,11 @@ class ClientSeeder extends Seeder
     public function run(): void
     {
         User::create([
+            'id' => '1',
             'name' => 'admin',
-            'email' => 'admin@admin',
-            'password' => '$2y$12$RfmcqnawgVnwBH4voQSaau3RPNW.OPq8FAuSXIcWlhTRKYfSr0emq',
+            'Usuario' => 'admin.admin',
             'SuperUsuario' => 1,
+            'email' => 'admin@admin',
             'NotificarErroresPorEmail' => 0,
             'EnviarReportePlanillaTurno' => 0,
             'UtilizarTurnoEntorno' => 1,
@@ -41,27 +42,33 @@ class ClientSeeder extends Seeder
             'Firma' => null,
             'CobraPremio' => 1,
             'IndiceBasePremio' => 1.0,
+            'password' => '$2y$12$RfmcqnawgVnwBH4voQSaau3RPNW.OPq8FAuSXIcWlhTRKYfSr0emq',
         ]);
 
         Province::create([
+            'id' => '1',
             'Nombre' => 'Buenos Aires',
         ]);
 
         City::create([
+            'id' => '1',
             'Nombre' => 'San Nicolás de los Arroyos',
             'CP' => 'B2900',
             'IdProvincia' => '1',
         ]);
 
         IvaCondition::create([
+            'id' => '1',
             'Nombre' => 'Responsable inscripto',
         ]);
 
         ClientQualification::create([
+            'id' => '1',
             'Nombre' => 'Sin calificar',
         ]);
 
         ClientType::create([
+            'id' => '1',
             'Nombre' => 'General',
             'FechaCreacion' => null,
             'CreadoPor' => '1',

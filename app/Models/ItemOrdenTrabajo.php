@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ItemOrdenTrabajo extends Model
 {
+    use HasFactory;
+
     protected $table = 'item_orden_trabajo';
     public $timestamps = false;
     

@@ -75,7 +75,7 @@
                                 <x-slot name="label">{{$tratamiento->Nombre}}</x-slot>
                                 <x-slot name="name">{{$tratamiento->id}}</x-slot>
                                 <x-slot name="value">{{ $tratamiento->id }}</x-slot>
-                                <x-slot name="color">black</x-slot>
+                                <x-slot name="color">primary</x-slot>
                                 <x-slot name="checked"></x-slot>
                                 <x-slot name="livewire">wire:model.live="tratamientos_seleccionados"</x-slot>
                             </x-form-input-checkbox-livewire>

@@ -8,8 +8,5 @@
         <li class="nav-item"><a href="#">Programación</a></li>
     </x-slot>
 
-    @livewire('filtro-por-checkbox', [
-        'tratamientos' => $tratamientos,
-        'items_orden_trabajo' => $items_orden_trabajo
-    ])
+    @livewire('filtro-por-checkbox')
 </x-layout>

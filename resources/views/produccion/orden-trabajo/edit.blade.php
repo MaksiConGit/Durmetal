@@ -120,8 +120,7 @@
 
     </div>
 
-    @livewire('buscar-codigo-cliente')
-
+    @livewire('buscar-codigo-cliente', ['id_cliente' => session('IdCliente')])
 
     <x-data-table-js>
         <x-slot name="table_title">Items Órden de Trabajo</x-slot>
