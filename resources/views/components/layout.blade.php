@@ -233,7 +233,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href="{{ route('ventas.ficha-del-cliente') }}">
                         <span class="sub-item">Ficha del cliente</span>
                       </a>
                     </li>
@@ -258,17 +258,17 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#-icons.html">
+                      <a href="{{ route('ventas.trabajos-sin-facturar') }}">
                         <span class="sub-item">Listado de trabajos pendientes a facturar</span>
                       </a>
                     </li>
                     <li>
-                      <a href="#-icons.html">
+                      <a href="{{ route('ventas.listado-de-retenciones') }}">
                         <span class="sub-item">Listado de retenciones</span>
                       </a>
                     </li>
                     <li>
-                      <a href="#-icons.html">
+                      <a href="{{ route('ventas.listado-de-precios') }}">
                         <span class="sub-item">Listado de precios</span>
                       </a>
                     </li>

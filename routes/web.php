@@ -6,6 +6,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CodigoComplejidadController;
 use App\Http\Controllers\DivisasController;
+use App\Http\Controllers\DocumentosController;
 use App\Http\Controllers\DurezaController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FactorPremioController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\ProgramacionExportController;
 use App\Http\Controllers\RepartirPremioController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\TratamientoController;
+use App\Http\Controllers\VentasController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', function () {
@@ -106,11 +108,16 @@ Route::middleware('auth')->group(function () {
 
 
     // Ventas
-
     Route::get('divisas', [DivisasController::class, 'edit'])->name('divisas.edit');
     Route::put('divisas/{configuracion_global}', [DivisasController::class, 'update'])->name('divisas.update');
 
+    Route::get('trabajos-pendientes-de-facturar', [VentasController::class, 'trabajosSinFacturar'])->name('ventas.trabajos-sin-facturar');
+    Route::get('listado-de-retenciones', [VentasController::class, 'listadoDeRetenciones'])->name('ventas.listado-de-retenciones');
+    Route::get('listado-de-precios', [VentasController::class, 'listadoDePrecios'])->name('ventas.listado-de-precios');
 
+    Route::get('ficha-del-cliente', [VentasController::class, 'fichaDelCliente'])->name('ventas.ficha-del-cliente');
+    Route::get('ficha-del-cliente/{cliente}', [VentasController::class, 'fichaDelClienteShow'])->name('ventas.ficha-del-cliente.show');
+    Route::get('ficha-del-cliente/create/{cliente}', [VentasController::class, 'fichaDelClienteOrdenCreate'])->name('ventas.ficha-del-cliente-orden.create');
 });
 
 require __DIR__.'/auth.php';

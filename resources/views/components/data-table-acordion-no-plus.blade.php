@@ -81,7 +81,6 @@
           {{ $body_tr }}
       </table>
     </div>
-  </div>
 </div>
 
 <script>

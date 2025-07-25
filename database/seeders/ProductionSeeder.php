@@ -2,32 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Models\City;
-use App\Models\Client;
-use App\Models\Cliente;
-use App\Models\ClientQualification;
-use App\Models\ClientType;
-use App\Models\DocumentType;
+use App\Models\CodigoComplejidad;
 use App\Models\Dureza;
-use App\Models\Email;
-use App\Models\FactorPremio;
-use App\Models\FactorPremioUsuario;
 use App\Models\ImpresoraFiscal;
 use App\Models\ItemOrdenTrabajo;
-use App\Models\ItemPremio;
-use App\Models\IvaCondition;
 use App\Models\Material;
 use App\Models\MedioEnfriamiento;
 use App\Models\OrdenTrabajo;
-use App\Models\Premio;
 use App\Models\Programacion;
-use App\Models\Province;
 use App\Models\PuntoDeVenta;
 use App\Models\SecuenciaPtoVenta;
 use App\Models\TipoCbte;
 use App\Models\TipoProgramacion;
 use App\Models\Tratamiento;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -104,6 +91,198 @@ class ProductionSeeder extends Seeder
             'Orden' => '10',
             'Predeterminado' => '0',
             'Archivado' => '0',
+        ]);
+
+        CodigoComplejidad::create([
+            'IdTratamiento' => 1,
+            'Descripcion' => 'ARENADO',
+            'Precio' => 150.00,
+            'Divisa' => 'ARS',
+            'PorcentajeCoeficiente' => 10.0,
+            'Coeficiente' => 1.1,
+            'CC' => 1,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+            'IdTratamientoCodigoComplejidad' => 'TRT-CC-001',
+        ]);
+
+        CodigoComplejidad::create([
+            'IdTratamiento' => 1,
+            'Descripcion' => 'CONSTITUCION',
+            'Precio' => 250.00,
+            'Divisa' => 'ARS',
+            'PorcentajeCoeficiente' => 20.0,
+            'Coeficiente' => 1.2,
+            'CC' => 2,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+            'IdTratamientoCodigoComplejidad' => 'TRT-CC-002',
+        ]);
+
+        CodigoComplejidad::create([
+            'IdTratamiento' => 1,
+            'Descripcion' => 'REVENIDO',
+            'Precio' => 350.00,
+            'Divisa' => 'ARS',
+            'PorcentajeCoeficiente' => 30.0,
+            'Coeficiente' => 1.3,
+            'CC' => 3,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => false,
+            'IdTratamientoCodigoComplejidad' => 'TRT-CC-003',
+        ]);
+
+        CodigoComplejidad::create([
+            'IdTratamiento' => 1,
+            'Descripcion' => 'ARENADO',
+            'Precio' => 150.00,
+            'Divisa' => 'ARS',
+            'PorcentajeCoeficiente' => 10.0,
+            'Coeficiente' => 1.1,
+            'CC' => 1,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+            'IdTratamientoCodigoComplejidad' => 'TRT-CC-001',
+        ]);
+
+        CodigoComplejidad::create([
+            'IdTratamiento' => 1,
+            'Descripcion' => 'CONSTITUCION',
+            'Precio' => 250.00,
+            'Divisa' => 'ARS',
+            'PorcentajeCoeficiente' => 20.0,
+            'Coeficiente' => 1.2,
+            'CC' => 2,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+            'IdTratamientoCodigoComplejidad' => 'TRT-CC-002',
+        ]);
+
+        CodigoComplejidad::create([
+            'IdTratamiento' => 1,
+            'Descripcion' => 'REVENIDO',
+            'Precio' => 350.00,
+            'Divisa' => 'ARS',
+            'PorcentajeCoeficiente' => 30.0,
+            'Coeficiente' => 1.3,
+            'CC' => 3,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => false,
+            'IdTratamientoCodigoComplejidad' => 'TRT-CC-003',
+        ]);
+
+        CodigoComplejidad::create([
+            'IdTratamiento' => 1,
+            'Descripcion' => 'ARENADO',
+            'Precio' => 150.00,
+            'Divisa' => 'ARS',
+            'PorcentajeCoeficiente' => 10.0,
+            'Coeficiente' => 1.1,
+            'CC' => 1,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+            'IdTratamientoCodigoComplejidad' => 'TRT-CC-001',
+        ]);
+
+        CodigoComplejidad::create([
+            'IdTratamiento' => 1,
+            'Descripcion' => 'CONSTITUCION',
+            'Precio' => 250.00,
+            'Divisa' => 'ARS',
+            'PorcentajeCoeficiente' => 20.0,
+            'Coeficiente' => 1.2,
+            'CC' => 2,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+            'IdTratamientoCodigoComplejidad' => 'TRT-CC-002',
+        ]);
+
+        CodigoComplejidad::create([
+            'IdTratamiento' => 1,
+            'Descripcion' => 'REVENIDO',
+            'Precio' => 350.00,
+            'Divisa' => 'ARS',
+            'PorcentajeCoeficiente' => 30.0,
+            'Coeficiente' => 1.3,
+            'CC' => 3,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => false,
+            'IdTratamientoCodigoComplejidad' => 'TRT-CC-003',
+        ]);
+
+        CodigoComplejidad::create([
+            'IdTratamiento' => 1,
+            'Descripcion' => 'ARENADO',
+            'Precio' => 150.00,
+            'Divisa' => 'ARS',
+            'PorcentajeCoeficiente' => 10.0,
+            'Coeficiente' => 1.1,
+            'CC' => 1,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+            'IdTratamientoCodigoComplejidad' => 'TRT-CC-001',
+        ]);
+
+        CodigoComplejidad::create([
+            'IdTratamiento' => 1,
+            'Descripcion' => 'CONSTITUCION',
+            'Precio' => 250.00,
+            'Divisa' => 'ARS',
+            'PorcentajeCoeficiente' => 20.0,
+            'Coeficiente' => 1.2,
+            'CC' => 2,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+            'IdTratamientoCodigoComplejidad' => 'TRT-CC-002',
+        ]);
+
+        CodigoComplejidad::create([
+            'IdTratamiento' => 1,
+            'Descripcion' => 'REVENIDO',
+            'Precio' => 350.00,
+            'Divisa' => 'ARS',
+            'PorcentajeCoeficiente' => 30.0,
+            'Coeficiente' => 1.3,
+            'CC' => 3,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => false,
+            'IdTratamientoCodigoComplejidad' => 'TRT-CC-003',
         ]);
 
         OrdenTrabajo::create([
