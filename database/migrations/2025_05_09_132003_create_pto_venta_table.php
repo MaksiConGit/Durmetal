@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('NotaCreditoComparteTalonario');
             $table->boolean('NotaDebitoComparteTalonario');
             $table->integer('IdTipoRemitoVentaPorDefecto');
-            $table->foreignId('IdImpresoraFiscal')->constrained('impresora_fiscal')
+            $table->foreignId('IdImpresoraFiscal')->nullable()->constrained('impresora_fiscal')
                                                     ->onDelete('restrict')
                                                     ->onUpdate('cascade');
             $table->boolean('UtilizarDomicilioConfiguracionGlobal');

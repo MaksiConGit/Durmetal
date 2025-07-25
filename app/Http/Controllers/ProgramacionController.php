@@ -52,14 +52,20 @@ class ProgramacionController extends Controller
 
         // dd($data);
 
+        $validatedData = $request->validate([
+            'Cantidad' => 'required|numeric|lte:CantidadFinal',
+            'CantidadFinal' => 'required|numeric',
+        ]);
+
+
         foreach ($request->ItemOrdenTrabajoIds as $index => $itemOrdenTrabajoId) {
             if ($itemOrdenTrabajoId) {
 
                 $item_orden_trabajo = ItemOrdenTrabajo::find($itemOrdenTrabajoId);
 
                 
-                if ($data['NumeroProgramacion'] == 0) {
-                    $data['NumeroProgramacion'] = $item_orden_trabajo->programacion->max('NumeroProgramacion') + 1;
+                if ($data['NumeroProgramacion'][$index] == 0) {
+                    $data['NumeroProgramacion'][$index] = $item_orden_trabajo->programacion->max('NumeroProgramacion') + 1;
                 }
 
                 Programacion::create([
@@ -67,7 +73,7 @@ class ProgramacionController extends Controller
                     'DurezaMinima' => $item_orden_trabajo->DurezaSolicitadaMinima,
                     'DurezaMaxima' => $item_orden_trabajo->DurezaSolicitadaMaxima,
                     'IdTipoProgramacion' => $data['IdTipoProgramacion'],
-                    'Cantidad' => $data['Cantidad'][$index],
+                    'Cantidad' => $data['Cantidad'],
                     'Reproceso' => $data['Reproceso'][$index],
                     'FechaCreacion' => now(),
                     'FechaCarga' => $data['FechaCarga'],
@@ -81,15 +87,12 @@ class ProgramacionController extends Controller
                     'FechaActualizacion' => now(),
                     'Activo' => '1',
                     'NumeroProgramacion' => $data['NumeroProgramacion'][$index],
-                    
-                    // 'Apto' => $data[''],
-
                 ]);
 
             }
         }
 
-        return redirect()->route('index');
+        return redirect()->route('programacion.index');
     }
     
     public function show(ItemOrdenTrabajo $item_orden_trabajo)
@@ -122,7 +125,7 @@ class ProgramacionController extends Controller
 
         $programacion->update($data);
 
-        return redirect()->route('index');
+        return redirect()->route('programacion.index');
     }
 
     public function destroy(Programacion $programacion)

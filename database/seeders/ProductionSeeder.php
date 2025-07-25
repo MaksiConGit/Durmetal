@@ -268,6 +268,7 @@ class ProductionSeeder extends Seeder
         ]);
 
         Premio::create([
+            'id' => '1',
             'Nombre' => 'JUNIO 2025',
             'FechaDesde' => now(),
             'FechaHasta' => now(),

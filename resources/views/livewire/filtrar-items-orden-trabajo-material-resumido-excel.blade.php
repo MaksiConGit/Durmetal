@@ -184,7 +184,7 @@
                                 <x-slot name="label">{{$material->Nombre}}</x-slot>
                                 <x-slot name="name">{{$material->id}}</x-slot>
                                 <x-slot name="value">{{ $material->id }}</x-slot>
-                                <x-slot name="color">black</x-slot>
+                                <x-slot name="color">primary</x-slot>
                                 <x-slot name="checked"></x-slot>
                                 <x-slot name="livewire">wire:model.live="materiales_seleccionados"</x-slot>
                             </x-form-input-checkbox-livewire>

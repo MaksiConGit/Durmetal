@@ -5,16 +5,24 @@
     <td>
         <select name="NumeroProgramacion[{{ $index }}]" wire:model.live="numeroProgramacionSeleccionado">
             <option value="0">Nueva</option>
-            @foreach ($programaciones as $programacion)
-                <option value="{{ $programacion->NumeroProgramacion }}">
-                    {{ $programacion->tipoProgramacion->Nombre }} {{ $programacion->NumeroProgramacion }}
-                </option>
-            @endforeach
+                @foreach ($item->programacion->groupBy('NumeroProgramacion') as $numero => $grupo)
+                    @php
+                        $suma = $grupo->sum('Cantidad');
+                        $programacion = $grupo->first();
+                    @endphp
+
+                    @if ($suma < $item->Cantidad)
+                        <option value="{{ $numero }}">
+                            {{ $programacion->tipoProgramacion->Nombre }} {{ $numero }}
+                        </option>
+                    @endif
+                @endforeach
         </select>
     </td>
 
     <td>
-        <input type="text" name="Cantidad[]" value="{{ number_format($cantidadFinal, 3, '.', '') }}">
+        <input type="text" name="Cantidad" value="{{ number_format($cantidadFinal, 3, '.', '') }}">
+        <input type="hidden" name="CantidadFinal" value="{{$cantidadFinal}}">
     </td>
 
     <td>
