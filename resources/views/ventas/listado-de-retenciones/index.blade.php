@@ -77,16 +77,16 @@
         </x-slot>
         <x-slot name="body_tr">
     
-            @forelse ($clientes as $cliente)
+            @forelse ($recibos_venta as $recibo_venta)
                 <tr>
-                    <td></td>
-                    <td>{{ $cliente->id }}</td>
-                    <td>{{ $cliente->Nombre }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ $recibo_venta->FechaEmision }}</td>
+                    <td>{{ $recibo_venta->IdCliente }}</td>
+                    <td>{{ $recibo_venta->RazonSocial }}</td>
+                    <td>{{ number_format($recibo_venta->RetencionDREI, 2, '.', '') }}</td>
+                    <td>{{ number_format($recibo_venta->RetencionIIBB, 2, '.', '') }}</td>
+                    <td>{{ number_format($recibo_venta->RetencionIVA, 2, '.', '') }}</td>
+                    <td>{{ number_format($recibo_venta->RetencionGanancias, 2, '.', '') }}</td>
+                    <td>{{ number_format($recibo_venta->RetencionSUSS, 2, '.', '') }}</td>
                 </tr>
             @empty
                 <tr><td colspan="11">No se encontraron resultados.</td></tr>
