@@ -2,7 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Banco;
+use App\Models\Chequecobro;
+use App\Models\Cobro;
 use App\Models\ConfiguracionGlobal;
+use App\Models\DestinoCheque;
 use App\Models\FactorPremio;
 use App\Models\FactorPremioUsuario;
 use App\Models\ItemPremio;
@@ -504,6 +508,53 @@ class VentasSeeder extends Seeder
             'FechaCreacion' => Carbon::now(),
             'CreadoPor' => 1,
             'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+        ]);
+
+        Cobro::create([
+            'IdReciboVenta' => 1,
+            'FormaPago' => 'Transferencia',
+            'Descripcion' => 'Pago parcial',
+            'Total' => 1500.00,
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'Banco Nación',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        DestinoCheque::create([
+            'Nombre' => 'Cuenta Corriente',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+        ]);
+
+        Chequecobro::create([
+            'IdCobro' => 1,
+            'FechaEmision' => now(),
+            'FechaAcreditacion' => now()->addDays(5),
+            'IdBanco' => 1,
+            'Numero' => 123456,
+            'IdDestinoCheque' => 1,
+            'Plaza' => 101,
+            'eCheck' => false,
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
             'ActualizadoPor' => 1,
             'Activo' => true,
         ]);
