@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\ConfiguracionGlobal;
 use App\Models\ItemOrdenTrabajo;
 use App\Models\OrdenTrabajo;
+use App\Models\ReciboVenta;
 use App\Models\Tratamiento;
 use Illuminate\Http\Request;
 
@@ -21,9 +22,9 @@ class VentasController extends Controller
 
     public function listadoDeRetenciones()
     {
-        $clientes = Client::limit(20)->get();
+        $recibos_venta = ReciboVenta::all();
 
-        return view('ventas.listado-de-retenciones.index', compact('clientes'));
+        return view('ventas.listado-de-retenciones.index', compact('recibos_venta'));
     }
     
     public function listadoDePrecios()
@@ -61,6 +62,7 @@ class VentasController extends Controller
         $orden_trabajo = OrdenTrabajo::create([
                 'PuntoVenta' => 1,
                 'Numero' => $next_orden_numero,
+                'IdCliente' => $cliente->id
         ]);
 
         return redirect()->route('orden-trabajo.edit', $orden_trabajo);

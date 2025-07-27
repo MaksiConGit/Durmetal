@@ -4,11 +4,15 @@ namespace Database\Seeders;
 
 use App\Models\CodigoComplejidad;
 use App\Models\Dureza;
+use App\Models\FactorPremio;
+use App\Models\FactorPremioUsuario;
 use App\Models\ImpresoraFiscal;
 use App\Models\ItemOrdenTrabajo;
+use App\Models\ItemPremio;
 use App\Models\Material;
 use App\Models\MedioEnfriamiento;
 use App\Models\OrdenTrabajo;
+use App\Models\Premio;
 use App\Models\Programacion;
 use App\Models\PuntoDeVenta;
 use App\Models\SecuenciaPtoVenta;
