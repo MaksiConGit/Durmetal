@@ -273,7 +273,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#-icons.html">
+                      <a href="{{ route('ventas.valorizar-trabajos') }}">
                         <span class="sub-item">Valorizar trabajos</span>
                       </a>
                     </li>

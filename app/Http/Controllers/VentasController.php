@@ -76,4 +76,11 @@ class VentasController extends Controller
 
         return view('ventas.listado-de-cheques.index', compact('cheques_cobro', 'destinos_cheque'));
     }
+
+    public function valorizarTrabajos()
+    {
+        $ordenes_trabajo = OrdenTrabajo::where('');
+
+        return view('ventas.valorizar-trabajos.index', compact('ordenes_trabajo'));
+    }
 }

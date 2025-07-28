@@ -121,6 +121,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('listado-de-cheques', [VentasController::class, 'listadoDeCheques'])->name('ventas.listado-de-cheques');
 
+    Route::get('valorizar-trabajos', [VentasController::class, 'valorizarTrabajos'])->name('ventas.valorizar-trabajos');
+
 });
 
 require __DIR__.'/auth.php';
