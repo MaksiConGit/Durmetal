@@ -535,7 +535,34 @@ class VentasSeeder extends Seeder
         ]);
 
         DestinoCheque::create([
-            'Nombre' => 'Cuenta Corriente',
+            'Nombre' => 'En cartera',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+        ]);
+
+        DestinoCheque::create([
+            'Nombre' => 'Depositado',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+        ]);
+
+        DestinoCheque::create([
+            'Nombre' => 'Endosado',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+        ]);
+
+        DestinoCheque::create([
+            'Nombre' => 'Rechazado',
             'FechaCreacion' => now(),
             'CreadoPor' => 1,
             'FechaActualizacion' => now(),

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chequecobro;
 use App\Models\Client;
 use App\Models\ConfiguracionGlobal;
+use App\Models\DestinoCheque;
 use App\Models\ItemOrdenTrabajo;
 use App\Models\OrdenTrabajo;
+use App\Models\ReciboVenta;
 use App\Models\Tratamiento;
 use Illuminate\Http\Request;
 
@@ -21,9 +24,9 @@ class VentasController extends Controller
 
     public function listadoDeRetenciones()
     {
-        $clientes = Client::limit(20)->get();
+        $recibos_venta = ReciboVenta::all();
 
-        return view('ventas.listado-de-retenciones.index', compact('clientes'));
+        return view('ventas.listado-de-retenciones.index', compact('recibos_venta'));
     }
     
     public function listadoDePrecios()
@@ -64,5 +67,13 @@ class VentasController extends Controller
         ]);
 
         return redirect()->route('orden-trabajo.edit', $orden_trabajo);
+    }
+
+    public function listadoDeCheques()
+    {
+        $cheques_cobro = Chequecobro::all();
+        $destinos_cheque = DestinoCheque::all();
+
+        return view('ventas.listado-de-cheques.index', compact('cheques_cobro', 'destinos_cheque'));
     }
 }

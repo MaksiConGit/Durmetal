@@ -253,7 +253,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#-icons.html">
+                      <a href="{{ route('ventas.listado-de-cheques') }}">
                         <span class="sub-item">Listado de cheques a clientes</span>
                       </a>
                     </li>
