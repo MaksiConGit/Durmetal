@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Chequecobro;
 use App\Models\Client;
+use App\Models\CondicionVenta;
 use App\Models\ConfiguracionGlobal;
 use App\Models\DestinoCheque;
+use App\Models\FacturaVenta;
 use App\Models\ItemOrdenTrabajo;
 use App\Models\NotaEnvio;
 use App\Models\OrdenTrabajo;
@@ -59,18 +61,6 @@ class VentasController extends Controller
         return view('ventas.ficha-del-cliente.show', compact('cliente', 'ordenes_trabajo', 'notas_de_envio', 'facturas', 'recibos', 'notas_de_credito', 'notas_de_debito', 'minutas'));
     }
 
-    public function fichaDelClienteOrdenCreate(Client $cliente)
-    {
-        $next_orden_numero = OrdenTrabajo::max('Numero') + 1;
-
-        $orden_trabajo = OrdenTrabajo::create([
-                'PuntoVenta' => 1,
-                'Numero' => $next_orden_numero,
-        ]);
-
-        return redirect()->route('orden-trabajo.edit', $orden_trabajo);
-    }
-
     public function listadoDeCheques()
     {
         $cheques_cobro = Chequecobro::all();
@@ -84,6 +74,18 @@ class VentasController extends Controller
         $ordenes_trabajo = OrdenTrabajo::where('');
 
         return view('ventas.valorizar-trabajos.index', compact('ordenes_trabajo'));
+    }
+
+    public function fichaDelClienteOrdenCreate(Client $cliente)
+    {
+        $next_orden_numero = OrdenTrabajo::max('Numero') + 1;
+
+        $orden_trabajo = OrdenTrabajo::create([
+                'PuntoVenta' => 1,
+                'Numero' => $next_orden_numero,
+        ]);
+
+        return redirect()->route('orden-trabajo.edit', $orden_trabajo);
     }
 
     public function fichaDelClienteNotaEnvioCreate(Client $cliente)
@@ -106,6 +108,44 @@ class VentasController extends Controller
         $pto_ventas = PuntoDeVenta::all();
 
         return view('ventas.ficha-del-cliente.nota-envio', compact('items_orden_trabajo', 'tratamientos', 'next_nota_numero', 'cliente', 'pto_ventas'));
+    }
+
+    public function fichaDelClienteFacturaVentaCreate(Client $cliente)
+    {
+        $notas_de_envio = NotaEnvio::where('Estado', 'PENDIENTE')->get();
+        $pto_ventas = PuntoDeVenta::all();
+        $next_numero = FacturaVenta::max('Numero') + 1;
+        $condiciones_venta = CondicionVenta::all();
+
+        return view('ventas.ficha-del-cliente.factura-venta', compact('notas_de_envio', 'pto_ventas', 'next_numero', 'cliente', 'condiciones_venta'));
+    }
+
+    public function fichaDelClienteReciboVentaCreate(Client $cliente)
+    {
+        $ordenes_trabajo = OrdenTrabajo::where('');
+
+        return view('ventas.ficha-del-cliente.nota-envio', compact('ordenes_trabajo'));
+    }
+
+    public function fichaDelClienteNotaCreditoCreate(Client $cliente)
+    {
+        $ordenes_trabajo = OrdenTrabajo::where('');
+
+        return view('ventas.ficha-del-cliente.nota-envio', compact('ordenes_trabajo'));
+    }
+
+    public function fichaDelClienteNotaDebitoCreate(Client $cliente)
+    {
+        $ordenes_trabajo = OrdenTrabajo::where('');
+
+        return view('ventas.ficha-del-cliente.nota-envio', compact('ordenes_trabajo'));
+    }
+
+    public function fichaDelClienteMinutaCreate(Client $cliente)
+    {
+        $ordenes_trabajo = OrdenTrabajo::where('');
+
+        return view('ventas.ficha-del-cliente.nota-envio', compact('ordenes_trabajo'));
     }
     
 }

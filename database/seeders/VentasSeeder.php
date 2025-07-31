@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Banco;
 use App\Models\Chequecobro;
 use App\Models\Cobro;
+use App\Models\CondicionVenta;
 use App\Models\ConfiguracionGlobal;
 use App\Models\DestinoCheque;
 use App\Models\FactorPremio;
@@ -584,6 +585,11 @@ class VentasSeeder extends Seeder
             'FechaActualizacion' => now(),
             'ActualizadoPor' => 1,
             'Activo' => true,
+        ]);
+
+        CondicionVenta::create([
+            'Nombre' => 'Contado',
+            'Seleccionado' => 1
         ]);
     }
 }

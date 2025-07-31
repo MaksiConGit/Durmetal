@@ -120,6 +120,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('ficha-del-cliente/orden-trabajo/create/{cliente}', [VentasController::class, 'fichaDelClienteOrdenCreate'])->name('ventas.ficha-del-cliente-orden.create');
     Route::get('ficha-del-cliente/nota-envio/create/{cliente}', [VentasController::class, 'fichaDelClienteNotaEnvioCreate'])->name('ventas.ficha-del-cliente-nota-envio.create');
+    Route::get('ficha-del-cliente/factura-venta/create/{cliente}', [VentasController::class, 'fichaDelClienteFacturaVentaCreate'])->name('ventas.ficha-del-cliente-factura-venta.create');
+    Route::get('ficha-del-cliente/recibo-venta/create/{cliente}', [VentasController::class, 'fichaDelClienteReciboVentaCreate'])->name('ventas.ficha-del-cliente-recibo-venta.create');
+    Route::get('ficha-del-cliente/nota-credito/create/{cliente}', [VentasController::class, 'fichaDelClienteNotaCreditoCreate'])->name('ventas.ficha-del-cliente-nota-credito.create');
+    Route::get('ficha-del-cliente/nota-debito/create/{cliente}', [VentasController::class, 'fichaDelClienteNotaDebitoCreate'])->name('ventas.ficha-del-cliente-nota-debito.create');
+    Route::get('ficha-del-cliente/minuta/create/{cliente}', [VentasController::class, 'fichaDelClienteMinutaCreate'])->name('ventas.ficha-del-cliente-minuta.create');
 
     Route::get('listado-de-cheques', [VentasController::class, 'listadoDeCheques'])->name('ventas.listado-de-cheques');
 

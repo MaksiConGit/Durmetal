@@ -353,7 +353,7 @@
                 <x-slot name="table_title">Facturas</x-slot>
                 <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
                 <x-slot name="add_text">Añadir Factura</x-slot>
-                <x-slot name="create_route">{{ route('ventas.ficha-del-cliente-orden.create', $cliente) }}</x-slot>
+                <x-slot name="create_route">{{ route('ventas.ficha-del-cliente-factura-venta.create', $cliente) }}</x-slot>
 
                 <x-slot name="head_tr">
                     <tr>
@@ -493,7 +493,7 @@
                 <x-slot name="table_title">Recibos</x-slot>
                 <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
                 <x-slot name="add_text">Añadir Recibo</x-slot>
-                <x-slot name="create_route">{{ route('ventas.ficha-del-cliente-orden.create', $cliente) }}</x-slot>
+                <x-slot name="create_route">{{ route('ventas.ficha-del-cliente-recibo-venta.create', $cliente) }}</x-slot>
 
                 <x-slot name="head_tr">
                     <tr>
@@ -618,7 +618,7 @@
                 <x-slot name="table_title">Notas de Crédito</x-slot>
                 <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
                 <x-slot name="add_text">Añadir Nota de Crédito</x-slot>
-                <x-slot name="create_route">{{ route('ventas.ficha-del-cliente-orden.create', $cliente) }}</x-slot>
+                <x-slot name="create_route">{{ route('ventas.ficha-del-cliente-nota-credito.create', $cliente) }}</x-slot>
 
                 <x-slot name="head_tr">
                     <tr>
@@ -761,7 +761,7 @@
                 <x-slot name="table_title">Notas de Débito</x-slot>
                 <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
                 <x-slot name="add_text">Añadir Nota de Débito</x-slot>
-                <x-slot name="create_route">{{ route('ventas.ficha-del-cliente-orden.create', $cliente) }}</x-slot>
+                <x-slot name="create_route">{{ route('ventas.ficha-del-cliente-nota-debito.create', $cliente) }}</x-slot>
 
                 <x-slot name="head_tr">
                     <tr>
@@ -904,7 +904,7 @@
                 <x-slot name="table_title">Minutas</x-slot>
                 <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
                 <x-slot name="add_text">Añadir Minutas</x-slot>
-                <x-slot name="create_route">{{ route('ventas.ficha-del-cliente-orden.create', $cliente) }}</x-slot>
+                <x-slot name="create_route">{{ route('ventas.ficha-del-cliente-minuta.create', $cliente) }}</x-slot>
 
                 <x-slot name="head_tr">
                     <tr>
