@@ -194,7 +194,7 @@
                 <x-slot name="table_title">Notas de Envío</x-slot>
                 <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
                 <x-slot name="add_text">Añadir Nota de Envío</x-slot>
-                <x-slot name="create_route">{{ route('ventas.ficha-del-cliente-orden.create', $cliente) }}</x-slot>
+                <x-slot name="create_route">{{ route('ventas.ficha-del-cliente-nota-envio.create', $cliente) }}</x-slot>
 
                 <x-slot name="head_tr">
                     <tr>

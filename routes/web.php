@@ -117,7 +117,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('ficha-del-cliente', [VentasController::class, 'fichaDelCliente'])->name('ventas.ficha-del-cliente');
     Route::get('ficha-del-cliente/{cliente}', [VentasController::class, 'fichaDelClienteShow'])->name('ventas.ficha-del-cliente.show');
-    Route::get('ficha-del-cliente/create/{cliente}', [VentasController::class, 'fichaDelClienteOrdenCreate'])->name('ventas.ficha-del-cliente-orden.create');
+
+    Route::get('ficha-del-cliente/orden-trabajo/create/{cliente}', [VentasController::class, 'fichaDelClienteOrdenCreate'])->name('ventas.ficha-del-cliente-orden.create');
+    Route::get('ficha-del-cliente/nota-envio/create/{cliente}', [VentasController::class, 'fichaDelClienteNotaEnvioCreate'])->name('ventas.ficha-del-cliente-nota-envio.create');
 
     Route::get('listado-de-cheques', [VentasController::class, 'listadoDeCheques'])->name('ventas.listado-de-cheques');
 

@@ -7,7 +7,9 @@ use App\Models\Client;
 use App\Models\ConfiguracionGlobal;
 use App\Models\DestinoCheque;
 use App\Models\ItemOrdenTrabajo;
+use App\Models\NotaEnvio;
 use App\Models\OrdenTrabajo;
+use App\Models\PuntoDeVenta;
 use App\Models\ReciboVenta;
 use App\Models\Tratamiento;
 use Illuminate\Http\Request;
@@ -83,4 +85,27 @@ class VentasController extends Controller
 
         return view('ventas.valorizar-trabajos.index', compact('ordenes_trabajo'));
     }
+
+    public function fichaDelClienteNotaEnvioCreate(Client $cliente)
+    {
+        $ordenes_trabajo = OrdenTrabajo::where('IdCliente', $cliente->id)->get();
+
+        $next_nota_numero = NotaEnvio::max('Numero') + 1;
+
+        foreach ($ordenes_trabajo as $orden_trabajo) {
+
+            foreach ($orden_trabajo->itemsOrdenTrabajo as $item_orden_trabajo) {
+
+                $tratamientos[] = $item_orden_trabajo->tratamiento; 
+                $items_orden_trabajo[] = $item_orden_trabajo;
+
+            }
+
+        }
+
+        $pto_ventas = PuntoDeVenta::all();
+
+        return view('ventas.ficha-del-cliente.nota-envio', compact('items_orden_trabajo', 'tratamientos', 'next_nota_numero', 'cliente', 'pto_ventas'));
+    }
+    
 }
