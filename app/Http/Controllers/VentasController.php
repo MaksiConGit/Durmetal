@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banco;
 use App\Models\Chequecobro;
 use App\Models\Client;
 use App\Models\CondicionVenta;
@@ -90,7 +91,7 @@ class VentasController extends Controller
 
     public function fichaDelClienteNotaEnvioCreate(Client $cliente)
     {
-        $ordenes_trabajo = OrdenTrabajo::where('IdCliente', $cliente->id)->get();
+        $ordenes_trabajo = OrdenTrabajo::where('Estado', 'PENDIENTE')->where('IdCliente', $cliente->id)->get();
 
         $next_nota_numero = NotaEnvio::max('Numero') + 1;
 
@@ -112,7 +113,7 @@ class VentasController extends Controller
 
     public function fichaDelClienteFacturaVentaCreate(Client $cliente)
     {
-        $notas_de_envio = NotaEnvio::where('Estado', 'PENDIENTE')->get();
+        $notas_de_envio = NotaEnvio::where('Estado', 'PENDIENTE')->where('IdCliente', $cliente->id)->get();
         $pto_ventas = PuntoDeVenta::all();
         $next_numero = FacturaVenta::max('Numero') + 1;
         $condiciones_venta = CondicionVenta::all();
@@ -122,9 +123,12 @@ class VentasController extends Controller
 
     public function fichaDelClienteReciboVentaCreate(Client $cliente)
     {
-        $ordenes_trabajo = OrdenTrabajo::where('');
+        $facturas_venta = FacturaVenta::where('Estado', 'PENDIENTE')->where('IdCliente', $cliente->id)->get();
+        $pto_ventas = PuntoDeVenta::all();
+        $next_numero = ReciboVenta::max('Numero') + 1;
+        $bancos = Banco::all();
 
-        return view('ventas.ficha-del-cliente.nota-envio', compact('ordenes_trabajo'));
+        return view('ventas.ficha-del-cliente.recibo-venta', compact('facturas_venta', 'pto_ventas', 'next_numero', 'cliente', 'bancos'));
     }
 
     public function fichaDelClienteNotaCreditoCreate(Client $cliente)
