@@ -130,6 +130,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('valorizar-trabajos', [VentasController::class, 'valorizarTrabajos'])->name('ventas.valorizar-trabajos');
 
+    Route::get('listado-de-saldos', [VentasController::class, 'listadoDeSaldos'])->name('ventas.listado-de-saldos');
+
 });
 
 require __DIR__.'/auth.php';

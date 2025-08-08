@@ -151,5 +151,12 @@ class VentasController extends Controller
 
         return view('ventas.ficha-del-cliente.nota-envio', compact('ordenes_trabajo'));
     }
+
+    public function listadoDeSaldos()
+    {
+        $clientes = Client::all();
+
+        return view('ventas.listado-de-saldos.index', compact('clientes'));
+    }
     
 }

@@ -238,7 +238,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href="{{ route('ventas.listado-de-saldos') }}">
                         <span class="sub-item">Listado de saldos</span>
                       </a>
                     </li>
