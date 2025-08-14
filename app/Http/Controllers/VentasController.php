@@ -159,4 +159,16 @@ class VentasController extends Controller
         return view('ventas.listado-de-saldos.index', compact('clientes'));
     }
     
+    public function resumenCuentaCorriente()
+    {
+        $clientes = Client::all();
+
+        $cliente = Client::find(1);
+
+        $facturas = $cliente->facturasVenta;
+        $recibos = $cliente->recibosVenta;
+
+        return view('ventas.resumen-cuenta-corriente.index', compact('clientes', 'facturas', 'recibos', 'cliente'));
+    }
+    
 }

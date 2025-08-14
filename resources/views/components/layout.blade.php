@@ -243,7 +243,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href="{{ route('ventas.resumen-cuenta-corriente') }}">
                         <span class="sub-item">Resumen de cuenta cte</span>
                       </a>
                     </li>

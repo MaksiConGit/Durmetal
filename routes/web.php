@@ -132,6 +132,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('listado-de-saldos', [VentasController::class, 'listadoDeSaldos'])->name('ventas.listado-de-saldos');
 
+    Route::get('resumen-cuenta-corriente', [VentasController::class, 'resumenCuentaCorriente'])->name('ventas.resumen-cuenta-corriente');
+
 });
 
 require __DIR__.'/auth.php';
