@@ -173,7 +173,6 @@ class VentasController extends Controller
         return view('ventas.resumen-cuenta-corriente.index', compact('clientes', 'facturas', 'recibos', 'cliente'));
     }
     
-
     public function listadoDeIVA()
     {
         $pto_ventas = PuntoDeVenta::all();
@@ -192,6 +191,32 @@ class VentasController extends Controller
         $documentos = $documentos->values();
         
         return view('ventas.listado-de-iva.index', compact('documentos', 'pto_ventas', 'articulos'));
+    }
+
+    public function buscarDocumentos()
+    {
+        $cliente = Client::find(1);
+
+        $clientes = Client::all();
+
+        $notas_de_envio = $cliente->notasDeEnvio;
+        $facturas = $cliente->facturasVenta->where('EsNotaDeDebito', 0);;
+        $notas_de_debito = $cliente->facturasVenta->where('EsNotaDeDebito', 1);
+        $notas_de_credito = $cliente->notasDeCredito;
+        $recibos = $cliente->recibosVenta;
+
+        $documentos = $facturas
+            ->concat($notas_de_envio)
+            ->concat($facturas)
+            ->concat($notas_de_debito)
+            ->concat($notas_de_credito)
+            ->concat($recibos);
+
+        $documentos = $documentos->sortByDesc('FechaEmision');
+
+        $documentos = $documentos->values();
+
+        return view('ventas.buscar-documentos.index', compact('cliente', 'notas_de_envio', 'facturas', 'notas_de_debito', 'notas_de_credito', 'recibos', 'documentos', 'clientes'));
     }
 
 }

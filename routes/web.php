@@ -136,6 +136,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('listado-de-iva', [VentasController::class, 'listadoDeIVA'])->name('ventas.listado-de-iva');
 
+    Route::get('buscar-documentos', [VentasController::class, 'buscarDocumentos'])->name('ventas.buscar-documentos');
+
 });
 
 require __DIR__.'/auth.php';

@@ -228,7 +228,7 @@
                 <div class="collapse" id="forms">
                   <ul class="nav nav-collapse">
                     <li>
-                      <a href="#">
+                      <a href="{{ route('ventas.buscar-documentos') }}">
                         <span class="sub-item">Buscar documentos</span>
                       </a>
                     </li>
