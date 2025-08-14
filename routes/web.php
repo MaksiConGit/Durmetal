@@ -134,6 +134,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('resumen-cuenta-corriente', [VentasController::class, 'resumenCuentaCorriente'])->name('ventas.resumen-cuenta-corriente');
 
+    Route::get('listado-de-iva', [VentasController::class, 'listadoDeIVA'])->name('ventas.listado-de-iva');
+
 });
 
 require __DIR__.'/auth.php';

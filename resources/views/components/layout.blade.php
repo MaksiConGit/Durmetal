@@ -248,7 +248,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#-icons.html">
+                      <a href="{{ route('ventas.listado-de-iva') }}">
                         <span class="sub-item">Listado de IVA Ventas</span>
                       </a>
                     </li>

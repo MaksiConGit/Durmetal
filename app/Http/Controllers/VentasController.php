@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Arti;
 use App\Models\Banco;
 use App\Models\Chequecobro;
 use App\Models\Client;
@@ -10,6 +11,7 @@ use App\Models\ConfiguracionGlobal;
 use App\Models\DestinoCheque;
 use App\Models\FacturaVenta;
 use App\Models\ItemOrdenTrabajo;
+use App\Models\NotaCreditoVenta;
 use App\Models\NotaEnvio;
 use App\Models\OrdenTrabajo;
 use App\Models\PuntoDeVenta;
@@ -171,4 +173,25 @@ class VentasController extends Controller
         return view('ventas.resumen-cuenta-corriente.index', compact('clientes', 'facturas', 'recibos', 'cliente'));
     }
     
+
+    public function listadoDeIVA()
+    {
+        $pto_ventas = PuntoDeVenta::all();
+        $articulos = Arti::all();
+
+        $facturas = FacturaVenta::where('EsNotaDeDebito', 0)->get();
+        $notas_de_credito = NotaCreditoVenta::all();
+        $notas_de_debito = FacturaVenta::where('EsNotaDeDebito', 1)->get();
+
+        $documentos = $facturas
+            ->concat($notas_de_credito)
+            ->concat($notas_de_debito);
+
+        $documentos = $documentos->sortByDesc('FechaEmision');
+
+        $documentos = $documentos->values();
+        
+        return view('ventas.listado-de-iva.index', compact('documentos', 'pto_ventas', 'articulos'));
+    }
+
 }
