@@ -14,9 +14,23 @@ class ValorizarTrabajos extends Component
     public $oti_item_numero = null;
     public $oti_orden_numero = null;
 
+    public $codigoComplejidad = [];
+
+    public $keepShowing = [];
+
+    public function mount()
+    {
+        foreach ($this->items as $item) {
+            $this->codigoComplejidad[$item->id] = $item->CodigoComplejidad;
+        }
+    }
+
     public function getItemsProperty()
     {
-        $query = ItemOrdenTrabajo::where('Estado', 'PENDIENTE')
+        $query = ItemOrdenTrabajo::where(function ($q) {
+                $q->where('CodigoComplejidad', 0)
+                  ->orWhereIn('id', $this->keepShowing);
+            })
             ->whereHas('ordenTrabajo', function ($q) {
                 $q->whereIn('Estado', ['PENDIENTE', 'COMPLETO']);
             });
@@ -39,7 +53,10 @@ class ValorizarTrabajos extends Component
 
         if (!empty($this->selectedItemIds)) {
             $selectedItems = ItemOrdenTrabajo::whereIn('id', $this->selectedItemIds)
-                ->where('Estado', 'PENDIENTE')
+                ->where(function ($q) {
+                    $q->where('CodigoComplejidad', 0)
+                      ->orWhereIn('id', $this->keepShowing);
+                })
                 ->whereHas('ordenTrabajo', function ($q) {
                     $q->whereIn('Estado', ['PENDIENTE', 'COMPLETO']);
                 })
@@ -51,6 +68,17 @@ class ValorizarTrabajos extends Component
         }
 
         return $query->get();
+    }
+
+    public function updatedCodigoComplejidad($value, $key)
+    {
+        ItemOrdenTrabajo::where('id', $key)->update([
+            'CodigoComplejidad' => $value
+        ]);
+
+        if (!in_array($key, $this->keepShowing)) {
+            $this->keepShowing[] = $key;
+        }
     }
 
     public function render()

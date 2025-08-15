@@ -75,9 +75,9 @@ class VentasController extends Controller
 
     public function valorizarTrabajos()
     {
-        $ordenes_trabajo = OrdenTrabajo::where('');
+        $items_orden_trabajo = ItemOrdenTrabajo::where('CC', 0);
 
-        return view('ventas.valorizar-trabajos.index', compact('ordenes_trabajo'));
+        return view('ventas.valorizar-trabajos.index', compact('items_orden_trabajo'));
     }
 
     public function fichaDelClienteOrdenCreate(Client $cliente)
