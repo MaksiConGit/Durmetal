@@ -195,9 +195,10 @@ class VentasController extends Controller
         $cliente = Client::find(1);
 
         $facturas = $cliente->facturasVenta;
+        $notas_de_credito = $cliente->notasDeCredito;
         $recibos = $cliente->recibosVenta;
 
-        return view('ventas.resumen-cuenta-corriente.index', compact('clientes', 'facturas', 'recibos', 'cliente'));
+        return view('ventas.resumen-cuenta-corriente.index', compact('clientes', 'facturas', 'recibos', 'notas_de_credito', 'cliente'));
     }
     
     public function listadoDeIVA()
