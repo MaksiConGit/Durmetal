@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <x-form-input-default>
-                        <x-slot name="label">Desde Fecha Emisión</x-slot>
+                        <x-slot name="label">Lista Desde</x-slot>
                         <x-slot name="livewire">wire:model.live="cliente_desde"</x-slot>
                         <x-slot name="name"></x-slot>
                         <x-slot name="placeholder"></x-slot>
@@ -27,7 +27,7 @@
                 
                 <div class="col-md-3">
                     <x-form-input-default>
-                        <x-slot name="label">Desde Fecha Emisión</x-slot>
+                        <x-slot name="label">Lista Hasta</x-slot>
                         <x-slot name="livewire">wire:model.live="cliente_desde"</x-slot>
                         <x-slot name="name"></x-slot>
                         <x-slot name="placeholder"></x-slot>
@@ -64,7 +64,7 @@
 
             <x-data-table-no-plus>
             
-                <x-slot name="table_title">Listado de Cheques a Clientes</x-slot>
+                <x-slot name="table_title">Listado de Saldos de Clientes</x-slot>
                 <x-slot name="export_route">{{ route('clients.export') }}</x-slot>
                 <x-slot name="head_tr">
                     <tr>
@@ -85,9 +85,9 @@
                             <td>{{ $cliente->id }}</td>
                             <td>{{ $cliente->Nombre }}</td>
                             <td>{{ $cliente->NroDocumento }}</td>
-                            <td></td>
-                            <td></td>
-                            <td>{{ number_format($cliente->Saldo, 2, '.', '') }}</td>
+                            <td>{{ $cliente->factura_atrasada_emision }}</td>
+                            <td>{{ $cliente->factura_atrasada_vencimiento }}</td>
+                            <td>{{ number_format($cliente->saldo, 2, '.', '') }}</td>
                         </tr>
                     @empty
                         <tr><td colspan="11">No se encontraron resultados.</td></tr>

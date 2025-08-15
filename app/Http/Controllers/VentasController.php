@@ -6,6 +6,7 @@ use App\Models\Arti;
 use App\Models\Banco;
 use App\Models\Chequecobro;
 use App\Models\Client;
+use App\Models\ClientType;
 use App\Models\CondicionVenta;
 use App\Models\ConfiguracionGlobal;
 use App\Models\DestinoCheque;
@@ -158,9 +159,35 @@ class VentasController extends Controller
     {
         $clientes = Client::all();
 
+        foreach ($clientes as $cliente) {
+
+            $nota_envio_total = NotaEnvio::where('IdCliente', $cliente->id)->sum('Total');
+            $recibo_total = ReciboVenta::where('IdCliente', $cliente->id)->sum('Total');
+            $nota_credito_total = NotaCreditoVenta::where('IdCliente', $cliente->id)->sum('Total');
+
+            $cliente->saldo = $cliente->SaldoSistemaAnterior
+                + $nota_envio_total
+                - $recibo_total
+                - $nota_credito_total;
+
+            $factura_mas_atrasada = FacturaVenta::where('IdCliente', $cliente->id)
+                ->where('Estado', 'PENDIENTE')
+                ->orderBy('FechaVencimiento', 'asc')
+                ->select('FechaEmision', 'FechaVencimiento')
+                ->first();
+
+            if ($factura_mas_atrasada) {
+                $cliente->factura_atrasada_emision = $factura_mas_atrasada->FechaEmision;
+                $cliente->factura_atrasada_vencimiento = $factura_mas_atrasada->FechaVencimiento;
+            } else {
+                $cliente->factura_atrasada_emision = null;
+                $cliente->factura_atrasada_vencimiento = null;
+            }
+        }
+
         return view('ventas.listado-de-saldos.index', compact('clientes'));
     }
-    
+
     public function resumenCuentaCorriente()
     {
         $clientes = Client::all();
