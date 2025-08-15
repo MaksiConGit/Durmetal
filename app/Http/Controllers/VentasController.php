@@ -19,6 +19,7 @@ use App\Models\PuntoDeVenta;
 use App\Models\ReciboVenta;
 use App\Models\Tratamiento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VentasController extends Controller
 {
@@ -114,6 +115,52 @@ class VentasController extends Controller
         return view('ventas.ficha-del-cliente.nota-envio', compact('items_orden_trabajo', 'tratamientos', 'next_nota_numero', 'cliente', 'pto_ventas'));
     }
 
+    public function fichaDelClienteNotaEnvioStore(Request $request)
+    {
+        $user_id = Auth::id();
+
+        $cliente = Client::find($request->IdCliente);
+    
+        $data['Letra'] = 'X';
+        $data['PuntoVenta'] = $request->PuntoVenta;
+        $data['Numero'] = $request->Numero;
+        $data['NumeroCompleto'] = "NE X 0001-0000$request->Numero";
+        $data['FechaEmision'] = now();
+        $data['FechaVencimiento'] = now();
+        $data['AfectarPlanillaTurno'] = 0;
+        $data['CondicionPrecios'] = 'A';
+        $data['IdCliente'] = $cliente->id;
+        $data['RazonSocial'] = $cliente->Nombre;
+        $data['IdCondicionIva'] = $cliente->IdCondicionIva;
+        $data['TipoDocumento'] = $cliente->TipoDocumento;
+        $data['NumeroDocumentoCliente'] = $cliente->NroDocumento;
+        $data['Direccion'] = $cliente->Domicilio;
+        $data['Localidad'] = $cliente->localidad->Nombre;
+        $data['Provincia'] = 1;
+        $data['Estado'] = 'PENDIENTE';
+        $data['TipoOperacion'] = 1;
+        $data['PorcentajeDescuento'] = 1;
+        $data['Neto'] = 1;
+        $data['IVA'] = 1;
+        $data['Total'] = 1;
+        $data['Observaciones'] = 1;
+        $data['NumeroTurno'] = 1;
+        $data['ReferenciaTurno'] = 1;
+        $data['AjusteCtaCtePlanillaTurno'] = 1;
+        $data['FechaCreacion'] = now();
+        $data['CreadoPor'] = $user_id;
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = $user_id;
+        $data['Activo'] = 1;
+        $data['PuntoVentaNumero'] = 1;
+        $data['CantidadImpresiones'] = 1;
+        $data['CantidadEnviosPorCorreo'] = 1;
+
+        $notaEnvio = NotaEnvio::create($data);
+
+        return redirect()->route('ventas.ficha-del-cliente.show', $cliente);
+    }
+
     public function fichaDelClienteFacturaVentaCreate(Client $cliente)
     {
         $notas_de_envio = NotaEnvio::where('Estado', 'PENDIENTE')->where('IdCliente', $cliente->id)->get();
@@ -122,6 +169,59 @@ class VentasController extends Controller
         $condiciones_venta = CondicionVenta::all();
 
         return view('ventas.ficha-del-cliente.factura-venta', compact('notas_de_envio', 'pto_ventas', 'next_numero', 'cliente', 'condiciones_venta'));
+    }
+
+    public function fichaDelClienteFacturaVentaStore(Request $request)
+    {
+        $user_id = Auth::id();
+
+        $cliente = Client::find($request->IdCliente);
+    
+        $data['Letra'] = 'X';
+        $data['PuntoVenta'] = $request->PuntoVenta;
+        $data['Numero'] = $request->Numero;
+        $data['NumeroCompleto'] = "FC X 0001-0000$request->Numero";
+        $data['FechaEmision'] = now()->toDateString();
+        $data['FechaVencimiento'] = now()->toDateString();
+        $data['FechaEstadisticas'] = now()->toDateString();
+        $data['TipoOperacion'] = 1;
+        $data['CondicionPrecios'] = 1;
+        $data['IdCliente'] = 1;
+        $data['RazonSocial'] = 1;
+        $data['TipoDocumentoCliente'] = 1;
+        $data['Direccion'] = 1;
+        $data['Localidad'] = 1;
+        $data['IdCondicionIva'] = 1;
+        $data['CondicionVenta'] = 1;
+        $data['Neto'] = 1;
+        $data['NetoNoGravado'] = 1;
+        $data['Exento'] = 1;
+        $data['IVA'] = 1;
+        $data['ImpuestoInterno'] = 1;
+        $data['Total'] = 1;
+        $data['AjusteCtaCtePlanillaTurno'] = 1;
+        $data['Estado'] = 1;
+        $data['CAE'] = 1;
+        $data['FechaVencimientoCAE'] = now()->toDateString();
+        $data['IdSolicitudCAE'] = 1;
+        $data['Observaciones'] = 1;
+        $data['NumeroTurno'] = 1;
+        $data['ReferenciaTurno'] = 1;
+        $data['AfectarPlanillaTurno'] = 1;
+        $data['EsNotaDeDebito'] = 1;
+        $data['NroFacturaNotaDebito'] = 1;
+        $data['EntregarMercaderiaConRemitos'] = 1;
+        $data['FechaCreacion'] = now()->toDateString();
+        $data['CreadoPor'] = $user_id;
+        $data['FechaActualizacion'] = now()->toDateString();
+        $data['ActualizadoPor'] = $user_id;
+        $data['Activo'] = 1;
+        $data['CantidadImpresiones'] = 1;
+        $data['CantidadEnviosPorCorreo'] = 1;
+
+        FacturaVenta::create($data);
+
+        return redirect()->route('ventas.ficha-del-cliente.show', $cliente);
     }
 
     public function fichaDelClienteReciboVentaCreate(Client $cliente)

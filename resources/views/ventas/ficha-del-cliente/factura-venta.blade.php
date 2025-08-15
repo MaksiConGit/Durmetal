@@ -9,15 +9,15 @@
     </x-slot>
 
     <x-form>
-        <x-slot name="card_title">Nota de Envío</x-slot>
-        {{-- <x-slot name="action">{{ route('orden-trabajo.update', $orden_trabajo) }}</x-slot> --}}
-        <x-slot name="action"></x-slot>
-        <x-slot name="method">@method('PUT')</x-slot>
+        <x-slot name="card_title">Factura de Venta</x-slot>
+        <x-slot name="action">{{ route('ventas.ficha-del-cliente-factura-venta.store', $cliente) }}</x-slot>
+        <x-slot name="method"></x-slot>
         <x-slot name="inputs">
 
     <div class="row mb-3 align-items-center">
 
         <div class="col-md-3">
+                <input type="hidden" name="IdCliente" value="{{$cliente->id}}">
             <x-form-input-select>
                 <x-slot name="label">Punto de Venta</x-slot>
                 <x-slot name="name">PuntoVenta</x-slot>
