@@ -31,4 +31,9 @@ class CuentaOtrosEgresos extends Model
     {
         return $this->belongsTo(CuentaOtrosEgresos::class, 'IdCuentaOtrosEgresosPadre');
     }
+
+    public function movimientos()
+    {
+        return $this->hasMany(MovimientoCuentaGastos::class, 'IdCuentaOtrosEgresos');
+    }
 }

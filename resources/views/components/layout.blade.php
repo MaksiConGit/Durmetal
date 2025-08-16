@@ -214,7 +214,7 @@
                       <div class="collapse" id="subnavotrosegresos">
                         <ul class="nav nav-collapse subnav">
                           <li>
-                            <a href="#">
+                            <a href="{{ route('otros-egresos.actualizaciones.cuentas.index') }}">
                               <span class="sub-item">Cuentas</span>
                             </a>
                           </li>
