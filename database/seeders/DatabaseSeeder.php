@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             ClientSeeder::class,
             ProductionSeeder::class,
             VentasSeeder::class,
+            OtrosEgresosSeeder::class,
         ]);
 
         Tratamiento::factory(20)->create();

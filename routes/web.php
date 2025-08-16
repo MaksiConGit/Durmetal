@@ -16,6 +16,7 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MedioEnfriamientoController;
 use App\Http\Controllers\OrdenTrabajoController;
 use App\Http\Controllers\OrdenTrabajoExportController;
+use App\Http\Controllers\OtrosEgresosController;
 use App\Http\Controllers\ProcesoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramacionController;
@@ -143,6 +144,13 @@ Route::middleware('auth')->group(function () {
 
     Route::get('buscar-documentos', [VentasController::class, 'buscarDocumentos'])->name('ventas.buscar-documentos');
 
+
+    Route::get('otros-egresos', [OtrosEgresosController::class, 'otrosEgresos'])->name('otros-egresos.otros-egresos.index');
+    Route::get('otros-egresos/create', [OtrosEgresosController::class, 'otrosEgresosCreate'])->name('otros-egresos.otros-egresos.create');
+    Route::post('otros-egresos', [OtrosEgresosController::class, 'otrosEgresosStore'])->name('otros-egresos.otros-egresos.store');
+    Route::get('otros-egresos/{movimiento_cuenta_gastos}/edit', [OtrosEgresosController::class, 'otrosEgresosEdit'])->name('otros-egresos.otros-egresos.edit');
+    Route::put('otros-egresos/{movimiento_cuenta_gastos}', [OtrosEgresosController::class, 'otrosEgresosUpdate'])->name('otros-egresos.otros-egresos.update');
+    Route::delete('otros-egresos/{movimiento_cuenta_gastos}', [OtrosEgresosController::class, 'otrosEgresosDestroy'])->name('otros-egresos.otros-egresos.destroy');
 });
 
 require __DIR__.'/auth.php';

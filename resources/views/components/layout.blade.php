@@ -197,6 +197,11 @@
                 <div class="collapse" id="sidebarLayouts">
                   <ul class="nav nav-collapse">
                     <li>
+                      <a href="{{ route('otros-egresos.otros-egresos.index') }}">
+                        <span class="sub-item">Otros egresos</span>
+                      </a>
+                    </li>
+                    <li>
                       <a href="sidebar-style-2.html">
                         <span class="sub-item">Listado entre fechas</span>
                       </a>
