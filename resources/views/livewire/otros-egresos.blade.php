@@ -87,7 +87,7 @@
                     <td>{{ number_format($movimiento_cuenta_gastos->Importe, 2, '.', '') }}</td>                      
                 </tr>
             @empty
-                <tr><td colspan="11">No se encontraron resultados.</td></tr>
+                <tr><td colspan="6">No se encontraron resultados.</td></tr>
             @endforelse
         </x-slot>
         <x-slot name="foot_tr">

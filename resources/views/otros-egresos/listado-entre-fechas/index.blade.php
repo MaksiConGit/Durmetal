@@ -6,9 +6,9 @@
             <a href="#"><i class="fas fa-money-bill-wave"></i></a>
             </li>
             <li class="separator"><i class="icon-arrow-right"></i></li>
-            <li class="nav-item"><a href="#">Otros Egresos</a></li>
+            <li class="nav-item"><a href="#">Listado de Otros Egresos entre Fechas</a></li>            
     </x-slot>
 
-    @livewire('otros-egresos')
+    @livewire('listado-entre-fechas')
 
 </x-layout>

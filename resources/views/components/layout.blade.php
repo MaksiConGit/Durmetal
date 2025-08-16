@@ -202,7 +202,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="sidebar-style-2.html">
+                      <a href="{{ route('otros-egresos.listado-entre-fechas.index') }}">
                         <span class="sub-item">Listado entre fechas</span>
                       </a>
                     </li>

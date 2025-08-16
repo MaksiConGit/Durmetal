@@ -152,12 +152,14 @@ Route::middleware('auth')->group(function () {
     Route::put('otros-egresos/{movimiento_cuenta_gastos}', [OtrosEgresosController::class, 'otrosEgresosUpdate'])->name('otros-egresos.otros-egresos.update');
     Route::delete('otros-egresos/{movimiento_cuenta_gastos}', [OtrosEgresosController::class, 'otrosEgresosDestroy'])->name('otros-egresos.otros-egresos.destroy');
 
-    Route::get('actualizaciones/cuentas', [OtrosEgresosController::class, 'cuentasIndex'])->name('otros-egresos.actualizaciones.cuentas.index');
-    Route::get('actualizaciones/cuentas/create', [OtrosEgresosController::class, 'cuentasCreate'])->name('otros-egresos.actualizaciones.cuentas.create');
-    Route::post('actualizaciones/cuentas', [OtrosEgresosController::class, 'cuentasStore'])->name('otros-egresos.actualizaciones.cuentas.store');
-    Route::get('actualizaciones/cuentas/{cuenta_otros_egresos}/edit', [OtrosEgresosController::class, 'cuentasEdit'])->name('otros-egresos.actualizaciones.cuentas.edit');
-    Route::put('actualizaciones/cuentas/{cuenta_otros_egresos}', [OtrosEgresosController::class, 'cuentasUpdate'])->name('otros-egresos.actualizaciones.cuentas.update');
-    Route::delete('actualizaciones/cuentas/{cuenta_otros_egresos}', [OtrosEgresosController::class, 'cuentasDestroy'])->name('otros-egresos.actualizaciones.cuentas.destroy');
+    Route::get('otros-egresos/actualizaciones/cuentas', [OtrosEgresosController::class, 'cuentasIndex'])->name('otros-egresos.actualizaciones.cuentas.index');
+    Route::get('otros-egresos/actualizaciones/cuentas/create', [OtrosEgresosController::class, 'cuentasCreate'])->name('otros-egresos.actualizaciones.cuentas.create');
+    Route::post('otros-egresos/actualizaciones/cuentas', [OtrosEgresosController::class, 'cuentasStore'])->name('otros-egresos.actualizaciones.cuentas.store');
+    Route::get('otros-egresos/actualizaciones/cuentas/{cuenta_otros_egresos}/edit', [OtrosEgresosController::class, 'cuentasEdit'])->name('otros-egresos.actualizaciones.cuentas.edit');
+    Route::put('otros-egresos/actualizaciones/cuentas/{cuenta_otros_egresos}', [OtrosEgresosController::class, 'cuentasUpdate'])->name('otros-egresos.actualizaciones.cuentas.update');
+    Route::delete('otros-egresos/actualizaciones/cuentas/{cuenta_otros_egresos}', [OtrosEgresosController::class, 'cuentasDestroy'])->name('otros-egresos.actualizaciones.cuentas.destroy');
+
+    Route::get('otros-egresos/listado-entre-fechas', [OtrosEgresosController::class, 'listadoEntreFechasIndex'])->name('otros-egresos.listado-entre-fechas.index');
 });
 
 require __DIR__.'/auth.php';

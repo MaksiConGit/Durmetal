@@ -17,11 +17,8 @@ class OtrosEgresosController extends Controller
     {
         $cuentas_otros_egresos = CuentaOtrosEgresos::all();
         $movimientos_cuenta_gastos = MovimientoCuentaGastos::all();
-        $materiales = Material::all();
 
-        // dd($movimientos_cuenta_gastos);
-
-        return view('otros-egresos.otros-egresos.index', compact('cuentas_otros_egresos', 'movimientos_cuenta_gastos', 'materiales'));
+        return view('otros-egresos.otros-egresos.index', compact('cuentas_otros_egresos', 'movimientos_cuenta_gastos'));
     }
 
     public function otrosEgresosCreate()
@@ -80,6 +77,29 @@ class OtrosEgresosController extends Controller
         return redirect()->route('otros-egresos.otros-egresos.index');
     }
 
+    // Listado entre fechas
+    public function listadoEntreFechasIndex()
+    {
+        $cuentas_otros_egresos = CuentaOtrosEgresos::whereNull('IdCuentaOtrosEgresosPadre')
+                                    ->orderBy('Nombre', 'asc')
+                                    ->with(['hijos.movimientos', 'movimientos'])
+                                    ->get();
+
+        foreach ($cuentas_otros_egresos as $padre) {
+
+            $padre->total_movimientos = $padre->movimientos->sum('Importe');
+
+            foreach ($padre->hijos as $hijo) {
+                $hijo->total_movimientos = $hijo->movimientos->sum('Importe');
+
+                $padre->total_movimientos += $hijo->total_movimientos;
+            }
+        }
+
+        $total_general = $cuentas_otros_egresos->sum('total_movimientos');
+
+        return view('otros-egresos.listado-entre-fechas.index', compact('cuentas_otros_egresos', 'total_general'));
+    }
 
     // Cuentas
     public function cuentasIndex()
