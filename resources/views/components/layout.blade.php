@@ -178,7 +178,7 @@
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('compras.actualizaciones.cuentas-de-gastos.index') }}">
                               <span class="sub-item">Cuentas de gastos</span>
                             </a>
                           </li>

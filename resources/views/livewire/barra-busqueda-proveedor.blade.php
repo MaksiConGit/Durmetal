@@ -4,7 +4,7 @@
 
     <x-data-table>
       
-        <x-slot name="table_title">Clientes</x-slot>
+        <x-slot name="table_title">Proveedores</x-slot>
         <x-slot name="export_route">{{ route('clients.export') }}</x-slot>
         <x-slot name="create_route">{{ route('compras.actualizaciones.proveedores.create') }}</x-slot>
         <x-slot name="add_text">Añadir proveedor</x-slot>

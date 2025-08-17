@@ -169,10 +169,13 @@ Route::middleware('auth')->group(function () {
     Route::get('compras/actualizaciones/proveedores/{proveedor}/edit', [ComprasController::class, 'proveedoresEdit'])->name('compras.actualizaciones.proveedores.edit');
     Route::put('compras/actualizaciones/proveedores/{proveedor}', [ComprasController::class, 'proveedoresUpdate'])->name('compras.actualizaciones.proveedores.update');
     Route::delete('compras/actualizaciones/proveedores/{proveedor}', [ComprasController::class, 'proveedoresDestroy'])->name('compras.actualizaciones.proveedores.destroy');
-    // Route::get('/clientes/buscar', [ClientController::class, 'search'])->name('clientes.buscar');
-    // Route::get('/export', [ExportController::class, 'export'])->name('proveedores.export');
-    // Route::get('/cities/search', [CityController::class, 'search'])->name('cities.search');
 
+    Route::get('compras/actualizaciones/cuenta-de-gastos', [ComprasController::class, 'cuentaDeGastosIndex'])->name('compras.actualizaciones.cuentas-de-gastos.index');
+    Route::get('compras/actualizaciones/cuentas-de-gastos/create', [ComprasController::class, 'cuentaDeGastosCreate'])->name('compras.actualizaciones.cuentas-de-gastos.create');
+    Route::post('compras/actualizaciones/cuentas-de-gastos', [ComprasController::class, 'cuentaDeGastosStore'])->name('compras.actualizaciones.cuentas-de-gastos.store');
+    Route::get('compras/actualizaciones/cuentas-de-gastos/{cuenta_de_gastos}/edit', [ComprasController::class, 'cuentaDeGastosEdit'])->name('compras.actualizaciones.cuentas-de-gastos.edit');
+    Route::put('compras/actualizaciones/cuentas-de-gastos/{cuenta_de_gastos}', [ComprasController::class, 'cuentaDeGastosUpdate'])->name('compras.actualizaciones.cuentas-de-gastos.update');
+    Route::delete('compras/actualizaciones/cuentas-de-gastos/{cuenta_de_gastos}', [ComprasController::class, 'cuentaDeGastosDestroy'])->name('compras.actualizaciones.cuentas-de-gastos.destroy');
 });
 
 require __DIR__.'/auth.php';

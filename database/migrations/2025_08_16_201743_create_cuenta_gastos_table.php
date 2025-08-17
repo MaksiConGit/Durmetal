@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('cuenta_gastos', function (Blueprint $table) {
             $table->id();
             $table->string('Nombre');
-            $table->string('Descripcion');
+            $table->string('Descripcion')->nullable();
             $table->date('FechaCreacion')->nullable();
             $table->foreignId('CreadoPor')->nullable()->constrained('users')
                                                         ->onDelete('restrict')
