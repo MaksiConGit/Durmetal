@@ -176,6 +176,53 @@ Route::middleware('auth')->group(function () {
     Route::get('compras/actualizaciones/cuentas-de-gastos/{cuenta_de_gastos}/edit', [ComprasController::class, 'cuentaDeGastosEdit'])->name('compras.actualizaciones.cuentas-de-gastos.edit');
     Route::put('compras/actualizaciones/cuentas-de-gastos/{cuenta_de_gastos}', [ComprasController::class, 'cuentaDeGastosUpdate'])->name('compras.actualizaciones.cuentas-de-gastos.update');
     Route::delete('compras/actualizaciones/cuentas-de-gastos/{cuenta_de_gastos}', [ComprasController::class, 'cuentaDeGastosDestroy'])->name('compras.actualizaciones.cuentas-de-gastos.destroy');
+
+    Route::get('compras/listado-de-cheques-proveedores', [ComprasController::class, 'listadoDeChequesProveedores'])->name('compras.listado-de-cheques.index');
+
+    Route::get('compras/listado-de-iva', [ComprasController::class, 'listadoDeIva'])->name('compras.listado-de-iva.index');
+
+    Route::get('compras/resumen-mensual-egresos', [ComprasController::class, 'resumenMensualEgresos'])->name('compras.resumen-mensual-egresos.index');
+
+    Route::get('compras/resumen-cuenta-corriente', [ComprasController::class, 'resumenCuentaCorriente'])->name('compras.resumen-cuenta-corriente.index');
+
+    Route::get('compras/listado-movimientos-por-cuentas-gastos', [ComprasController::class, 'listadoMovimientosCuentasGastos'])->name('compras.listado-movimientos-por-cuentas-gastos.index');
+
+    Route::get('compras/listado-de-saldos-proveedores', [ComprasController::class, 'listadoSaldosProveedores'])->name('compras.listado-de-saldos-proveedores.index');
+
+    Route::get('compras/ficha-del-proveedor', [ComprasController::class, 'fichaDelProveedorIndex'])->name('compras.ficha-del-proveedor.index');
+    Route::get('compras/ficha-del-proveedor/{proveedor}', [ComprasController::class, 'fichaDelProveedorShow'])->name('compras.ficha-del-proveedor.show');
+
+    Route::get('compras/ficha-del-proveedor/facturas/create/{proveedor}', [VentasController::class, 'fichaFacturaVentaCreate'])->name('ventas.ficha-del-cliente.factura-venta.create');
+    Route::post('compras/ficha-del-proveedor/facturas', [VentasController::class, 'fichaFacturaVentaStore'])->name('ventas.ficha-del-cliente.factura-venta.store');
+    Route::get('compras/ficha-del-proveedor/facturas/{factura_venta}/edit', [VentasController::class, 'fichaFacturaVentaEdit'])->name('ventas.ficha-del-cliente.factura-venta.edit');
+    Route::put('compras/ficha-del-proveedor/facturas/{factura_venta}', [VentasController::class, 'fichaFacturaVentaUpdate'])->name('ventas.ficha-del-cliente.factura-venta.update');
+    Route::delete('compras/ficha-del-proveedor/facturas/{factura_venta}', [VentasController::class, 'fichaFacturaVentaDestroy'])->name('ventas.ficha-del-cliente.factura-venta.update');
+
+    Route::get('compras/ficha-del-proveedor/ordenes-de-pago/create/{proveedor}', [VentasController::class, 'fichaOrdenPagoCreate'])->name('ventas.ficha-del-cliente.orden-pago.create');
+    Route::post('compras/ficha-del-proveedor/ordenes-de-pago', [VentasController::class, 'fichaOrdenPagoStore'])->name('ventas.ficha-del-cliente.orden-pago.store');
+    Route::get('compras/ficha-del-proveedor/ordenes-de-pago/{orden_pago}/edit', [VentasController::class, 'fichaOrdenPagoEdit'])->name('ventas.ficha-del-cliente.orden-pago.edit');
+    Route::put('compras/ficha-del-proveedor/ordenes-de-pago/{orden_pago}', [VentasController::class, 'fichaOrdenPagoUpdate'])->name('ventas.ficha-del-cliente.orden-pago.update');
+    Route::delete('compras/ficha-del-proveedor/ordenes-de-pago/{orden_pago}', [VentasController::class, 'fichaOrdenPagoDestroy'])->name('ventas.ficha-del-cliente.orden-pago.update');
+
+    Route::get('compras/ficha-del-proveedor/notas-de-credito/create/{proveedor}', [VentasController::class, 'fichaNotaCreditoCreate'])->name('ventas.ficha-del-cliente.nota-credito.create');
+    Route::post('compras/ficha-del-proveedor/notas-de-credito', [VentasController::class, 'fichaNotaCreditoStore'])->name('ventas.ficha-del-cliente..nota-credito.store');
+    Route::get('compras/ficha-del-proveedor/notas-de-credito/{nota_credito}/edit', [VentasController::class, 'fichaNotaCreditoEdit'])->name('ventas.ficha-del-cliente..nota-credito.edit');
+    Route::put('compras/ficha-del-proveedor/notas-de-credito/{nota_credito}', [VentasController::class, 'fichaNotaCreditoUpdate'])->name('ventas.ficha-del-cliente..nota-credito.update');
+    Route::delete('compras/ficha-del-proveedor/notas-de-credito/{nota_credito}', [VentasController::class, 'fichaNotaCreditoDestroy'])->name('ventas.ficha-del-cliente..nota-credito.update');
+    
+    Route::get('compras/ficha-del-proveedor/nota-de-debito/create/{proveedor}', [VentasController::class, 'fichaNotaDebitoCreate'])->name('ventas.ficha-del-cliente.nota-debito.create');
+    Route::post('compras/ficha-del-proveedor/nota-de-debito', [VentasController::class, 'fichaNotaDebitoStore'])->name('ventas.ficha-del-cliente.nota-debito.store');
+    Route::get('compras/ficha-del-proveedor/nota-de-debito/{nota_debito}/edit', [VentasController::class, 'fichaNotaDebitoEdit'])->name('ventas.ficha-del-cliente.nota-debito.edit');
+    Route::put('compras/ficha-del-proveedor/nota-de-debito/{nota_debito}', [VentasController::class, 'fichaNotaDebitoUpdate'])->name('ventas.ficha-del-cliente.nota-debito.update');
+    Route::delete('compras/ficha-del-proveedor/nota-de-debito/{nota_debito}', [VentasController::class, 'fichaNotaDebitoDestroy'])->name('ventas.ficha-del-cliente.nota-debito.update');
+    
+    Route::get('compras/ficha-del-proveedor/minutas/create/{proveedor}', [VentasController::class, 'fichaMinutaCreate'])->name('ventas.ficha-del-cliente.minuta.create');
+    Route::post('compras/ficha-del-proveedor/minutas', [VentasController::class, 'fichaMinutaStore'])->name('ventas.ficha-del-cliente.minuta.store');
+    Route::get('compras/ficha-del-proveedor/minutas/{factura_venta}/edit', [VentasController::class, 'fichaMinutaEdit'])->name('ventas.ficha-del-cliente.minuta.edit');
+    Route::put('compras/ficha-del-proveedor/minutas/{factura_venta}', [VentasController::class, 'fichaMinutaUpdate'])->name('ventas.ficha-del-cliente.minuta.update');
+    Route::delete('compras/ficha-del-proveedor/minutas/{factura_venta}', [VentasController::class, 'fichaMinutaDestroy'])->name('ventas.ficha-del-cliente.minuta.update');
+
+    Route::get('compras/buscar-comprobantes', [ComprasController::class, 'buscarComprobantesIndex'])->name('compras.buscar-comprobantes.index');
 });
 
 require __DIR__.'/auth.php';
