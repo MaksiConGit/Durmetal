@@ -5,6 +5,7 @@ use App\Http\Controllers\CargaController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CodigoComplejidadController;
+use App\Http\Controllers\ComprasController;
 use App\Http\Controllers\DivisasController;
 use App\Http\Controllers\DocumentosController;
 use App\Http\Controllers\DurezaController;
@@ -160,6 +161,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('otros-egresos/actualizaciones/cuentas/{cuenta_otros_egresos}', [OtrosEgresosController::class, 'cuentasDestroy'])->name('otros-egresos.actualizaciones.cuentas.destroy');
 
     Route::get('otros-egresos/listado-entre-fechas', [OtrosEgresosController::class, 'listadoEntreFechasIndex'])->name('otros-egresos.listado-entre-fechas.index');
+
+    // Compras
+    Route::get('compras/actualizaciones/proveedores', [ComprasController::class, 'proveedoresIndex'])->name('compras.actualizaciones.proveedores.index');
+    Route::get('compras/actualizaciones/proveedores/create', [ComprasController::class, 'proveedoresCreate'])->name('compras.actualizaciones.proveedores.create');
+    Route::post('compras/actualizaciones/proveedores', [ComprasController::class, 'proveedoresStore'])->name('compras.actualizaciones.proveedores.store');
+    Route::get('compras/actualizaciones/proveedores/{proveedor}/edit', [ComprasController::class, 'proveedoresEdit'])->name('compras.actualizaciones.proveedores.edit');
+    Route::put('compras/actualizaciones/proveedores/{proveedor}', [ComprasController::class, 'proveedoresUpdate'])->name('compras.actualizaciones.proveedores.update');
+    Route::delete('compras/actualizaciones/proveedores/{proveedor}', [ComprasController::class, 'proveedoresDestroy'])->name('compras.actualizaciones.proveedores.destroy');
+    // Route::get('/clientes/buscar', [ClientController::class, 'search'])->name('clientes.buscar');
+    // Route::get('/export', [ExportController::class, 'export'])->name('proveedores.export');
+    // Route::get('/cities/search', [CityController::class, 'search'])->name('cities.search');
+
 });
 
 require __DIR__.'/auth.php';

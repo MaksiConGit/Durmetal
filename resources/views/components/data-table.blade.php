@@ -1,38 +1,44 @@
 <style>
+  .table-condensed td,
+  .table-condensed th {
+    padding: 0.6rem 0.75rem;
+    font-size: 1rem;
+    white-space: nowrap;
+    min-width: 120px;
+  }
+
   .table-fixed-header {
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
-}
+    width: max-content; /* IMPORTANTE: permite scroll horizontal */
+    border-collapse: collapse;
+  }
 
-.table-fixed-header thead th,
-.table-fixed-header tfoot td {
-  position: sticky;
-  background: #fff;
-  z-index: 2;
-}
+  .table-fixed-header thead th,
+  .table-fixed-header tfoot td {
+    position: sticky;
+    background: #fff;
+    z-index: 2;
+  }
 
-.table-fixed-header thead th {
-  top: 0;
-  border-bottom: 2px solid #dee2e6;
-}
+  .table-fixed-header thead th {
+    top: 0;
+    border-bottom: 2px solid #dee2e6;
+  }
 
-.table-fixed-header tfoot td {
-  bottom: 0;
-  border-top: 2px solid #dee2e6;
-}
+  .table-fixed-header tfoot td {
+    bottom: 0;
+    border-top: 2px solid #dee2e6;
+  }
 
-.scroll-table-body {
-  max-height: 500px; /* Ajustá según necesites */
-  overflow-y: auto;
-  overflow-x: auto;
-}
+  .scroll-table-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Scroll horizontal */
+  }
 
-.scroll-table-wrapper {
-  overflow-x: auto;
-}
+  .scroll-table-body {
+    max-height: 500px; /* Scroll vertical */
+    overflow-y: auto;
+  }
 </style>
-
 
 <div class="card">
   <div class="card-header">
@@ -55,6 +61,9 @@
         <thead>
           {{ $head_tr }}
         </thead>
+        <tfoot>
+          {{ $foot_tr ?? '' }}
+        </tfoot>
         <tbody>
           {{ $body_tr }}
         </tbody>

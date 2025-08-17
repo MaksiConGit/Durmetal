@@ -173,7 +173,7 @@
                       <div class="collapse" id="subnavcompras">
                         <ul class="nav nav-collapse subnav">
                           <li>
-                            <a href="#">
+                            <a href="{{ route('compras.actualizaciones.proveedores.index') }}">
                               <span class="sub-item">Proveedores</span>
                             </a>
                           </li>

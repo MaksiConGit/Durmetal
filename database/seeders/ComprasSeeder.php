@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\CuentaGastos;
+use App\Models\EmailProveedor;
 use App\Models\Proveedor;
 use App\Models\RetencionIIBB;
 use Carbon\Carbon;
@@ -67,6 +68,28 @@ class ComprasSeeder extends Seeder
             'FechaActualizacion' => Carbon::now(),
             'ActualizadoPor' => 1,
             'Activo' => true,
+        ]);
+
+        EmailProveedor::create([
+            'IdProveedor' => 1,
+            'Email' => 'contacto@proveedor1.com',
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+            'IdProveedorEmail' => 'PRV001-EMAIL01',
+        ]);
+
+        EmailProveedor::create([
+            'IdProveedor' => 1,
+            'Email' => 'ventas@proveedor1.com',
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+            'IdProveedorEmail' => 'PRV001-EMAIL02',
         ]);
     }
 }
