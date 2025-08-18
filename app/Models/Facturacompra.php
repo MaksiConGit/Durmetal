@@ -53,7 +53,7 @@ class Facturacompra extends Model
         'LetraPuntoVentaNumeroIdProveedor',
     ];
 
-    public function itemsFacturaCompra()
+    public function items()
     {
         return $this->hasMany(Itemfacturacompra::class, 'IdFacturaCompra');
     }

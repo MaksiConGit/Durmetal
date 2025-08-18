@@ -3,11 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCuentaGastosRequest;
+use App\Http\Requests\StoreFacturacompraRequest;
+use App\Http\Requests\StoreMinutaCompraRequest;
+use App\Http\Requests\StoreNotaCreditoCompraRequest;
+use App\Http\Requests\StoreOrdenpagoRequest;
 use App\Http\Requests\StoreProveedorRequest;
+use App\Models\Chequepago;
 use App\Models\City;
 use App\Models\CuentaGastos;
 use App\Models\CuentaOtrosEgresos;
+use App\Models\Facturacompra;
+use App\Models\Itemfacturacompra;
 use App\Models\IvaCondition;
+use App\Models\MinutaCompra;
+use App\Models\MovimientoCuentaGastos;
+use App\Models\NotaCreditoCompra;
+use App\Models\Ordenpago;
 use App\Models\Proveedor;
 use App\Models\Province;
 use App\Models\RetencionIIBB;
@@ -184,5 +195,337 @@ class ComprasController extends Controller
         $cuenta_de_gastos->delete();
     
         return redirect()->route('compras.actualizaciones.cuentas-de-gastos.index');
+    }
+
+    // Listado de cheques proveedores
+    public function listadoDeChequesProveedores()
+    {
+        $cheques_pago = Chequepago::all();
+
+        return view('compras.listado-de-cheques-proveedores.index', compact('cheques_pago'));
+    }
+
+    // Listado de IVA 
+    public function listadoDeIva()
+    {
+        $facturas_compra = Facturacompra::all();
+        $notas_credito_compra = NotaCreditoCompra::all();
+
+        return view('compras.listado-de-iva.index', compact('factuas_compra', 'notas_credito_compra'));
+    }
+
+    // Resumen mensual de egresos 
+    public function resumenMensualEgresos()
+    {
+        $cuentas_gastos = CuentaGastos::all();
+        $movimientos_cuenta_gastos = MovimientoCuentaGastos::all();
+        $cuentas_otros_egresos = CuentaOtrosEgresos::all();
+        $items_facturas_compra = Itemfacturacompra::all();
+
+        return view('compras.resumen-mensual-egresos.index', compact('cuentas_gastos', 'cuentas_otros_egresos', 'items_facturas_compra', 'movimientos_cuenta_gastos'));
+    }
+
+    // Resumen de cuenta corriente proveedor
+    public function resumenCuentaCorriente()
+    {
+        $proveedores = Proveedor::all();
+
+        return view('compras.resumen-cuenta-corriente.index', compact('proveedores'));
+    }
+
+    // Listado de movimientos por cuentas de gastos
+    public function listadoMovimientosCuentasGastos()
+    {
+        $cuentas_de_gastos = CuentaGastos::all();
+        $facturas_compra = Facturacompra::where('EsNotaDeDebito', 0)->get();
+        $notas_debito_compra = Facturacompra::where('EsNotaDeDebito', 1)->get();
+        $notas_credito_compra = NotaCreditoCompra::all();
+
+        return view('compras.listado-movimientos-por-cuentas-gastos.index', compact('cuentas_de_gastos', 'facturas_compra', 'notas_debito_compra', 'notas_credito_compra'));
+    }
+
+    // Listado de saldos de proveedores
+    public function listadoSaldosProveedores()
+    {
+        $proveedores = Proveedor::all();
+
+        foreach ($proveedores as $proveedor) {
+
+            $items_facturas_total = $proveedor->facturasCompra->flatMap->items->sum('Total');
+            $items_notas_debito_total = $proveedor->notasDebitoCompra->flatMap->items->sum('Total');
+            $items_notas_credito_total = $proveedor->notasCreditoCompra->flatMap->items->sum('Total');
+
+            $proveedor->saldo = $proveedor->SaldoSistemaAnterior
+                + $items_facturas_total
+                + $items_notas_debito_total
+                - $items_notas_credito_total;
+
+            $factura_mas_atrasada = Facturacompra::where('IdProveedor', $proveedor->id)
+                ->where('Estado', 'PENDIENTE')
+                ->orderBy('FechaVencimiento', 'asc')
+                ->select('FechaEmision', 'FechaVencimiento')
+                ->first();
+
+            if ($factura_mas_atrasada) {
+                $proveedor->factura_atrasada_emision = $factura_mas_atrasada->FechaEmision;
+                $proveedor->factura_atrasada_vencimiento = $factura_mas_atrasada->FechaVencimiento;
+            } else {
+                $proveedor->factura_atrasada_emision = null;
+                $proveedor->factura_atrasada_vencimiento = null;
+            }
+        }
+
+        return view('compras.listado-de-saldos-proveedores.index', compact('proveedores'));
+    }
+
+    // Ficha del proveedor
+    public function fichaDelProveedorIndex()
+    {
+        $proveedores = Proveedor::all();
+
+        return view('compras.ficha-del-proveedor.index', compact('proveedores'));
+    }
+
+    public function fichaDelProveedorShow(Proveedor $proveedor)
+    {
+        $facturas_compra = $proveedor->facturasCompra;
+        $ordenes_pago = $proveedor->ordenesPago;
+        $notas_credito_compra = $proveedor->notasCreditoCompra;
+        $notas_debito_compra = $proveedor->notasDebitoCompra;
+        $minutas_compra = $proveedor->minutasCompra;
+
+        return view('compras.ficha-del-proveedor.index', compact('proveedor', 'facturas_compra', 'ordenes_pago', 'notas_credito_compra', 'notas_debito_compra', 'minutas_compra'));
+    }
+
+    // Factura Compra CRUD
+    public function fichaFacturaCompraCreate(Proveedor $proveedor)
+    {
+        return view('compras.ficha-del-proveedor.factura-compra.create', compact('proveedor'));
+    }
+
+    public function fichaFacturaCompraStore(StoreFacturacompraRequest $request)
+    {
+        $data = $request->all();
+
+        $data['FechaCreacion'] = now();
+        $data['CreadoPor'] = Auth::id();
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = Auth::id();
+        $data['Activo'] = 1;
+
+        $factura_compra = Facturacompra::create($data);
+
+        $proveedor = Proveedor::find($factura_compra->IdProveedor);
+
+        return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
+    }
+
+    public function fichaFacturaCompraEdit(Facturacompra $factura_compra)
+    {
+        return view('compras.ficha-del-proveedor.factura-compra.edit', compact('factura_compra'));
+    }
+
+    public function fichaFacturaCompraUpdate(StoreFacturacompraRequest $request, Facturacompra $factura_compra)
+    {
+        $data = $request->all();
+
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = Auth::id();
+        $data['Activo'] = 1;
+
+        $factura_compra->update($data);
+
+        $proveedor = Proveedor::find($factura_compra->IdProveedor);
+
+        return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
+    }
+
+    public function fichaFacturaCompraDestroy(Facturacompra $factura_compra)
+    {
+        foreach ($factura_compra->items as $item_factura_compra) {
+            $item_factura_compra->delete();
+        }
+
+        $proveedor = Proveedor::find($factura_compra->IdProveedor);
+
+        $factura_compra->delete();
+
+        return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
+    }
+
+    // Orden Pago CRUD
+    public function fichaOrdenPagoCreate(Proveedor $proveedor)
+    {
+        return view('compras.ficha-del-proveedor.orden-pago.create', compact('proveedor'));
+    }
+
+    public function fichaOrdenPagoStore(StoreOrdenpagoRequest $request)
+    {
+        $data = $request->all();
+
+        $data['FechaCreacion'] = now();
+        $data['CreadoPor'] = Auth::id();
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = Auth::id();
+        $data['Activo'] = 1;
+
+        $orden_pago = Ordenpago::create($data);
+
+        $proveedor = Proveedor::find($orden_pago->IdProveedor);
+
+        return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
+    }
+
+    public function fichaOrdenPagoEdit(Ordenpago $orden_pago)
+    {
+        return view('compras.ficha-del-proveedor.orden-pago.edit', compact('orden_pago'));
+    }
+
+    public function fichaOrdenPagoUpdate(StoreOrdenpagoRequest $request, Ordenpago $orden_pago)
+    {
+        $data = $request->all();
+
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = Auth::id();
+        $data['Activo'] = 1;
+
+        $orden_pago->update($data);
+
+        $proveedor = Proveedor::find($orden_pago->IdProveedor);
+
+        return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
+    }
+
+    public function fichaOrdenPagoDestroy(Ordenpago $orden_pago)
+    {
+        foreach ($orden_pago->items as $item_factura_compra) {
+            $item_factura_compra->delete();
+        }
+
+        $proveedor = Proveedor::find($orden_pago->IdProveedor);
+
+        $orden_pago->delete();
+
+        return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
+    }
+
+    // Notas de Credito CRUD
+    public function fichaNotaCreditoCreate(Proveedor $proveedor)
+    {
+        return view('compras.ficha-del-proveedor.nota-credito.create', compact('proveedor'));
+    }
+
+    public function fichaNotaCreditoStore(StoreNotaCreditoCompraRequest $request)
+    {
+        $data = $request->all();
+
+        $data['FechaCreacion'] = now();
+        $data['CreadoPor'] = Auth::id();
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = Auth::id();
+        $data['Activo'] = 1;
+
+        $nota_credito = NotaCreditoCompra::create($data);
+
+        $proveedor = Proveedor::find($nota_credito->IdProveedor);
+
+        return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
+    }
+
+    public function fichaNotaCreditoEdit(NotaCreditoCompra $nota_credito)
+    {
+        return view('compras.ficha-del-proveedor.nota-credito.edit', compact('nota_credito'));
+    }
+
+    public function fichaNotaCreditoUpdate(StoreNotaCreditoCompraRequest $request, NotaCreditoCompra $nota_credito)
+    {
+        $data = $request->all();
+
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = Auth::id();
+        $data['Activo'] = 1;
+
+        $nota_credito->update($data);
+
+        $proveedor = Proveedor::find($nota_credito->IdProveedor);
+
+        return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
+    }
+
+    public function fichaNotaCreditoDestroy(NotaCreditoCompra $nota_credito)
+    {
+        foreach ($nota_credito->items as $item_factura_compra) {
+            $item_factura_compra->delete();
+        }
+
+        $proveedor = Proveedor::find($nota_credito->IdProveedor);
+
+        $nota_credito->delete();
+
+        return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
+    }
+
+    // Minutas CRUD
+    public function fichaMinutaCreate(Proveedor $proveedor)
+    {
+        return view('compras.ficha-del-proveedor.minuta.create', compact('proveedor'));
+    }
+
+    public function fichaMinutaStore(StoreMinutaCompraRequest $request)
+    {
+        $data = $request->all();
+
+        $data['FechaCreacion'] = now();
+        $data['CreadoPor'] = Auth::id();
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = Auth::id();
+        $data['Activo'] = 1;
+
+        $minuta = MinutaCompra::create($data);
+
+        $proveedor = Proveedor::find($minuta->IdProveedor);
+
+        return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
+    }
+
+    public function fichaMinutaEdit(MinutaCompra $minuta)
+    {
+        return view('compras.ficha-del-proveedor.minuta.edit', compact('minuta'));
+    }
+
+    public function fichaMinutaUpdate(StoreMinutaCompraRequest $request, MinutaCompra $minuta)
+    {
+        $data = $request->all();
+
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = Auth::id();
+        $data['Activo'] = 1;
+
+        $minuta->update($data);
+
+        $proveedor = Proveedor::find($minuta->IdProveedor);
+
+        return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
+    }
+
+    public function fichaMinutaDestroy(MinutaCompra $minuta)
+    {
+        foreach ($minuta->items as $item_factura_compra) {
+            $item_factura_compra->delete();
+        }
+
+        $proveedor = Proveedor::find($minuta->IdProveedor);
+
+        $minuta->delete();
+
+        return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
+    }
+
+    // Buscar comprobantes
+    public function buscarComprobantes()
+    {
+        $proveedores = Proveedor::all();
+
+        return view('compras.buscar-comprobantes.index', compact('proveedores'));
     }
 }

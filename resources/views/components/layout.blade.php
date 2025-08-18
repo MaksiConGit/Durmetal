@@ -126,42 +126,42 @@
                 <div class="collapse" id="base">
                   <ul class="nav nav-collapse">
                     <li>
-                      <a href="#">
+                      <a href="{{ route('compras.buscar-comprobantes.index') }}">
                         <span class="sub-item">Buscar comprobantes</span>
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href="{{ route('compras.ficha-del-proveedor.index') }}">
                         <span class="sub-item">Ficha del proveedor</span>
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href="{{ route('compras.listado-de-saldos-proveedores.index') }}">
                         <span class="sub-item">Listado de saldos</span>
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href="{{ route('compras.listado-movimientos-por-cuentas-gastos.index') }}">
                         <span class="sub-item">Listado de movimientos por cuentas de gastos</span>
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href="{{ route('compras.resumen-cuenta-corriente.index') }}">
                         <span class="sub-item">Resumen de cuenta cte</span>
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href="{{ route('compras.resumen-mensual-egresos.index') }}">
                         <span class="sub-item">Resumen mensual de egresos</span>
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href="{{ route('compras.listado-de-iva.index') }}">
                         <span class="sub-item">Listado de IVA Compras</span>
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href="{{ route('compras.listado-de-cheques-proveedores.index') }}">
                         <span class="sub-item">Listado de cheques a proveedores</span>
                       </a>
                     </li>

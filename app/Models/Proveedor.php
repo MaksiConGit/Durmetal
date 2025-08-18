@@ -48,4 +48,29 @@ class Proveedor extends Model
     {
         return $this->belongsTo(RetencionIIBB::class, 'IdRetencionIIBB');
     }
+
+    public function facturasCompra()
+    {
+        return $this->hasMany(Facturacompra::class, 'IdProveedor')->where('EsNotaDeDebito', 0);
+    }
+
+    public function notasDebitoCompra()
+    {
+        return $this->hasMany(Facturacompra::class, 'IdProveedor')->where('EsNotaDeDebito', 1);
+    }
+
+    public function notasCreditoCompra()
+    {
+        return $this->hasMany(NotaCreditoCompra::class, 'IdProveedor');
+    }
+
+    public function ordenesPago()
+    {
+        return $this->hasMany(Ordenpago::class, 'IdProveedor');
+    }
+
+    public function minutasCompra()
+    {
+        return $this->hasMany(MinutaCompra::class, 'IdProveedor');
+    }
 }
