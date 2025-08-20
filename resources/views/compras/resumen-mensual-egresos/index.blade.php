@@ -93,7 +93,7 @@
             @foreach ($cuentas_otros_egresos as $cuenta_otros_egresos)
                 <tr>
                     <td>{{ $cuenta_otros_egresos->Nombre }}</td>
-                    <td>GASTOS</td>
+                    <td>OTROS EGRESOS</td>
                     <td>{{ number_format(0, 2, '.', '') }}</td>
                     <td>{{ number_format(0, 2, '.', '') }}</td>
                     <td>{{ number_format(0, 2, '.', '') }}</td>
@@ -109,22 +109,23 @@
                     <td>{{ number_format(0, 2, '.', '') }}</td>
                 </tr>
             @endforeach
+
             <tr class="fw-bold">
-                <td>TOTALES</td>
-                    <td>OTROS EGRESOS</td>
-                    <td></td>
-                    <td>{{ number_format(0, 2, '.', '') }}</td>
-                    <td>{{ number_format(0, 2, '.', '') }}</td>
-                    <td>{{ number_format(0, 2, '.', '') }}</td>
-                    <td>{{ number_format(0, 2, '.', '') }}</td>
-                    <td>{{ number_format(0, 2, '.', '') }}</td>
-                    <td>{{ number_format(0, 2, '.', '') }}</td>
-                    <td>{{ number_format(0, 2, '.', '') }}</td>
-                    <td>{{ number_format(0, 2, '.', '') }}</td>
-                    <td>{{ number_format(0, 2, '.', '') }}</td>
-                    <td>{{ number_format(0, 2, '.', '') }}</td>
-                    <td>{{ number_format(0, 2, '.', '') }}</td>
-                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>SUBTOTAL MENSUAL</td>
+                <td></td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
             </tr>
         </x-slot>
 
