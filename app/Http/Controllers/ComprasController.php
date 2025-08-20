@@ -253,12 +253,11 @@ class ComprasController extends Controller
     // Listado de movimientos por cuentas de gastos
     public function listadoMovimientosCuentasGastos()
     {
-        $cuentas_de_gastos = CuentaGastos::all();
-        $facturas_compra = Facturacompra::where('EsNotaDeDebito', 0)->get();
-        $notas_debito_compra = Facturacompra::where('EsNotaDeDebito', 1)->get();
-        $notas_credito_compra = NotaCreditoCompra::all();
+        $cuentas_de_gastos = CuentaGastos::all();   
+        $facturas_compra = Facturacompra::orderBy('FechaEmision', 'asc')->get();
+        $notas_credito_compra = NotaCreditoCompra::orderBy('FechaEmision', 'asc')->get();
 
-        return view('compras.listado-movimientos-por-cuentas-gastos.index', compact('cuentas_de_gastos', 'facturas_compra', 'notas_debito_compra', 'notas_credito_compra'));
+        return view('compras.listado-movimientos-por-cuentas-gastos.index', compact('cuentas_de_gastos', 'facturas_compra', 'notas_credito_compra'));
     }
 
     // Listado de saldos de proveedores

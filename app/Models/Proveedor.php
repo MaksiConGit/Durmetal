@@ -73,4 +73,9 @@ class Proveedor extends Model
     {
         return $this->hasMany(MinutaCompra::class, 'IdProveedor');
     }
+
+    public function cuentaGastos()
+    {
+        return $this->belongsTo(CuentaGastos::class, 'IdCuentaGastos');
+    }
 }

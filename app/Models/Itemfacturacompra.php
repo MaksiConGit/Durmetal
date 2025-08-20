@@ -34,4 +34,9 @@ class Itemfacturacompra extends Model
     {
         return $this->belongsTo(Facturacompra::class, 'IdFacturaCompra');
     }
+
+    public function cuentaGastos()
+    {
+        return $this->belongsTo(CuentaGastos::class, 'IdCuentaGastos');
+    }
 }

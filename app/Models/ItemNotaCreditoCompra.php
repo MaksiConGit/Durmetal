@@ -33,4 +33,9 @@ class ItemNotaCreditoCompra extends Model
     {
         return $this->belongsTo(NotaCreditoCompra::class, 'IdNotaCreditoCompra');
     }
+
+    public function cuentaGastos()
+    {
+        return $this->belongsTo(CuentaGastos::class, 'IdCuentaGastos');
+    }
 }
