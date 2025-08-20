@@ -264,6 +264,7 @@ class ComprasController extends Controller
     public function listadoSaldosProveedores()
     {
         $proveedores = Proveedor::all();
+        $total_general = 0;
 
         foreach ($proveedores as $proveedor) {
 
@@ -276,7 +277,9 @@ class ComprasController extends Controller
                 + $items_notas_debito_total
                 - $items_notas_credito_total;
 
-            $factura_mas_atrasada = Facturacompra::where('IdProveedor', $proveedor->id)
+            $total_general += $proveedor->saldo;
+
+            $factura_mas_atrasada = FacturaCompra::where('IdProveedor', $proveedor->id)
                 ->where('Estado', 'PENDIENTE')
                 ->orderBy('FechaVencimiento', 'asc')
                 ->select('FechaEmision', 'FechaVencimiento')
@@ -291,8 +294,9 @@ class ComprasController extends Controller
             }
         }
 
-        return view('compras.listado-de-saldos-proveedores.index', compact('proveedores'));
+        return view('compras.listado-de-saldos-proveedores.index', compact('proveedores', 'total_general'));
     }
+
 
     // Ficha del proveedor
     public function fichaDelProveedorIndex()
