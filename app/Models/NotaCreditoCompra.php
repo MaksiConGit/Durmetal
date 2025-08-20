@@ -56,4 +56,14 @@ class NotaCreditoCompra extends Model
     {
         return $this->hasMany(ItemNotaCreditoCompra::class, 'IdNotaCreditoCompra');
     }
+
+    public function condicionIVA()
+    {
+        return $this->belongsTo(IvaCondition::class, 'IdCondicionIva');
+    }
+
+    public function proveedor()
+    {
+        return $this->belongsTo(Proveedor::class, 'IdProveedor');
+    }
 }

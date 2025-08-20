@@ -210,8 +210,9 @@ class ComprasController extends Controller
     {
         $facturas_compra = Facturacompra::all();
         $notas_credito_compra = NotaCreditoCompra::all();
+        $cuentas_de_gastos = CuentaGastos::all();
 
-        return view('compras.listado-de-iva.index', compact('factuas_compra', 'notas_credito_compra'));
+        return view('compras.listado-de-iva.index', compact('facturas_compra', 'notas_credito_compra', 'cuentas_de_gastos'));
     }
 
     // Resumen mensual de egresos 
