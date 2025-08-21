@@ -314,7 +314,7 @@ class ComprasController extends Controller
         $notas_debito_compra = $proveedor->notasDebitoCompra;
         $minutas_compra = $proveedor->minutasCompra;
 
-        return view('compras.ficha-del-proveedor.index', compact('proveedor', 'facturas_compra', 'ordenes_pago', 'notas_credito_compra', 'notas_debito_compra', 'minutas_compra'));
+        return view('compras.ficha-del-proveedor.show', compact('proveedor', 'facturas_compra', 'ordenes_pago', 'notas_credito_compra', 'notas_debito_compra', 'minutas_compra'));
     }
 
     // Factura Compra CRUD
@@ -364,6 +364,12 @@ class ComprasController extends Controller
     {
         foreach ($factura_compra->items as $item_factura_compra) {
             $item_factura_compra->delete();
+        }
+
+        foreach ($factura_compra->notasCredito as $nota_credito) {
+            $nota_credito->update([
+                'IdFacturaCompra' => null
+            ]);
         }
 
         $proveedor = Proveedor::find($factura_compra->IdProveedor);
@@ -418,8 +424,15 @@ class ComprasController extends Controller
 
     public function fichaOrdenPagoDestroy(Ordenpago $orden_pago)
     {
-        foreach ($orden_pago->items as $item_factura_compra) {
-            $item_factura_compra->delete();
+        foreach ($orden_pago->pagos as $pago) {
+
+            foreach ($pago->chequesPago as $cheque_pago) {
+
+                $cheque_pago->delete();
+
+            }
+
+            $pago->delete();
         }
 
         $proveedor = Proveedor::find($orden_pago->IdProveedor);
@@ -474,13 +487,71 @@ class ComprasController extends Controller
 
     public function fichaNotaCreditoDestroy(NotaCreditoCompra $nota_credito)
     {
-        foreach ($nota_credito->items as $item_factura_compra) {
-            $item_factura_compra->delete();
+        foreach ($nota_credito->items as $item_nota_credito) {
+            $item_nota_credito->delete();
         }
 
         $proveedor = Proveedor::find($nota_credito->IdProveedor);
 
         $nota_credito->delete();
+
+        return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
+    }
+
+    // Nota de Débito CRUD
+    public function fichaNotaDebitoCreate(Proveedor $proveedor)
+    {
+        return view('compras.ficha-del-proveedor.nota-debito.create', compact('proveedor'));
+    }
+
+    public function fichaNotaDebitoStore(StoreFacturacompraRequest $request)
+    {
+        $data = $request->all();
+
+        $data['EsNotaDeDebito'] = 1;
+
+        $data['FechaCreacion'] = now();
+        $data['CreadoPor'] = Auth::id();
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = Auth::id();
+        $data['Activo'] = 1;
+
+        $nota_debito = Facturacompra::create($data);
+
+        $proveedor = Proveedor::find($nota_debito->IdProveedor);
+
+        return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
+    }
+
+    public function fichaNotaDebitoEdit(Facturacompra $nota_debito)
+    {
+        return view('compras.ficha-del-proveedor.nota-debito.edit', compact('nota_debito'));
+    }
+
+    public function fichaNotaDebitoUpdate(StoreFacturacompraRequest $request, Facturacompra $nota_debito)
+    {
+        $data = $request->all();
+
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = Auth::id();
+        $data['Activo'] = 1;
+
+        $nota_debito->update($data);
+
+        $proveedor = Proveedor::find($nota_debito->IdProveedor);
+
+        return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
+    }
+
+    public function fichaNotaDebitoDestroy(Facturacompra $nota_debito)
+    {
+        foreach ($nota_debito->items as $item_nota_debito) {
+            $item_nota_debito->delete();
+        }
+
+        $proveedor = Proveedor::find($nota_debito->IdProveedor);
+
+        $nota_debito->delete();
 
         return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
     }
@@ -528,15 +599,15 @@ class ComprasController extends Controller
         return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
     }
 
-    public function fichaMinutaDestroy(MinutaCompra $minuta)
+    public function fichaMinutaDestroy(MinutaCompra $minuta_compra)
     {
-        foreach ($minuta->items as $item_factura_compra) {
-            $item_factura_compra->delete();
+        foreach ($minuta_compra->items as $item_minuta_compra) {
+            $item_minuta_compra->delete();
         }
 
-        $proveedor = Proveedor::find($minuta->IdProveedor);
+        $proveedor = Proveedor::find($minuta_compra->IdProveedor);
 
-        $minuta->delete();
+        $minuta_compra->delete();
 
         return redirect()->route('compras.ficha-del-proveedor.show', $proveedor);
     }

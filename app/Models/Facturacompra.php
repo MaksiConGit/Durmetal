@@ -67,4 +67,9 @@ class Facturacompra extends Model
     {
         return $this->belongsTo(Proveedor::class, 'IdProveedor');
     }
+
+    public function notasCredito()
+    {
+        return $this->hasMany(NotaCreditoCompra::class, 'IdFacturaCompra');
+    }
 }

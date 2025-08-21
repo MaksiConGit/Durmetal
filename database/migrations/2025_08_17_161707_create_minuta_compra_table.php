@@ -20,6 +20,7 @@ return new class extends Migration
                                                         ->onDelete('restrict')
                                                         ->onUpdate('cascade');
             $table->string('TipoOperacion');
+            $table->string('Estado');
             $table->float('Total');
             $table->date('FechaCreacion')->nullable();
             $table->foreignId('CreadoPor')->nullable()->constrained('users')

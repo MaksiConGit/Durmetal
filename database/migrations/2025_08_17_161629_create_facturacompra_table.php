@@ -51,7 +51,7 @@ return new class extends Migration
             $table->integer('NumeroTurno');
             $table->integer('ReferenciaTurno');
             $table->boolean('EsNotaDeDebito');
-            $table->integer('NroFacturaNotaDebito')->nullable();
+            $table->string('NroFacturaNotaDebito')->nullable();
             $table->date('FechaCreacion')->nullable();
             $table->foreignId('CreadoPor')->nullable()->constrained('users')
                                                         ->onDelete('restrict')

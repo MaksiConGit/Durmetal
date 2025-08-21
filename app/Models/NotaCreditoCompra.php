@@ -66,4 +66,9 @@ class NotaCreditoCompra extends Model
     {
         return $this->belongsTo(Proveedor::class, 'IdProveedor');
     }
+
+    public function facturaCompra()
+    {
+        return $this->belongsTo(Facturacompra::class, 'IdFacturaCompra');
+    }
 }

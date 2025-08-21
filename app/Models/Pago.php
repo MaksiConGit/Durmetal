@@ -25,4 +25,9 @@ class Pago extends Model
     {
         return $this->belongsTo(Ordenpago::class, 'IdOrdenPago');
     }
+
+    public function chequesPago()
+    {
+        return $this->hasMany(Chequepago::class, 'IdPago');
+    }
 }
