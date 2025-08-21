@@ -298,7 +298,7 @@ class ComprasSeeder extends Seeder
             'Recargo' => 0,
             'AjustePorRedondeo' => 0,
             'Total' => 605,
-            'Estado' => 'Emitida',
+            'Estado' => 'COMPLETO',
             'CAE' => 87654321,
             'FechaVencimientoCAE' => Carbon::now()->addDays(15),
             'Observaciones' => 'Nota de crédito por devolución',

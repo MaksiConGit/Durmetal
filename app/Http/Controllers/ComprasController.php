@@ -617,6 +617,20 @@ class ComprasController extends Controller
     {
         $proveedores = Proveedor::all();
 
-        return view('compras.buscar-comprobantes.index', compact('proveedores'));
+        $proveedor = Proveedor::first();
+
+        $facturas_compra = $proveedor->facturasCompra;
+        $notas_debito_compra = $proveedor->notasDebitoCompra;
+        $notas_credito_compra = $proveedor->notasCreditoCompra;
+        $ordenes_pago = $proveedor->ordenesPago;
+
+        $documentos = $facturas_compra
+            ->concat($notas_debito_compra)
+            ->concat($notas_credito_compra)
+            ->concat($ordenes_pago);
+
+        $documentos = $documentos->sortByDesc('FechaEmision')->values();
+
+        return view('compras.buscar-comprobantes.index', compact('proveedores', 'proveedor', 'facturas_compra', 'notas_debito_compra', 'notas_credito_compra', 'ordenes_pago', 'documentos'));
     }
 }
