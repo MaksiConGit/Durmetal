@@ -11,7 +11,7 @@ class StoreReglaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreReglaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'IdPuntoEntrada'      => 'nullable|integer|exists:punto_entrada,id',
+            'Nombre'              => 'required|string|max:255',
+            'SecuenciaCondiciones'=> 'required|string|max:2000',
+            'Orden'               => 'required|integer|min:0',
         ];
     }
 }

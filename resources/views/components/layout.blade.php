@@ -462,67 +462,67 @@
                       <div class="collapse" id="subnavsistema1">
                         <ul class="nav nav-collapse subnav">
                           <li>
-                            <a href="#">
+                            <a href="{{ route('sistema.configuracion.configuracion-global.index') }}">
                               <span class="sub-item">Configuración global</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('sistema.configuracion.puntos-de-venta.index') }}">
                               <span class="sub-item">Puntos de venta</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('sistema.configuracion.terminales.index') }}">
                               <span class="sub-item">Terminales</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="">
                               <span class="sub-item">Entornos</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('sistema.configuracion.impresoras-fiscales.index') }}">
                               <span class="sub-item">Impresoras fiscales</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('sistema.configuracion.usuarios.index') }}">
                               <span class="sub-item">Usuarios</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('sistema.configuracion.reglas.index') }}">
                               <span class="sub-item">Reglas</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('sistema.configuracion.plantillas-de-email.index') }}">
                               <span class="sub-item">Plantillas de email</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('sistema.configuracion.conversor-de-durezas.index') }}">
                               <span class="sub-item">Conversor de Durezas</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('sistema.configuracion.plantillas-de-carga.index') }}">
                               <span class="sub-item">Plantillas de Carga</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('sistema.configuracion.condiciones-de-venta.index') }}">
                               <span class="sub-item">Condiciones de venta</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('sistema.actualizaciones.tarjetas.index') }}">
                               <span class="sub-item">Tarjetas</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('sistema.configuracion.tipos-de-mensajes.index') }}">
                               <span class="sub-item">Tipos de mensajes</span>
                             </a>
                           </li>
@@ -642,12 +642,12 @@
                       <div class="collapse" id="subnavsistema4">
                         <ul class="nav nav-collapse subnav">
                           <li>
-                            <a href="{{ route('sistema.bancos.index') }}">
+                            <a href="{{ route('sistema.actualizaciones.bancos.index') }}">
                               <span class="sub-item">Bancos</span>
                             </a>
                           </li>
                           <li>
-                            <a href="{{ route('sistema.tarjetas.index') }}">
+                            <a href="{{ route('sistema.actualizaciones.tarjetas.index') }}">
                               <span class="sub-item">Tarjetas</span>
                             </a>
                           </li>

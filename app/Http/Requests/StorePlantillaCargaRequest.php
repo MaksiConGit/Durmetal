@@ -11,7 +11,7 @@ class StorePlantillaCargaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StorePlantillaCargaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'IdTratamiento'       => 'nullable|integer|exists:tratamiento,id',
+            'IdMaterial'          => 'nullable|integer|exists:material,id',
+            'IdTipoProgramacion'  => 'nullable|integer|exists:tipo_programacion,id',
+            'Temperatura'         => 'required|integer|min:0',
+            'IdMedioEnfriamiento' => 'nullable|integer|exists:medio_enfriamiento,id',
         ];
     }
 }

@@ -11,7 +11,7 @@ class StoreTerminalRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class StoreTerminalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'NombreHost'          => 'required|string|max:255',
+            'IdImpresoraFiscal'   => 'nullable|integer|exists:impresora_fiscal,id',
+            'NombreEtiquetadora'  => 'required|string|max:255',
+            'FechaActualizacion'  => 'required|date',
+            'ActualizadoPor'      => 'nullable|integer|exists:users,id',
+            'Activo'              => 'required|boolean',
         ];
     }
 }

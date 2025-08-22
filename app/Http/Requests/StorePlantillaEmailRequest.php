@@ -11,7 +11,7 @@ class StorePlantillaEmailRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StorePlantillaEmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'Nombre'  => 'required|string|max:255',
+            'Tema'    => 'required|string|max:255',
+            'Mensaje' => 'required|string|max:2000',
         ];
     }
 }

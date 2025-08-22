@@ -8,4 +8,11 @@ class Regla extends Model
 {
     protected $table = 'regla';
     public $timestamps = false;
+
+    protected $fillable = [
+        'IdPuntoEntrada',
+        'Nombre',
+        'SecuenciaCondiciones',
+        'Orden',
+    ];
 }

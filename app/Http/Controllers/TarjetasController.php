@@ -2,63 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTarjetaRequest;
+use App\Models\Tarjeta;
 use Illuminate\Http\Request;
 
 class TarjetasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $tarjetas = Tarjeta::all();
+
+        return view('sistema.actualizaciones.tarjetas.index', compact('tarjetas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('sistema.actualizaciones.tarjetas.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreTarjetaRequest $request)
     {
-        //
+        $data = $request->all();
+
+        Tarjeta::create($data);
+    
+        return redirect()->route('sistema.actualizaciones.tarjetas.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Tarjeta $tarjeta)
     {
-        //
+        return view('sistema.actualizaciones.tarjetas.edit', compact('tarjeta'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(StoreTarjetaRequest $request, Tarjeta $tarjeta)
     {
-        //
+        $data = $request->all();
+
+        $tarjeta->update($data);
+    
+        return redirect()->route('sistema.actualizaciones.tarjetas.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Tarjeta $tarjeta)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $tarjeta->delete();
+    
+        return redirect()->route('sistema.actualizaciones.tarjetas.index');
     }
 }

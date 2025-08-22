@@ -8,6 +8,7 @@ use App\Models\PlantillaCarga;
 use App\Models\PlantillaEmail;
 use App\Models\PuntoEntrada;
 use App\Models\Regla;
+use App\Models\Tarjeta;
 use App\Models\Terminal;
 use App\Models\TipoMensajeUsuario;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -204,6 +205,34 @@ class SistemaSeeder extends Seeder
             'Activo' => 1,
         ]);
 
+        Tarjeta::create([
+            'Nombre' => 'Tarjeta A',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Activo' => 1,
+            'Archivo' => 0,
+        ]);
 
+        Tarjeta::create([
+            'Nombre' => 'Tarjeta B',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Activo' => 1,
+            'Archivo' => 1,
+        ]);
+
+        Tarjeta::create([
+            'Nombre' => 'Tarjeta C',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Activo' => 0,
+            'Archivo' => 0,
+        ]);
     }
 }

@@ -11,7 +11,7 @@ class StorePuntoVentaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,24 @@ class StorePuntoVentaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'Nombre' => 'required|string|max:255',
+            'Numero' => 'required|integer|min:0',
+            'Tipo'   => 'required|string|max:50',
+            'NotaCreditoComparteTalonario' => 'required|boolean',
+            'NotaDebitoComparteTalonario'  => 'required|boolean',
+            'IdTipoRemitoVentaPorDefecto'   => 'required|integer',
+            'IdImpresoraFiscal'             => 'nullable|integer|exists:impresora_fiscal,id',
+            'UtilizarDomicilioConfiguracionGlobal' => 'required|boolean',
+            'DomicilioEmpresa'              => 'nullable|string|max:255',
+            'TelefonoEmpresa'               => 'nullable|string|max:50',
+            'LocalidadEmpresa'              => 'nullable|string|max:100',
+            'ProvinciaEmpresa'              => 'nullable|string|max:100',
+            'CodigoSucursal'                => 'nullable|integer',
+            'FechaCreacion'                 => 'nullable|date',
+            'CreadoPor'                     => 'required|integer|exists:users,id',
+            'FechaActualizacion'            => 'nullable|date',
+            'ActualizadoPor'                => 'required|integer|exists:users,id',
+            'Activo'                        => 'required|boolean',
         ];
     }
 }

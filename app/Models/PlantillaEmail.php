@@ -8,4 +8,10 @@ class PlantillaEmail extends Model
 {
     protected $table = 'plantilla_email';
     public $timestamps = false;
+
+    protected $fillable = [
+        'Nombre',
+        'Tema',
+        'Mensaje',
+    ];
 }

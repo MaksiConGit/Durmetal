@@ -267,9 +267,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('sistema/configuracion')->group(function () {
 
         Route::resource('configuracion-global', ConfiguracionGlobalController::class)->names([
-            'edit'    => 'sistema.configuracion.configuracion-global.edit',
+            'index'    => 'sistema.configuracion.configuracion-global.index',
             'update'  => 'sistema.configuracion.configuracion-global.update',
-        ])->except(['index', 'create', 'store', 'show', 'destroy']);
+        ])->except(['edit', 'create', 'store', 'show', 'destroy']);
 
         Route::resource('puntos-de-venta', PuntoVentaController::class)->names([
             'index'   => 'sistema.configuracion.puntos-de-venta.index',

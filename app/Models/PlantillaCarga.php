@@ -8,4 +8,13 @@ class PlantillaCarga extends Model
 {
     protected $table = 'plantilla_carga';
     public $timestamps = false;
+
+    protected $fillable = [
+        'IdTratamiento',
+        'IdMaterial',
+        'IdTipoProgramacion',
+        'Temperatura',
+        'IdMedioEnfriamiento',
+    ];
+
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTipoMensajeUsuarioRequest extends FormRequest
+class StoreTarjetaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,13 @@ class StoreTipoMensajeUsuarioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'Nombre'        => 'required|string|max:255',
-            'Color'         => 'required|integer|min:0',
-            'ColorFondo'    => 'required|integer|min:0',
-            'FechaCreacion' => 'nullable|date',
-            'CreadoPor'     => 'nullable|integer|exists:users,id',
-            'Activo'        => 'required|boolean',
+            'Nombre'            => 'required|string|max:255',
+            'FechaCreacion'     => 'nullable|date',
+            'CreadoPor'         => 'nullable|integer|exists:users,id',
+            'FechaActualizacion'=> 'nullable|date',
+            'ActualizadoPor'    => 'nullable|integer|exists:users,id',
+            'Activo'            => 'required|boolean',
+            'Archivo'           => 'required|boolean',
         ];
     }
 }
