@@ -87,10 +87,25 @@ class ProductionSeeder extends Seeder
             'Descripcion' => 'AC.CEMENTACION',
             'Predeterminado' => '0',
         ]);
+
+        Material::create([
+            'Nombre' => '86fa24',
+            'Descripcion' => 'AC.GSGFGD',
+            'Predeterminado' => '0',
+        ]);
         
         Tratamiento::create([
             'Nombre' => 'REC2',
             'Descripcion' => 'RECOCIDO FUNDICIONES,OTROS',
+            'Coeficiente' => '0.00',
+            'Orden' => '10',
+            'Predeterminado' => '0',
+            'Archivado' => '0',
+        ]);
+
+        Tratamiento::create([
+            'Nombre' => 'GDF6',
+            'Descripcion' => 'GTWEFAS FDASF',
             'Coeficiente' => '0.00',
             'Orden' => '10',
             'Predeterminado' => '0',

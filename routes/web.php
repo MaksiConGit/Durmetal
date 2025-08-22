@@ -7,28 +7,41 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CodigoComplejidadController;
 use App\Http\Controllers\ComprasController;
+use App\Http\Controllers\CondicionVentaController;
+use App\Http\Controllers\ConfiguracionGlobalController;
+use App\Http\Controllers\ConversorDurezasController;
 use App\Http\Controllers\DivisasController;
 use App\Http\Controllers\DocumentosController;
 use App\Http\Controllers\DurezaController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FactorPremioController;
+use App\Http\Controllers\ImpresoraFiscalController;
 use App\Http\Controllers\IngresoDatosController;
 use App\Http\Controllers\ItemOrdenTrabajoController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MedioEnfriamientoController;
+use App\Http\Controllers\MensajeUsuarioController;
 use App\Http\Controllers\OrdenTrabajoController;
 use App\Http\Controllers\OrdenTrabajoExportController;
 use App\Http\Controllers\OtrosEgresosController;
+use App\Http\Controllers\PlantillaCargaController;
+use App\Http\Controllers\PlantillaEmailController;
 use App\Http\Controllers\ProcesoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramacionController;
 use App\Http\Controllers\ProgramacionExportController;
+use App\Http\Controllers\PuntoVentaController;
+use App\Http\Controllers\ReglaController;
 use App\Http\Controllers\RepartirPremioController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\SistemaController;
 use App\Http\Controllers\TarjetasController;
+use App\Http\Controllers\TerminalController;
+use App\Http\Controllers\TipoMensajeController;
 use App\Http\Controllers\TratamientoController;
+use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentasController;
+use App\Models\ConfiguracionGlobal;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', function () {
@@ -233,21 +246,125 @@ Route::middleware('auth')->group(function () {
     // Sistema
     Route::prefix('sistema/actualizaciones')->group(function () {
         Route::resource('bancos', BancosController::class)->names([
-            'index'   => 'sistema.bancos.index',
-            'create'  => 'sistema.bancos.create',
-            'store'   => 'sistema.bancos.store',
-            'edit'    => 'sistema.bancos.edit',
-            'update'  => 'sistema.bancos.update',
-            'destroy' => 'sistema.bancos.destroy',
+            'index'   => 'sistema.actualizaciones.bancos.index',
+            'create'  => 'sistema.actualizaciones.bancos.create',
+            'store'   => 'sistema.actualizaciones.bancos.store',
+            'edit'    => 'sistema.actualizaciones.bancos.edit',
+            'update'  => 'sistema.actualizaciones.bancos.update',
+            'destroy' => 'sistema.actualizaciones.bancos.destroy',
         ])->except(['show']);
 
         Route::resource('tarjetas', TarjetasController::class)->names([
-            'index'   => 'sistema.tarjetas.index',
-            'create'  => 'sistema.tarjetas.create',
-            'store'   => 'sistema.tarjetas.store',
-            'edit'    => 'sistema.tarjetas.edit',
-            'update'  => 'sistema.tarjetas.update',
-            'destroy' => 'sistema.tarjetas.destroy',
+            'index'   => 'sistema.actualizaciones.tarjetas.index',
+            'create'  => 'sistema.actualizaciones.tarjetas.create',
+            'store'   => 'sistema.actualizaciones.tarjetas.store',
+            'edit'    => 'sistema.actualizaciones.tarjetas.edit',
+            'update'  => 'sistema.actualizaciones.tarjetas.update',
+            'destroy' => 'sistema.actualizaciones.tarjetas.destroy',
+        ])->except(['show']);
+    });
+
+    Route::prefix('sistema/configuracion')->group(function () {
+
+        Route::resource('configuracion-global', ConfiguracionGlobalController::class)->names([
+            'edit'    => 'sistema.configuracion.configuracion-global.edit',
+            'update'  => 'sistema.configuracion.configuracion-global.update',
+        ])->except(['index', 'create', 'store', 'show', 'destroy']);
+
+        Route::resource('puntos-de-venta', PuntoVentaController::class)->names([
+            'index'   => 'sistema.configuracion.puntos-de-venta.index',
+            'create'  => 'sistema.configuracion.puntos-de-venta.create',
+            'store'   => 'sistema.configuracion.puntos-de-venta.store',
+            'edit'    => 'sistema.configuracion.puntos-de-venta.edit',
+            'update'  => 'sistema.configuracion.puntos-de-venta.update',
+            'destroy' => 'sistema.configuracion.puntos-de-venta.destroy',
+        ])->except(['show']);
+
+        Route::resource('terminales', TerminalController::class)->names([
+            'index'   => 'sistema.configuracion.terminales.index',
+            'create'  => 'sistema.configuracion.terminales.create',
+            'store'   => 'sistema.configuracion.terminales.store',
+            'edit'    => 'sistema.configuracion.terminales.edit',
+            'update'  => 'sistema.configuracion.terminales.update',
+            'destroy' => 'sistema.configuracion.terminales.destroy',
+        ])->except(['show']);
+
+        Route::resource('impresoras-fiscales', ImpresoraFiscalController::class)->names([
+            'index'   => 'sistema.configuracion.impresoras-fiscales.index',
+            'create'  => 'sistema.configuracion.impresoras-fiscales.create',
+            'store'   => 'sistema.configuracion.impresoras-fiscales.store',
+            'edit'    => 'sistema.configuracion.impresoras-fiscales.edit',
+            'update'  => 'sistema.configuracion.impresoras-fiscales.update',
+            'destroy' => 'sistema.configuracion.impresoras-fiscales.destroy',
+        ])->except(['show']);
+
+        Route::resource('usuarios', UsuarioController::class)->names([
+            'index'   => 'sistema.configuracion.usuarios.index',
+            'create'  => 'sistema.configuracion.usuarios.create',
+            'store'   => 'sistema.configuracion.usuarios.store',
+            'edit'    => 'sistema.configuracion.usuarios.edit',
+            'update'  => 'sistema.configuracion.usuarios.update',
+            'destroy' => 'sistema.configuracion.usuarios.destroy',
+        ])->except(['show']);
+
+        Route::resource('reglas', ReglaController::class)->names([
+            'index'   => 'sistema.configuracion.reglas.index',
+            'create'  => 'sistema.configuracion.reglas.create',
+            'store'   => 'sistema.configuracion.reglas.store',
+            'edit'    => 'sistema.configuracion.reglas.edit',
+            'update'  => 'sistema.configuracion.reglas.update',
+            'destroy' => 'sistema.configuracion.reglas.destroy',
+        ])->except(['show']);
+
+        Route::resource('plantillas-de-email', PlantillaEmailController::class)->names([
+            'index'   => 'sistema.configuracion.plantillas-de-email.index',
+            'edit'    => 'sistema.configuracion.plantillas-de-email.edit',
+            'update'  => 'sistema.configuracion.plantillas-de-email.update',
+            'destroy' => 'sistema.configuracion.plantillas-de-email.destroy',
+        ])->except(['show', 'create', 'store', 'destroy']);
+
+        Route::resource('conversor-de-durezas', ConversorDurezasController::class)->names([
+            'index'   => 'sistema.configuracion.conversor-de-durezas.index',
+            'update'  => 'sistema.configuracion.conversor-de-durezas.update',
+            'destroy' => 'sistema.configuracion.conversor-de-durezas.destroy',
+        ])->except(['show', 'create', 'store', 'edit']);
+
+        Route::resource('plantillas-de-carga', PlantillaCargaController::class)->names([
+            'index'   => 'sistema.configuracion.plantillas-de-carga.index',
+            'create'  => 'sistema.configuracion.plantillas-de-carga.create',
+            'store'   => 'sistema.configuracion.plantillas-de-carga.store',
+            'edit'    => 'sistema.configuracion.plantillas-de-carga.edit',
+            'update'  => 'sistema.configuracion.plantillas-de-carga.update',
+            'destroy' => 'sistema.configuracion.plantillas-de-carga.destroy',
+        ])->except(['show', 'create', 'store', 'edit']);
+
+        Route::resource('condiciones-de-venta', CondicionVentaController::class)->names([
+            'index'   => 'sistema.configuracion.condiciones-de-venta.index',
+            'create'  => 'sistema.configuracion.condiciones-de-venta.create',
+            'store'   => 'sistema.configuracion.condiciones-de-venta.store',
+            'edit'    => 'sistema.configuracion.condiciones-de-venta.edit',
+            'update'  => 'sistema.configuracion.condiciones-de-venta.update',
+            'destroy' => 'sistema.configuracion.condiciones-de-venta.destroy',
+        ])->except(['show']);
+
+        Route::resource('tipos-de-mensajes', TipoMensajeController::class)->names([
+            'index'   => 'sistema.configuracion.tipos-de-mensajes.index',
+            'create'  => 'sistema.configuracion.tipos-de-mensajes.create',
+            'store'   => 'sistema.configuracion.tipos-de-mensajes.store',
+            'edit'    => 'sistema.configuracion.tipos-de-mensajes.edit',
+            'update'  => 'sistema.configuracion.tipos-de-mensajes.update',
+            'destroy' => 'sistema.configuracion.tipos-de-mensajes.destroy',
+        ])->except(['show']);
+    });
+
+    Route::prefix('sistema/mensajes-de-usuario')->group(function () {
+        Route::resource('mensajes-de-usuario', MensajeUsuarioController::class)->names([
+            'index'   => 'sistema.mensajes-de-usuario.index',
+            'create'  => 'sistema.mensajes-de-usuario.create',
+            'store'   => 'sistema.mensajes-de-usuario.store',
+            'edit'    => 'sistema.mensajes-de-usuario.edit',
+            'update'  => 'sistema.mensajes-de-usuario.update',
+            'destroy' => 'sistema.mensajes-de-usuario.destroy',
         ])->except(['show']);
     });
 });
