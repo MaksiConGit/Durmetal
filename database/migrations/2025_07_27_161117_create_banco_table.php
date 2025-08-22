@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('ActualizadoPor')->nullable()->constrained('users')
                                                             ->onDelete('restrict')
                                                             ->onUpdate('cascade');
+            $table->boolean('Predeterminado');
             $table->boolean('Activo');
             $table->boolean('Archivado');
         });

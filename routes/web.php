@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AsignarFactorController;
+use App\Http\Controllers\BancosController;
 use App\Http\Controllers\CargaController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
@@ -24,6 +25,8 @@ use App\Http\Controllers\ProgramacionController;
 use App\Http\Controllers\ProgramacionExportController;
 use App\Http\Controllers\RepartirPremioController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\SistemaController;
+use App\Http\Controllers\TarjetasController;
 use App\Http\Controllers\TratamientoController;
 use App\Http\Controllers\VentasController;
 use Illuminate\Support\Facades\Route;
@@ -226,6 +229,27 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('compras/buscar-comprobantes', [ComprasController::class, 'buscarComprobantes'])->name('compras.buscar-comprobantes.index');
+
+    // Sistema
+    Route::prefix('sistema/actualizaciones')->group(function () {
+        Route::resource('bancos', BancosController::class)->names([
+            'index'   => 'sistema.bancos.index',
+            'create'  => 'sistema.bancos.create',
+            'store'   => 'sistema.bancos.store',
+            'edit'    => 'sistema.bancos.edit',
+            'update'  => 'sistema.bancos.update',
+            'destroy' => 'sistema.bancos.destroy',
+        ])->except(['show']);
+
+        Route::resource('tarjetas', TarjetasController::class)->names([
+            'index'   => 'sistema.tarjetas.index',
+            'create'  => 'sistema.tarjetas.create',
+            'store'   => 'sistema.tarjetas.store',
+            'edit'    => 'sistema.tarjetas.edit',
+            'update'  => 'sistema.tarjetas.update',
+            'destroy' => 'sistema.tarjetas.destroy',
+        ])->except(['show']);
+    });
 });
 
 require __DIR__.'/auth.php';

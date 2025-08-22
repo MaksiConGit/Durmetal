@@ -642,12 +642,12 @@
                       <div class="collapse" id="subnavsistema4">
                         <ul class="nav nav-collapse subnav">
                           <li>
-                            <a href="#">
+                            <a href="{{ route('sistema.bancos.index') }}">
                               <span class="sub-item">Bancos</span>
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a href="{{ route('sistema.tarjetas.index') }}">
                               <span class="sub-item">Tarjetas</span>
                             </a>
                           </li>

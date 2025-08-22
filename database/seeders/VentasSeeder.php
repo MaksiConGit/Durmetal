@@ -534,6 +534,7 @@ class VentasSeeder extends Seeder
             'CreadoPor' => 1,
             'FechaActualizacion' => now(),
             'ActualizadoPor' => 1,
+            'Predeterminado' => 1,
             'Activo' => true,
             'Archivado' => false,
         ]);
