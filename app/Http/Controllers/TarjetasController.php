@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTarjetaRequest;
 use App\Models\Tarjeta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TarjetasController extends Controller
 {
@@ -24,6 +25,13 @@ class TarjetasController extends Controller
     {
         $data = $request->all();
 
+        $data['FechaCreacion'] = now();
+        $data['CreadoPor'] = Auth::id();
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = Auth::id();
+        $data['Activo'] = 1;
+        $data['Archivado'] = 0;
+
         Tarjeta::create($data);
     
         return redirect()->route('sistema.actualizaciones.tarjetas.index');
@@ -37,6 +45,9 @@ class TarjetasController extends Controller
     public function update(StoreTarjetaRequest $request, Tarjeta $tarjeta)
     {
         $data = $request->all();
+
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = Auth::id();
 
         $tarjeta->update($data);
     

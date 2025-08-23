@@ -212,7 +212,7 @@ class SistemaSeeder extends Seeder
             'FechaActualizacion' => now(),
             'ActualizadoPor' => 1,
             'Activo' => 1,
-            'Archivo' => 0,
+            'Archivado' => 0,
         ]);
 
         Tarjeta::create([
@@ -222,7 +222,7 @@ class SistemaSeeder extends Seeder
             'FechaActualizacion' => now(),
             'ActualizadoPor' => 1,
             'Activo' => 1,
-            'Archivo' => 1,
+            'Archivado' => 1,
         ]);
 
         Tarjeta::create([
@@ -232,7 +232,7 @@ class SistemaSeeder extends Seeder
             'FechaActualizacion' => now(),
             'ActualizadoPor' => 1,
             'Activo' => 0,
-            'Archivo' => 0,
+            'Archivado' => 0,
         ]);
     }
 }

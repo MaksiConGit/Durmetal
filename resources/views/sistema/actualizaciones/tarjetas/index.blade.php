@@ -8,40 +8,39 @@
             <li class="separator"><i class="icon-arrow-right"></i></li>
             <li class="nav-item"><a href="#">Actualizaciones</a></li>
             <li class="separator"><i class="icon-arrow-right"></i></li>
-            <li class="nav-item"><a href="#">Bancos</a></li>
+            <li class="nav-item"><a href="#">Tarjetas</a></li>
     </x-slot>
 
     <x-data-table >
       
-        <x-slot name="table_title">Bancos</x-slot>
+        <x-slot name="table_title">Tarjetas</x-slot>
         <x-slot name="export_route">{{ route('clients.export') }}</x-slot>
-        <x-slot name="create_route">{{ route('sistema.actualizaciones.bancos.create') }}</x-slot>
-        <x-slot name="add_text">Añadir Banco</x-slot>
+        <x-slot name="create_route">{{ route('sistema.actualizaciones.tarjetas.create') }}</x-slot>
+        <x-slot name="add_text">Añadir Tarjeta</x-slot>
         <x-slot name="head_tr">
             <tr>
                 <th>Opciones</th>
                 <th>Nombre</th>
-                <th>Predeterminado</th>
             </tr>
         </x-slot>
         <x-slot name="body_tr">
 
-            @forelse ($bancos as $banco)
+            @forelse ($tarjetas as $tarjeta)
                 <tr>
                     <td class="text-start align-middle">
                         <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
                             <a
-                                href="{{ route('sistema.actualizaciones.bancos.edit', $banco) }}"
+                                href="{{ route('sistema.actualizaciones.tarjetas.edit', $tarjeta) }}"
                                 class="btn btn-link btn-primary p-0"
                                 data-bs-toggle="tooltip"
-                                title="Editar banco"
+                                title="Editar tarjeta"
                             >
                                 <i class="fa fa-edit fa-lg"></i>
                             </a>
                             <form
-                                action="{{ route('sistema.actualizaciones.bancos.destroy', $banco) }}"
+                                action="{{ route('sistema.actualizaciones.tarjetas.destroy', $tarjeta) }}"
                                 method="POST"
-                                onsubmit="return confirm('¿Estás seguro de que quieres eliminar este banco?')"
+                                onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta tarjeta?')"
                                 class="m-0 p-0"
                             >
                                 @csrf
@@ -50,26 +49,24 @@
                                     type="submit"
                                     class="btn btn-link btn-danger p-0"
                                     data-bs-toggle="tooltip"
-                                    title="Eliminar banco"
+                                    title="Eliminar tarjeta"
                                 >
                                     <i class="fa fa-times fa-lg"></i>
                                 </button>
                             </form>
                         </div>
                     </td>
-                    <td>{{ $banco->Nombre }}</td>
-                    <td><input type="checkbox" disabled name="" id="" {{ $banco->Predeterminado == 1 ? 'checked' : '' }}></td>
+                    <td>{{ $tarjeta->Nombre }}</td>
                 </tr>
 
             @empty
-                <tr><td colspan="3">No se encontraron resultados.</td></tr>
+                <tr><td colspan="2">No se encontraron resultados.</td></tr>
             @endforelse
         </x-slot>
         <x-slot name="foot_tr">
             <tr>
                 <th>Opciones</th>
                 <th>Nombre</th>
-                <th>Predeterminado</th>
             </tr>
         </x-slot>
     </x-data-table>

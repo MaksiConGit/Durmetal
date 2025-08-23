@@ -23,12 +23,6 @@ class StoreTarjetaRequest extends FormRequest
     {
         return [
             'Nombre'            => 'required|string|max:255',
-            'FechaCreacion'     => 'nullable|date',
-            'CreadoPor'         => 'nullable|integer|exists:users,id',
-            'FechaActualizacion'=> 'nullable|date',
-            'ActualizadoPor'    => 'nullable|integer|exists:users,id',
-            'Activo'            => 'required|boolean',
-            'Archivo'           => 'required|boolean',
         ];
     }
 }

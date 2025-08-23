@@ -34,7 +34,7 @@ class BancosController extends Controller
 
         Banco::create($data);
     
-        return redirect()->route('sistema.bancos.index');
+        return redirect()->route('sistema.actualizaciones.bancos.index');
     }
 
     public function edit(Banco $banco)
@@ -51,7 +51,7 @@ class BancosController extends Controller
 
         $banco->update($data);
     
-        return redirect()->route('sistema.bancos.index');
+        return redirect()->route('sistema.actualizaciones.bancos.index');
     }
 
     public function destroy(Banco $banco)
@@ -70,6 +70,6 @@ class BancosController extends Controller
 
         $banco->delete();
     
-        return redirect()->route('sistema.bancos.index');
+        return redirect()->route('sistema.actualizaciones.bancos.index');
     }
 }

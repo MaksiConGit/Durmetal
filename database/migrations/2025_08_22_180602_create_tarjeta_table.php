@@ -23,7 +23,7 @@ return new class extends Migration
                                                             ->onDelete('restrict')
                                                             ->onUpdate('cascade');
             $table->boolean('Activo');
-            $table->boolean('Archivo');
+            $table->boolean('Archivado');
         });
     }
 

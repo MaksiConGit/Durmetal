@@ -15,7 +15,7 @@
     <x-form>
         <x-slot name="title">Durmetal</x-slot>
         <x-slot name="card_title">Añadir Banco</x-slot>
-        <x-slot name="action">{{ route('sistema.bancos.store') }}</x-slot>
+        <x-slot name="action">{{ route('sistema.actualizaciones.bancos.store') }}</x-slot>
         <x-slot name="method"></x-slot>
 
         <x-slot name="inputs">
@@ -65,7 +65,7 @@
                 <x-button>
                     <x-slot name="text">Cancelar</x-slot>
                     <x-slot name="color">danger</x-slot>
-                    <x-slot name="href">{{ route('sistema.bancos.index') }}</x-slot>
+                    <x-slot name="href">{{ route('sistema.actualizaciones.bancos.index') }}</x-slot>
                 </x-button>
             </div>
 
