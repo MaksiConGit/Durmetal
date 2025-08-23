@@ -266,9 +266,10 @@ class VentasController extends Controller
             $nota_credito_total = NotaCreditoVenta::where('IdCliente', $cliente->id)->sum('Total');
 
             $cliente->saldo = $cliente->SaldoSistemaAnterior
-                + $nota_envio_total
-                - $recibo_total
-                - $nota_credito_total;
+                + $nota_envio_total  
+                - $recibo_total // suma
+                - $nota_credito_total; // suma
+                // factura resta // nota debito resta
 
             $factura_mas_atrasada = FacturaVenta::where('IdCliente', $cliente->id)
                 ->where('Estado', 'PENDIENTE')

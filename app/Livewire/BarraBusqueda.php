@@ -16,7 +16,7 @@ class BarraBusqueda extends Component
                   ->orWhere('Nombre', 'like', '%' . $this->search . '%')
                   ->orWhere('Domicilio', 'like', '%' . $this->search . '%')
                   ->orWhere('Telefono', 'like', '%' . $this->search . '%')
-                  ->orWhere('NumeroDocumento', 'like', '%' . $this->search . '%')
+                  ->orWhere('NroDocumento', 'like', '%' . $this->search . '%')
                   ->orWhere('TipoDocumento', 'like', '%' . $this->search . '%')
                   
                   // Buscar en ciudad

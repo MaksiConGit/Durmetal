@@ -46,9 +46,15 @@
             </tr>
         </x-slot>
         <x-slot name="body_tr">
+            @php
+                $totall = 0;   
+            @endphp
     
             @forelse ($cuentas_otros_egresos as $padre)
                 <tr>
+                    @php
+                        $totall += $padre->total_movimientos;
+                    @endphp
                     <td>{{ $padre->Nombre }}</td>
                     <td></td>
                     <td></td>
@@ -56,6 +62,9 @@
                 </tr>
 
                 @foreach ($padre->hijos as $hijo)
+                    @php
+                        $totall += $hijo->total_movimientos;
+                    @endphp
                     <tr>
                         <td></td>
                         <td>{{ $hijo->Nombre }}</td>
@@ -72,7 +81,7 @@
                 <td>Total del Periodo</td>
                 <td></td>
                 <td></td>
-                <td>{{ number_format($total_general, 2, '.', '') }}</td>
+                <td>{{ number_format($totall, 2, '.', '') }}</td>
             </tr>
         </x-slot>
         <x-slot name="foot_tr">
