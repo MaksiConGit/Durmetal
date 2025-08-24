@@ -11,7 +11,7 @@ class StoreImpresoraFiscalRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreImpresoraFiscalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'Nombre'              => 'required|string|max:255',
+            'Modelo'              => 'required|string|max:255',
+            'PuertoCOM'           => 'required|integer|min:0',
+            'VelocidadPrEpson'    => 'required|integer|min:0',
+            'TipoProtocoloPrEpson'=> 'required|integer|min:0',
         ];
     }
 }

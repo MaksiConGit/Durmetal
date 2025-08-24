@@ -8,4 +8,15 @@ class ImpresoraFiscal extends Model
 {
     protected $table = 'impresora_fiscal';
     public $timestamps = false;
+
+    protected $fillable = [
+        'Nombre',
+        'Modelo',
+        'PuertoCOM',
+        'VelocidadPrEpson',
+        'TipoProtocoloPrEpson',
+        'FechaUltimoCierreZ',
+        'PuertoComOcxIFEpson',
+        'VelocidadOcxIFEpson',
+    ];
 }

@@ -24,6 +24,10 @@ class ImpresoraFiscalController extends Controller
     {
         $data = $request->all();
 
+        $data['PuertoComOcxIFEpson'] = 0;
+        $data['VelocidadOcxIFEpson'] = 0;
+        $data['FechaUltimoCierreZ'] = now();
+
         ImpresoraFiscal::create($data);
     
         return redirect()->route('sistema.configuracion.impresoras-fiscales.index');

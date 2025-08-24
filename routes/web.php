@@ -298,6 +298,8 @@ Route::middleware('auth')->group(function () {
             'edit'    => 'sistema.configuracion.impresoras-fiscales.edit',
             'update'  => 'sistema.configuracion.impresoras-fiscales.update',
             'destroy' => 'sistema.configuracion.impresoras-fiscales.destroy',
+        ])->parameters([
+        'impresoras-fiscales' => 'impresora_fiscal'
         ])->except(['show']);
 
         Route::resource('usuarios', UsuarioController::class)->names([
