@@ -95,24 +95,21 @@ class VentasController extends Controller
 
     public function fichaDelClienteNotaEnvioCreate(Client $cliente)
     {
-        $ordenes_trabajo = OrdenTrabajo::where('Estado', 'PENDIENTE')->where('IdCliente', $cliente->id)->get();
+        $cliente_id = $cliente->id;
+
+        $items_orden_trabajo = ItemOrdenTrabajo::whereHas('ordenTrabajo', function($q) use ($cliente_id) {
+                $q->where('IdCliente', $cliente_id)
+                ->where('Estado', 'PENDIENTE');
+            })
+            ->where('Estado', 'APROBADO')
+            ->where('ConNotaEnvio', false)
+            ->get();
 
         $next_nota_numero = NotaEnvio::max('Numero') + 1;
 
-        foreach ($ordenes_trabajo as $orden_trabajo) {
-
-            foreach ($orden_trabajo->itemsOrdenTrabajo as $item_orden_trabajo) {
-
-                $tratamientos[] = $item_orden_trabajo->tratamiento; 
-                $items_orden_trabajo[] = $item_orden_trabajo;
-
-            }
-
-        }
-
         $pto_ventas = PuntoDeVenta::all();
 
-        return view('ventas.ficha-del-cliente.nota-envio', compact('items_orden_trabajo', 'tratamientos', 'next_nota_numero', 'cliente', 'pto_ventas'));
+        return view('ventas.ficha-del-cliente.nota-envio', compact('items_orden_trabajo', 'next_nota_numero', 'cliente', 'pto_ventas'));
     }
 
     public function fichaDelClienteNotaEnvioStore(Request $request)
