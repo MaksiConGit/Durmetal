@@ -25,9 +25,6 @@ class StoreTerminalRequest extends FormRequest
             'NombreHost'          => 'required|string|max:255',
             'IdImpresoraFiscal'   => 'nullable|integer|exists:impresora_fiscal,id',
             'NombreEtiquetadora'  => 'required|string|max:255',
-            'FechaActualizacion'  => 'required|date',
-            'ActualizadoPor'      => 'nullable|integer|exists:users,id',
-            'Activo'              => 'required|boolean',
         ];
     }
 }

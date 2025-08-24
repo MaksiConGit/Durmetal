@@ -287,6 +287,8 @@ Route::middleware('auth')->group(function () {
             'edit'    => 'sistema.configuracion.terminales.edit',
             'update'  => 'sistema.configuracion.terminales.update',
             'destroy' => 'sistema.configuracion.terminales.destroy',
+        ])->parameters([
+        'terminales' => 'terminal'
         ])->except(['show']);
 
         Route::resource('impresoras-fiscales', ImpresoraFiscalController::class)->names([

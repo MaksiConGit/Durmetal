@@ -23,7 +23,7 @@
                 <x-slot name="name">PuntoVenta</x-slot>
                 <x-slot name="option">
                 @foreach ($pto_ventas as $pto_venta)
-                    <option value="{{$pto_venta->id}}" {{$pto_venta->id == old('PutnoVenta') ? 'selected' : ''}}>{{$pto_venta->Nombre}}</option>                            
+                    <option value="{{$pto_venta->id}}" {{$pto_venta->id == old('PuntoVenta') ? 'selected' : ''}}>{{$pto_venta->Nombre}}</option>                            
                 @endforeach
                 </x-slot>
                 <x-slot name="message">
