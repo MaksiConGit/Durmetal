@@ -349,6 +349,8 @@ Route::middleware('auth')->group(function () {
             'edit'    => 'sistema.configuracion.condiciones-de-venta.edit',
             'update'  => 'sistema.configuracion.condiciones-de-venta.update',
             'destroy' => 'sistema.configuracion.condiciones-de-venta.destroy',
+        ])->parameters([
+        'condiciones-de-venta' => 'condicion_venta'
         ])->except(['show']);
 
         Route::resource('tipos-de-mensajes', TipoMensajeController::class)->names([

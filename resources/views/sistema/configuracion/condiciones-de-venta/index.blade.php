@@ -8,41 +8,40 @@
             <li class="separator"><i class="icon-arrow-right"></i></li>
             <li class="nav-item"><a href="#">Configuración</a></li>
             <li class="separator"><i class="icon-arrow-right"></i></li>
-            <li class="nav-item"><a href="#">Impresoras Fiscales</a></li>
+            <li class="nav-item"><a href="#">Condiciones de Venta</a></li>
     </x-slot>
 
     <x-data-table >
       
-        <x-slot name="table_title">Impresoras Fiscales</x-slot>
+        <x-slot name="table_title">Condiciones de Venta</x-slot>
         <x-slot name="export_route">{{ route('clients.export') }}</x-slot>
-        <x-slot name="create_route">{{ route('sistema.configuracion.impresoras-fiscales.create') }}</x-slot>
-        <x-slot name="add_text">Añadir Impresora Fiscal</x-slot>
+        <x-slot name="create_route">{{ route('sistema.configuracion.condiciones-de-venta.create') }}</x-slot>
+        <x-slot name="add_text">Añadir Condición de Venta</x-slot>
         <x-slot name="head_tr">
             <tr>
                 <th>Opciones</th>
                 <th>Nombre</th>
-                <th>Modelo</th>
-                <th>Fecha cierre Z</th>
+                <th>Seleccionado</th>
             </tr>
         </x-slot>
         <x-slot name="body_tr">
 
-            @forelse ($impresoras_fiscales as $impresora_fiscal)
+            @forelse ($condiciones_venta as $condicion_venta)
                 <tr>
                     <td class="text-start align-middle">
                         <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
                             <a
-                                href="{{ route('sistema.configuracion.impresoras-fiscales.edit', $impresora_fiscal) }}"
+                                href="{{ route('sistema.configuracion.condiciones-de-venta.edit', $condicion_venta) }}"
                                 class="btn btn-link btn-primary p-0"
                                 data-bs-toggle="tooltip"
-                                title="Editar impresora fiscal"
+                                title="Editar condición de venta"
                             >
                                 <i class="fa fa-edit fa-lg"></i>
                             </a>
                             <form
-                                action="{{ route('sistema.configuracion.impresoras-fiscales.destroy', $impresora_fiscal) }}"
+                                action="{{ route('sistema.configuracion.condiciones-de-venta.destroy', $condicion_venta) }}"
                                 method="POST"
-                                onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta impresora fiscal?')"
+                                onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta condición de venta?')"
                                 class="m-0 p-0"
                             >
                                 @csrf
@@ -51,28 +50,26 @@
                                     type="submit"
                                     class="btn btn-link btn-danger p-0"
                                     data-bs-toggle="tooltip"
-                                    title="Eliminar impresora fiscal"
+                                    title="Eliminar condición de venta"
                                 >
                                     <i class="fa fa-times fa-lg"></i>
                                 </button>
                             </form>
                         </div>
                     </td>
-                    <td>{{ $impresora_fiscal->Nombre }}</td>
-                    <td>{{ $impresora_fiscal->Modelo }}</td>
-                    <td>{{ $impresora_fiscal->FechaUltimoCierreZ }}</td>
+                    <td>{{ $condicion_venta->Nombre }}</td>
+                    <td><input type="checkbox" name="" id="" disabled {{ $condicion_venta->Seleccionado == 1 ? 'checked' : '' }}></td>
                 </tr>
 
             @empty
-                <tr><td colspan="4">No se encontraron resultados.</td></tr>
+                <tr><td colspan="3">No se encontraron resultados.</td></tr>
             @endforelse
         </x-slot>
         <x-slot name="foot_tr">
             <tr>
                 <th>Opciones</th>
                 <th>Nombre</th>
-                <th>Modelo</th>
-                <th>Fecha cierre Z</th>
+                <th>Seleccionado</th>
             </tr>
         </x-slot>
     </x-data-table>

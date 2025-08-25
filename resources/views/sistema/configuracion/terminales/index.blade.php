@@ -6,7 +6,7 @@
             <a href="#"><i class="fas fa-sliders-h"></i></a>
             </li>
             <li class="separator"><i class="icon-arrow-right"></i></li>
-            <li class="nav-item"><a href="#">Actualizaciones</a></li>
+            <li class="nav-item"><a href="#">Configuración</a></li>
             <li class="separator"><i class="icon-arrow-right"></i></li>
             <li class="nav-item"><a href="#">Terminales</a></li>
     </x-slot>

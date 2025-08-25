@@ -8,4 +8,9 @@ class CondicionVenta extends Model
 {
     protected $table = 'condicion_venta';
     public $timestamps = false;
+
+    protected $fillable = [
+        'Nombre',
+        'Seleccionado',
+    ];
 }

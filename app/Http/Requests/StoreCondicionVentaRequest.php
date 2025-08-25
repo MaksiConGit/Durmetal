@@ -11,7 +11,7 @@ class StoreCondicionVentaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class StoreCondicionVentaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'Nombre'       => 'required|string|max:255',
+            'Seleccionado' => 'required|boolean',
         ];
     }
 }
