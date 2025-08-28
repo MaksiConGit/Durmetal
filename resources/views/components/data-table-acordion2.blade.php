@@ -1,15 +1,13 @@
-<!-- /.row -->
 <div class="row">
   <div class="col-12">
-    <div class="card">
       @if(!empty($filtros))
           <div class="card-header">
               {{ $filtros }}
           </div>
       @endif
-      <!-- /.card-header -->
-      <div class="card-body table-responsive p-0" style="height: 26rem;">
-        <table class="table table-head-fixed text-nowrap table-hover table-bordered table-striped">
+    <div class="card">
+      <div class="card-body p-0">
+        <table class="table table-hover">
           <thead>
             {{ $thead }}
           </thead>
@@ -18,9 +16,14 @@
           </tbody>
         </table>
       </div>
-      <!-- /.card-body -->
     </div>
-    <!-- /.card -->
+
   </div>
+
+  <style>
+  tr[data-widget="expandable-table"][aria-expanded="true"] {
+      background-color: rgba(0, 0, 0, 0.075);
+  }
+  </style>
 </div>
-<!-- /.row -->
+

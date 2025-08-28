@@ -1,13 +1,6 @@
-<x-layout>
-    <x-slot name="title">Ventas</x-slot>
-    <x-slot name="breadcrumbs">
-        <li class="nav-home">
-            <a href="#"><i class="fas fa-dollar-sign"></i></a>
-        </li>
-        <li class="separator"><i class="icon-arrow-right"></i></li>
-        <li class="nav-item"><a href="#">Ficha del Cliente</a></li>
-    </x-slot>
+<x-layout2>
+    <x-slot name="title">Ficha del cliente</x-slot>
     
-    @livewire('ficha-del-cliente')
+    @livewire('ficha-del-cliente2')
 
-</x-layout>
+</x-layout2>

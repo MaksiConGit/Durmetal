@@ -1,15 +1,6 @@
-<x-layout>
-    <x-slot name="title">Ventas</x-slot>
-    <x-slot name="breadcrumbs">
-        <li class="nav-home">
-            <a href="#"><i class="fas fa-dollar-sign"></i></a>
-        </li>
-        <li class="separator"><i class="icon-arrow-right"></i></li>
-        <li class="nav-item"><a href="#">Listado de Cheques a Clientes</a></li>
-    </x-slot>
+<x-layout2>
+    <x-slot name="title">Resumen de cuenta corriente cliente</x-slot>
 
-    @livewire('resumen-cuenta-corriente')
-    {{-- @livewire('listado-retenciones') --}}
+    @livewire('resumen-cuenta-corriente2')
 
-
-</x-layout>
+</x-layout2>

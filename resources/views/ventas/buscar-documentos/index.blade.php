@@ -1,176 +1,163 @@
-<x-layout>
-    <x-slot name="title">Ventas</x-slot>
-    <x-slot name="breadcrumbs">
-        <li class="nav-home">
-            <a href="#"><i class="fas fa-dollar-sign"></i></a>
-        </li>
-        <li class="separator"><i class="icon-arrow-right"></i></li>
-        <li class="nav-item"><a href="#">Valorizar Trabajos</a></li>
-    </x-slot>
+<x-layout2-sidebar>
+    <x-slot name="title">Buscar documentos</x-slot>
+    <x-slot name="filtros">
 
-    <div class="card">
-        <div class="card-header">
-            <div class="card-title">Filtros</div>
+      <div class="form-inline mt-5">
+        <div class="form-group w-100 mb-3">
+          
+          <label for="sidebarSearch" class="form-label text-muted small">
+            DESDE FECHA
+          </label>
+          
+          <div class="input-group" data-widget="sidebar-search">
+            <input id="sidebarSearch" 
+                  class="form-control form-control-sm bg-white text-dark" 
+                  type="date" placeholder="0" aria-label="Search">
+            <div class="input-group-append">
+            </div>
+          </div>
+          
         </div>
 
-        <div class="card-body">
-            <div class="row">
-                <div class="d-flex flex-wrap gap-2">
+        <div class="form-group w-100 mb-3">
+          
+          <label for="sidebarSearch" class="form-label text-muted small">
+            HASTA FECHA
+          </label>
+          
+          <div class="input-group" data-widget="sidebar-search">
+            <input id="sidebarSearch" 
+                  class="form-control form-control-sm bg-white text-dark" 
+                  type="date" aria-label="Search">
+            <div class="input-group-append">
+            </div>
+          </div>
+          
+        </div>
 
-                    <div class="col-md-2">
-                        <x-form-input-date>
-                            <x-slot name="label">Desde Fecha</x-slot>
-                            <x-slot name="livewire">wire:model.live="cliente_hasta"</x-slot>
-                            <x-slot name="name"></x-slot>
-                            <x-slot name="placeholder"></x-slot>
-                            <x-slot name="value"></x-slot>
-                            <x-slot name="message"></x-slot>
-                            <x-slot name="error"></x-slot>
-                        </x-form-input-date>
-                    </div>
+        <div class="form-group w-100 mb-3">
+          
+          <label for="sidebarSearch" class="form-label text-muted small">
+            PUNTO DE VENTA
+          </label>
+          
+          <div class="input-group" data-widget="sidebar-search">
+            <input id="sidebarSearch" 
+                  class="form-control form-control-sm bg-white text-dark" 
+                  type="search" placeholder="0" aria-label="Search">
+            <div class="input-group-append">
+            </div>
+          </div>
+          
+        </div>
 
-                    <div class="col-md-2">
-                        <x-form-input-date>
-                            <x-slot name="label">Hasta Fecha</x-slot>
-                            <x-slot name="livewire">wire:model.live="cliente_hasta"</x-slot>
-                            <x-slot name="name"></x-slot>
-                            <x-slot name="placeholder"></x-slot>
-                            <x-slot name="value"></x-slot>
-                            <x-slot name="message"></x-slot>
-                            <x-slot name="error"></x-slot>
-                        </x-form-input-date>
-                    </div>
+        <div class="form-group w-100 mb-3">
+          
+          <label for="sidebarSearch" class="form-label text-muted small">
+            NUMERO
+          </label>
+          
+          <div class="input-group" data-widget="sidebar-search">
+            <input id="sidebarSearch" 
+                  class="form-control form-control-sm bg-white text-dark" 
+                  type="search" placeholder="0" aria-label="Search">
+            <div class="input-group-append">
+            </div>
+          </div>
+          
+        </div>
+
+        <div class="form-group w-100 mb-3">
+          
+          <label for="sidebarSearch" class="form-label text-muted small">
+            CODIGO CLIENTE
+          </label>
+          
+          <div class="input-group" data-widget="sidebar-search">
+            <input id="sidebarSearch" 
+                  class="form-control form-control-sm bg-white text-dark" 
+                  type="search" placeholder="0" aria-label="Search">
+            <div class="input-group-append">
+              <button class="btn btn-sidebar btn-sm bg-orange">
+                <i class="fas fa-search fa-fw text-white"></i>
+              </button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+    </x-slot>
+
+    <x-simple-table2>
+        <x-slot name="filtros">
+            <div class="d-flex justify-content-between align-items-center mb-4 mt-2">
+                <div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" id="customRadio1" name="customRadio">
+                    <label for="customRadio1" class="custom-control-label font-weight-normal">Todos</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" id="customRadio2" name="customRadio">
+                    <label for="customRadio2" class="custom-control-label font-weight-normal">Nota de Envío</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" id="customRadio3" name="customRadio">
+                    <label for="customRadio3" class="custom-control-label font-weight-normal">Factura</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" id="customRadio4" name="customRadio">
+                    <label for="customRadio4" class="custom-control-label font-weight-normal">Nota de Débito</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" id="customRadio5" name="customRadio">
+                    <label for="customRadio5" class="custom-control-label font-weight-normal">Nota de Crédito</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" id="customRadio6" name="customRadio">
+                    <label for="customRadio6" class="custom-control-label font-weight-normal">Recibo</label>
                 </div>
             </div>
+        </x-slot>
 
-            <div class="row">
-                <div class="d-flex flex-wrap gap-2">
+        <x-slot name="thead">
+            <tr>
+                <th>Fecha</th>
+                <th>Fecha Venc.</th>
+                <th>Número</th>
+                <th>Código</th>
+                <th>Razón Social</th>
+                <th>Estado</th>
+                <th>% Desc</th>
+                <th>Total</th>
+            </tr>
+        </x-slot>
+        <x-slot name="tbody">
+            @forelse ($documentos as $index => $documento)
+                {{-- <tr style="cursor: pointer;" 
+                    onclick="window.location='{{ match($filtro) {
+                        'trabajos_pendientes_nota_envio' => route('ventas.ficha-del-cliente-nota-envio.create', $documento),
+                        'notas_pendientes' => route('ventas.ficha-del-cliente-factura-venta.create', $documento),
+                        'facturas_pendientes' => route('ventas.ficha-del-cliente-recibo-venta.create', $documento),
+                        default => route('ventas.ficha-del-cliente.show', $documento)
+                    } }}'"> --}}
+                <tr>
+                    <td>{{ \Carbon\Carbon::parse($documento->FechaEmision)->format('j/n/Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($documento->FechaVencimiento)->format('j/n/Y') }}</td>
+                    <td>{{ $documento->NumeroCompleto }}</td>
+                    <td>{{ $documento->IdCliente }}</td>
+                    <td>{{ $documento->RazonSocial }}</td>
+                    <td>{{ $documento->Estado }}</td>
+                    <td>{{ number_format($documento->PorcentajeDescuento, 2, '.', '') }}</td>
+                    <td>{{ number_format($documento->Total, 2, '.', '') }}</td>
+                </tr>
+            @empty
+                <tr><td colspan="8">No se encontraron resultados.</td></tr>
+            @endforelse
+        </x-slot>
+    </x-simple-table2>
 
-                    <div class="col-md-2">
-                        <x-form-input-default-livewire>
-                            <x-slot name="label">Punto de Venta</x-slot>
-                            <x-slot name="livewire">wire:model.live="oti_item_numero"</x-slot>
-                            <x-slot name="name"></x-slot>
-                            <x-slot name="placeholder">0</x-slot>
-                            <x-slot name="value"></x-slot>
-                            <x-slot name="message"></x-slot>
-                            <x-slot name="error"></x-slot>
-                        </x-form-input-default-livewire>
-                    </div>
 
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="d-flex flex-wrap gap-2">
-
-                    <div class="col-md-2">
-
-                        <x-form-input-default-livewire>
-                            <x-slot name="label">Cod. Cliente</x-slot>
-                            <x-slot name="livewire">wire:model.live="cliente_id"</x-slot>
-                            <x-slot name="name">cliente_id</x-slot>
-                            <x-slot name="placeholder"></x-slot>
-                            <x-slot name="value"></x-slot>
-                            <x-slot name="message"></x-slot>
-                            <x-slot name="error"></x-slot>
-                        </x-form-input-default-livewire>
-
-                    </div>
-
-                    <div class="col-md-4">
-
-                        <x-form-input-select-livewire>
-                            <x-slot name="label">Nombre</x-slot>
-                            <x-slot name="livewire">wire:model.live="cliente_id"</x-slot>
-                            <x-slot name="name">cliente_id</x-slot>
-                            <x-slot name="option">
-                                <option value="">-- Todos los clientes --</option>
-                                @foreach ($clientes as $cliente)
-                                    <option value="{{ $cliente->id }}">{{ $cliente->id }} | {{ $cliente->Nombre }}</option>
-                                @endforeach
-                            </x-slot>
-                            <x-slot name="message"></x-slot>
-                            <x-slot name="error"></x-slot>
-                        </x-form-input-select-livewire>
-                        
-                    </div>
-                    
-                    <div class="align-self-end">
-                        <div class="form-group">
-                            <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToggle">Buscar</a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <x-modal-table>
-                <x-slot name="title">Buscar Cliente</x-slot>
-                <x-slot name="body">
-
-                    <div class="table-responsive" style="max-height: 60vh; overflow-y: auto;">
-
-                        <x-data-table-no-plus-no-export>
-
-                            <x-slot name="table_title">Clientes</x-slot>
-                            <x-slot name="export_route">{{ route('clients.export') }}</x-slot>
-                            <x-slot name="create_route">{{ route('clients.create') }}</x-slot>
-                            <x-slot name="add_text">Añadir cliente</x-slot>
-                            <x-slot name="head_tr">
-                                <tr>
-                                    <th>Código</th>
-                                    <th>Nombre</th>
-                                    <th>Tipo de Documento</th>
-                                    <th>Número</th>
-                                    <th>Domicilio</th>
-                                    <th>Localidad</th>
-                                    <th>Provincia</th>
-                                    <th>Activo</th>
-                                </tr>
-                            </x-slot>
-                            <x-slot name="body_tr">
-                        
-                                @foreach ($clientes as $client)
-                                    <tr style="cursor: pointer;" wire:click="$set('cliente_id', {{ $client->id }})" data-bs-dismiss="modal">
-                                        <td>{{ $client->id }}</td>
-                                        <td>{{ $client->Nombre }}</td>
-                                        <td>{{ $client->TipoDocumento }}</td>
-                                        <td>{{ $client->Telefono }}</td>
-                                        <td>{{ $client->Domicilio }}</td>
-                                        <td>{{ $client->localidad->Nombre ?? 'Ciudad no asignada' }}</td>
-                                        <td>{{ $client->localidad->provincia->Nombre ?? 'Provincia no asignada' }}</td>
-                                        <td>
-                                            <input type="checkbox" name="" id="" disabled {{ $client->Activo == 1 ? 'checked' : '' }}>
-                                        </td>
-                                    </tr>
-                                @endforeach
-
-                            </x-slot>
-                            <x-slot name="foot_tr">
-                                <tr>
-                                    <th>Código</th>
-                                    <th>Nombre</th>
-                                    <th>Tipo de Documento</th>
-                                    <th>Número</th>
-                                    <th>Domicilio</th>
-                                    <th>Localidad</th>
-                                    <th>Provincia</th>
-                                    <th>Activo</th>
-                                </tr>
-                            </x-slot>
-                        </x-data-table-no-plus-no-export>
-
-                    </div>
-
-                </x-slot>
-                <x-slot name="primary_text">Aceptar</x-slot>
-                <x-slot name="secondary_text">Volver</x-slot>
-            </x-modal-table>
-
-    </div>
-
-    <x-panel-horizontal-6-no-title>
+    {{-- <x-panel-horizontal-6-no-title>
         <x-slot name="panel1">Todos</x-slot>
         <x-slot name="body1">
 
@@ -590,6 +577,6 @@
 
         </x-slot>
 
-    </x-panel-horizontal-6-no-title>
+    </x-panel-horizontal-6-no-title> --}}
 
-</x-layout>
+</x-layout2-sidebar>

@@ -1,13 +1,6 @@
-<x-layout>
-    <x-slot name="title">Ventas</x-slot>
-    <x-slot name="breadcrumbs">
-        <li class="nav-home">
-            <a href="#"><i class="fas fa-dollar-sign"></i></a>
-        </li>
-        <li class="separator"><i class="icon-arrow-right"></i></li>
-        <li class="nav-item"><a href="#">Listado de Cheques a Clientes</a></li>
-    </x-slot>
+<x-layout2>
+    <x-slot name="title">Listado de cheques de clientes</x-slot>
 
-    @livewire('listado-cheques')
+    @livewire('listado-cheques2')
 
-</x-layout>
+</x-layout2>

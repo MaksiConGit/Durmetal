@@ -1,16 +1,6 @@
-<x-layout>
-    <x-slot name="title">Ventas</x-slot>
-    <x-slot name="breadcrumbs">
-        <li class="nav-home">
-            <a href="#"><i class="fas fa-dollar-sign"></i></a>
-        </li>
-        <li class="separator"><i class="icon-arrow-right"></i></li>
-        <li class="nav-item"><a href="#">Ficha del Cliente</a></li>
-        <li class="separator"><i class="icon-arrow-right"></i></li>
-        <li class="nav-item"><a href="#">Ver</a></li>
-    </x-slot>
+<x-layout2>
+    <x-slot name="title">Listado de IVA Ventas</x-slot>
 
-    @livewire('listado-i-v-a')
+    @livewire('listado-i-v-a2')
     
-    
-</x-layout>
+</x-layout2>
