@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{{asset('AdminLTE-3.2.0/plugins/fontawesome-free/css/all.min.css')}}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <!-- DataTables -->
   <link rel="stylesheet" href="{{asset('AdminLTE-3.2.0/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('AdminLTE-3.2.0/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
@@ -109,7 +110,7 @@
                     <a tabindex="-1" href="{{ route('tratamientos.index') }}" class="dropdown-item">Precios</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('divisas.edit') }}" class="dropdown-item">Divisas</a>
+                    <a tabindex="-1" data-toggle="modal" data-target="#modal-default" class="dropdown-item">Divisas</a>
                   </li>
                 </ul>
               </li>
@@ -394,6 +395,65 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+  <!-- .modal -->
+  <div class="modal fade" id="modal-default">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">DIVISAS</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+              <div class="row">
+
+                <div class="col-6">
+                    <div class="form-group mb-0">
+                        <label for="filtro1" class="font-weight-normal">USD -> ARS</label>
+                        <input type="text" id="filtro1" name="filtro1" value="{{ \App\Models\ConfiguracionGlobal::first()->USD_ARS }}" wire:model.live="cliente_desde" class="form-control form-control-sm">
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group mb-0">
+                        <label for="filtro1" class="font-weight-normal">FECHA DE ACTUALIZACION</label>
+                        <input type="date" disabled id="filtro1" name="filtro1" value="{{ \App\Models\ConfiguracionGlobal::first()->FechaActualizacion }}" class="form-control form-control-sm">
+                    </div>
+                </div>
+
+              </div>
+
+              <div class="row mt-3">
+                  <div class="col-12">
+                      <div class="form-group mb-0">
+                          <label for="filtro1" class="font-weight-normal text-muted small">
+                              1 dólar estadounidense equivale a {{ \App\Models\ConfiguracionGlobal::first()->USD_ARS }}
+                          </label>
+                      </div>
+                  </div>
+              </div>
+
+            <div class="modal-footer justify-content-end">
+
+                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                    <span class="text-white">Guardar</span>
+                    <i class="fas fa-floppy-disk fa-fw text-white ml-2"></i>
+                </button>
+
+                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                    <span class="text-white">Cancelar</span>
+                    <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+  </div>
+  <!-- /.modal -->
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

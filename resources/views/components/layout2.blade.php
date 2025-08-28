@@ -119,7 +119,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a tabindex="-1" href="{{ route('tratamientos.index') }}" class="dropdown-item">Precios</a>
                   </li>
                   <li>
-                    <a tabindex="-1" class="dropdown-item" data-toggle="modal" data-target="#modal-default" >Divisas</a>
+                    <a tabindex="-1" class="dropdown-item" data-toggle="modal" data-target="#modal-default">Divisas</a>
                   </li>
                 </ul>
               </li>
@@ -385,8 +385,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- /.content-wrapper -->
 
   <!-- .modal -->
-<div class="modal fade" id="modal-default">
-    <div class="modal-dialog modal-dialog-centered"> <!-- clase agregada -->
+  <div class="modal fade" id="modal-default">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">DIVISAS</h4>
@@ -401,7 +401,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="col-6">
                     <div class="form-group mb-0">
                         <label for="filtro1" class="font-weight-normal">USD -> ARS</label>
-                        <input type="date" id="filtro1" name="filtro1" wire:model.live="cliente_desde" class="form-control form-control-sm" placeholder="Buscar...">
+                        <input type="text" id="filtro1" name="filtro1" value="{{ \App\Models\ConfiguracionGlobal::first()->USD_ARS }}" wire:model.live="cliente_desde" class="form-control form-control-sm">
                     </div>
                 </div>
 
@@ -440,8 +440,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         </div>
     </div>
-</div>
-
+  </div>
   <!-- /.modal -->
 
 
