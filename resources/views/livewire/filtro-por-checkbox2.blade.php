@@ -199,12 +199,16 @@
                                                         <td></td>
 
                                                         <td class="text-center align-middle">
-                                                            <a href="{{ route('programacion.destroy', $programacion->id) }}"
+
+                                                            <button 
+                                                                type="button"
                                                                 class="btn btn-sidebar btn-sm bg-danger"
                                                                 data-bs-toggle="tooltip"
-                                                                title="Eliminar programación">
+                                                                title="Eliminar programación"
+                                                                onclick="confirmDelete({{ $programacion->id }})">
                                                                 <i class="fas fa-ban fa-fw text-white"></i>
-                                                            </a>
+                                                            </button>
+
                                                         </td>
 
                                                         <td class="text-center align-middle">
@@ -277,6 +281,21 @@
             </div>
 
     </x-layout2-sidebar>
+
+    <form id="delete-form" method="POST" style="display:none;">
+        @csrf
+        @method('DELETE')
+    </form>
+
+    <script>
+        function confirmDelete(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta programación?')) {
+                const form = document.getElementById('delete-form');
+                form.action = "{{ route('programacion.destroy', ':id') }}".replace(':id', id);
+                form.submit();
+            }
+        }
+    </script>
 
 </div>
 

@@ -118,12 +118,23 @@
                                     <td></td>
 
                                     <td class="text-center align-middle">
-                                        <a href="{{ route('programacion.destroy', $programacion->id) }}"
-                                            class="btn btn-sidebar btn-sm bg-danger"
-                                            data-bs-toggle="tooltip"
-                                            title="Eliminar programación">
-                                            <i class="fas fa-ban fa-fw text-white"></i>
-                                        </a>
+                                        <form
+                                            action="{{ route('programacion.destroy', $programacion->id) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta programación?')"
+                                            class="m-0 p-0"
+                                        >
+                                            @csrf
+                                            @method('DELETE')
+                                            <button
+                                                type="submit"
+                                                class="btn btn-sidebar btn-sm bg-danger"
+                                                data-bs-toggle="tooltip"
+                                                title="Eliminar programación"
+                                            >
+                                                <i class="fas fa-ban fa-fw text-white"></i>
+                                            </button>
+                                        </form>
                                     </td>
 
                                     <td class="text-center align-middle">
