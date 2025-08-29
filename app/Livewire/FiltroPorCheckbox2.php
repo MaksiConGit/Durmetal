@@ -3,21 +3,18 @@
 namespace App\Livewire;
 
 use App\Models\ItemOrdenTrabajo;
+use App\Models\Tratamiento;
 use App\Models\Client;
 use Livewire\Component;
 
-class ValorizarTrabajos2 extends Component
+class FiltroPorCheckbox2 extends Component
 {
+    public $selectedIds = [];
     public $selectedItemIds = [];
 
     public $cliente_id = null;
     public $oti_item_numero = null;
     public $oti_orden_numero = null;
-
-    public $codigoComplejidad = [];
-
-    public $keepShowing = [];
-
     public $expanded = [];
 
     public function toggleExpand($id)
@@ -29,22 +26,16 @@ class ValorizarTrabajos2 extends Component
         }
     }
 
-    public function mount()
-    {
-        foreach ($this->items as $item) {
-            $this->codigoComplejidad[$item->id] = $item->CodigoComplejidad;
-        }
-    }
-
     public function getItemsProperty()
     {
-        $query = ItemOrdenTrabajo::where(function ($q) {
-                $q->where('CodigoComplejidad', 0)
-                  ->orWhereIn('id', $this->keepShowing);
-            })
+        $query = ItemOrdenTrabajo::where('Estado', 'PENDIENTE')
             ->whereHas('ordenTrabajo', function ($q) {
                 $q->whereIn('Estado', ['PENDIENTE', 'COMPLETO']);
             });
+
+        if (!empty($this->selectedIds)) {
+            $query->whereIn('IdTratamiento', $this->selectedIds);
+        }
 
         if ($this->cliente_id) {
             $query->whereHas('ordenTrabajo', function ($q) {
@@ -64,10 +55,7 @@ class ValorizarTrabajos2 extends Component
 
         if (!empty($this->selectedItemIds)) {
             $selectedItems = ItemOrdenTrabajo::whereIn('id', $this->selectedItemIds)
-                ->where(function ($q) {
-                    $q->where('CodigoComplejidad', 0)
-                      ->orWhereIn('id', $this->keepShowing);
-                })
+                ->where('Estado', 'PENDIENTE')
                 ->whereHas('ordenTrabajo', function ($q) {
                     $q->whereIn('Estado', ['PENDIENTE', 'COMPLETO']);
                 })
@@ -81,20 +69,11 @@ class ValorizarTrabajos2 extends Component
         return $query->get();
     }
 
-    public function updatedCodigoComplejidad($value, $key)
-    {
-        ItemOrdenTrabajo::where('id', $key)->update([
-            'CodigoComplejidad' => $value
-        ]);
-
-        if (!in_array($key, $this->keepShowing)) {
-            $this->keepShowing[] = $key;
-        }
-    }
 
     public function render()
     {
-        return view('livewire.valorizar-trabajos2', [
+        return view('livewire.filtro-por-checkbox2', [
+            'tratamientos' => Tratamiento::all(),
             'clientes' => Client::all(),
             'items' => $this->items,
             'expanded' => $this->expanded,
