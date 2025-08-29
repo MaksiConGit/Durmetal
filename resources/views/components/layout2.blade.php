@@ -119,7 +119,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a tabindex="-1" href="{{ route('tratamientos.index') }}" class="dropdown-item">Precios</a>
                   </li>
                   <li>
-                    <a tabindex="-1" class="dropdown-item" data-toggle="modal" data-target="#modal-default">Divisas</a>
+                    <a href="" tabindex="-1" data-toggle="modal" data-target="#modal-divisas" class="dropdown-item">Divisas</a>
                   </li>
                 </ul>
               </li>
@@ -133,7 +133,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <i class="fas fa-cogs mr-1"></i> PRODUCCION
             </a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-              <li><a href="{{ route('orden-trabajo.create') }}" class="dropdown-item">Ingreso de materiales</a></li>
+              <li><a href="" data-toggle="modal" data-target="#modal-ingreso-materiales" class="dropdown-item">Ingreso de materiales</a></li>
               <li><a href="{{ route('programacion.index') }}" class="dropdown-item">Programación</a></li>
               <li><a href="{{ route('ingreso-datos.index') }}" class="dropdown-item">Ingreso de datos</a></li>
               <li><a href="{{ route('cargas.index') }}" class="dropdown-item">Cargas</a></li>
@@ -385,7 +385,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- /.content-wrapper -->
 
   <!-- .modal -->
-  <div class="modal fade" id="modal-default">
+  <div class="modal fade" id="modal-divisas">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -424,11 +424,72 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
               </div>
 
+            </div>
+
             <div class="modal-footer justify-content-end">
 
                 <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
                     <span class="text-white">Guardar</span>
                     <i class="fas fa-floppy-disk fa-fw text-white ml-2"></i>
+                </button>
+
+                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                    <span class="text-white">Cancelar</span>
+                    <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+  </div>
+
+  <!-- /.modal -->
+
+  <!-- .modal -->
+  <div class="modal fade" id="modal-ingreso-materiales">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">
+                INGRESO DE MATERIALES <br>
+                <small class="text-muted">SELECCION DE OT</small>
+              </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+              <div class="row">
+
+                <div class="col-6">
+                  <div class="form-group mb-0">
+                      <label for="filtro1" class="font-weight-normal">PUNTO DE VENTA</label>
+                      <select name="" id="" class="form-control form-control-sm">
+                        @foreach (\App\Models\PuntoDeVenta::all() as $pto_venta)
+                          <option value="{{ $pto_venta->id }}">{{ $pto_venta->Nombre }}</option>    
+                        @endforeach
+                      </select>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group mb-0">
+                        <label for="filtro1" class="font-weight-normal">NUMERO</label>
+                        <input type="text" id="filtro1" name="filtro1" value="{{ \App\Models\OrdenTrabajo::max('Numero') }}" wire:model.live="cliente_desde" class="form-control form-control-sm">
+                    </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="modal-footer justify-content-end">
+
+                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                    <span class="text-white">Aceptar</span>
+                    <i class="fas fa-check fa-fw text-white ml-2"></i>
                 </button>
 
                 <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
