@@ -73,14 +73,17 @@
             CODIGO CLIENTE
           </label>
           
-          <div class="input-group" data-widget="sidebar-search">
+          <div class="input-group">
             <input id="sidebarSearch" 
                   class="form-control form-control-sm bg-white text-dark" 
                   type="search" placeholder="0" aria-label="Search">
             <div class="input-group-append">
-              <button class="btn btn-sidebar btn-sm bg-orange">
-                <i class="fas fa-search fa-fw text-white"></i>
-              </button>
+                <button type="button" 
+                        class="btn btn-sidebar btn-sm bg-orange" 
+                        data-toggle="modal" 
+                        data-target="#modal-cliente">
+                    <i class="fas fa-search fa-fw text-white"></i>
+                </button>
             </div>
           </div>
           
@@ -156,427 +159,95 @@
         </x-slot>
     </x-simple-table2>
 
+    <!-- .modal -->
+  <div class="modal fade" id="modal-cliente">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">
+                BUSCAR CLIENTE
+              </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
 
-    {{-- <x-panel-horizontal-6-no-title>
-        <x-slot name="panel1">Todos</x-slot>
-        <x-slot name="body1">
+              <div class="row">
 
-            <x-data-table-no-plus>
-                <x-slot name="table_title">Documentos</x-slot>
-                <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
-                <x-slot name="add_text">Añadir Item</x-slot>
+                <x-simple-table2>
 
-                <x-slot name="head_tr">
-                    <tr>
-                        <th>Opciones</th>
-                        <th>Fecha</th>
-                        <th>Fecha Venc.</th>
-                        <th>Número</th>
-                        <th>Código</th>
-                        <th>Razón Social</th>
-                        <th>Estado</th>
-                        <th>% Desc</th>
-                        <th>Total</th>
-                    </tr>
-                </x-slot>
+                    <x-slot name="filtros">
 
-                <x-slot name="body_tr">
-
-                    @forelse ($documentos as $index => $documento)
-                        <tr>
-                            <td class="text-start align-middle">
-                                <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
-                                    <a
-                                        href="{{ route('ventas.ficha-del-cliente-nota-envio.create', $cliente) }}"
-                                        class="btn btn-link btn-primary p-0"
-                                        data-bs-toggle="tooltip"
-                                        title="Editar documento"
-                                    >
-                                        <i class="fa fa-edit fa-lg"></i>
-                                    </a>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-group mb-0">
+                                    <label for="filtro1" class="font-weight-normal">NOMBRE</label>
+                                    <input type="text" id="filtro1" name="filtro1" class="form-control form-control-sm">
                                 </div>
-                            </td>
-                            <td>{{ $documento->FechaEmision }}</td>
-                            <td>{{ $documento->FechaVencimiento }}</td>
-                            <td>{{ $documento->NumeroCompleto }}</td>
-                            <td>{{ $documento->IdCliente }}</td>
-                            <td>{{ $documento->RazonSocial }}</td>
-                            <td>{{ $documento->Estado }}</td>
-                            <td>{{ number_format($documento->PorcentajeDescuento, 2, '.', '') }}</td>
-                            <td>{{ number_format($documento->Total, 2, '.', '') }}</td>
-                        </tr>
-                    @empty
-                        <tr><td colspan="11">No se encontraron resultados.</td></tr>
-                    @endforelse
-                </x-slot>
-
-                <x-slot name="foot_tr">
-                    <tr>
-                        <th>Opciones</th>
-                        <th>Fecha</th>
-                        <th>Fecha Venc.</th>
-                        <th>Número</th>
-                        <th>Código</th>
-                        <th>Razón Social</th>
-                        <th>Estado</th>
-                        <th>% Desc</th>
-                        <th>Total</th>
-                    </tr>
-                </x-slot>
-            </x-data-table-no-plus>
-
-        </x-slot>
-
-        <x-slot name="panel2">Nota de Envío</x-slot>
-
-        <x-slot name="body2">
-
-            <x-data-table-no-plus>
-                <x-slot name="table_title">Notas de Envío</x-slot>
-                <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
-                <x-slot name="add_text">Añadir Item</x-slot>
-
-                <x-slot name="head_tr">
-                    <tr>
-                        <th>Opciones</th>
-                        <th>Fecha</th>
-                        <th>Fecha Venc.</th>
-                        <th>Número</th>
-                        <th>Código</th>
-                        <th>Razón Social</th>
-                        <th>Estado</th>
-                        <th>% Desc</th>
-                        <th>Total</th>
-                    </tr>
-                </x-slot>
-
-                <x-slot name="body_tr">
-
-                    @forelse ($notas_de_envio as $index => $nota_de_envio)
-                        <tr>
-                            <td class="text-start align-middle">
-                                <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
-                                    <a
-                                        href="{{ route('ventas.ficha-del-cliente-nota-envio.create', $cliente) }}"
-                                        class="btn btn-link btn-primary p-0"
-                                        data-bs-toggle="tooltip"
-                                        title="Editar nota de envío"
-                                    >
-                                        <i class="fa fa-edit fa-lg"></i>
-                                    </a>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group mb-0">
+                                    <label for="filtro2" class="font-weight-normal">NUMERO DE DOCUMENTO</label>
+                                    <input type="text" id="filtro2" name="filtro1" class="form-control form-control-sm">
                                 </div>
-                            </td>
-                            <td>{{ $nota_de_envio->FechaEmision }}</td>
-                            <td>{{ $nota_de_envio->FechaVencimiento }}</td>
-                            <td>{{ $nota_de_envio->NumeroCompleto }}</td>
-                            <td>{{ $nota_de_envio->IdCliente }}</td>
-                            <td>{{ $nota_de_envio->RazonSocial }}</td>
-                            <td>{{ $nota_de_envio->Estado }}</td>
-                            <td>{{ number_format($nota_de_envio->PorcentajeDescuento, 2, '.', '') }}</td>
-                            <td>{{ number_format($nota_de_envio->Total, 2, '.', '') }}</td>
-                        </tr>
-                    @empty
-                        <tr><td colspan="11">No se encontraron resultados.</td></tr>
-                    @endforelse
-                </x-slot>
+                            </div>
+                        </div>
 
-                <x-slot name="foot_tr">
-                    <tr>
-                        <th>Opciones</th>
-                        <th>Fecha</th>
-                        <th>Fecha Venc.</th>
-                        <th>Número</th>
-                        <th>Código</th>
-                        <th>Razón Social</th>
-                        <th>Estado</th>
-                        <th>% Desc</th>
-                        <th>Total</th>
-                    </tr>
-                </x-slot>
-            </x-data-table-no-plus>
+                    </x-slot>
 
-        </x-slot>
-
-        <x-slot name="panel3">Factura</x-slot>
-
-        <x-slot name="body3">
-
-            <x-data-table-no-plus>
-                <x-slot name="table_title">Facturas</x-slot>
-                <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
-                <x-slot name="add_text">Añadir Item</x-slot>
-
-                <x-slot name="head_tr">
-                    <tr>
-                        <th>Opciones</th>
-                        <th>Fecha</th>
-                        <th>Fecha Venc.</th>
-                        <th>Número</th>
-                        <th>Código</th>
-                        <th>Razón Social</th>
-                        <th>Estado</th>
-                        <th>% Desc</th>
-                        <th>Total</th>
-                    </tr>
-                </x-slot>
-
-                <x-slot name="body_tr">
-
-                    @forelse ($facturas as $index => $factura)
+                    <x-slot name="thead">
                         <tr>
-                            <td class="text-start align-middle">
-                                <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
-                                    <a
-                                        href="{{ route('ventas.ficha-del-cliente-nota-envio.create', $cliente) }}"
-                                        class="btn btn-link btn-primary p-0"
-                                        data-bs-toggle="tooltip"
-                                        title="Editar factura"
-                                    >
-                                        <i class="fa fa-edit fa-lg"></i>
-                                    </a>
-                                </div>
-                            </td>
-                            <td>{{ $factura->FechaEmision }}</td>
-                            <td>{{ $factura->FechaVencimiento }}</td>
-                            <td>{{ $factura->NumeroCompleto }}</td>
-                            <td>{{ $factura->IdCliente }}</td>
-                            <td>{{ $factura->RazonSocial }}</td>
-                            <td>{{ $factura->Estado }}</td>
-                            <td>{{ number_format($factura->PorcentajeDescuento, 2, '.', '') }}</td>
-                            <td>{{ number_format($factura->Total, 2, '.', '') }}</td>
+                            <th>CODIGO</th>
+                            <th>NOMBRE</th>
+                            <th>TIPO DE DOCUMENTO</th>
+                            <th>NUMERO</th>
+                            <th>DOMICILIO</th>
+                            <th>LOCALIDAD</th>
+                            <th>PROVINCIA</th>
+                            <th>ACTIVO</th>
                         </tr>
-                    @empty
-                        <tr><td colspan="11">No se encontraron resultados.</td></tr>
-                    @endforelse
-                </x-slot>
-
-                <x-slot name="foot_tr">
-                    <tr>
-                        <th>Opciones</th>
-                        <th>Fecha</th>
-                        <th>Fecha Venc.</th>
-                        <th>Número</th>
-                        <th>Código</th>
-                        <th>Razón Social</th>
-                        <th>Estado</th>
-                        <th>% Desc</th>
-                        <th>Total</th>
-                    </tr>
-                </x-slot>
-            </x-data-table-no-plus>
-
-        </x-slot>
-
-        <x-slot name="panel4">Nota de Débito</x-slot>
-
-        <x-slot name="body4">
-
-            <x-data-table-no-plus>
-                <x-slot name="table_title">Notas de Débito</x-slot>
-                <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
-                <x-slot name="add_text">Añadir Item</x-slot>
-
-                <x-slot name="head_tr">
-                    <tr>
-                        <th>Opciones</th>
-                        <th>Fecha</th>
-                        <th>Fecha Venc.</th>
-                        <th>Número</th>
-                        <th>Código</th>
-                        <th>Razón Social</th>
-                        <th>Estado</th>
-                        <th>% Desc</th>
-                        <th>Total</th>
-                    </tr>
-                </x-slot>
-
-                <x-slot name="body_tr">
-
-                    @forelse ($notas_de_debito as $index => $nota_de_debito)
+                    </x-slot>
+                    <x-slot name="tbody">
+                        
+                        @forelse ($clientes as $cliente)
                         <tr>
-                            <td class="text-start align-middle">
-                                <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
-                                    <a
-                                        href="{{ route('ventas.ficha-del-cliente-nota-envio.create', $cliente) }}"
-                                        class="btn btn-link btn-primary p-0"
-                                        data-bs-toggle="tooltip"
-                                        title="Editar nota de débito"
-                                    >
-                                        <i class="fa fa-edit fa-lg"></i>
-                                    </a>
-                                </div>
-                            </td>
-                            <td>{{ $nota_de_debito->FechaEmision }}</td>
-                            <td>{{ $nota_de_debito->FechaVencimiento }}</td>
-                            <td>{{ $nota_de_debito->NumeroCompleto }}</td>
-                            <td>{{ $nota_de_debito->IdCliente }}</td>
-                            <td>{{ $nota_de_debito->RazonSocial }}</td>
-                            <td>{{ $nota_de_debito->Estado }}</td>
-                            <td>{{ number_format($nota_de_debito->PorcentajeDescuento, 2, '.', '') }}</td>
-                            <td>{{ number_format($nota_de_debito->Total, 2, '.', '') }}</td>
+                            <td>{{ $cliente->id }}</td>
+                            <td>{{ $cliente->Nombre }}</td>
+                            <td>{{ $cliente->TipoDocumento }}</td>
+                            <td>{{ $cliente->NroDocumento }}</td>
+                            <td>{{ $cliente->Domicilio }}</td>
+                            <td>{{ $cliente->localidad->Nombre ?? 'Ciudad no asignada' }}</td>
+                            <td>{{ $cliente->localidad->provincia->Nombre ?? 'Provincia no asignada' }}</td>
+                            <td><input type="checkbox" name="" id="" disabled {{ $cliente->Activo == 1 ? 'checked' : '' }}></td>
                         </tr>
-                    @empty
-                        <tr><td colspan="11">No se encontraron resultados.</td></tr>
-                    @endforelse
-                </x-slot>
+                        @empty
+                            <tr><td colspan="8">No se encontraron resultados.</td></tr>
+                        @endforelse
+                    </x-slot>
+                </x-simple-table2>
 
-                <x-slot name="foot_tr">
-                    <tr>
-                        <th>Opciones</th>
-                        <th>Fecha</th>
-                        <th>Fecha Venc.</th>
-                        <th>Número</th>
-                        <th>Código</th>
-                        <th>Razón Social</th>
-                        <th>Estado</th>
-                        <th>% Desc</th>
-                        <th>Total</th>
-                    </tr>
-                </x-slot>
-            </x-data-table-no-plus>
+              </div>
 
-        </x-slot>
+            </div>
 
-        <x-slot name="panel5">Nota de Crédito</x-slot>
+            <div class="modal-footer justify-content-end">
 
-        <x-slot name="body5">
+                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                    <span class="text-white">Aceptar</span>
+                    <i class="fas fa-check fa-fw text-white ml-2"></i>
+                </button>
 
-            <x-data-table-no-plus>
-                <x-slot name="table_title">Notas de Crédito</x-slot>
-                <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
-                <x-slot name="add_text">Añadir Item</x-slot>
+                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                    <span class="text-white">Cancelar</span>
+                    <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                </button>
 
-                <x-slot name="head_tr">
-                    <tr>
-                        <th>Opciones</th>
-                        <th>Fecha</th>
-                        <th>Fecha Venc.</th>
-                        <th>Número</th>
-                        <th>Código</th>
-                        <th>Razón Social</th>
-                        <th>Estado</th>
-                        <th>% Desc</th>
-                        <th>Total</th>
-                    </tr>
-                </x-slot>
+            </div>
 
-                <x-slot name="body_tr">
-
-                    @forelse ($notas_de_credito as $index => $nota_de_credito)
-                        <tr>
-                            <td class="text-start align-middle">
-                                <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
-                                    <a
-                                        href="{{ route('ventas.ficha-del-cliente-nota-envio.create', $cliente) }}"
-                                        class="btn btn-link btn-primary p-0"
-                                        data-bs-toggle="tooltip"
-                                        title="Editar nota de crédito"
-                                    >
-                                        <i class="fa fa-edit fa-lg"></i>
-                                    </a>
-                                </div>
-                            </td>
-                            <td>{{ $nota_de_credito->FechaEmision }}</td>
-                            <td>{{ $nota_de_credito->FechaVencimiento }}</td>
-                            <td>{{ $nota_de_credito->NumeroCompleto }}</td>
-                            <td>{{ $nota_de_credito->IdCliente }}</td>
-                            <td>{{ $nota_de_credito->RazonSocial }}</td>
-                            <td>{{ $nota_de_credito->Estado }}</td>
-                            <td>{{ number_format($nota_de_credito->PorcentajeDescuento, 2, '.', '') }}</td>
-                            <td>{{ number_format($nota_de_credito->Total, 2, '.', '') }}</td>
-                        </tr>
-                    @empty
-                        <tr><td colspan="11">No se encontraron resultados.</td></tr>
-                    @endforelse
-                </x-slot>
-
-                <x-slot name="foot_tr">
-                    <tr>
-                        <th>Opciones</th>
-                        <th>Fecha</th>
-                        <th>Fecha Venc.</th>
-                        <th>Número</th>
-                        <th>Código</th>
-                        <th>Razón Social</th>
-                        <th>Estado</th>
-                        <th>% Desc</th>
-                        <th>Total</th>
-                    </tr>
-                </x-slot>
-            </x-data-table-no-plus>
-
-        </x-slot>
-
-        <x-slot name="panel6">Recibo</x-slot>
-
-        <x-slot name="body6">
-
-            <x-data-table-no-plus>
-                <x-slot name="table_title">Recibos</x-slot>
-                <x-slot name="export_route">{{ route('programacion.export') }}</x-slot>
-                <x-slot name="add_text">Añadir Item</x-slot>
-
-                <x-slot name="head_tr">
-                    <tr>
-                        <th>Opciones</th>
-                        <th>Fecha</th>
-                        <th>Fecha Venc.</th>
-                        <th>Número</th>
-                        <th>Código</th>
-                        <th>Razón Social</th>
-                        <th>Estado</th>
-                        <th>% Desc</th>
-                        <th>Total</th>
-                    </tr>
-                </x-slot>
-
-                <x-slot name="body_tr">
-
-                    @forelse ($recibos as $index => $recibo)
-                        <tr>
-                            <td class="text-start align-middle">
-                                <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
-                                    <a
-                                        href="{{ route('ventas.ficha-del-cliente-nota-envio.create', $cliente) }}"
-                                        class="btn btn-link btn-primary p-0"
-                                        data-bs-toggle="tooltip"
-                                        title="Editar recibo"
-                                    >
-                                        <i class="fa fa-edit fa-lg"></i>
-                                    </a>
-                                </div>
-                            </td>
-                            <td>{{ $recibo->FechaEmision }}</td>
-                            <td>{{ $recibo->FechaVencimiento }}</td>
-                            <td>{{ $recibo->NumeroCompleto }}</td>
-                            <td>{{ $recibo->IdCliente }}</td>
-                            <td>{{ $recibo->RazonSocial }}</td>
-                            <td>{{ $recibo->Estado }}</td>
-                            <td>{{ number_format($recibo->PorcentajeDescuento, 2, '.', '') }}</td>
-                            <td>{{ number_format($recibo->Total, 2, '.', '') }}</td>
-                        </tr>
-                    @empty
-                        <tr><td colspan="11">No se encontraron resultados.</td></tr>
-                    @endforelse
-                </x-slot>
-
-                <x-slot name="foot_tr">
-                    <tr>
-                        <th>Opciones</th>
-                        <th>Fecha</th>
-                        <th>Fecha Venc.</th>
-                        <th>Número</th>
-                        <th>Código</th>
-                        <th>Razón Social</th>
-                        <th>Estado</th>
-                        <th>% Desc</th>
-                        <th>Total</th>
-                    </tr>
-                </x-slot>
-            </x-data-table-no-plus>
-
-        </x-slot>
-
-    </x-panel-horizontal-6-no-title> --}}
+        </div>
+    </div>
+  </div>
+  <!-- /.modal -->
 
 </x-layout2-sidebar>
