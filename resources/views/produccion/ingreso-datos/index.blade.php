@@ -1,4 +1,4 @@
-<x-layout>
+{{-- <x-layout>
     <x-slot name="title">Producción</x-slot>
     <x-slot name="breadcrumbs">
         <li class="nav-home">
@@ -12,4 +12,6 @@
 
     @livewire('filtrar-items-orden-trabajo-ingreso-datos')
 
-</x-layout>
+</x-layout> --}}
+
+@livewire('filtrar-items-orden-trabajo-ingreso-datos2')
