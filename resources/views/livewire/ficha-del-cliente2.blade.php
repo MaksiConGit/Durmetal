@@ -4,19 +4,19 @@
           <div class="col-2">
             <div class="form-group mb-0">
                 <label for="filtro1" class="font-weight-normal">CODIGO</label>
-                <input type="text" id="filtro1" name="filtro1" wire:model.live="cliente_id" class="form-control form-control-sm" placeholder="Buscar...">
+                <input type="text" id="filtro1" name="filtro1" wire:model.live="codigo" class="form-control form-control-sm" placeholder="Buscar...">
             </div>
           </div>
           <div class="col-2">
             <div class="form-group mb-0">
                 <label for="filtro1" class="font-weight-normal">NOMBRE</label>
-                <input type="text" id="filtro1" name="filtro1" wire:model.live="cliente_id" class="form-control form-control-sm" placeholder="Buscar...">
+                <input type="text" id="filtro1" name="filtro1" wire:model.live="nombre" class="form-control form-control-sm" placeholder="Buscar...">
             </div>
           </div>
           <div class="col-2">
             <div class="form-group mb-0">
                 <label for="filtro1" class="font-weight-normal">N° DOCUMENTO</label>
-                <input type="text" id="filtro1" name="filtro1" wire:model.live="cliente_id" class="form-control form-control-sm" placeholder="Buscar...">
+                <input type="text" id="filtro1" name="filtro1" wire:model.live="documento" class="form-control form-control-sm" placeholder="Buscar...">
             </div>
           </div>
           <div class="col-4">

@@ -12,37 +12,42 @@ class FichaDelCliente2 extends Component
     public $dureza_min;
     public $dureza_max;
     public $materiales_seleccionados = [];
-    public $cliente_id = null;
+    public $codigo = '';
+    public $nombre = '';
+    public $documento = '';
     public $filtro = null;
 
     public function render()
     {
         $query = Client::query();
 
-        if (!empty($this->cliente_id)) {
-            $query->where('id', $this->cliente_id);
+        if (!empty($this->codigo)) {
+            $query->where('id', 'like', "%{$this->codigo}%");
+        }
+
+        if (!empty($this->nombre)) {
+            $query->where('Nombre', 'like', "%{$this->nombre}%");
+        }
+
+        if (!empty($this->documento)) {
+            $query->where('NroDocumento', 'like', "%{$this->documento}%");
         }
 
         if ($this->filtro === 'notas_pendientes') {
-            $query->whereHas('notasDeEnvio', function ($q) {
-                $q->where('Estado', 'PENDIENTE');
-            });
+            $query->whereHas('notasDeEnvio', fn($q) => $q->where('Estado', 'PENDIENTE'));
         }
 
         if ($this->filtro === 'facturas_pendientes') {
-            $query->whereHas('facturasVenta', function ($q) {
-                $q->where('Estado', 'PENDIENTE');
-            });
+            $query->whereHas('facturasVenta', fn($q) => $q->where('Estado', 'PENDIENTE'));
         }
 
         if ($this->filtro === 'trabajos_pendientes_nota_envio') {
-            $query->whereHas('ordenesTrabajo', function ($q) {
+            $query->whereHas('ordenesTrabajo', fn($q) => 
                 $q->where('Estado', 'PENDIENTE')
-                  ->whereHas('itemsOrdenTrabajo', function ($qi) {
-                      $qi->where('Estado', 'APROBADO')
-                         ->where('ConNotaEnvio', false);
-                  });
-            });
+                ->whereHas('itemsOrdenTrabajo', fn($qi) =>
+                    $qi->where('Estado', 'APROBADO')->where('ConNotaEnvio', false)
+                )
+            );
         }
 
         $clientes = $query->withCount([
