@@ -16,6 +16,8 @@ class FiltroPorCheckbox2 extends Component
     public $oti_item_numero = null;
     public $oti_orden_numero = null;
     public $expanded = [];
+    public $search = '';
+    public $cliente_nombre = null;
 
     public function toggleExpand($id)
     {
@@ -23,6 +25,33 @@ class FiltroPorCheckbox2 extends Component
             $this->expanded = array_diff($this->expanded, [$id]);
         } else {
             $this->expanded[] = $id;
+        }
+    }
+
+    public function cancelarCliente()
+    {
+        $this->cliente_id = null;
+        $this->cliente_nombre = null;
+    }
+
+    public function updatedClienteId($value)
+    {
+        $cliente = Client::find($value);
+
+        if ($cliente) {
+            $this->cliente_nombre = $cliente->Nombre;
+        } else {
+            $this->cliente_nombre = null;
+        }
+    }
+
+    public function seleccionarCliente($id)
+    {
+        $cliente = Client::find($id);
+
+        if ($cliente) {
+            $this->cliente_id = $cliente->id;
+            $this->cliente_nombre = $cliente->Nombre;
         }
     }
 
@@ -72,8 +101,14 @@ class FiltroPorCheckbox2 extends Component
 
     public function render()
     {
+        $tratamientos = Tratamiento::query();
+
+        if (!empty($this->search)) {
+            $tratamientos->where('Nombre', 'like', '%' . $this->search . '%');
+        }
+
         return view('livewire.filtro-por-checkbox2', [
-            'tratamientos' => Tratamiento::all(),
+        'tratamientos' => $tratamientos->get(),
             'clientes' => Client::all(),
             'items' => $this->items,
             'expanded' => $this->expanded,
