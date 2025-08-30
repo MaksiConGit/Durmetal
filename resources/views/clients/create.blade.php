@@ -1,4 +1,114 @@
-<x-layout>
+<x-layout2>
+    <x-slot name="title">Nuevo cliente</x-slot>
+
+    <form action="{{ route('clients.store') }}" method="POST">
+        @csrf
+
+        @livewire('codigo-postal-localidad-provincia', [
+            'next_id' => $next_id,
+            'condiciones_IVA' => $condiciones_IVA,
+            'calificaciones_cliente' => $calificaciones_cliente,
+        ])
+            
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="card col-8">
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <div class="col-4 mb-3">
+                            <div class="form-group mb-0">
+                                <label for="" class="font-weight-normal">EMAILS</label>
+                                <input type="text" id="email1" name="emails[]" value="{{ old('emails.1') }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-4 mb-3 mt-2">
+                            <div class="form-group mb-0">
+                                <label for="email2" class="font-weight-normal"></label>
+                                <input type="text" id="email2" name="emails[]" value="{{ old('emails.2') }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-4 mb-3 mt-2">
+                            <div class="form-group mb-0">
+                                <label for="email2" class="font-weight-normal"></label>
+                                <input type="text" id="email2" name="emails[]" value="{{ old('emails.3') }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 mb-3">
+                            <div class="form-group mb-0">
+                                <label for="email3" class="font-weight-normal"></label>
+                                <input type="text" id="email3" name="emails[]" value="{{ old('emails.4') }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-4 mb-3">
+                            <div class="form-group mb-0">
+                                <label for="email4" class="font-weight-normal"></label>
+                                <input type="text" id="email4" name="emails[]" value="{{ old('emails.5') }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-4 mb-3">
+                            <div class="form-group mb-0">
+                                <label for="email4" class="font-weight-normal"></label>
+                                <input type="text" id="email4" name="emails[]" value="{{ old('emails.6') }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 mb-3">
+                            <div class="form-group mb-0">
+                                <label for="email5" class="font-weight-normal"></label>
+                                <input type="text" id="email5" name="emails[]" value="{{ old('emails.7') }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-4 mb-3">
+                            <div class="form-group mb-0">
+                                <label for="email6" class="font-weight-normal"></label>
+                                <input type="text" id="email6" name="emails[]" value="{{ old('emails.8') }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-4 mb-3">
+                            <div class="form-group mb-0">
+                                <label for="email6" class="font-weight-normal"></label>
+                                <input type="text" id="email6" name="emails[]" value="{{ old('emails.9') }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-app bg-primary">
+                        <i class="fas fa-floppy-disk"></i> Guardar
+                    </button>
+
+                    <a class="btn btn-app bg-primary" href="{{ route('clients.index') }}">
+                        <i class="fas fa-ban"></i> Cancelar
+                    </a>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+
+    </form>
+
+</x-layout2>
+
+{{-- <x-layout>
 
     <x-slot name="title">Ventas</x-slot>
     <x-slot name="breadcrumbs">
@@ -247,7 +357,6 @@
 
             </div>
 
-            {{-- Emails --}}
             <div class="col-md-6 mb-3">
                 @for ($i = 0; $i < 3; $i++)
                     <x-form-input-email>
@@ -290,4 +399,4 @@
             </x-button>
         </x-slot>
     </x-form>
-</x-layout>
+</x-layout> --}}

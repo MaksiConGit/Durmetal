@@ -34,7 +34,7 @@ class StoreClientRequest extends FormRequest
             'CP' => 'required',
             'NroDocumento' => 'required|integer',
             'Saldo' => 'required|numeric',
-            'emails' => 'nullable|array|max:6',
+            'emails' => 'nullable|array|max:9',
             'emails.*' => 'nullable|email|max:255',
         ];
     }

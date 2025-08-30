@@ -1,4 +1,115 @@
+<x-layout2>
+    <x-slot name="title">cliente: "{{ $client->Nombre }}"</x-slot>
 
+    <form action="{{ route('clients.update', $client) }}" method="POST">
+        @csrf
+        @method('PUT')
+
+        @livewire('codigo-postal-localidad-provincia-edit', [
+            'client' => $client,
+            'condiciones_IVA' => $iva_conditions,
+            'calificaciones_cliente' => $client_qualifications,
+        ])
+
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="card col-8">
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <div class="col-4 mb-3">
+                            <div class="form-group mb-0">
+                                <label for="" class="font-weight-normal">EMAILS</label>
+                                <input type="text" id="email1" name="emails[]" value="{{ $oldEmails[0] ?? '' }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-4 mb-3 mt-2">
+                            <div class="form-group mb-0">
+                                <label for="email2" class="font-weight-normal"></label>
+                                <input type="text" id="email2" name="emails[]" value="{{ $oldEmails[1] ?? '' }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-4 mb-3 mt-2">
+                            <div class="form-group mb-0">
+                                <label for="email2" class="font-weight-normal"></label>
+                                <input type="text" id="email2" name="emails[]" value="{{ $oldEmails[2] ?? '' }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 mb-3">
+                            <div class="form-group mb-0">
+                                <label for="email3" class="font-weight-normal"></label>
+                                <input type="text" id="email3" name="emails[]" value="{{ $oldEmails[3] ?? '' }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-4 mb-3">
+                            <div class="form-group mb-0">
+                                <label for="email4" class="font-weight-normal"></label>
+                                <input type="text" id="email4" name="emails[]" value="{{ $oldEmails[4] ?? '' }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-4 mb-3">
+                            <div class="form-group mb-0">
+                                <label for="email4" class="font-weight-normal"></label>
+                                <input type="text" id="email4" name="emails[]" value="{{ $oldEmails[5] ?? '' }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 mb-3">
+                            <div class="form-group mb-0">
+                                <label for="email5" class="font-weight-normal"></label>
+                                <input type="text" id="email5" name="emails[]" value="{{ $oldEmails[6] ?? '' }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-4 mb-3">
+                            <div class="form-group mb-0">
+                                <label for="email6" class="font-weight-normal"></label>
+                                <input type="text" id="email6" name="emails[]" value="{{ $oldEmails[7] ?? '' }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-4 mb-3">
+                            <div class="form-group mb-0">
+                                <label for="email6" class="font-weight-normal"></label>
+                                <input type="text" id="email6" name="emails[]" value="{{ $oldEmails[8] ?? '' }}"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-app bg-primary">
+                        <i class="fas fa-floppy-disk"></i> Guardar
+                    </button>
+
+                    <a class="btn btn-app bg-primary" href="{{ route('clients.index') }}">
+                        <i class="fas fa-ban"></i> Cancelar
+                    </a>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+
+    </form>
+
+</x-layout2>
+
+{{-- 
 <x-layout>
 
     <x-slot name="title">Ventas</x-slot>
@@ -240,7 +351,6 @@
             </div>
 
 
-            {{-- Emails --}}
             <div class="col-md-6 mb-3">
             @for ($i = 0; $i < 3; $i++)
                 <x-form-input-email>
@@ -276,101 +386,5 @@
             </x-button>
         </x-slot>
     </x-form>
-</x-layout>
-
-{{-- <x-layout>
-
-    <div>
-        <h2>Añadir cliente</h2>
-    
-        <form action="{{ route('clients.update', $client) }}" method="POST">
-            @csrf
-            @method('PUT')
-            <div>
-                <label for="id">Código</label>
-                <input type="text" name="id" id="id" required value="{{old('id', $client->id)}}">
-                <label for="name">Nombre</label>
-                <input type="text" name="name" id="name" required value="{{old('name', $client->name)}}">
-            </div>
-            <br>
-            <div>
-                @livewire('client-location-edit', ['client' => $client])
-            </div>
-            <br>
-            <div>
-                <label for="phone">Teléfono</label>
-                <input type="text" name="phone" id="phone" required value="{{old('phone', $client->phone)}}">
-                <label for="iva_condition_id">Condición IVA</label>
-                <select name="iva_condition_id" id="iva_condition_id">
-                    @foreach ($iva_conditions as $iva_condition)
-                        <option value="{{ $iva_condition->id }}" {{$iva_condition->id == $client->ivaCondition->id ? 'selected' : ''}}>
-                            {{ $iva_condition->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <br>
-            <div>
-                <label for="document_type_id">Tipo de Documento</label>
-                <select name="document_type_id" id="document_type_id">
-                    @foreach ($document_types as $document_type)
-                        <option value="{{ $document_type->id }}" {{$document_type->id == $client->documentType->id ? 'selected' : ''}}>
-                            {{ $document_type->name }}
-                        </option>
-                    @endforeach
-                </select>
-                <label for="document_number">N° de Documento</label>
-                <input type="text" name="document_number" id="document_number" required value="{{old('document_number', $client->document_number)}}">
-            </div>
-            <br>
-            <div>
-                <label for="client_qualification_id">Calificación</label>
-                <select name="client_qualification_id" id="client_qualification_id">
-                    @foreach ($client_qualifications as $client_qualification)
-                        <option value="{{ $client_qualification->id }}" {{$client_qualification->id == $client->documentType->id ? 'selected' : ''}}>
-                            {{ $client_qualification->name }}
-                        </option>
-                    @endforeach
-                </select>
-                <label for="balance">Saldo Transportado</label>
-                <input type="text" name="balance" id="balance" required value="{{old('balance', $client->balance)}}">
-            </div>
-            <div>
-                <input type="hidden" name="is_active" value="0">
-                <input type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active', $client->is_active) ? 'checked' : '' }}>
-                <label for="is_active">Activo</label>
-            </div>            
-            <br>
-    
-            <label for="emails">Emails</label>
-            <div>
-                @php
-                    $oldEmails = old('emails', $client_emails->pluck('text')->toArray());
-                @endphp
-        
-                @for ($i = 0; $i < 6; $i++)
-                    <input type="email" name="emails[]" value="{{ $oldEmails[$i] ?? '' }}">
-                    <br><br>
-                @endfor
-            </div>        
-    
-    
-            <br>
-            <button type="submit">Guardar</button>
-            <a href="{{ route('clients.index') }}">Volver</a>
-        </form> 
-    
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-    
-    </div>
 </x-layout> --}}
-
 
