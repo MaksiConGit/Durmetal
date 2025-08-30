@@ -19,12 +19,40 @@ class FiltrarItemsOrdenTrabajoIngresoDatos2 extends Component
     public $cliente_id = null;
     public array $expanded = [];
     public array $expandedInner = [];
+    public $cliente_nombre = null;
 
 
     public function mount()
     {
         $this->fecha_fin = now()->format('Y-m-d');
         $this->fecha_inicio = now()->subMonth()->format('Y-m-d');
+    }
+
+    public function cancelarCliente()
+    {
+        $this->cliente_id = null;
+        $this->cliente_nombre = null;
+    }
+
+    public function updatedClienteId($value)
+    {
+        $cliente = Client::find($value);
+
+        if ($cliente) {
+            $this->cliente_nombre = $cliente->Nombre;
+        } else {
+            $this->cliente_nombre = null;
+        }
+    }
+
+    public function seleccionarCliente($id)
+    {
+        $cliente = Client::find($id);
+
+        if ($cliente) {
+            $this->cliente_id = $cliente->id;
+            $this->cliente_nombre = $cliente->Nombre;
+        }
     }
 
     public function toggleExpand($id)

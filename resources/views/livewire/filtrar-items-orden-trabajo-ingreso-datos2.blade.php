@@ -17,7 +17,7 @@
                     <div class="input-group" data-widget="sidebar-search">
                         <input id="sidebarSearch" 
                             class="form-control form-control-sm bg-white text-dark" 
-                            type="date" placeholder="0" aria-label="Search">
+                            type="date" placeholder="0" aria-label="Search" wire:model.live="fecha_inicio">
                         <div class="input-group-append">
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                     <div class="input-group" data-widget="sidebar-search">
                         <input id="sidebarSearch" 
                             class="form-control form-control-sm bg-white text-dark" 
-                            type="date" aria-label="Search">
+                            type="date" aria-label="Search" wire:model.live="fecha_fin">
                         <div class="input-group-append">
                         </div>
                     </div>
@@ -46,12 +46,15 @@
                         COD. CLIENTE
                     </label>
                     
-                    <div class="input-group" data-widget="sidebar-search">
+                    <div class="input-group">
                         <input id="sidebarSearch" 
                             class="form-control form-control-sm bg-white text-dark" 
                             type="search" placeholder="0" aria-label="Search" wire:model.live="cliente_id">
                         <div class="input-group-append">
-                        <button class="btn btn-sidebar btn-sm bg-orange">
+                        <button type="button" 
+                                class="btn btn-sidebar btn-sm bg-orange" 
+                                data-toggle="modal" 
+                                data-target="#modal-cliente">
                             <i class="fas fa-search fa-fw text-white"></i>
                         </button>
                         </div>
@@ -64,7 +67,7 @@
                     <div class="input-group" data-widget="sidebar-search">
                         <input id="sidebarSearch" 
                             class="form-control form-control-sm bg-white text-dark" 
-                            type="search" aria-label="Search" disabled>
+                            type="search" aria-label="Search" disabled value="{{ $cliente_nombre }}">
                     </div>
                     
                 </div>
@@ -135,7 +138,7 @@
 
                             <td>{{ $item->Descripcion }}</td>
                             <td>[{{$item->ordenTrabajo->cliente->id}}] {{ $item->ordenTrabajo->cliente->Nombre }}</td>
-                            <td>{{ $item->FechaCreacion }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->FechaCreacion)->format('j/n/Y') }}</td>
                             <td>{{ $item->ordenTrabajo->Numero }}/{{ $item->ItemNumero }}</td>
                             <td>{{ number_format($item->Cantidad, 2, '.', '') }}</td>
                             <td>{{ number_format($item->Peso, 2, '.', '') }}</td>
@@ -377,6 +380,99 @@
         @csrf
         @method('DELETE')
     </form>
+
+    <!-- .modal -->
+    <div class="modal fade" id="modal-cliente" wire:ignore.self>
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">
+                    BUSCAR CLIENTE
+                </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                <div class="row">
+
+                    <x-simple-table2>
+
+                        <x-slot name="filtros">
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="form-group mb-0">
+                                        <label for="filtro1" class="font-weight-normal">NOMBRE</label>
+                                        <input type="text" id="filtro1" name="filtro1" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group mb-0">
+                                        <label for="filtro2" class="font-weight-normal">NUMERO DE DOCUMENTO</label>
+                                        <input type="text" id="filtro2" name="filtro1" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </x-slot>
+
+                        <x-slot name="thead">
+                            <tr>
+                                <th>CODIGO</th>
+                                <th>NOMBRE</th>
+                                <th>TIPO DE DOCUMENTO</th>
+                                <th>NUMERO</th>
+                                <th>DOMICILIO</th>
+                                <th>LOCALIDAD</th>
+                                <th>PROVINCIA</th>
+                                <th>ACTIVO</th>
+                            </tr>
+                        </x-slot>
+                        <x-slot name="tbody">
+                            
+                            @forelse ($clientes as $cliente)
+                                <tr wire:click.prevent="seleccionarCliente({{ $cliente->id }})"
+                                    style="cursor:pointer;"
+                                    class="{{ $cliente_id == $cliente->id ? 'table-primary' : '' }}">
+                                    <td>{{ $cliente->id }}</td>
+                                    <td>{{ $cliente->Nombre }}</td>
+                                    <td>{{ $cliente->TipoDocumento }}</td>
+                                    <td>{{ $cliente->NroDocumento }}</td>
+                                    <td>{{ $cliente->Domicilio }}</td>
+                                    <td>{{ $cliente->localidad->Nombre ?? 'Ciudad no asignada' }}</td>
+                                    <td>{{ $cliente->localidad->provincia->Nombre ?? 'Provincia no asignada' }}</td>
+                                    <td><input type="checkbox" name="" id="" disabled {{ $cliente->Activo == 1 ? 'checked' : '' }}></td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="8">No se encontraron resultados.</td></tr>
+                            @endforelse
+                        </x-slot>
+                    </x-simple-table2>
+
+                </div>
+
+                </div>
+
+                <div class="modal-footer justify-content-end">
+
+                    <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                        <span class="text-white">Aceptar</span>
+                        <i class="fas fa-check fa-fw text-white ml-2"></i>
+                    </button>
+
+                    <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal" wire:click="cancelarCliente">
+                        <span class="text-white">Cancelar</span>
+                        <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
 
     <script>
         function confirmDelete(id) {
