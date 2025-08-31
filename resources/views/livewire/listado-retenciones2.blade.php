@@ -15,7 +15,7 @@
                     <input type="date" id="filtro1" name="filtro1" wire:model.live="fecha_fin" class="form-control form-control-sm" placeholder="Buscar...">
                 </div>
             </div>
-
+            
           <div class="col-4">
             <div class="form-group mb-0">
                 <label for="filtro1" class="font-weight-normal">RETENCION</label>
@@ -36,7 +36,7 @@
         <tr>
             <th>FECHA EMISION</th>
             <th>COD. CLIENTE</th>
-            <th>RAOZN SOCIAL</th>
+            <th>RAZON SOCIAL</th>
             @if($retencion_id == 1 || $retencion_id == 2) <th>DREI</th> @endif
             @if($retencion_id == 1 || $retencion_id == 4) <th>IIBB</th> @endif
             @if($retencion_id == 1 || $retencion_id == 5) <th>IVA</th> @endif
@@ -46,7 +46,11 @@
     </x-slot>
     <x-slot name="tbody">
 
-        @forelse ($recibos_venta as $recibo)
+        @php
+            $filasFaltantes = max(0, 11 - count($recibos_venta));
+        @endphp
+
+        @foreach ($recibos_venta as $recibo)
             <tr>
                 <td>{{ \Carbon\Carbon::parse($recibo->FechaEmision)->format('j/n/Y') }}</td>
                 <td>{{ $recibo->IdCliente }}</td>
@@ -72,9 +76,20 @@
                     <td>{{ number_format($recibo->RetencionSUSS, 2, '.', '') }}</td>
                 @endif
             </tr>
-        @empty
-            <tr><td colspan="8">No se encontraron resultados.</td></tr>
-        @endforelse
+        @endforeach
+
+         @for ($i = 0; $i < $filasFaltantes; $i++)
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        @endfor
 
     </x-slot>
 </x-simple-table2>
