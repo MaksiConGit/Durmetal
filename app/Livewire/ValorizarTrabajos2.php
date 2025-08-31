@@ -10,9 +10,11 @@ class ValorizarTrabajos2 extends Component
 {
     public $selectedItemIds = [];
 
+    public $oti_item_numero;
+    public $oti_orden_numero;
+
     public $cliente_id = null;
-    public $oti_item_numero = null;
-    public $oti_orden_numero = null;
+    public $cliente_nombre = null;
 
     public $codigoComplejidad = [];
 
@@ -26,6 +28,33 @@ class ValorizarTrabajos2 extends Component
             $this->expanded = array_diff($this->expanded, [$id]);
         } else {
             $this->expanded[] = $id;
+        }
+    }
+
+    public function cancelarCliente()
+    {
+        $this->cliente_id = null;
+        $this->cliente_nombre = null;
+    }
+
+    public function updatedClienteId($value)
+    {
+        $cliente = Client::find($value);
+
+        if ($cliente) {
+            $this->cliente_nombre = $cliente->Nombre;
+        } else {
+            $this->cliente_nombre = null;
+        }
+    }
+
+    public function seleccionarCliente($id)
+    {
+        $cliente = Client::find($id);
+
+        if ($cliente) {
+            $this->cliente_id = $cliente->id;
+            $this->cliente_nombre = $cliente->Nombre;
         }
     }
 
@@ -90,6 +119,8 @@ class ValorizarTrabajos2 extends Component
         if (!in_array($key, $this->keepShowing)) {
             $this->keepShowing[] = $key;
         }
+
+    $this->dispatch('trabajo-actualizado');
     }
 
     public function render()

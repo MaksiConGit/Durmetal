@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="{{asset('AdminLTE-3.2.0/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('AdminLTE-3.2.0/dist/css/adminlte.min.css')}}">
+  <link rel="stylesheet" href="{{asset('AdminLTE-3.2.0/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
 <!-- Site wrapper -->
@@ -547,6 +548,12 @@
 <script src="{{asset('AdminLTE-3.2.0/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
 <script src="{{asset('AdminLTE-3.2.0/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{asset('AdminLTE-3.2.0/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+<script src="{{asset('AdminLTE-3.2.0/plugins/sweetalert2/sweetalert2.min.js')}}}"></script>
+<!-- SweetAlert2 -->
+<script src="{{asset('AdminLTE-3.2.0/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+<!-- Toastr -->
+<script src="{{asset('AdminLTE-3.2.0/plugins/toastr/toastr.min.js')}}"></script>
+
 <!-- Page specific script -->
 <script>
   $(function () {

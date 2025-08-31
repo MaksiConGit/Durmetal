@@ -45,7 +45,7 @@
 
             <x-slot name="tbody">
 
-                @forelse ($items_orden_trabajo as $index => $item_orden_trabajo)
+                @foreach ($items_orden_trabajo as $index => $item_orden_trabajo)
 
                     <!-- Fila principal -->
                     <tr data-widget="expandable-table" 
@@ -195,12 +195,10 @@
                     </td>
                 </tr>
 
-                @empty
-                    <tr><td colspan="16">No se encontraron resultados.</td></tr>
-                @endforelse
+                @endforeach
 
                 @php
-                    $filasFaltantes = max(0, 9 - count($items_orden_trabajo));
+                    $filasFaltantes = max(0, 10 - count($items_orden_trabajo));
                 @endphp
 
                 @for ($i = 0; $i < $filasFaltantes; $i++)
