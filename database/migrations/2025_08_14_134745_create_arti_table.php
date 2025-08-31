@@ -33,6 +33,7 @@ return new class extends Migration
             $table->float('ITCART')->nullable();
             $table->float('MARART')->nullable();
             $table->float('MA2ART')->nullable();
+            $table->float('MA3ART')->nullable();
             $table->float('PR0ART')->nullable();
             $table->float('PR1ART')->nullable();
             $table->float('PR2ART')->nullable();

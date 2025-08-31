@@ -42,6 +42,27 @@ class ProductionSeeder extends Seeder
         ]);
 
         PuntoDeVenta::create([
+            'Nombre' => '1 - DURMETAL',
+            'Numero' => '1',
+            'Tipo' => 'MANUAL',   
+            'NotaCreditoComparteTalonario' => '0',
+            'NotaDebitoComparteTalonario' => '0',
+            'IdTipoRemitoVentaPorDefecto' => '0',
+            'IdImpresoraFiscal' => '1',
+            'UtilizarDomicilioConfiguracionGlobal' => '1',
+            'DomicilioEmpresa' => null,
+            'TelefonoEmpresa' => null,
+            'LocalidadEmpresa' => null,
+            'ProvinciaEmpresa' => null,
+            'CodigoSucursal' => 01,
+            'FechaCreacion' => null,
+            'CreadoPor' => '1',
+            'FechaActualizacion' => null,
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+        ]);
+
+        PuntoDeVenta::create([
             'Nombre' => '5 - AFIP WS',
             'Numero' => '5',
             'Tipo' => 'ELECTRONICO',   

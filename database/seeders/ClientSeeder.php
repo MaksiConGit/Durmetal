@@ -57,10 +57,20 @@ class ClientSeeder extends Seeder
             'IdProvincia' => '1',
         ]);
 
-        IvaCondition::create([
-            'id' => '1',
-            'Nombre' => 'Responsable inscripto',
-        ]);
+        $condiciones_iva = [
+            'Exento',
+            'Resp. inscripto',
+            'Resp. no inscripto',
+            'Cons. final',
+            'Resp. monotributo',
+            'Resp. no identificado',
+        ];
+
+        foreach ($condiciones_iva as $index => $nombre) {
+            IvaCondition::create([
+                'Nombre' => $nombre,
+            ]);
+        }
 
         ClientQualification::create([
             'id' => '1',
