@@ -20,8 +20,8 @@
                     </div>
                     <div class="col-2 mt-4">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" wire:model.live="incluir_saldos">
-                            <label class="form-check-label">INCLUIR SALDOS EN 0</label>
+                            <input id="saldo0" type="checkbox" class="form-check-input" wire:model.live="incluir_saldos">
+                            <label for="saldo0" class="form-check-label">INCLUIR SALDOS EN 0</label>
                         </div>
                     </div>
                 </div>
