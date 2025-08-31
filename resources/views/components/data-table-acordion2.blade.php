@@ -7,7 +7,7 @@
       @endif
     <div class="card">
       <div class="card-body p-0">
-        <table class="table table-hover">
+        <table class="table table-hover table-sm" style="height: 26rem;">
           <thead>
             {{ $thead }}
           </thead>
