@@ -120,6 +120,29 @@
                     </tr>
                 @endfor
 
+            @else
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Saldo Anterior</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td></td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                </tr>
+                <tr>
+                    <td colspan="5"><strong>Total Saldo</strong></td>
+                    <td><strong>{{ number_format(0, 2, '.', '') }}</strong></td>
+                </tr>
+                @for ($i = 0; $i < 9; $i++)
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                @endfor
             @endif
 
         </x-slot>
