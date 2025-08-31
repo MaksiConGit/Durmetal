@@ -4,7 +4,7 @@
 
             <div class="col-2">
                 <div class="form-group mb-0">
-                    <label for="filtro1" class="font-weight-normal">DESDE FECHA</label>
+                    <label for="filtro1" class="font-weight-normal">DESDE FECHA EMISION</label>
                     <input type="date" id="filtro1" name="filtro1" wire:model.live="cliente_desde" class="form-control form-control-sm" placeholder="Buscar...">
                 </div>
             </div>
@@ -13,14 +13,6 @@
                 <div class="form-group mb-0">
                     <label for="filtro1" class="font-weight-normal">HASTA FECHA</label>
                     <input type="date" id="filtro1" name="filtro1" wire:model.live="cliente_hasta" class="form-control form-control-sm" placeholder="Buscar...">
-                </div>
-            </div>
-
-            <div class="col-2 d-flex align-items-end">
-                <div class="input-group-append">
-                    <a href="" class="btn btn-sidebar btn-sm bg-orange">
-                        <i class="fas fa-search fa-fw text-white"></i>
-                    </a>
                 </div>
             </div>
 
@@ -44,6 +36,10 @@
     </x-slot>
     <x-slot name="tbody">
 
+        @php
+            $filasFaltantes = max(0, 11 - count($cheques_cobro));
+        @endphp
+
         @forelse ($cheques_cobro as $cheque_cobro)
             <tr>
                 <td>{{ \Carbon\Carbon::parse($cheque_cobro->FechaEmision)->format('j/n/Y') }}</td>
@@ -51,7 +47,7 @@
                 <td>{{ $cheque_cobro->banco->Nombre }}</td>
                 <td>{{ $cheque_cobro->Numero }}</td>
                 <td>{{ $cheque_cobro->Plaza }}</td>
-                <td>
+                <td class="text-center">
                     <input type="checkbox" disabled {{ $cheque_cobro->eCheck ? 'checked' : '' }}>
                 </td>
                 <td>{{ number_format($cheque_cobro->cobro->Total, 2, '.', '') }}</td>
@@ -71,6 +67,22 @@
         @empty
             <tr><td colspan="11">No se encontraron resultados.</td></tr>
         @endforelse
+
+         @for ($i = 0; $i < $filasFaltantes; $i++)
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        @endfor
 
     </x-slot>
 </x-simple-table2>
