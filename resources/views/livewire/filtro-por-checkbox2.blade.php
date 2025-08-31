@@ -268,9 +268,29 @@
 
                         </tr>
 
-                    @empty
-                        <tr><td colspan="12">No se encontraron resultados.</td></tr>
-                    @endforelse
+                    @endforeach
+
+                    @php
+                        $filasFaltantes = max(0, 11 - count($this->items));
+                    @endphp
+
+                    @for ($i = 0; $i < $filasFaltantes; $i++)
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    @endfor
 
                 </x-slot>
 

@@ -128,7 +128,7 @@
 
                 <x-slot name="tbody">
                     @php $total_acumulado = 0; @endphp
-                    @forelse ($items_orden_trabajo as $item)
+                    @foreach ($items_orden_trabajo as $item)
 
                         @php $total_acumulado += $item->Peso; @endphp
 
@@ -364,11 +364,28 @@
                             </td>
 
                         </tr>
-                    @empty
+                    @endforeach
+
+                    @php
+                        $filasFaltantes = max(0, 11 - count($items_orden_trabajo));
+                    @endphp
+
+                    @for ($i = 0; $i < $filasFaltantes; $i++)
                         <tr>
-                            <td colspan="12" class="text-center py-2">No se encontraron resultados.</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
                         </tr>
-                    @endforelse
+                    @endfor
 
                 </x-slot>
 
