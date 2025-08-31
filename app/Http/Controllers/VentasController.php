@@ -257,17 +257,11 @@ class VentasController extends Controller
         return view('ventas.listado-de-saldos.index');
     }
 
-    public function resumenCuentaCorriente()
+    public function resumenCuentaCorriente(Request $request)
     {
-        $clientes = Client::all();
+        $cliente_id = array_key_first($request->query());
 
-        $cliente = Client::find(1);
-
-        $facturas = $cliente->facturasVenta;
-        $notas_de_credito = $cliente->notasDeCredito;
-        $recibos = $cliente->recibosVenta;
-
-        return view('ventas.resumen-cuenta-corriente.index', compact('clientes', 'facturas', 'recibos', 'notas_de_credito', 'cliente'));
+        return view('ventas.resumen-cuenta-corriente.index', compact('cliente_id'));
     }
     
     public function listadoDeIVA()

@@ -12,9 +12,12 @@
                             class="form-control form-control-sm bg-white text-dark" 
                             type="search" placeholder="0" aria-label="Search">
                         <div class="input-group-append">
-                            <a href="" class="btn btn-sidebar btn-sm bg-orange">
+                            <button type="button" 
+                                    class="btn btn-sidebar btn-sm bg-orange" 
+                                    data-toggle="modal" 
+                                    data-target="#modal-cliente">
                                 <i class="fas fa-search fa-fw text-white"></i>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -35,9 +38,12 @@
 
                 <div class="col-2 d-flex align-items-end">
                     <div class="input-group-append">
-                        <a href="" class="btn btn-sidebar btn-sm bg-orange">
+                        <button type="button" 
+                                class="btn btn-sidebar btn-sm bg-orange" 
+                                data-toggle="modal" 
+                                data-target="#modal-periodos">
                             <i class="fas fa-ellipsis-h fa-fw text-white"></i>
-                        </a>
+                        </button>
                     </div>
                 </div>
 
@@ -57,84 +63,223 @@
         <x-slot name="tbody">
 
             @if($cliente)
-                @php
-                    $saldo = $cliente->SaldoSistemaAnterior;
+
+                @php 
+                    $saldo = $cliente->SaldoSistemaAnterior; 
+                    $minFilas = 9;
                 @endphp
 
                 <tr>
                     <td></td>
                     <td></td>
                     <td>Saldo Anterior</td>
-                    <td>{{ number_format($cliente->SaldoSistemaAnterior, 2, '.', '') }}</td>
+                    <td>{{ number_format($saldo, 2, '.', '') }}</td>
                     <td></td>
                     <td>{{ number_format($saldo, 2, '.', '') }}</td>
                 </tr>
 
-                @foreach ($facturas as $factura)
+                @foreach ($documentos as $item)
                     @php
-                        $saldo += $factura->Total;
+                        $doc = $item['documento'];
+                        if ($item['tipo'] === 'factura') {
+                            $saldo += $doc->Total;
+                            $debe = number_format($doc->Total, 2, '.', '');
+                            $haber = '';
+                        } else {
+                            $saldo -= $doc->Total;
+                            $debe = '';
+                            $haber = number_format($doc->Total, 2, '.', '');
+                        }
                     @endphp
                     <tr>
-                        <td>{{ \Carbon\Carbon::parse($factura->FechaEmision)->format('j/n/Y') }}</td>
-                        <td>{{ \Carbon\Carbon::parse($factura->FechaVencimiento)->format('j/n/Y') }}</td>
-                        <td>{{ $factura->NumeroCompleto }}</td>
-                        <x-slot name="debe">{{ number_format($factura->Total, 2, '.', '') }}</x-slot>
-                        <x-slot name="haber"></x-slot>
-                        <td>{{ number_format($factura->Total, 2, '.', '') }}</td>
-                        <td></td>
+                        <td>{{ \Carbon\Carbon::parse($doc->FechaEmision)->format('j/n/Y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($doc->FechaVencimiento)->format('j/n/Y') }}</td>
+                        <td>{{ $doc->NumeroCompleto ?? '' }}</td>
+                        <td>{{ $debe }}</td>
+                        <td>{{ $haber }}</td>
                         <td>{{ number_format($saldo, 2, '.', '') }}</td>
                     </tr>
                 @endforeach
-
-                @foreach ($recibos as $recibo)
-                    @php
-                        $saldo -= $recibo->Total;
-                    @endphp
-                    <tr>
-                        <td>{{ \Carbon\Carbon::parse($recibo->FechaEmision)->format('j/n/Y') }}</td>
-                        <td>{{ \Carbon\Carbon::parse($recibo->FechaVencimiento)->format('j/n/Y') }}</td>
-                        <td>{{ $recibo->NumeroCompleto }}</td>
-                        <td></td>
-                        <td>{{ number_format($recibo->Total, 2, '.', '') }}</td>
-                        <td>{{ number_format($saldo, 2, '.', '') }}</td>
-                    </tr>
-                @endforeach
-
-                @foreach ($notas_de_credito as $nota)
-                    @php
-                        $saldo -= $nota->Total;
-                    @endphp
-                    <tr>
-                        <td>{{ \Carbon\Carbon::parse($nota->FechaEmision)->format('j/n/Y') }}</td>
-                        <td>{{ \Carbon\Carbon::parse($nota->FechaVencimiento)->format('j/n/Y') }}</td>
-                        <td>{{ $nota->NumeroCompleto }}</td>
-                        <td></td>
-                        <td>{{ number_format($nota->Total, 2, '.', '') }}</td>
-                        <td>{{ number_format($saldo, 2, '.', '') }}</td>
-                    </tr>
-                @endforeach
-
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td><strong>Total Saldo</strong></td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="5"><strong>Total Saldo</strong></td>
                     <td><strong>{{ number_format($saldo, 2, '.', '') }}</strong></td>
                 </tr>
+                @php
+                    $filasActuales = count($documentos) + 1;
+                    $filasFaltantes = max(0, $minFilas - $filasActuales);
+                @endphp
+
+                @for ($i = 0; $i < $filasFaltantes; $i++)
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                @endfor
+
             @endif
 
         </x-slot>
+
     </x-simple-table2>
 
-
-    <div class="d-flex justify-content-end">
-        <a class="btn btn-app bg-info">
+    <div class="d-flex justify-content-end mt-3">
+        <a class="btn btn-app bg-info disabled">
             <i class="fas fa-print"></i> Imprimir
         </a>
 
-        <a class="btn btn-app bg-info">
+        <a class="btn btn-app bg-info disabled">
             <i class="fas fa-share"></i> Enviar
         </a>
     </div>
+
+    <!-- .modal -->
+    <div class="modal fade" id="modal-cliente" wire:ignore.self>
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">
+                    BUSCAR CLIENTE
+                </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                <div class="row">
+
+                    <x-simple-table2>
+
+                        <x-slot name="filtros">
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="form-group mb-0">
+                                        <label for="filtro1" class="font-weight-normal">NOMBRE</label>
+                                        <input type="text" id="filtro1" name="filtro1" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group mb-0">
+                                        <label for="filtro2" class="font-weight-normal">NUMERO DE DOCUMENTO</label>
+                                        <input type="text" id="filtro2" name="filtro1" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </x-slot>
+
+                        <x-slot name="thead">
+                            <tr>
+                                <th>CODIGO</th>
+                                <th>NOMBRE</th>
+                                <th>TIPO DE DOCUMENTO</th>
+                                <th>NUMERO</th>
+                                <th>DOMICILIO</th>
+                                <th>LOCALIDAD</th>
+                                <th>PROVINCIA</th>
+                                <th>ACTIVO</th>
+                            </tr>
+                        </x-slot>
+                        <x-slot name="tbody">
+                            
+                            @forelse ($clientes as $cliente)
+                                <tr wire:click.prevent="seleccionarCliente({{ $cliente->id }})"
+                                    style="cursor:pointer;"
+                                    class="{{ $cliente_id == $cliente->id ? 'table-primary' : '' }}">
+                                    <td>{{ $cliente->id }}</td>
+                                    <td>{{ $cliente->Nombre }}</td>
+                                    <td>{{ $cliente->TipoDocumento }}</td>
+                                    <td>{{ $cliente->NroDocumento }}</td>
+                                    <td>{{ $cliente->Domicilio }}</td>
+                                    <td>{{ $cliente->localidad->Nombre ?? 'Ciudad no asignada' }}</td>
+                                    <td>{{ $cliente->localidad->provincia->Nombre ?? 'Provincia no asignada' }}</td>
+                                    <td><input type="checkbox" name="" id="" disabled {{ $cliente->Activo == 1 ? 'checked' : '' }}></td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="8">No se encontraron resultados.</td></tr>
+                            @endforelse
+                        </x-slot>
+                    </x-simple-table2>
+
+                </div>
+
+                </div>
+
+                <div class="modal-footer justify-content-end">
+
+                    <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                        <span class="text-white">Aceptar</span>
+                        <i class="fas fa-check fa-fw text-white ml-2"></i>
+                    </button>
+
+                    <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal" wire:click="cancelarCliente">
+                        <span class="text-white">Cancelar</span>
+                        <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+
+    <!-- .modal -->
+    <div class="modal fade" id="modal-periodos" wire:ignore.self>
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">
+                    PERIODOS
+                </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <x-simple-table2>
+
+                        <x-slot name="tbody">
+                            
+                            @forelse ($periodos as $periodo)
+                                <tr wire:click.prevent="seleccionarPeriodo({{ $periodo->id }})"
+                                    style="cursor:pointer;"
+                                    class="{{ $periodo_id == $periodo->id ? 'table-primary' : '' }}">
+                                    <td>{{ $periodo->Nombre }}</td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="1">No se encontraron resultados.</td></tr>
+                            @endforelse
+
+                        </x-slot>
+                    </x-simple-table2>
+
+                </div>
+
+                <div class="modal-footer justify-content-end">
+
+                    <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                        <span class="text-white">Aceptar</span>
+                        <i class="fas fa-check fa-fw text-white ml-2"></i>
+                    </button>
+
+                    <button class="btn btn-sidebar btn-sm bg-orange" 
+                            data-dismiss="modal" 
+                            wire:click="cancelarPeriodo">
+                        <span class="text-white">Cancelar</span>
+                        <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
 </div>

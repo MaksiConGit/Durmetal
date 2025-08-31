@@ -25,6 +25,7 @@ use App\Models\MinutaVenta;
 use App\Models\MovimientoCuentaGastos;
 use App\Models\NotaCreditoVenta;
 use App\Models\NotaEnvio;
+use App\Models\Periodo;
 use App\Models\ReciboVenta;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -788,5 +789,24 @@ class VentasSeeder extends Seeder
             'ControlarStock' => true,
             'FechaActualizacionPrecioA' => now(),
         ]);
+
+        $periodos = [
+            'Hoy',
+            'Últimos 7 días',
+            'Últimos 30 días',
+            'Últimos 60 días',
+            'Últimos 90 días',
+            'Primer trimestre',
+            'Segundo trimestre',
+            'Tercer trimestre',
+            'Cuarto trimestre',
+        ];
+
+        foreach ($periodos as $index => $nombre) {
+            Periodo::create([
+                'nombre' => $nombre,
+                'orden' => $index + 1
+            ]);
+        }
     }
 }
