@@ -96,46 +96,94 @@ class OrdenTrabajoController extends Controller
         return view('produccion.orden-trabajo.edit', compact('orden_trabajo', 'items_orden_trabajo', 'clientes', 'pto_ventas', 'selectedUser'));
     }
 
-    public function update(StoreOrdenTrabajoRequest $request, OrdenTrabajo $orden_trabajo)
+    public function update(Request $request, OrdenTrabajo $orden_trabajo)
     {
-        $data = $request->all();
+        foreach ($request->items as $id => $data) {
 
-        $user_id = Auth::id();
+            if ($id > 0) {
+
+                $data['ActualizadoPor'] = Auth::id();
+                $data['FechaActualizacion'] = now();
+
+                ItemOrdenTrabajo::where('id', $id)->update($data);
+
+            } else {
+
+                if (!$data['Descripcion']) {
+                    $data['Descripcion'] = "SIN DESCRIPCION";
+                }
+
+                $data['ActualizadoPor'] = Auth::id();
+                $data['FechaActualizacion'] = now();
+                $data['CreadoPor'] = Auth::id();
+                $data['FechaCreacion'] = now();
+                $data['Activo'] = 1;
+                $data['Estado'] = 'PENDIENTE';
+                $data['NroDeposito'] = 0;
+                $data['CodigoComplejidad'] = 0;
+                $data['Coeficiente'] = '0';
+                $data['PrecioUnitario'] = '0';
+                $data['Total'] = '0';
+                $data['AfectaPlanillaTurno'] = 0;
+                $data['ControlarStock'] = 0;
+                $data['CertificadoEmitido'] = 0;
+                $data['CantidadCertificadosImpresos'] = 0;
+                $data['CantidadCertificadosEnviadosPorCorreo'] = 0;
+                $data['CantidadProgramaciones'] = 0;
+                $data['ConNotaEnvio'] = 0;
+                $data['IDEstadoConNotaEnvio'] = 0;
+                $data['IDIdOrdenTrabajoIdMaterialIdTratamientoCodigoComplejidadEstado'] = 0;
+
+                $orden_trabajo->itemsOrdenTrabajo()->create($data);
+
+            }
+        }
+
+        $data = $request->except('items');
     
-        $data['ActualizadoPor'] = $user_id;
+        $data['ActualizadoPor'] = Auth::id();
         $data['FechaActualizacion'] = now();
 
         $data['Letra'] = 'X';
-        $data['NumeroCompleto'] = 'OT X 0001-000';
+        $data['NumeroCompleto'] = 'OT X 0001-000' . $orden_trabajo->Numero;
         $data['FechaVencimiento'] = now();
         $data['AfectarPlanillaTurno'] = 1;
-        $data['CondicionPrecios'] = 1;
+        $data['CondicionPrecios'] = 'A';
 
         $cliente = Client::find($data['IdCliente']);
 
-        $data['RazonSocial'] = $cliente->Nombre;
-        $data['IdCondicionIva'] = 1;
-        $data['TipoDocumentoCliente'] = 1;
-        $data['NumeroDocumentoCliente'] = 1;
-        $data['Direccion'] = 1;
-        $data['Localidad'] = 1;
-        $data['Provincia'] = 1;
-        $data['Total'] = 1;
-        $data['Observaciones'] = null;
+        if ($cliente) {
+            $data['RazonSocial'] = $cliente->Nombre;
+            $data['IdCondicionIva'] = $cliente->IdCondicionIVA;
+            $data['TipoDocumentoCliente'] = $cliente->TipoDocumento;
+            $data['NumeroDocumentoCliente'] = $cliente->NroDocumento;
+            $data['Direccion'] = $cliente->Domicilio;
+            $data['Localidad'] = $cliente->localidad->Nombre;
+            $data['Provincia'] = $cliente->provincia->Nombre;
+        }
+        else{
+            $data['RazonSocial'] = null;
+            $data['IdCondicionIva'] = null;
+            $data['TipoDocumentoCliente'] = null;
+            $data['NumeroDocumentoCliente'] = null;
+            $data['Direccion'] = null;
+            $data['Localidad'] = null;
+            $data['Provincia'] = null; 
+        }
 
-        $data['NumeroTurno'] = 1;
-        $data['ReferenciaTurno'] = 1;
-        $data['AjusteCtaCtePlanillaTurno'] = 1;
+        $data['Total'] = 0;
+        $data['NumeroTurno'] = 0;
+        $data['ReferenciaTurno'] = 0;
+        $data['AjusteCtaCtePlanillaTurno'] = 0;
         $data['PuntoVentaNumero'] = 1;
         $data['IdClienteEstado'] = 1;
         $data['IdClienteFechaEmisionPuntoVentaNumero'] = 1;
-        $data['CantidadImpresiones'] = 1;
-        $data['CantidadEnviosPorCorreo'] = 1;
-        $data['Archivado'] = 1;
+        $data['CantidadImpresiones'] = 0;
+        $data['CantidadEnviosPorCorreo'] = 0;
 
         $orden_trabajo->update($data);
     
-        return redirect()->route('orden-trabajo.show', $orden_trabajo);
+        return redirect()->route('orden-trabajo.edit', $orden_trabajo);
     }
 
 
