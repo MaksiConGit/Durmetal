@@ -1,4 +1,7 @@
-<x-layout>
+@livewire('ficha-del-cliente-show2', ['cliente' => $cliente])
+
+
+{{-- <x-layout>
     <x-slot name="title">Ventas</x-slot>
     <x-slot name="breadcrumbs">
         <li class="nav-home">
@@ -117,7 +120,6 @@
                                                             @if ($item_orden_trabajo->Estado == 'APROBADO')
                                                                 <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
                                                                     <a
-                                                                        {{-- href="{{ route('programacion.print', $programacion->id) }}" --}}
                                                                         class="btn btn-link btn-secondary p-0"
                                                                         data-bs-toggle="tooltip"
                                                                         title="Imprimir programación"
@@ -125,7 +127,6 @@
                                                                         <i class="fa fa-print fa-lg"></i>
                                                                     </a>
                                                                     <a
-                                                                        {{-- href="{{ route('programacion.sendEmail', $programacion->id) }}" --}}
                                                                         class="btn btn-link btn-info p-0"
                                                                         data-bs-toggle="tooltip"
                                                                         title="Enviar por correo"
@@ -1005,4 +1006,4 @@
         });
     </script>
 
-</x-layout>
+</x-layout> --}}

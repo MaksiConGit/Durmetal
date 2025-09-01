@@ -23,4 +23,9 @@ class NotaCreditoVenta extends Model
     {
         return $this->belongsTo(IvaCondition::class, 'IdCondicionIva');
     }
+
+    public function facturaVenta()
+    {
+        return $this->belongsTo(FacturaVenta::class, 'IdFacturaVenta');
+    }
 }

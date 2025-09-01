@@ -55,7 +55,7 @@
 
             <x-slot name="tbody">
 
-                @forelse ($programaciones as $index => $programacion)
+                @foreach ($programaciones as $index => $programacion)
                     <tr data-widget="expandable-table" 
                         aria-expanded="{{ in_array($programacion->programacion_ids, $expanded) ? 'true' : 'false' }}"
                         wire:click="toggleExpand('{{ $programacion->programacion_ids }}')">
@@ -141,9 +141,23 @@
                         </td>
 
                     </tr>
-                @empty
-                    <tr><td colspan="12">No se encontraron resultados.</td></tr>
-                @endforelse
+
+                @endforeach
+
+                @php
+                    $filasFaltantes = max(0, 10 - count($programaciones));
+                @endphp
+
+                @for ($i = 0; $i < $filasFaltantes; $i++)
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                @endfor
 
             </x-slot>
 
