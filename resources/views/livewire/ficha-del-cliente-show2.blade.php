@@ -8,8 +8,8 @@
             <div class="form-inline mt-5 mr-3 d-flex flex-column align-items-center">
 
                 <div class="form-group mb-3">
-                    <a href="{{ route('orden-trabajo.create') }}" 
-                    class="btn btn-app bg-primary">
+                    <a href="" 
+                    class="btn btn-app bg-primary disabled">
                         <i class="fas fa-plus"></i> Nuevo
                     </a>
                 </div>
@@ -35,6 +35,7 @@
                             class="btn btn-app bg-primary {{ !$selectedId ? 'disabled' : '' }}"
                             data-bs-toggle="tooltip"
                             title="Eliminar programación"
+                            disabled
                         >
                         <i class="fas fa-xmark"></i> Eliminar
                         </button>
