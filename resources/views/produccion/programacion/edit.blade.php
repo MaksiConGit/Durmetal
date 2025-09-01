@@ -1,4 +1,205 @@
-<x-layout>
+<x-layout2>
+    <x-slot name="title">Programación de la Producción</x-slot>
+
+    <form action="{{ route('programacion.update', $programacion) }}" method="POST">
+        @csrf
+        @method('PUT')
+        
+        <x-simple-table2>
+            <x-slot name="thead">
+                <tr>
+                    <th>DESCRIPCION</th>
+                    <th>PROGRAMACION</th>
+                    <th>N° PROG.</th>
+                    <th>CANTIDAD</th>
+                    <th>RP</th>
+                    <th>APTO</th>
+                    <th>FECHA CARGA</th>
+                    <th>FECHA DESCARGA</th>
+                    <th>EJEC. POR</th>
+                    <th>TEMPERATURA</th>
+                    <th>MEDIO ENF.</th>
+                    <th>DMIN</th>
+                    <th>DMAX</th>
+                </tr>
+            </x-slot>
+            <x-slot name="tbody">
+
+                <tr>
+                    <input type="hidden" name="ItemOrdenTrabajoId" value="{{ $item->id }}">
+                    <td>{{ $item->Descripcion }}</td>
+                    <td>
+                        <span class="bg-danger px-1">H{{ $programacion->NumeroHorno }}</span> 
+                        <span class="bg-primary px-1">{{ $programacion->tipoProgramacion->Nombre }}</span>
+                    </td>
+                    <td>{{ $programacion->NumeroProgramacion }}</td>
+                    <td><input type="text" name="Cantidad" value="{{ number_format($programacion->Cantidad, 3, '.', '') }}"></td>
+                    <td>
+                        <input type="hidden" name="Reproceso" value="0">
+                        <input type="checkbox" name="Reproceso" id="Reproceso" value="1" {{ $programacion->Reproceso == '1' ? 'checked' : '' }}>
+                    </td>
+                    <td>
+                        @if ($programacion->Apto == 'SI')
+                            Apto
+                        @elseif ($programacion->Apto == 'NO')
+                            No Apto
+                        @endif
+                    </td>
+                    <td>{{ $programacion->FechaCarga }}</td>
+                    <td>{{ $programacion->FechaDescarga }}</td>
+                    <td>{{ $programacion->ejecutadoPorOperador->name }}</td>
+                    <td>{{ $programacion->Temperatura }}</td>
+                    <td>{{ $programacion->medioEnfriamiento->Nombre }}</td>
+                    <td>{{ $programacion->DurezaMinima }}</td>
+                    <td>{{ $programacion->DurezaMaxima }}</td>
+                </tr>
+                
+                @php
+                    $filasFaltantes = max(0, 9);
+                @endphp
+
+                @for ($i = 0; $i < $filasFaltantes; $i++)
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                @endfor
+
+            </x-slot>
+        </x-simple-table2>
+
+        <div class="row mt-3">
+            <div class="col-3">
+                <h5 class="text-bold">PROGRAMACION</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group mb-0">
+                    <select name="" id="" class="form-control form-control-sm" disabled>
+                        @foreach ($tipos_programacion as $tipo_programacion)
+                            <option value="">{{$programacion->tipoProgramacion->Nombre}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-3">
+                <h5 class="text-bold">CARGA</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group mb-0">
+                    <label for="filtro1" class="font-weight-normal">FECHA CARGA</label>
+                    <input type="datetime-local" id="filtro1" name="FechaCarga" class="form-control form-control-sm" value="{{ old('FechaCarga', $programacion->FechaCarga) }}">
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group mb-0">
+                    <label for="filtro2" class="font-weight-normal">FECHA DESCARGA</label>
+                    <input type="datetime-local" id="filtro2" name="FechaDescarga" class="form-control form-control-sm" value="{{ old('FechaDescarga', $programacion->FechaDescarga) }}">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group mb-0">
+                    <label for="filtro3" class="font-weight-normal">EJEC. POR OPERADOR</label>
+                    <select name="EjecutadoPorOperador" id="filtro3" class="form-control form-control-sm">
+                        @foreach ($usuarios as $usuario)
+                            <option value="{{$usuario->id}}" {{$usuario->id == old('EjecutadoPorOperador', $programacion->EjecutadoPorOperador) ? 'selected' : ''}}>{{$usuario->name}}</option>                            
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row mt-3">
+
+            <div class="col-6">
+
+                <label class="font-weight-normal">HORNO</label>
+
+                <div class="d-flex justify-content-between align-items-center mb-4 mt-2">
+                    <div class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" id="customRadio1" name="NumeroHorno" value="1" {{ $programacion->NumeroHorno == 1 ? 'checked' : '' }}>
+                        <label for="customRadio1" class="custom-control-label font-weight-normal">H1</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" id="customRadio2" name="NumeroHorno" value="2" {{ $programacion->NumeroHorno == 2 ? 'checked' : '' }}>
+                        <label for="customRadio2" class="custom-control-label font-weight-normal">H2</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" id="customRadio3" name="NumeroHorno" value="3" {{ $programacion->NumeroHorno == 3 ? 'checked' : '' }}>
+                        <label for="customRadio3" class="custom-control-label font-weight-normal">H3</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" id="customRadio4" name="NumeroHorno" value="4" {{ $programacion->NumeroHorno == 4 ? 'checked' : '' }}>
+                        <label for="customRadio4" class="custom-control-label font-weight-normal">H4</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" id="customRadio5" name="NumeroHorno" value="5" {{ $programacion->NumeroHorno == 5 ? 'checked' : '' }}>
+                        <label for="customRadio5" class="custom-control-label font-weight-normal">H5</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" id="customRadio6" name="NumeroHorno" value="6" {{ $programacion->NumeroHorno == 6 ? 'checked' : '' }}>
+                        <label for="customRadio6" class="custom-control-label font-weight-normal">H6</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-3">
+                <div class="form-group mb-0">
+                    <label for="filtro4" class="font-weight-normal">TEMPERATURA</label>
+                    <input type="text" id="filtro4" name="Temperatura" class="form-control form-control-sm" value="{{ old('Temperatura', $programacion->Temperatura) }}">
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group mb-0">
+                    <label for="filtro5" class="font-weight-normal">MEDIO ENFRIAMIENTO</label>
+                    <select name="IdMedioEnfriamiento" id="filtro5" class="form-control form-control-sm">
+                        @foreach ($medios_enfriamiento as $medio_enfriamiento)
+                            <option value="{{ $medio_enfriamiento->id }}" {{$medio_enfriamiento->id == old('IdMedioEnfriamiento', $programacion->IdMedioEnfriamiento) ? 'selected' : ''}}>{{$medio_enfriamiento->Nombre}}</option>                            
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-between mt-3">
+            <a class="btn btn-app bg-primary" href="{{ route('programacion.index') }}">
+                <i class="fas fa-arrow-left"></i> Atrás
+            </a>
+
+            <button class="btn btn-app bg-primary">
+                <i class="fas fa-floppy-disk"></i> Guardar
+            </button>
+        </div>
+
+    </form>
+
+</x-layout2>
+
+
+
+{{-- <x-layout>
     <x-slot name="title">Producción</x-slot>
     <x-slot name="breadcrumbs">
         <li class="nav-home">
@@ -306,4 +507,4 @@
         </x-slot>
     </x-form>
 
-</x-layout>
+</x-layout> --}}
