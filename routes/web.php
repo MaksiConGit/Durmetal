@@ -51,7 +51,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
 
     Route::get('/', function () {
-        return view('index');
+        return view('ventas.buscar-documentos.index');
     })->name('index');
     
 
