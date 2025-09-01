@@ -12,6 +12,7 @@ use App\Models\ItemPremio;
 use App\Models\Material;
 use App\Models\MedioEnfriamiento;
 use App\Models\OrdenTrabajo;
+use App\Models\PlantillaCarga;
 use App\Models\Premio;
 use App\Models\Programacion;
 use App\Models\PuntoDeVenta;
@@ -108,29 +109,14 @@ class ProductionSeeder extends Seeder
             'Descripcion' => 'AC.CEMENTACION',
             'Predeterminado' => '0',
         ]);
-
-        Material::create([
-            'Nombre' => '86fa24',
-            'Descripcion' => 'AC.GSGFGD',
-            'Predeterminado' => '0',
-        ]);
         
         Tratamiento::create([
-            'Nombre' => 'REC2',
-            'Descripcion' => 'RECOCIDO FUNDICIONES,OTROS',
+            'Nombre' => 'ALCO',
+            'Descripcion' => 'ALCOHOL',
             'Coeficiente' => '0.00',
-            'Orden' => '10',
+            'Orden' => '50',
             'Predeterminado' => '0',
-            'Archivado' => '0',
-        ]);
-
-        Tratamiento::create([
-            'Nombre' => 'GDF6',
-            'Descripcion' => 'GTWEFAS FDASF',
-            'Coeficiente' => '0.00',
-            'Orden' => '10',
-            'Predeterminado' => '0',
-            'Archivado' => '0',
+            'Archivado' => '1',
         ]);
 
         CodigoComplejidad::create([
@@ -468,9 +454,9 @@ class ProductionSeeder extends Seeder
         ]);
 
         MedioEnfriamiento::create([
-            'Nombre' => 'AF',
-            'Orden' => '5',
-            'Predeterminado' => '1',
+            'Nombre' => 'AI',
+            'Orden' => '1',
+            'Predeterminado' => '0',
         ]);
 
         TipoProgramacion::create([
@@ -581,5 +567,6 @@ class ProductionSeeder extends Seeder
             'FechaActualizacion' => now(),
             'ActualizadoPor' => '1',
         ]);
+
     }
 }

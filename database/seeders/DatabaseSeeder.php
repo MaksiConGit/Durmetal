@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
             SistemaSeeder::class,
         ]);
 
-        Tratamiento::factory(20)->create();
-        Material::factory(20)->create();
+        // Tratamiento::factory(20)->create();
+        // Material::factory(20)->create();
         Client::factory(200)->create();
         // Programacion::factory(50)->create();
         // ItemOrdenTrabajo::factory(50)->create();

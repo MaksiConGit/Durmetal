@@ -108,22 +108,6 @@ class SistemaSeeder extends Seeder
             'Activo' => 1,
         ]);
 
-        PlantillaCarga::create([
-            'IdTratamiento' => 1,
-            'IdMaterial' => 1,
-            'IdTipoProgramacion' => 1,
-            'Temperatura' => 200,
-            'IdMedioEnfriamiento' => 1,
-        ]);
-
-        PlantillaCarga::create([
-            'IdTratamiento' => 2,
-            'IdMaterial' => 2,
-            'IdTipoProgramacion' => 1,
-            'Temperatura' => 250,
-            'IdMedioEnfriamiento' => 1,
-        ]);
-
         PlantillaEmail::create([
             'Nombre' => 'Bienvenida',
             'Tema' => 'Bienvenida al sistema',
