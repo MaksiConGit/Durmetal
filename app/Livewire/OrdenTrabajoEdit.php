@@ -76,6 +76,8 @@ class OrdenTrabajoEdit extends Component
             $this->expanded[] = $newItemId;
         }
 
+        $this->selectedIdItem = $newItemId;
+
         $this->tempId--;
     }
 
@@ -120,8 +122,8 @@ class OrdenTrabajoEdit extends Component
 
         $this->expanded = array_diff($this->expanded, [$id]);
 
-        if ($this->selectedId == $id) {
-            $this->selectedId = null;
+        if ($this->selectedIdItem == $id) {
+            $this->selectedIdItem = null;
         }
     }
 

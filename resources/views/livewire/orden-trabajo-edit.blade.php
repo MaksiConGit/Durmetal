@@ -456,6 +456,7 @@
                                                                     </select>
                                                                         <div class="input-group-append">
                                                                         <button type="button" 
+                                                                                disabled
                                                                                 class="btn btn-sidebar btn-sm bg-orange" 
                                                                                 data-toggle="modal" 
                                                                                 data-target="#modal-cliente">
@@ -485,6 +486,7 @@
                                                                     </select>
                                                                         <div class="input-group-append">
                                                                         <button type="button" 
+                                                                                disabled
                                                                                 class="btn btn-sidebar btn-sm bg-orange" 
                                                                                 data-toggle="modal" 
                                                                                 data-target="#modal-cliente">
@@ -526,6 +528,7 @@
                                                                     </select>
                                                                         <div class="input-group-append">
                                                                         <button type="button" 
+                                                                                disabled
                                                                                 class="btn btn-sidebar btn-sm bg-orange" 
                                                                                 data-toggle="modal" 
                                                                                 data-target="#modal-cliente">
