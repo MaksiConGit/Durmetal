@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDurezaRequest;
+use App\Http\Requests\UpdateDurezaRequest;
 use App\Models\Client;
 use App\Models\Dureza;
 use Illuminate\Http\Request;
@@ -12,6 +13,10 @@ class DurezaController extends Controller
     public function index()
     {
         $durezas = Dureza::all();
+
+        if (!session('modal')) {
+            session()->put('modal', 'create');
+        }
 
         return view('produccion.actualizaciones.durezas.index', compact('durezas'));
     }
@@ -23,6 +28,7 @@ class DurezaController extends Controller
 
     public function store(StoreDurezaRequest $request)
     {
+        
         $data = $request->all();
 
         $dureza = Dureza::create($data);
@@ -35,7 +41,7 @@ class DurezaController extends Controller
         return view('produccion.actualizaciones.durezas.edit', compact('dureza'));
     }
 
-    public function update(StoreDurezaRequest $request, Dureza $dureza)
+    public function update(UpdateDurezaRequest $request, Dureza $dureza)
     {
         $data = $request->all();
 

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDurezaRequest extends FormRequest
+class UpdateDurezaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,8 +21,13 @@ class StoreDurezaRequest extends FormRequest
      */
     public function rules(): array
     {
-        session()->put('modal', 'create');
+        $dureza = $this->route('dureza');
 
+        session()->put([
+            'modal' => 'edit',
+            'dureza_id' => $dureza->id,
+        ]);
+        
         return [
             'Nombre' => 'required|string|max:255',
             'Descripcion' => 'required|string|max:255',

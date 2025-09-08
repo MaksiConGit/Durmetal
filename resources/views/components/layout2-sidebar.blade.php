@@ -168,34 +168,34 @@
 
               <!-- Level two dropdown-->
               <li class="dropdown-submenu dropdown-hover">
-                <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle disabled">Actualizaciones</a>
+                <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Actualizaciones</a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                   <li>
-                    <a tabindex="-1" href="{{ route('durezas.index') }}" class="dropdown-item disabled">Durezas</a>
+                    <a tabindex="-1" href="{{ route('durezas.index') }}" class="dropdown-item">Durezas</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('materiales.index') }}" class="dropdown-item disabled">Materiales</a>
+                    <a tabindex="-1" href="{{ route('materiales.index') }}" class="dropdown-item">Materiales</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('tratamientos.index') }}" class="dropdown-item disabled">Tratamientos</a>
+                    <a tabindex="-1" href="{{ route('tratamientos.index') }}" class="dropdown-item">Tratamientos</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('medios-enfriamiento.index') }}" class="dropdown-item disabled">Medios de enfriamiento</a>
+                    <a tabindex="-1" href="{{ route('medios-enfriamiento.index') }}" class="dropdown-item">Medios de enfriamiento</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('procesos.index') }}" class="dropdown-item disabled">Procesos</a>
+                    <a tabindex="-1" href="{{ route('procesos.index') }}" class="dropdown-item">Procesos</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('clients.index') }}" class="dropdown-item disabled">Clientes</a>
+                    <a tabindex="-1" href="{{ route('clients.index') }}" class="dropdown-item">Clientes</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('factores-premio.index') }}" class="dropdown-item disabled">Factores Premio</a>
+                    <a tabindex="-1" href="{{ route('factores-premio.index') }}" class="dropdown-item">Factores Premio</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('asignar-factores.index') }}" class="dropdown-item disabled">Asignar factores</a>
+                    <a tabindex="-1" href="{{ route('asignar-factores.index') }}" class="dropdown-item">Asignar factores</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('repartir-premios.index') }}" class="dropdown-item disabled">Repartir Premios</a>
+                    <a tabindex="-1" href="{{ route('repartir-premios.index') }}" class="dropdown-item">Repartir Premios</a>
                   </li>
                 </ul>
               </li>
