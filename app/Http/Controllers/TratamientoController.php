@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTratamientoRequest;
+use App\Http\Requests\UpdateTratamientoRequest;
 use App\Models\Tratamiento;
 use Illuminate\Http\Request;
 
@@ -11,6 +12,10 @@ class TratamientoController extends Controller
     public function index()
     {
         $tratamientos = Tratamiento::all();
+
+        if (!session('modal')) {
+            session()->put('modal', 'create');
+        }
 
         return view('produccion.actualizaciones.tratamientos.index', compact('tratamientos'));
     }
@@ -40,7 +45,7 @@ class TratamientoController extends Controller
         return view('produccion.actualizaciones.tratamientos.edit', compact('tratamiento', 'precios'));
     }
 
-    public function update(StoreTratamientoRequest $request, Tratamiento $tratamiento)
+    public function update(UpdateTratamientoRequest $request, Tratamiento $tratamiento)
     {
         $data = $request->all();
 

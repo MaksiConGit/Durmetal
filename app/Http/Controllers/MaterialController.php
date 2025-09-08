@@ -15,6 +15,10 @@ class MaterialController extends Controller
     {
         $materiales = Material::all();
 
+        if (!session('modal')) {
+            session()->put('modal', 'create');
+        }
+
         return view('produccion.actualizaciones.materiales.index', compact('materiales'));
     }
 

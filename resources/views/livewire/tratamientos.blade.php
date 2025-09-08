@@ -1,6 +1,6 @@
 <div>
     <x-layout2-sidebar>
-        <x-slot name="title">Materiales</x-slot>
+        <x-slot name="title">Tratamientos</x-slot>
 
         <x-slot name="filtros">
             <div class="form-inline mt-5 mr-3 d-flex flex-column align-items-center">
@@ -26,7 +26,7 @@
                         class="btn btn-app bg-primary {{ !$selectedItem ? 'disabled' : '' }}"
                         wire:click="deleteItem({{ $selectedItem }})"
                         wire:loading.attr="disabled"
-                        onclick="return confirm('¿Estás seguro que deseas eliminar este material?')"
+                        onclick="return confirm('¿Estás seguro que deseas eliminar este tratamiento?')"
                     >
                         <i class="fas fa-trash-can"></i> Eliminar
                     </button>
@@ -46,21 +46,21 @@
             </x-slot>
 
             <x-slot name="tbody">
-                @forelse ($materiales as $material)
+                @forelse ($tratamientos as $tratamiento)
                     <tr 
                         style="cursor: pointer;"
-                        wire:click="selectItem({{ $material->id }})"
-                        class="{{ $selectedItem == $material->id ? 'table-primary' : '' }}"
+                        wire:click="selectItem({{ $tratamiento->id }})"
+                        class="{{ $selectedItem == $tratamiento->id ? 'table-primary' : '' }}"
                     >
-                        <td>{{ $material->Nombre }}</td>
-                        <td>{{ $material->Descripcion }}</td>
+                        <td>{{ $tratamiento->Nombre }}</td>
+                        <td>{{ $tratamiento->Descripcion }}</td>
                         <td class="text-center">
-                            <input type="checkbox" disabled {{ $material->Predeterminado ? 'checked' : '' }}>
+                            <input type="checkbox" disabled {{ $tratamiento->Predeterminado ? 'checked' : '' }}>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3" class="text-center">No hay materiales registradas</td>
+                        <td colspan="3" class="text-center">No hay tratamientos registradas</td>
                     </tr>
                 @endforelse
             </x-slot>
@@ -68,7 +68,7 @@
     </x-layout2-sidebar>
 
   <!-- .modal -->
-  <form action="{{ route('materiales.store') }}" method="POST">
+  <form action="{{ route('tratamientos.store') }}" method="POST">
     @csrf
     <div class="modal fade" id="modal-create">
       <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -174,7 +174,7 @@
   <!-- /.modal -->
 
   <!-- .modal -->
-  <form action="{{ route('materiales.update', $selectedMaterial) }}" method="POST">
+  <form action="{{ route('tratamientos.update', $selectedTratamiento) }}" method="POST">
     @csrf
     @method('PUT')
     <div class="modal fade" id="modal-edit">
@@ -195,7 +195,7 @@
                   <div class="col-6">
                       <div class="form-group mb-0">
                           <label for="Nombre" class="font-weight-normal">NOMBRE</label>
-                          <input type="text" id="Nombre" name="Nombre" value="{{ old('Nombre', $selectedMaterial->Nombre) }}" class="form-control form-control-sm 
+                          <input type="text" id="Nombre" name="Nombre" value="{{ old('Nombre', $selectedTratamiento->Nombre) }}" class="form-control form-control-sm 
                             @if ($errors->has('Nombre'))
                                 is-invalid
                             @elseif (old('Nombre') && ! $errors->has('Nombre'))
@@ -213,7 +213,7 @@
                   <div class="col-6">
                       <div class="form-group mb-0">
                           <label for="Descripcion" class="font-weight-normal">DESCRIPCION</label>
-                          <input type="text" id="Descripcion" name="Descripcion" value="{{ old('Descripcion', $selectedMaterial->Descripcion) }}" class="form-control form-control-sm 
+                          <input type="text" id="Descripcion" name="Descripcion" value="{{ old('Descripcion', $selectedTratamiento->Descripcion) }}" class="form-control form-control-sm 
                             @if ($errors->has('Descripcion'))
                                 is-invalid
                             @elseif (old('Descripcion') && ! $errors->has('Descripcion'))
@@ -236,7 +236,7 @@
 
                     <div class="col-6">
                         <div class="form-check">
-                            <input id="Predeterminado" type="checkbox" name="Predeterminado" value="1" {{ old('Predeterminado', $selectedMaterial->Predeterminado) == 1 ? 'checked' : '' }} class="form-check-input
+                            <input id="Predeterminado" type="checkbox" name="Predeterminado" value="1" {{ old('Predeterminado', $selectedTratamiento->Predeterminado) == 1 ? 'checked' : '' }} class="form-check-input
                                 @if ($errors->has('Predeterminado'))
                                     is-invalid
                                 @elseif (old('Predeterminado') && ! $errors->has('Predeterminado'))

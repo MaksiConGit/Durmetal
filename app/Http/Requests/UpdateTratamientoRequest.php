@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTratamientoRequest extends FormRequest
+class UpdateTratamientoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,7 +21,12 @@ class StoreTratamientoRequest extends FormRequest
      */
     public function rules(): array
     {
-        session()->put('modal', 'create');
+        $tratamiento = $this->route('tratamiento');
+
+        session()->put([
+            'modal' => 'edit',
+            'tratamiento_id' => $tratamiento->id,
+        ]);
 
         return [
             'Nombre' => 'required|string|max:255',
