@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMaterialRequest;
 use App\Http\Requests\StoreTratamientoRequest;
+use App\Http\Requests\UpdateMaterialRequest;
 use App\Models\Client;
 use App\Models\Material;
 use Illuminate\Http\Request;
@@ -21,7 +23,7 @@ class MaterialController extends Controller
         return view('produccion.actualizaciones.materiales.create');
     }
 
-    public function store(StoreTratamientoRequest $request)
+    public function store(StoreMaterialRequest $request)
     {
         $data = $request->all();
 
@@ -35,7 +37,7 @@ class MaterialController extends Controller
         return view('produccion.actualizaciones.materiales.edit', compact('material'));
     }
 
-    public function update(StoreTratamientoRequest $request, Material $material)
+    public function update(UpdateMaterialRequest $request, Material $material)
     {
         $data = $request->all();
 

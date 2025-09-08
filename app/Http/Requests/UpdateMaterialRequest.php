@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreMaterialRequest extends FormRequest
+class UpdateMaterialRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,8 +21,13 @@ class StoreMaterialRequest extends FormRequest
      */
     public function rules(): array
     {
-        session()->put('modal', 'create');
-        
+        $material = $this->route('material');
+
+        session()->put([
+            'modal' => 'edit',
+            'material_id' => $material->id,
+        ]);
+
         return [
             'Nombre' => 'required|string|max:255',
             'Descripcion' => 'required|string|max:255',
