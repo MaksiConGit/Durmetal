@@ -159,7 +159,7 @@ class OrdenTrabajoController extends Controller
             $data['NumeroDocumentoCliente'] = $cliente->NroDocumento;
             $data['Direccion'] = $cliente->Domicilio;
             $data['Localidad'] = $cliente->localidad->Nombre;
-            $data['Provincia'] = $cliente->provincia->Nombre;
+            $data['Provincia'] = $cliente->localidad->provincia->Nombre;
         }
         else{
             $data['RazonSocial'] = null;
