@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreMedioEnfriamientoRequest extends FormRequest
+class UpdateMedioEnfriamientoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,7 +21,12 @@ class StoreMedioEnfriamientoRequest extends FormRequest
      */
     public function rules(): array
     {
-        session()->put('modal', 'create');
+        $medio_enfriamiento = $this->route('medio_enfriamiento');
+
+        session()->put([
+            'modal' => 'edit',
+            'medio_enfriamiento_id' => $medio_enfriamiento->id,
+        ]);
 
         return [
             'Nombre' => 'required|string|max:255',

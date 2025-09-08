@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMedioEnfriamientoRequest;
+use App\Http\Requests\UpdateMedioEnfriamientoRequest;
 use App\Models\Client;
 use App\Models\MedioEnfriamiento;
 use Illuminate\Http\Request;
@@ -12,6 +13,10 @@ class MedioEnfriamientoController extends Controller
     public function index()
     {
         $medios_enfriamiento = MedioEnfriamiento::all();
+
+        if (!session('modal')) {
+            session()->put('modal', 'create');
+        }
 
         return view('produccion.actualizaciones.medios-enfriamiento.index', compact('medios_enfriamiento'));
     }
@@ -37,7 +42,7 @@ class MedioEnfriamientoController extends Controller
         return view('produccion.actualizaciones.medios-enfriamiento.edit', compact('medio_enfriamiento'));
     }
 
-    public function update(StoreMedioEnfriamientoRequest $request, MedioEnfriamiento $medio_enfriamiento)
+    public function update(UpdateMedioEnfriamientoRequest $request, MedioEnfriamiento $medio_enfriamiento)
     {
         $data = $request->all();
 
