@@ -164,7 +164,7 @@
                                             data-bs-toggle="tooltip"
                                             title="Enviar por correo"
                                         >
-                                            <i class="fa fa-envelope fa-lg"></i>
+                                            <i class="fa fa-envelope fa-lg text-orange"></i>
                                         </a>
                                     </div>
                                 </td>
@@ -205,27 +205,22 @@
 
                                             @forelse ($programacionesAgrupadas as $numeroProgramacion => $grupo)
                                                 @foreach ($grupo as $index => $programacion)
-                                                    <tr>
+                                                    <tr data-widget="expandable-table"
+                                                        aria-expanded="{{ in_array($programacion->id, $expandedInner ?? []) ? 'true' : 'false' }}"
+                                                        wire:click="toggleExpandInner({{ $programacion->id }})">
                                                         <td></td>
 
                                                         <td class="text-center align-middle">
-                                                            <form
-                                                                action="{{ route('programacion.destroy', $programacion->id) }}"
-                                                                method="POST"
-                                                                onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta programación?')"
-                                                                class="m-0 p-0"
-                                                            >
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button
-                                                                    type="submit"
-                                                                    class="btn btn-sidebar btn-sm bg-danger"
-                                                                    data-bs-toggle="tooltip"
-                                                                    title="Eliminar programación"
-                                                                >
-                                                                    <i class="fas fa-ban fa-fw text-white"></i>
-                                                                </button>
-                                                            </form>
+
+                                                            <button 
+                                                                type="button"
+                                                                class="btn btn-sidebar btn-sm bg-danger"
+                                                                data-bs-toggle="tooltip"
+                                                                title="Eliminar programación"
+                                                                onclick="confirmDelete({{ $programacion->id }})">
+                                                                <i class="fas fa-ban fa-fw text-white"></i>
+                                                            </button>
+
                                                         </td>
 
                                                         <td class="text-center align-middle">
@@ -238,21 +233,15 @@
                                                         </td>
 
                                                         <td>
-                                                            <span class="bg-danger px-1">H{{ $programacion->NumeroHorno }}</span> 
-                                                            <span class="bg-primary px-1">{{ $programacion->tipoProgramacion->Nombre }} {{ $numeroProgramacion }}-{{ $index + 1 }}</span>
+                                                            H{{ $programacion->NumeroHorno }} |
+                                                            {{ $programacion->tipoProgramacion->Nombre }}
+                                                            {{ $numeroProgramacion }}-{{ $index + 1 }}
                                                         </td>
-
                                                         <td>{{ $programacion->Reproceso == 0 ? '' : 'RP' }}</td>
-                                                        <td>{{ number_format($programacion->Cantidad, 2, '.', '') }}</td>
-                                                        <td>
-                                                            <span 
-                                                                class="{{ $programacion->Apto == 'SI' ? 'bg-success text-white px-1' : ($programacion->Apto == 'NO' ? 'bg-danger text-white px-1' : '') }}"
-                                                                style="{{ $programacion->Apto == 'NO' ? 'text-decoration: line-through;' : '' }}">
-                                                                {{ $programacion->Apto == 'SI' ? 'APTO' : ($programacion->Apto == 'NO' ? 'APTO' : '') }}
-                                                            </span>
-                                                        </td>
-                                                        <td>{{ \Carbon\Carbon::parse($programacion->FechaCarga)->format('d/m/Y H:i') }}</td>
-                                                        <td>{{ \Carbon\Carbon::parse($programacion->FechaDescarga)->format('d/m/Y H:i') }}</td>
+                                                        <td>{{ $programacion->Cantidad }}</td>
+                                                        <td>{{ $programacion->Apto == 'SI' ? 'APTO' : 'NO APTO'}}</td>
+                                                        <td>{{ $programacion->FechaCarga }}</td>
+                                                        <td>{{ $programacion->FechaDescarga }}</td>
                                                         <td>{{ $programacion->ejecutadoPorOperador->name }}</td>
                                                         <td>{{ $programacion->Temperatura }}</td>
                                                         <td>{{ $programacion->medioEnfriamiento->Nombre }}</td>

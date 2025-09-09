@@ -83,16 +83,24 @@ class FiltroPorCheckbox2 extends Component
         }
 
         if (!empty($this->selectedItemIds)) {
-            $selectedItems = ItemOrdenTrabajo::whereIn('id', $this->selectedItemIds)
-                ->where('Estado', 'PENDIENTE')
+            return ItemOrdenTrabajo::where('Estado', 'PENDIENTE')
                 ->whereHas('ordenTrabajo', function ($q) {
                     $q->whereIn('Estado', ['PENDIENTE', 'COMPLETO']);
                 })
+                ->when(!empty($this->selectedIds), function ($q) {
+                    $q->whereIn('IdTratamiento', $this->selectedIds);
+                })
+                ->when($this->cliente_id, function ($q) {
+                    $q->whereHas('ordenTrabajo', fn($q) => $q->where('IdCliente', $this->cliente_id));
+                })
+                ->when(!empty($this->oti_item_numero), function ($q) {
+                    $q->where('ItemNumero', 'like', '%' . $this->oti_item_numero . '%');
+                })
+                ->when(!empty($this->oti_orden_numero), function ($q) {
+                    $q->whereHas('ordenTrabajo', fn($q) => $q->where('Numero', 'like', '%' . $this->oti_orden_numero . '%'));
+                })
+                ->orderBy('id')
                 ->get();
-
-            $filteredItems = $query->whereNotIn('id', $this->selectedItemIds)->get();
-
-            return $selectedItems->concat($filteredItems);
         }
 
         return $query->get();

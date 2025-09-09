@@ -149,6 +149,7 @@ class OrdenTrabajoController extends Controller
         $data['FechaVencimiento'] = now();
         $data['AfectarPlanillaTurno'] = 1;
         $data['CondicionPrecios'] = 'A';
+        $data['Estado'] = 'PENDIENTE';
 
         $cliente = Client::find($data['IdCliente']);
 
