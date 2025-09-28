@@ -23,6 +23,7 @@ class StoreUSDARSRequest extends FormRequest
     {
         return [
             'USD_ARS' => 'required|numeric',
+            'FechaActualizacionUSD_ARS' => 'required',
         ];
     }
 }

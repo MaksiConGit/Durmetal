@@ -22,7 +22,7 @@ class DivisasController extends Controller
         $data['FechaActualizacionUSD_ARS'] = now();
 
         $configuracion_global->update($data);
-    
-        return redirect()->route('divisas.edit');
+
+        return back();
     }
 }

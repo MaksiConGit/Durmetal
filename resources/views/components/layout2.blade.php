@@ -385,64 +385,59 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- /.content-wrapper -->
 
   <!-- .modal -->
-  <div class="modal fade" id="modal-divisas">
-    <div class="modal-dialog modal-dialog-centered">
+  <form action="{{ route('divisas.update', \App\Models\ConfiguracionGlobal::first()) }}" method="POST">
+    @csrf
+    @method('PUT')
+
+    <div class="modal fade" id="modal-divisas">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">DIVISAS</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
 
-              <div class="row">
+          <div class="modal-header">
+            <h4 class="modal-title">DIVISAS</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
 
-                <div class="col-6">
-                    <div class="form-group mb-0">
-                        <label for="filtro1" class="font-weight-normal">USD -> ARS</label>
-                        <input type="text" id="filtro1" name="filtro1" value="{{ \App\Models\ConfiguracionGlobal::first()->USD_ARS }}" wire:model.live="cliente_desde" class="form-control form-control-sm">
-                    </div>
-                </div>
-
-                <div class="col-6">
-                    <div class="form-group mb-0">
-                        <label for="filtro1" class="font-weight-normal">FECHA DE ACTUALIZACION</label>
-                        <input type="date" disabled id="filtro1" name="filtro1" value="{{ \App\Models\ConfiguracionGlobal::first()->FechaActualizacion }}" class="form-control form-control-sm">
-                    </div>
-                </div>
-
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-6">
+                <label>USD -> ARS</label>
+                <input type="text" name="USD_ARS" 
+                      value="{{ \App\Models\ConfiguracionGlobal::first()->USD_ARS }}" 
+                      class="form-control form-control-sm">
               </div>
 
-              <div class="row mt-3">
-                  <div class="col-12">
-                      <div class="form-group mb-0">
-                          <label for="filtro1" class="font-weight-normal text-muted small">
-                              1 dólar estadounidense equivale a {{ \App\Models\ConfiguracionGlobal::first()->USD_ARS }}
-                          </label>
-                      </div>
-                  </div>
+              <div class="col-6">
+                <label>Fecha de actualización</label>
+                <input type="date" readonly 
+                      value="{{ \App\Models\ConfiguracionGlobal::first()->FechaActualizacionUSD_ARS }}" 
+                      class="form-control form-control-sm">
+                <!-- Si querés enviar la fecha igual -->
+                <input type="hidden" name="FechaActualizacionUSD_ARS" 
+                      value="{{ \App\Models\ConfiguracionGlobal::first()->FechaActualizacionUSD_ARS }}">
               </div>
-
             </div>
+          </div>
 
-            <div class="modal-footer justify-content-end">
+          <div class="modal-footer justify-content-end">
+            <button type="submit" class="btn btn-sidebar btn-sm bg-orange">
+              <span class="text-white">Guardar</span>
+              <i class="fas fa-floppy-disk fa-fw text-white ml-2"></i>
+            </button>
 
-                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
-                    <span class="text-white">Guardar</span>
-                    <i class="fas fa-floppy-disk fa-fw text-white ml-2"></i>
-                </button>
-
-                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
-                    <span class="text-white">Cancelar</span>
-                    <i class="fas fa-xmark fa-fw text-white ml-2"></i>
-                </button>
-
-            </div>
+            <button type="button" class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+              <span class="text-white">Cancelar</span>
+              <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+            </button>
+          </div>
 
         </div>
+      </div>
     </div>
-  </div>
+  </form>
+
 
   <!-- /.modal -->
 
