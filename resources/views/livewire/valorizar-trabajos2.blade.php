@@ -116,7 +116,7 @@
                         <td>{{ $item_orden_trabajo->Cantidad }}</td>
                         <td>{{ $item_orden_trabajo->Peso }}</td>
                         <td>{{ \Carbon\Carbon::parse($item_orden_trabajo->ordenTrabajo->FechaEmision)->format('j/n/Y') }}</td>
-                        <td>[{{ $item_orden_trabajo->ordenTrabajo->cliente->id }}] {{ $item_orden_trabajo->ordenTrabajo->cliente->Nombre ?? 'Sin razón social' }}</td>
+                        <td>[{{ $item_orden_trabajo->ordenTrabajo->cliente->id ?? 'Sin ID' }}] {{ $item_orden_trabajo->ordenTrabajo->cliente->Nombre ?? 'Sin razón social' }}</td>
                         <td>{{ $item_orden_trabajo->tratamiento->Nombre }}</td>
                         <td>{{ $item_orden_trabajo->material->Nombre }}</td>
                         <td>{{ $item_orden_trabajo->Descripcion }}</td>
