@@ -463,7 +463,12 @@
                                                                     <select class="form-control form-control-sm" name="items[{{ $newItem['id'] }}][IdTratamiento]" id="">
                                                                         @foreach ($tratamientos as $tratamiento)
                                                                             <option value="{{ $tratamiento->id }}" 
-                                                                                {{ (old('items.' . $newItem['id'] . '.IdTratamiento', $newItem['IdTratamiento'] ?? '') == $tratamiento->id) ? 'selected' : '' }}>
+                                                                                {{ 
+                                                                                    (old('items.' . $newItem['id'] . '.IdTratamiento', $newItem['IdTratamiento'] ?? '') == $tratamiento->id) 
+                                                                                    || (empty($newItem['IdTratamiento']) && $tratamiento->Predeterminado == 1)
+                                                                                        ? 'selected' 
+                                                                                        : '' 
+                                                                                }}>
                                                                                 {{ $tratamiento->Nombre }}
                                                                             </option>
                                                                         @endforeach
@@ -493,7 +498,12 @@
                                                                     <select class="form-control form-control-sm" name="items[{{ $newItem['id'] }}][IdDureza]" id="">
                                                                         @foreach ($durezas as $dureza)
                                                                             <option value="{{ $dureza->id }}" 
-                                                                                {{ (old('items.' . $newItem['id'] . '.IdDureza', $newItem['IdDureza'] ?? '') == $dureza->id) ? 'selected' : '' }}>
+                                                                                {{ 
+                                                                                    (old('items.' . $newItem['id'] . '.IdDureza', $newItem['IdDureza'] ?? '') == $dureza->id) 
+                                                                                    || (empty($newItem['IdDureza']) && $dureza->Predeterminado == 1)
+                                                                                        ? 'selected' 
+                                                                                        : '' 
+                                                                                }}>
                                                                                 {{ $dureza->Nombre }}
                                                                             </option>
                                                                         @endforeach
@@ -535,7 +545,12 @@
                                                                     <select class="form-control form-control-sm" name="items[{{ $newItem['id'] }}][IdMaterial]" id="">
                                                                         @foreach ($materiales as $material)
                                                                             <option value="{{ $material->id }}" 
-                                                                                {{ (old('items.' . $newItem['id'] . '.IdMaterial', $newItem['IdMaterial'] ?? '') == $material->id) ? 'selected' : '' }}>
+                                                                                {{ 
+                                                                                    (old('items.' . $newItem['id'] . '.IdMaterial', $newItem['IdMaterial'] ?? '') == $material->id) 
+                                                                                    || (empty($newItem['IdMaterial']) && $material->Predeterminado == 1)
+                                                                                        ? 'selected' 
+                                                                                        : '' 
+                                                                                }}>
                                                                                 {{ $material->Nombre }}
                                                                             </option>
                                                                         @endforeach
