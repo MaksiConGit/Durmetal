@@ -236,11 +236,17 @@
                                                                         <label for="filtro1" class="font-weight-normal">TRATAMIENTO</label>
                                                                     </div>
                                                                     <div class="input-group">
-                                                                        <select class="form-control form-control-sm" name="items[{{ $item_orden_trabajo->id }}][IdTratamiento]" id="">
+                                                                        <select class="form-control form-control-sm" 
+                                                                                name="items[{{ $item_orden_trabajo->id }}][IdTratamiento]">
                                                                             @foreach ($tratamientos as $tratamiento)
-                                                                                <option value="{{ old('items[$item_orden_trabajo->id][IdTratamiento]', $item_orden_trabajo->IdTratamiento) }}" {{ old('items[$item_orden_trabajo->id][IdTratamiento]', $item_orden_trabajo->IdTratamiento) == $tratamiento->id ? 'selected' : '' }}>{{ $tratamiento->Nombre }}</option>
+                                                                                <option 
+                                                                                    value="{{ $tratamiento->id }}" 
+                                                                                    {{ old("items.{$item_orden_trabajo->id}.IdTratamiento", $item_orden_trabajo->IdTratamiento) == $tratamiento->id ? 'selected' : '' }}>
+                                                                                    {{ $tratamiento->Nombre }}
+                                                                                </option>
                                                                             @endforeach
                                                                         </select>
+
                                                                         <div class="input-group-append">
                                                                         <button type="button" 
                                                                                 class="btn btn-sidebar btn-sm bg-orange" 
@@ -262,9 +268,14 @@
                                                                         <label for="filtro1" class="font-weight-normal">DUREZA</label>
                                                                     </div>
                                                                     <div class="input-group">
-                                                                        <select class="form-control form-control-sm" name="items[{{ $item_orden_trabajo->id }}][IdDureza]" id="">
+                                                                        <select class="form-control form-control-sm" 
+                                                                                name="items[{{ $item_orden_trabajo->id }}][IdDureza]">
                                                                             @foreach ($durezas as $dureza)
-                                                                                <option value="{{ old('items[$item_orden_trabajo->id][IdDureza]', $item_orden_trabajo->IdDureza) }}" {{ old('items[$item_orden_trabajo->id][IdDureza]', $item_orden_trabajo->IdDureza) == $dureza->id ? 'selected' : '' }}>{{ $dureza->Nombre }}</option>
+                                                                                <option 
+                                                                                    value="{{ $dureza->id }}" 
+                                                                                    {{ old("items.{$item_orden_trabajo->id}.IdDureza", $item_orden_trabajo->IdDureza) == $dureza->id ? 'selected' : '' }}>
+                                                                                    {{ $dureza->Nombre }}
+                                                                                </option>
                                                                             @endforeach
                                                                         </select>
                                                                         <div class="input-group-append">
@@ -300,9 +311,14 @@
                                                                         <label for="filtro1" class="font-weight-normal">MATERIAL</label>
                                                                     </div>
                                                                     <div class="input-group">
-                                                                        <select class="form-control form-control-sm" name="items[{{ $item_orden_trabajo->id }}][IdMaterial]" id="">
+                                                                        <select class="form-control form-control-sm" 
+                                                                                name="items[{{ $item_orden_trabajo->id }}][IdMaterial]">
                                                                             @foreach ($materiales as $material)
-                                                                                <option value="{{ old('items[$item_orden_trabajo->id][IdMaterial]', $item_orden_trabajo->IdMaterial) }}" {{ old('items[$item_orden_trabajo->id][IdMaterial]', $item_orden_trabajo->IdMaterial) == $material->id ? 'selected' : '' }}>{{ $material->Nombre }}</option>
+                                                                                <option 
+                                                                                    value="{{ $material->id }}" 
+                                                                                    {{ old("items.{$item_orden_trabajo->id}.IdMaterial", $item_orden_trabajo->IdMaterial) == $material->id ? 'selected' : '' }}>
+                                                                                    {{ $material->Nombre }}
+                                                                                </option>
                                                                             @endforeach
                                                                         </select>
                                                                         <div class="input-group-append">
@@ -322,8 +338,6 @@
                                                     </div>
                                                     <div class="col-2"></div>
                                                 </div>
-
-
 
                                             </div>
 
