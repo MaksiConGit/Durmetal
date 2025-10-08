@@ -100,12 +100,19 @@ class FiltroPorCheckbox2 extends Component
                     $q->whereHas('ordenTrabajo', fn($q) => $q->where('Numero', 'like', '%' . $this->oti_orden_numero . '%'));
                 })
                 ->orderBy('id')
-                ->get();
+                ->get()
+                ->sortBy(function ($item) {
+                    return $item->programacion->unique('NumeroProgramacion')->count();
+                })
+                ->values();
         }
 
-        return $query->get();
+        return $query->get()
+            ->sortBy(function ($item) {
+                return $item->programacion->unique('NumeroProgramacion')->count();
+            })
+            ->values();
     }
-
 
     public function render()
     {
