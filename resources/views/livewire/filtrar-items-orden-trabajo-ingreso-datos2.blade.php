@@ -137,7 +137,7 @@
                             wire:click="toggleExpand({{ $item->id }})">
 
                             <td>{{ $item->Descripcion }}</td>
-                            <td>[{{$item->ordenTrabajo->cliente->id}}] {{ $item->ordenTrabajo->cliente->Nombre }}</td>
+                            <td>[{{$item->ordenTrabajo->cliente->id ?? 'null'}}] {{ $item->ordenTrabajo->cliente->Nombre ?? 'null' }}</td>
                             <td>{{ \Carbon\Carbon::parse($item->FechaCreacion)->format('j/n/Y') }}</td>
                             <td>{{ $item->ordenTrabajo->Numero }}/{{ $item->ItemNumero }}</td>
                             <td>{{ number_format($item->Cantidad, 2, '.', '') }}</td>
