@@ -1,4 +1,4 @@
-<x-layout>
+{{-- <x-layout>
 
     <x-slot name="title">Otros Egresos</x-slot>
     <x-slot name="breadcrumbs">
@@ -115,4 +115,6 @@
         </x-slot>
     </x-data-table>
 
-</x-layout>
+</x-layout> --}}
+
+@livewire('otros-egresos-cuentas2')
