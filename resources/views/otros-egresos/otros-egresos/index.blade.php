@@ -1,4 +1,4 @@
-<x-layout>
+{{-- <x-layout>
 
     <x-slot name="title">Otros Egresos</x-slot>
     <x-slot name="breadcrumbs">
@@ -9,6 +9,7 @@
             <li class="nav-item"><a href="#">Otros Egresos</a></li>
     </x-slot>
 
-    @livewire('otros-egresos')
 
-</x-layout>
+</x-layout> --}}
+
+@livewire('otros-egresos2')
