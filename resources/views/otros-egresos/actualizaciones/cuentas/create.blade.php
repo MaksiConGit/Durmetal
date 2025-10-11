@@ -1,4 +1,4 @@
-<x-layout>
+{{-- <x-layout>
     <x-slot name="title">Otros Egresos</x-slot>
     <x-slot name="breadcrumbs">
         <li class="nav-home">
@@ -115,4 +115,70 @@
         </x-slot>
     </x-form>
 
-</x-layout>
+</x-layout> --}}
+
+
+<x-layout2>
+    <x-slot name="title">NUEVO CUENTA OTROS EGRESOS</x-slot>
+
+    <form action="{{ route('otros-egresos.actualizaciones.cuentas.store') }}" method="POST">
+        @csrf
+
+        <div class="row">
+
+            <div class="col-2"></div>
+            <div class="col-4 mb-3">
+                <div class="form-group mb-0">
+                    <label for="IdCuentaOtrosEgresosPadre" class="font-weight-normal">CUENTA PADRE</label>
+                    <select name="IdCuentaOtrosEgresosPadre" id="" class="form-control form-control-sm">
+                        <option value="">No tiene</option>
+                        @foreach ($cuentas_otros_egresos_padre as $padre)
+                            <option value="{{ $padre->id }}"
+                                {{ old('IdCuentaOtrosEgresosPadre') == $padre->id ? 'selected' : '' }}>
+                                {{ $padre->Nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-4 mb-3">
+                <div class="form-group mb-0">
+                    <label for="Nombre" class="font-weight-normal">NOMBRE</label>
+                    <input type="text" id="Nombre" name="Nombre" class="form-control form-control-sm" value="{{old('Nombre')}}">
+                </div>
+            </div>
+            <div class="col-2 mb-3"></div>
+
+
+            <div class="col-2 mb-3"></div>
+            <div class="col-4 mb-3">
+                <div class="form-group mb-0">
+                    <label for="Descripcion" class="font-weight-normal">DESCRIPCION</label>
+                    <input type="text" id="Descripcion" name="Descripcion" class="form-control form-control-sm" value="{{old('Descripcion')}}">
+                </div>
+            </div>
+            <div class="col-2 mb-3"></div>
+
+            <div class="col-2 mb-3"></div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-app bg-primary">
+                        <i class="fas fa-floppy-disk"></i> Guardar
+                    </button>
+
+                    <a class="btn btn-app bg-primary" href="{{ route('otros-egresos.actualizaciones.cuentas.index') }}">
+                        <i class="fas fa-ban"></i> Cancelar
+                    </a>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+
+    </form>
+
+</x-layout2>

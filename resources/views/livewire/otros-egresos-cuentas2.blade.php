@@ -7,7 +7,7 @@
           <div class="form-inline mt-5 mr-3 d-flex flex-column align-items-center">
 
               <div class="form-group mb-3">
-                  <a href="{{ route('otros-egresos.otros-egresos.create') }}" 
+                  <a href="{{ route('otros-egresos.actualizaciones.cuentas.create') }}" 
                   class="btn btn-app bg-primary">
                       <i class="fas fa-plus"></i> Nuevo
                   </a>
