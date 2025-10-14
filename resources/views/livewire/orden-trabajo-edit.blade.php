@@ -150,7 +150,7 @@
                             <td>{{ $item_orden_trabajo->material->Nombre }}</td>
                             <td>{{ $item_orden_trabajo->Cantidad }}</td>
                             <td>{{ $item_orden_trabajo->Peso }}</td>
-                            <td>{{ $item_orden_trabajo->tratamiento->Nombre }}</td>
+    <td>{{ optional($tratamientos->firstWhere('id', $items_orden_trabajo_edit[$item_orden_trabajo->id]['tratamiento_id'] ?? $item_orden_trabajo->IdTratamiento))->Nombre }}</td>
                             <td>{{ $item_orden_trabajo->dureza->Nombre }}</td>
                             <td>{{ $item_orden_trabajo->DurezaSolicitadaMinima }}</td>
                             <td>{{ $item_orden_trabajo->DurezaSolicitadaMaxima }}</td>
@@ -236,24 +236,45 @@
                                                                         <label for="filtro1" class="font-weight-normal">TRATAMIENTO</label>
                                                                     </div>
                                                                     <div class="input-group">
-                                                                        <select class="form-control form-control-sm" 
+                                                                        <select wire:model="items_orden_trabajo_edit.{{ $item_orden_trabajo->id }}.tratamiento_id"
+                                                                                class="form-control form-control-sm"
                                                                                 name="items[{{ $item_orden_trabajo->id }}][IdTratamiento]">
                                                                             @foreach ($tratamientos as $tratamiento)
-                                                                                <option 
-                                                                                    value="{{ $tratamiento->id }}" 
-                                                                                    {{ old("items.{$item_orden_trabajo->id}.IdTratamiento", $item_orden_trabajo->IdTratamiento) == $tratamiento->id ? 'selected' : '' }}>
+                                                                                <option value="{{ $tratamiento->id }}" {{ $item_orden_trabajo->IdTratamiento == $tratamiento->id ? 'selected' : '' }}>
                                                                                     {{ $tratamiento->Nombre }}
                                                                                 </option>
                                                                             @endforeach
                                                                         </select>
-
                                                                         <div class="input-group-append">
-                                                                        <button type="button" 
-                                                                                class="btn btn-sidebar btn-sm bg-orange" 
-                                                                                data-toggle="modal" 
-                                                                                data-target="#modal-cliente">
-                                                                            <i class="fas fa-search fa-fw text-white"></i>
-                                                                        </button>
+                                                                            <button type="button" class="btn btn-sidebar btn-sm bg-orange"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#modal-items-{{ $item_orden_trabajo->id }}-tratamiento">
+                                                                                <i class="fas fa-search fa-fw text-white"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal fade" id="modal-items-{{ $item_orden_trabajo->id }}-tratamiento" wire:ignore.self>
+                                                                    <div class="modal-dialog modal-dialog-centered">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title">BUSCAR TRATAMIENTO</h5>
+                                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <table class="table table-hover">
+                                                                                    <tbody>
+                                                                                        @foreach ($tratamientos as $tratamiento)
+                                                                                            <tr wire:click.prevent="seleccionarTratamientoExistente({{ $item_orden_trabajo->id }}, {{ $tratamiento->id }})" 
+                                                                                                data-dismiss="modal" 
+                                                                                                style="cursor:pointer"
+                                                                                                class="{{ $items_orden_trabajo_edit[$item_orden_trabajo->id]['tratamiento_id'] == $tratamiento->id ? 'table-primary' : '' }}">
+                                                                                                <td>{{ $tratamiento->Nombre }}</td>
+                                                                                            </tr>
+                                                                                        @endforeach
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -263,28 +284,52 @@
                                                             <div class="row">
 
                                                                 <div class="col-4 mb-3">
-
                                                                     <div class="form-group mb-0">
                                                                         <label for="filtro1" class="font-weight-normal">DUREZA</label>
                                                                     </div>
                                                                     <div class="input-group">
-                                                                        <select class="form-control form-control-sm" 
+                                                                        <select wire:model="items_orden_trabajo_edit.{{ $item_orden_trabajo->id }}.dureza_id"
+                                                                                class="form-control form-control-sm"
                                                                                 name="items[{{ $item_orden_trabajo->id }}][IdDureza]">
                                                                             @foreach ($durezas as $dureza)
-                                                                                <option 
-                                                                                    value="{{ $dureza->id }}" 
-                                                                                    {{ old("items.{$item_orden_trabajo->id}.IdDureza", $item_orden_trabajo->IdDureza) == $dureza->id ? 'selected' : '' }}>
+                                                                                <option value="{{ $dureza->id }}">
                                                                                     {{ $dureza->Nombre }}
                                                                                 </option>
                                                                             @endforeach
                                                                         </select>
+
                                                                         <div class="input-group-append">
-                                                                        <button type="button" 
-                                                                                class="btn btn-sidebar btn-sm bg-orange" 
-                                                                                data-toggle="modal" 
-                                                                                data-target="#modal-cliente">
-                                                                            <i class="fas fa-search fa-fw text-white"></i>
-                                                                        </button>
+                                                                            <button type="button" class="btn btn-sidebar btn-sm bg-orange"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#modal-items-{{ $item_orden_trabajo->id }}-dureza">
+                                                                                <i class="fas fa-search fa-fw text-white"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Modal Dureza -->
+                                                                <div class="modal fade" id="modal-items-{{ $item_orden_trabajo->id }}-dureza" wire:ignore.self>
+                                                                    <div class="modal-dialog modal-dialog-centered">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title">BUSCAR DUREZA</h5>
+                                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <table class="table table-hover">
+                                                                                    <tbody>
+                                                                                        @foreach ($durezas as $dureza)
+                                                                                            <tr wire:click.prevent="seleccionarDurezaExistente({{ $item_orden_trabajo->id }}, {{ $dureza->id }})"
+                                                                                                data-dismiss="modal"
+                                                                                                style="cursor:pointer"
+                                                                                                class="{{ $items_orden_trabajo_edit[$item_orden_trabajo->id]['dureza_id'] == $dureza->id ? 'table-primary' : '' }}">
+                                                                                                <td>{{ $dureza->Nombre }}</td>
+                                                                                            </tr>
+                                                                                        @endforeach
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -306,28 +351,52 @@
                                                                 </div>
 
                                                                 <div class="col-4 mb-3">
-
                                                                     <div class="form-group mb-0">
                                                                         <label for="filtro1" class="font-weight-normal">MATERIAL</label>
                                                                     </div>
                                                                     <div class="input-group">
-                                                                        <select class="form-control form-control-sm" 
+                                                                        <select wire:model="items_orden_trabajo_edit.{{ $item_orden_trabajo->id }}.material_id"
+                                                                                class="form-control form-control-sm"
                                                                                 name="items[{{ $item_orden_trabajo->id }}][IdMaterial]">
                                                                             @foreach ($materiales as $material)
-                                                                                <option 
-                                                                                    value="{{ $material->id }}" 
-                                                                                    {{ old("items.{$item_orden_trabajo->id}.IdMaterial", $item_orden_trabajo->IdMaterial) == $material->id ? 'selected' : '' }}>
+                                                                                <option value="{{ $material->id }}">
                                                                                     {{ $material->Nombre }}
                                                                                 </option>
                                                                             @endforeach
                                                                         </select>
+
                                                                         <div class="input-group-append">
-                                                                        <button type="button" 
-                                                                                class="btn btn-sidebar btn-sm bg-orange" 
-                                                                                data-toggle="modal" 
-                                                                                data-target="#modal-cliente">
-                                                                            <i class="fas fa-search fa-fw text-white"></i>
-                                                                        </button>
+                                                                            <button type="button" class="btn btn-sidebar btn-sm bg-orange"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#modal-items-{{ $item_orden_trabajo->id }}-material">
+                                                                                <i class="fas fa-search fa-fw text-white"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Modal Material -->
+                                                                <div class="modal fade" id="modal-items-{{ $item_orden_trabajo->id }}-material" wire:ignore.self>
+                                                                    <div class="modal-dialog modal-dialog-centered">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title">BUSCAR MATERIAL</h5>
+                                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <table class="table table-hover">
+                                                                                    <tbody>
+                                                                                        @foreach ($materiales as $material)
+                                                                                            <tr wire:click.prevent="seleccionarMaterialExistente({{ $item_orden_trabajo->id }}, {{ $material->id }})"
+                                                                                                data-dismiss="modal"
+                                                                                                style="cursor:pointer"
+                                                                                                class="{{ $items_orden_trabajo_edit[$item_orden_trabajo->id]['material_id'] == $material->id ? 'table-primary' : '' }}">
+                                                                                                <td>{{ $material->Nombre }}</td>
+                                                                                            </tr>
+                                                                                        @endforeach
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -460,65 +529,178 @@
                                                                         <label for="filtro1" class="font-weight-normal">TRATAMIENTO</label>
                                                                     </div>
                                                                     <div class="input-group">
-                                                                    <select class="form-control form-control-sm" name="items[{{ $newItem['id'] }}][IdTratamiento]" id="">
-                                                                        @foreach ($tratamientos as $tratamiento)
-                                                                            <option value="{{ $tratamiento->id }}" 
-                                                                                {{ 
-                                                                                    (old('items.' . $newItem['id'] . '.IdTratamiento', $newItem['IdTratamiento'] ?? '') == $tratamiento->id) 
-                                                                                    || (empty($newItem['IdTratamiento']) && $tratamiento->Predeterminado == 1)
-                                                                                        ? 'selected' 
-                                                                                        : '' 
-                                                                                }}>
-                                                                                {{ $tratamiento->Nombre }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
+                                                                        <select wire:model="newItems.{{ $newItem['id'] }}.tratamiento_id"
+                                                                                class="form-control form-control-sm"
+                                                                                name="items[{{ $newItem['id'] }}][IdTratamiento]">
+                                                                            @foreach ($tratamientos as $tratamiento)
+                                                                                <option value="{{ $tratamiento->id }}">
+                                                                                    {{ $tratamiento->Nombre }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+
                                                                         <div class="input-group-append">
-                                                                        <button type="button" 
-                                                                                disabled
-                                                                                class="btn btn-sidebar btn-sm bg-orange" 
-                                                                                data-toggle="modal" 
-                                                                                data-target="#modal-cliente">
-                                                                            <i class="fas fa-search fa-fw text-white"></i>
-                                                                        </button>
+                                                                            <button type="button" 
+                                                                                    class="btn btn-sidebar btn-sm bg-orange" 
+                                                                                    data-toggle="modal" 
+                                                                                    data-target="#modal-items-{{ $newItem['id'] }}-tratamiento">
+                                                                                <i class="fas fa-search fa-fw text-white"></i>
+                                                                            </button>
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
+
+
+
+
+
+
+
+
+
+                                                                <!-- .modal -->
+                                                                <div class="modal fade" id="modal-items-{{ $newItem['id'] }}-tratamiento" wire:ignore.self>
+                                                                    <div class="modal-dialog modal-dialog-centered">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                            <h5 class="modal-title">
+                                                                                BUSCAR TRATAMIENTO
+                                                                            </h5>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+
+                                                                                <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
+                                                                                    <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
+                                                                                        <x-slot name="thead">
+                                                                                            <tr>
+                                                                                                <th style="padding: 14px 18px; font-size: 1.1rem;">NOMBRE</th>
+                                                                                            </tr>
+                                                                                        </x-slot>
+
+                                                                                        <x-slot name="tbody">
+
+                                                                                            @forelse ($tratamientos as $tratamiento)
+                                                                                                <tr wire:click.prevent="seleccionarTratamiento({{ $newItem['id'] }}, {{ $tratamiento->id }})"
+                                                                                                    data-dismiss="modal"
+                                                                                                    style="cursor:pointer; height: 55px;"
+                                                                                                    class="{{ $newItem['tratamiento_id'] == $tratamiento->id ? 'table-primary' : '' }}">
+                                                                                                    <td style="padding: 12px 18px;">{{ $tratamiento->Nombre }}</td>
+                                                                                                </tr>
+                                                                                            @empty
+                                                                                                <tr><td colspan="8">No se encontraron resultados.</td></tr>
+                                                                                            @endforelse
+
+                                                                                        </x-slot>
+                                                                                    </x-simple-table2>
+                                                                                </div>
+
+                                                                            </div>
+
+                                                                            <div class="modal-footer justify-content-end">
+
+                                                                                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                                    <span class="text-white">Aceptar</span>
+                                                                                    <i class="fas fa-check fa-fw text-white ml-2"></i>
+                                                                                </button>
+
+                                                                                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                                    <span class="text-white">Cancelar</span>
+                                                                                    <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                                                                                </button>
+
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.modal -->
 
                                                             </div>
 
                                                             <div class="row">
 
                                                                 <div class="col-4 mb-3">
-
                                                                     <div class="form-group mb-0">
-                                                                        <label for="filtro1" class="font-weight-normal">DUREZA</label>
+                                                                        <label class="font-weight-normal">DUREZA</label>
                                                                     </div>
                                                                     <div class="input-group">
-                                                                    <select class="form-control form-control-sm" name="items[{{ $newItem['id'] }}][IdDureza]" id="">
-                                                                        @foreach ($durezas as $dureza)
-                                                                            <option value="{{ $dureza->id }}" 
-                                                                                {{ 
-                                                                                    (old('items.' . $newItem['id'] . '.IdDureza', $newItem['IdDureza'] ?? '') == $dureza->id) 
-                                                                                    || (empty($newItem['IdDureza']) && $dureza->Predeterminado == 1)
-                                                                                        ? 'selected' 
-                                                                                        : '' 
-                                                                                }}>
-                                                                                {{ $dureza->Nombre }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
+                                                                        <select
+                                                                            wire:model="newItems.{{ $newItem['id'] }}.dureza_id"
+                                                                            class="form-control form-control-sm"
+                                                                            name="items[{{ $newItem['id'] }}][IdDureza]"
+                                                                        >
+                                                                            @foreach ($durezas as $dureza)
+                                                                                <option value="{{ $dureza->id }}">
+                                                                                    {{ $dureza->Nombre }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+
                                                                         <div class="input-group-append">
-                                                                        <button type="button" 
-                                                                                disabled
-                                                                                class="btn btn-sidebar btn-sm bg-orange" 
-                                                                                data-toggle="modal" 
-                                                                                data-target="#modal-cliente">
-                                                                            <i class="fas fa-search fa-fw text-white"></i>
-                                                                        </button>
+                                                                            <button type="button" 
+                                                                                    class="btn btn-sidebar btn-sm bg-orange" 
+                                                                                    data-toggle="modal" 
+                                                                                    data-target="#modal-items-{{ $newItem['id'] }}-dureza">
+                                                                                <i class="fas fa-search fa-fw text-white"></i>
+                                                                            </button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
+
+                                                                <!-- Modal de DUREZA -->
+                                                                <div class="modal fade" id="modal-items-{{ $newItem['id'] }}-dureza" wire:ignore.self>
+                                                                    <div class="modal-dialog modal-dialog-centered">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title">BUSCAR DUREZA</h5>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+
+                                                                            <div class="modal-body">
+                                                                                <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
+                                                                                    <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
+                                                                                        <x-slot name="thead">
+                                                                                            <tr>
+                                                                                                <th style="padding: 14px 18px; font-size: 1.1rem;">NOMBRE</th>
+                                                                                            </tr>
+                                                                                        </x-slot>
+
+                                                                                        <x-slot name="tbody">
+                                                                                            @forelse ($durezas as $dureza)
+                                                                                                <tr wire:click.prevent="seleccionarDureza({{ $newItem['id'] }}, {{ $dureza->id }})"
+                                                                                                    data-dismiss="modal"
+                                                                                                    style="cursor:pointer; height: 55px;"
+                                                                                                    class="{{ $newItem['dureza_id'] == $dureza->id ? 'table-primary' : '' }}">
+                                                                                                    <td style="padding: 12px 18px;">{{ $dureza->Nombre }}</td>
+                                                                                                </tr>
+                                                                                            @empty
+                                                                                                <tr><td class="text-center" style="padding: 12px;">No se encontraron resultados.</td></tr>
+                                                                                            @endforelse
+                                                                                        </x-slot>
+                                                                                    </x-simple-table2>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="modal-footer justify-content-end">
+                                                                                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                                    <span class="text-white">Aceptar</span>
+                                                                                    <i class="fas fa-check fa-fw text-white ml-2"></i>
+                                                                                </button>
+                                                                                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                                    <span class="text-white">Cancelar</span>
+                                                                                    <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
 
                                                                 <div class="col-4 mb-3">
                                                                     <div class="form-group mb-0">
@@ -536,36 +718,84 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="col-4 mb-3">
+                                                                    <div class="col-4 mb-3">
+                                                                        <div class="form-group mb-0">
+                                                                            <label class="font-weight-normal">MATERIAL</label>
+                                                                        </div>
+                                                                        <div class="input-group">
+                                                                            <select
+                                                                                wire:model="newItems.{{ $newItem['id'] }}.material_id"
+                                                                                class="form-control form-control-sm"
+                                                                                name="items[{{ $newItem['id'] }}][IdMaterial]"
+                                                                            >
+                                                                                @foreach ($materiales as $material)
+                                                                                    <option value="{{ $material->id }}">
+                                                                                        {{ $material->Nombre }}
+                                                                                    </option>
+                                                                                @endforeach
+                                                                            </select>
 
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="filtro1" class="font-weight-normal">MATERIAL</label>
-                                                                    </div>
-                                                                    <div class="input-group">
-                                                                    <select class="form-control form-control-sm" name="items[{{ $newItem['id'] }}][IdMaterial]" id="">
-                                                                        @foreach ($materiales as $material)
-                                                                            <option value="{{ $material->id }}" 
-                                                                                {{ 
-                                                                                    (old('items.' . $newItem['id'] . '.IdMaterial', $newItem['IdMaterial'] ?? '') == $material->id) 
-                                                                                    || (empty($newItem['IdMaterial']) && $material->Predeterminado == 1)
-                                                                                        ? 'selected' 
-                                                                                        : '' 
-                                                                                }}>
-                                                                                {{ $material->Nombre }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                        <div class="input-group-append">
-                                                                        <button type="button" 
-                                                                                disabled
-                                                                                class="btn btn-sidebar btn-sm bg-orange" 
-                                                                                data-toggle="modal" 
-                                                                                data-target="#modal-cliente">
-                                                                            <i class="fas fa-search fa-fw text-white"></i>
-                                                                        </button>
+                                                                            <div class="input-group-append">
+                                                                                <button type="button" 
+                                                                                        class="btn btn-sidebar btn-sm bg-orange" 
+                                                                                        data-toggle="modal" 
+                                                                                        data-target="#modal-items-{{ $newItem['id'] }}-material">
+                                                                                    <i class="fas fa-search fa-fw text-white"></i>
+                                                                                </button>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+
+                                                                    <!-- Modal MATERIAL -->
+                                                                    <div class="modal fade" id="modal-items-{{ $newItem['id'] }}-material" wire:ignore.self>
+                                                                        <div class="modal-dialog modal-dialog-centered">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title">BUSCAR MATERIAL</h5>
+                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                        <span aria-hidden="true">&times;</span>
+                                                                                    </button>
+                                                                                </div>
+
+                                                                                <div class="modal-body">
+                                                                                    <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
+                                                                                        <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
+                                                                                            <x-slot name="thead">
+                                                                                                <tr>
+                                                                                                    <th style="padding: 14px 18px; font-size: 1.1rem;">NOMBRE</th>
+                                                                                                </tr>
+                                                                                            </x-slot>
+
+                                                                                            <x-slot name="tbody">
+                                                                                                @forelse ($materiales as $material)
+                                                                                                    <tr wire:click.prevent="seleccionarMaterial({{ $newItem['id'] }}, {{ $material->id }})"
+                                                                                                        data-dismiss="modal"
+                                                                                                        style="cursor:pointer; height: 55px;"
+                                                                                                        class="{{ $newItem['material_id'] == $material->id ? 'table-primary' : '' }}">
+                                                                                                        <td style="padding: 12px 18px;">{{ $material->Nombre }}</td>
+                                                                                                    </tr>
+                                                                                                @empty
+                                                                                                    <tr><td class="text-center" style="padding: 12px;">No se encontraron resultados.</td></tr>
+                                                                                                @endforelse
+                                                                                            </x-slot>
+                                                                                        </x-simple-table2>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="modal-footer justify-content-end">
+                                                                                    <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                                        <span class="text-white">Aceptar</span>
+                                                                                        <i class="fas fa-check fa-fw text-white ml-2"></i>
+                                                                                    </button>
+                                                                                    <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                                        <span class="text-white">Cancelar</span>
+                                                                                        <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
 
                                                             </div>
 
