@@ -147,11 +147,11 @@
                             wire:click="toggleExpand({{ $item_orden_trabajo->id }})">
 
                             <td>{{ $item_orden_trabajo->Descripcion }}</td>
-                            <td>{{ $item_orden_trabajo->material->Nombre }}</td>
+                            <td>{{ optional($materiales->firstWhere('id', $items_orden_trabajo_edit[$item_orden_trabajo->id]['material_id'] ?? $item_orden_trabajo->IdMaterial))->Nombre }}</td>
                             <td>{{ $item_orden_trabajo->Cantidad }}</td>
                             <td>{{ $item_orden_trabajo->Peso }}</td>
-    <td>{{ optional($tratamientos->firstWhere('id', $items_orden_trabajo_edit[$item_orden_trabajo->id]['tratamiento_id'] ?? $item_orden_trabajo->IdTratamiento))->Nombre }}</td>
-                            <td>{{ $item_orden_trabajo->dureza->Nombre }}</td>
+                            <td>{{ optional($tratamientos->firstWhere('id', $items_orden_trabajo_edit[$item_orden_trabajo->id]['tratamiento_id'] ?? $item_orden_trabajo->IdTratamiento))->Nombre }}</td>
+                            <td>{{ optional($durezas->firstWhere('id', $items_orden_trabajo_edit[$item_orden_trabajo->id]['dureza_id'] ?? $item_orden_trabajo->IdDureza))->Nombre }}</td>
                             <td>{{ $item_orden_trabajo->DurezaSolicitadaMinima }}</td>
                             <td>{{ $item_orden_trabajo->DurezaSolicitadaMaxima }}</td>
                             <td></td>
@@ -434,61 +434,60 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-<!-- Modal Material -->
-<div class="modal fade" id="modal-items-{{ $item_orden_trabajo->id }}-material" wire:ignore.self>
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">BUSCAR MATERIAL</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
+                                                                <!-- Modal Material -->
+                                                                <div class="modal fade" id="modal-items-{{ $item_orden_trabajo->id }}-material" wire:ignore.self>
+                                                                    <div class="modal-dialog modal-dialog-centered">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title">BUSCAR MATERIAL</h5>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
 
-                <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
-                    <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
-                        <x-slot name="thead">
-                            <tr>
-                                <th style="padding: 14px 18px; font-size: 1.1rem;">NOMBRE</th>
-                            </tr>
-                        </x-slot>
+                                                                                <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
+                                                                                    <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
+                                                                                        <x-slot name="thead">
+                                                                                            <tr>
+                                                                                                <th style="padding: 14px 18px; font-size: 1.1rem;">NOMBRE</th>
+                                                                                            </tr>
+                                                                                        </x-slot>
 
-                        <x-slot name="tbody">
-                            @forelse ($materiales as $material)
-                                <tr wire:click.prevent="seleccionarMaterialExistente({{ $item_orden_trabajo->id }}, {{ $material->id }})"
-                                    data-dismiss="modal"
-                                    style="cursor:pointer; height: 55px;"
-                                    class="{{ $items_orden_trabajo_edit[$item_orden_trabajo->id]['material_id'] == $material->id ? 'table-primary' : '' }}">
-                                    <td style="padding: 12px 18px;">{{ $material->Nombre }}</td>
-                                </tr>
-                            @empty
-                                <tr><td colspan="8">No se encontraron resultados.</td></tr>
-                            @endforelse
-                        </x-slot>
-                    </x-simple-table2>
-                </div>
+                                                                                        <x-slot name="tbody">
+                                                                                            @forelse ($materiales as $material)
+                                                                                                <tr wire:click.prevent="seleccionarMaterialExistente({{ $item_orden_trabajo->id }}, {{ $material->id }})"
+                                                                                                    data-dismiss="modal"
+                                                                                                    style="cursor:pointer; height: 55px;"
+                                                                                                    class="{{ $items_orden_trabajo_edit[$item_orden_trabajo->id]['material_id'] == $material->id ? 'table-primary' : '' }}">
+                                                                                                    <td style="padding: 12px 18px;">{{ $material->Nombre }}</td>
+                                                                                                </tr>
+                                                                                            @empty
+                                                                                                <tr><td colspan="8">No se encontraron resultados.</td></tr>
+                                                                                            @endforelse
+                                                                                        </x-slot>
+                                                                                    </x-simple-table2>
+                                                                                </div>
 
-            </div>
+                                                                            </div>
 
-            <div class="modal-footer justify-content-end">
+                                                                            <div class="modal-footer justify-content-end">
 
-                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
-                    <span class="text-white">Aceptar</span>
-                    <i class="fas fa-check fa-fw text-white ml-2"></i>
-                </button>
+                                                                                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                                    <span class="text-white">Aceptar</span>
+                                                                                    <i class="fas fa-check fa-fw text-white ml-2"></i>
+                                                                                </button>
 
-                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
-                    <span class="text-white">Cancelar</span>
-                    <i class="fas fa-xmark fa-fw text-white ml-2"></i>
-                </button>
+                                                                                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                                    <span class="text-white">Cancelar</span>
+                                                                                    <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                                                                                </button>
 
-            </div>
+                                                                            </div>
 
-        </div>
-    </div>
-</div>
-
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
                                                             </div>
 
@@ -622,7 +621,7 @@
                                                                                 class="form-control form-control-sm"
                                                                                 name="items[{{ $newItem['id'] }}][IdTratamiento]">
                                                                             @foreach ($tratamientos as $tratamiento)
-                                                                                <option value="{{ $tratamiento->id }}">
+                                                                                <option value="{{ $tratamiento->id }}" {{ $tratamiento->Predeterminado == 1 ? 'selected' : '' }}>
                                                                                     {{ $tratamiento->Nombre }}
                                                                                 </option>
                                                                             @endforeach
@@ -639,14 +638,6 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
-
-
-
-
-
-
-
 
                                                                 <!-- .modal -->
                                                                 <div class="modal fade" id="modal-items-{{ $newItem['id'] }}-tratamiento" wire:ignore.self>
@@ -723,7 +714,7 @@
                                                                             name="items[{{ $newItem['id'] }}][IdDureza]"
                                                                         >
                                                                             @foreach ($durezas as $dureza)
-                                                                                <option value="{{ $dureza->id }}">
+                                                                                <option value="{{ $dureza->id }}" {{ $dureza->Predeterminado == 1 ? 'selected' : '' }}>
                                                                                     {{ $dureza->Nombre }}
                                                                                 </option>
                                                                             @endforeach
@@ -818,7 +809,7 @@
                                                                                 name="items[{{ $newItem['id'] }}][IdMaterial]"
                                                                             >
                                                                                 @foreach ($materiales as $material)
-                                                                                    <option value="{{ $material->id }}">
+                                                                                    <option value="{{ $material->id }}" {{ $material->Predeterminado == 1 ? 'selected' : '' }}>
                                                                                         {{ $material->Nombre }}
                                                                                     </option>
                                                                                 @endforeach
@@ -1012,7 +1003,8 @@
                             @forelse ($clientes as $cliente)
                                 <tr wire:click.prevent="seleccionarCliente({{ $cliente->id }})"
                                     style="cursor:pointer;"
-                                    class="{{ $cliente_id == $cliente->id ? 'table-primary' : '' }}">
+                                    class="{{ $cliente_id == $cliente->id ? 'table-primary' : '' }}"
+                                    data-dismiss="modal">
                                     <td>{{ $cliente->id }}</td>
                                     <td>{{ $cliente->Nombre }}</td>
                                     <td>{{ $cliente->TipoDocumento }}</td>
