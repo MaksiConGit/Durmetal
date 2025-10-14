@@ -1,4 +1,5 @@
 <div>
+<div>
     <x-data-table-no-plus>
         <x-slot name="table_title">Empleados</x-slot>
         <x-slot name="export_route">{{ route('clients.export') }}</x-slot>

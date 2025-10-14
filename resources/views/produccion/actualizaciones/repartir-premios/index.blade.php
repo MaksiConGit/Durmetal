@@ -1,4 +1,6 @@
-<x-layout>
+@livewire('repartir-premios')
+
+{{-- <x-layout>
   <x-slot name="title">Producción</x-slot>
   <x-slot name="breadcrumbs">
       <li class="nav-home">
@@ -168,4 +170,4 @@
       });
     });
   </script>
-</x-layout>
+</x-layout> --}}

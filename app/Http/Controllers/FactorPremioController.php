@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFactorPremioRequest;
+use App\Http\Requests\UpdateFactorPremioRequest;
 use App\Models\FactorPremio;
 use Illuminate\Http\Request;
 
@@ -34,7 +35,7 @@ class FactorPremioController extends Controller
         return view('produccion.actualizaciones.factores-premio.edit', compact('factor_premio'));
     }
 
-    public function update(StoreFactorPremioRequest $request, FactorPremio $factor_premio)
+    public function update(UpdateFactorPremioRequest $request, FactorPremio $factor_premio)
     {
         $data = $request->all();
 

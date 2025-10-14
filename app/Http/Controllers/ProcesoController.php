@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTipoProgramacionRequest;
+use App\Http\Requests\UpdateTipoProgramacionRequest;
 use App\Models\TipoProgramacion;
 use Illuminate\Http\Request;
 
@@ -11,6 +12,10 @@ class ProcesoController extends Controller
     public function index()
     {
         $procesos = TipoProgramacion::all();
+
+        if (!session('modal')) {
+            session()->put('modal', 'create');
+        }
 
         return view('produccion.actualizaciones.procesos.index', compact('procesos'));
     }
@@ -37,7 +42,7 @@ class ProcesoController extends Controller
         return view('produccion.actualizaciones.procesos.edit', compact('proceso'));
     }
 
-    public function update(StoreTipoProgramacionRequest $request, TipoProgramacion $proceso)
+    public function update(UpdateTipoProgramacionRequest $request, TipoProgramacion $proceso)
     {
         $data = $request->all();
 

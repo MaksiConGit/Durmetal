@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePremioRequest;
+use App\Http\Requests\UpdatePremioRequest;
 use App\Models\ItemPremio;
 use App\Models\Premio;
 use App\Models\User;
@@ -68,7 +69,7 @@ class RepartirPremioController extends Controller
         return view('produccion.actualizaciones.repartir-premios.edit', compact('premio'));
     }
 
-    public function update(StorePremioRequest $request, Premio $premio)
+    public function update(UpdatePremioRequest $request, Premio $premio)
     {
         $data = $request->all();
 

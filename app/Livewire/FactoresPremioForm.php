@@ -31,6 +31,11 @@ class FactoresPremioForm extends Component
         }
     }
 
+    public function cerrar()
+    {
+        $this->expandido = false;
+    }
+
     public function updatedActivos()
     {
         // Reactividad automática

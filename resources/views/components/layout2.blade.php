@@ -175,7 +175,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
               <!-- Level two dropdown-->
               <li class="dropdown-submenu dropdown-hover">
-                <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle disabled">Actualizaciones</a>
+                <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Actualizaciones</a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                   <li>
                     <a tabindex="-1" href="{{ route('durezas.index') }}" class="dropdown-item">Durezas</a>

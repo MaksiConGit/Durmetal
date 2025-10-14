@@ -1,4 +1,6 @@
-<x-layout>
+@livewire('procesos')
+
+{{-- <x-layout>
 
   <x-slot name="title">Produccion</x-slot>
   <x-slot name="breadcrumbs">
@@ -81,4 +83,4 @@
         </x-slot>
     </x-data-table>
   
-</x-layout>
+</x-layout> --}}

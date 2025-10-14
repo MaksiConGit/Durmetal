@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreFactorPremioRequest extends FormRequest
+class UpdateTipoProgramacionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,16 +21,18 @@ class StoreFactorPremioRequest extends FormRequest
      */
     public function rules(): array
     {
-        session()->put('modal', 'create');
+        $proceso = $this->route('proceso');
+
+        session()->put([
+            'modal' => 'edit',
+            'proceso_id' => $proceso->id,
+        ]);
 
         return [
             'Nombre' => 'required|string|max:255',
-            'ValorPredeterminado' => 'required|numeric',
-            'FechaCreacion' => 'nullable|date',
-            'CreadoPor' => 'integer|exists:users,id',
-            'FechaActualizacion' => 'nullable|date',
-            'ActualizadoPor' => 'integer|exists:users,id',
-            'Activo' => 'boolean',
+            'Tipo' => 'required|string|max:255',
+            'Predeterminado' => 'required|boolean',
+            'RequiereNumeracionSiempre' => 'required|boolean',
         ];
     }
 }

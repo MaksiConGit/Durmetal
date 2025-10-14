@@ -21,6 +21,8 @@ class StoreTipoProgramacionRequest extends FormRequest
      */
     public function rules(): array
     {
+        session()->put('modal', 'create');
+
         return [
             'Nombre' => 'required|string|max:255',
             'Tipo' => 'required|string|max:255',
