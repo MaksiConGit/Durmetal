@@ -29,8 +29,8 @@
         <!-- Left navbar links -->
         <ul class="navbar-nav">
 
-          <li class="nav-item dropdown">
-            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle disabled">
+          <li class="nav-item dropdown dropdown-hover">
+            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
               <i class="fas fa-cart-plus mr-1"></i> COMPRAS
             </a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">

@@ -1,4 +1,4 @@
-<x-layout>
+{{-- <x-layout>
     <x-slot name="title">Compras</x-slot>
     <x-slot name="breadcrumbs">
         <li class="nav-home">
@@ -122,4 +122,12 @@
         </x-slot>
     </x-card>
 
-</x-layout>
+</x-layout> --}}
+
+
+<x-layout2>
+    <x-slot name="title">Listado de cheques a proveedores</x-slot>
+
+    @livewire('listado-cheques-proveedores2')
+
+</x-layout2>
