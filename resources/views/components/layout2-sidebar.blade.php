@@ -376,7 +376,7 @@
         <div class="row">
           <div class="col-12">
 
-            <div class="card">
+            <div class="card" style="max-height: 50rem; overflow-y: auto;">
               <div class="card-header bg-dark">
                 <h3 class="card-title">{{ $title }}</h3>
               </div>

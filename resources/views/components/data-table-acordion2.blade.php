@@ -5,19 +5,19 @@
               {{ $filtros }}
           </div>
       @endif
-    <div class="card">
-      <div class="card-body p-0">
-        <table class="table table-hover table-sm" style="height: 26rem;">
-          <thead>
-            {{ $thead }}
-          </thead>
-          <tbody>
-            {{ $tbody }}
-          </tbody>
-        </table>
+      <div class="card">
+        <div class="card-body p-0" style="max-height: 15rem; overflow-y: auto;">
+          <table class="table table-hover table-sm text-sm mb-0">
+            <thead style="position: sticky; top: 0; background: white; z-index: 10;">
+              {{ $thead }}
+            </thead>
+            <tbody>
+              {{ $tbody }}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-
+      
   </div>
 
   <style>
