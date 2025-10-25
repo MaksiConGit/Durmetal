@@ -20,22 +20,46 @@ class IngresoDatosController extends Controller
     public function update(Request $request, Programacion $programacion)
     {
         $data = $request->all();
-        
-        // dd($data);
 
-        foreach ($data['ProgramacionIds'] as $IdProgramacion) {
+        $accion = $request->input('accion');
 
-            $programacion = Programacion::find($IdProgramacion);
+        if ($accion === 'aprobar') {
+            foreach ($data['ProgramacionIds'] as $IdProgramacion) {
 
-            if ($programacion) {
+                $programacion = Programacion::find($IdProgramacion);
 
-                $programacion->update([
-                    'DurezaMinima' => $data['DurezaMinima'][$IdProgramacion],
-                    'DurezaMaxima' => $data['DurezaMaxima'][$IdProgramacion],
-                    'Apto' => $data['ProcesoApto'][$IdProgramacion] ?? null,
+                if ($programacion) {
+
+                    $programacion->update([
+                        'DurezaMinima' => $data['DurezaMinima'][$IdProgramacion],
+                        'DurezaMaxima' => $data['DurezaMaxima'][$IdProgramacion],
+                        'Apto' => $data['ProcesoApto'][$IdProgramacion] ?? null,
+                    ]);
+                }
+
+                $programacion->itemOrdenTrabajo->update([
+                    'Estado' => 'APROBADO'
                 ]);
+
             }
-            
+
+        }
+        elseif ($accion === 'aceptar') {
+
+            foreach ($data['ProgramacionIds'] as $IdProgramacion) {
+
+                $programacion = Programacion::find($IdProgramacion);
+
+                if ($programacion) {
+
+                    $programacion->update([
+                        'DurezaMinima' => $data['DurezaMinima'][$IdProgramacion],
+                        'DurezaMaxima' => $data['DurezaMaxima'][$IdProgramacion],
+                        'Apto' => $data['ProcesoApto'][$IdProgramacion] ?? null,
+                    ]);
+                }
+                
+            }
 
         }
     

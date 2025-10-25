@@ -105,10 +105,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('actualizaciones/asignar-factores', AsignarFactorController::class)->names('asignar-factores')->parameters(['asignar-factores' => 'usuario']);
     Route::resource('actualizaciones/repartir-premios', RepartirPremioController::class)->names('repartir-premios')->parameters(['repartir-premios' => 'premio']);
 
-
     Route::get('ingreso-datos', [IngresoDatosController::class, 'index'])->name('ingreso-datos.index');
-    Route::put('ingreso-datos', [IngresoDatosController::class, 'update'])->name('ingreso-datos.update');
-
+    Route::put('ingreso-datos/update', [IngresoDatosController::class, 'update'])->name('ingreso-datos.update');
 
     Route::get('reportes/materiales', [ReporteController::class, 'materiales'])->name('reportes.materiales');
     Route::get('reportes/materiales-resumido', [ReporteController::class, 'materialesResumido'])->name('reportes.materiales-resumido');

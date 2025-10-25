@@ -111,6 +111,8 @@
 
                 <x-slot name="thead">
                     <tr class="bg-secondary text-white">
+                        <th></th>
+                        <th></th>
                         <th>DESCRIPCION</th>
                         <th>RAZON SOCIAL</th>
                         <th>FECHA</th>
@@ -136,6 +138,12 @@
                             aria-expanded="{{ in_array($item->id, $expanded) ? 'true' : 'false' }}"
                             wire:click="toggleExpand({{ $item->id }})">
 
+                            <td class="text-center align-middle">
+                                <button class="btn btn-sm btn-light toggle-row" type="button">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </td>
+                            <td></td>
                             <td>{{ $item->Descripcion }}</td>
                             <td>[{{$item->ordenTrabajo->cliente->id ?? 'null'}}] {{ $item->ordenTrabajo->cliente->Nombre ?? 'null' }}</td>
                             <td>{{ \Carbon\Carbon::parse($item->FechaCreacion)->format('j/n/Y') }}</td>
@@ -145,7 +153,9 @@
                             <td>{{ $item->tratamiento->Nombre }}</td>
                             <td>{{ $item->material->Nombre }}</td>
                             <td>{{ $item->dureza->Nombre }}</td>
-                            <td>{{ $item->DurezaSolicitadaMinima }} - {{ $item->DurezaSolicitadaMaxima }}</td>
+                            <td>
+                                <span class="bg-blue px-1">{{ $item->DurezaSolicitadaMinima }} - {{ $item->DurezaSolicitadaMaxima }}</span> 
+                            </td>
                             <td>{{ $item->Estado }}</td>
                             @if ($item->Estado == 'APROBADO')
                                 <td class="text-start align-middle">
@@ -182,7 +192,6 @@
                                         <tr class="bg-dark text-white">
                                             <th></th>
                                             <th></th>
-                                            <th></th>
                                             <th>PROGRAMACION</th>
                                             <th>RP</th>
                                             <th>CANTIDAD</th>
@@ -208,40 +217,32 @@
                                                     <tr data-widget="expandable-table"
                                                         aria-expanded="{{ in_array($programacion->id, $expandedInner ?? []) ? 'true' : 'false' }}"
                                                         wire:click="toggleExpandInner({{ $programacion->id }})">
+
                                                         <td></td>
-
                                                         <td class="text-center align-middle">
-
-                                                            <button 
-                                                                type="button"
-                                                                class="btn btn-sidebar btn-sm bg-danger"
-                                                                data-bs-toggle="tooltip"
-                                                                title="Eliminar programación"
-                                                                onclick="confirmDelete({{ $programacion->id }})">
-                                                                <i class="fas fa-ban fa-fw text-white"></i>
+                                                            <button class="btn btn-sm btn-light toggle-row" type="button">
+                                                                <i class="fas fa-plus"></i>
                                                             </button>
-
-                                                        </td>
-
-                                                        <td class="text-center align-middle">
-                                                            <a href="{{ route('programacion.edit', $programacion->id) }}"
-                                                                class="btn btn-sidebar btn-sm bg-secondary"
-                                                                data-bs-toggle="tooltip"
-                                                                title="Editar programación">
-                                                                <i class="fas fa-pen fa-fw"></i>
-                                                            </a>
                                                         </td>
 
                                                         <td>
-                                                            H{{ $programacion->NumeroHorno }} |
-                                                            {{ $programacion->tipoProgramacion->Nombre }}
-                                                            {{ $numeroProgramacion }}-{{ $index + 1 }}
+                                                            <span class="bg-danger px-1">H{{ $programacion->NumeroHorno }}</span> 
+                                                            <span class="bg-primary px-1">{{ $programacion->tipoProgramacion->Nombre }} {{ $numeroProgramacion }}-{{ $index + 1 }}</span>
                                                         </td>
+
                                                         <td>{{ $programacion->Reproceso == 0 ? '' : 'RP' }}</td>
-                                                        <td>{{ $programacion->Cantidad }}</td>
-                                                        <td>{{ $programacion->Apto == 'SI' ? 'APTO' : 'NO APTO'}}</td>
-                                                        <td>{{ $programacion->FechaCarga }}</td>
-                                                        <td>{{ $programacion->FechaDescarga }}</td>
+                                                        <td>{{ number_format($programacion->Cantidad, 2, '.', '') }}</td>
+
+                                                        <td>
+                                                            <span 
+                                                                class="{{ $programacion->Apto == 'SI' ? 'bg-success text-white px-1' : ($programacion->Apto == 'NO' ? 'bg-danger text-white px-1' : '') }}"
+                                                                style="{{ $programacion->Apto == 'NO' ? 'text-decoration: line-through;' : '' }}">
+                                                                {{ $programacion->Apto == 'SI' ? 'APTO' : ($programacion->Apto == 'NO' ? 'APTO' : '') }}
+                                                            </span>
+                                                        </td>
+                                                        
+                                                        <td>{{ \Carbon\Carbon::parse($programacion->FechaCarga)->format('d/m/Y H:i') }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($programacion->FechaDescarga)->format('d/m/Y H:i') }}</td>
                                                         <td>{{ $programacion->ejecutadoPorOperador->name }}</td>
                                                         <td>{{ $programacion->Temperatura }}</td>
                                                         <td>{{ $programacion->medioEnfriamiento->Nombre }}</td>
@@ -258,7 +259,6 @@
                                                                 @method('PUT')
 
                                                                 <input type="hidden" name="ProgramacionIds[]" value="{{$programacion->id}}">
-
 
                                                                     <div class="row mt-3 ml-3">
                                                                         
@@ -286,27 +286,61 @@
 
                                                                         <div class="col-2">
 
-                                                                            <div class="custom-control custom-radio">
-                                                                                <input class="custom-control-input" type="radio"
-                                                                                name="ProcesoApto[{{ $programacion->id }}]"
-                                                                                id="{{ $programacion->id }}1"
-                                                                                value="SI" 
-                                                                                {{$programacion->Apto == 'SI' ? 'checked' : ''}}>
-                                                                                <label for="{{ $programacion->id }}1" class="custom-control-label font-weight-normal text-green">PROCESO APTO</label>
-                                                                            </div>
+                                                                            @if ($programacion->tipoProgramacion->id != 1)
+                                                                                <div class="custom-control custom-radio">
+                                                                                    <input class="custom-control-input" 
+                                                                                        type="radio"
+                                                                                        name="ProcesoApto[{{ $programacion->id }}]"
+                                                                                        id="{{ $programacion->id }}1"
+                                                                                        value="SI"
+                                                                                        {{$programacion->Apto == 'SI' ? 'checked' : ''}}
+                                                                                        disabled>
+
+                                                                                    <label for="{{ $programacion->id }}1" 
+                                                                                        class="custom-control-label font-weight-normal text-secondary">
+                                                                                        PROCESO APTO
+                                                                                    </label>
+                                                                                </div>
+                                                                            @else
+                                                                                <div class="custom-control custom-radio">
+                                                                                    <input class="custom-control-input" type="radio"
+                                                                                    name="ProcesoApto[{{ $programacion->id }}]"
+                                                                                    id="{{ $programacion->id }}1"
+                                                                                    value="SI" 
+                                                                                    {{$programacion->Apto == 'SI' ? 'checked' : ''}}>
+                                                                                    <label for="{{ $programacion->id }}1" class="custom-control-label font-weight-normal text-green">PROCESO APTO</label>
+                                                                                </div>
+                                                                            @endif
 
                                                                         </div>
 
                                                                         <div class="col-2">
 
-                                                                            <div class="custom-control custom-radio">
-                                                                                <input class="custom-control-input" type="radio"
-                                                                                name="ProcesoApto[{{ $programacion->id }}]"
-                                                                                id="{{ $programacion->id }}2"
-                                                                                value="NO"
-                                                                                {{$programacion->Apto == 'NO' ? 'checked' : ''}}>
-                                                                                <label for="{{ $programacion->id }}2" class="custom-control-label font-weight-normal text-red">PROCESO NO APTO</label>
-                                                                            </div>
+                                                                            @if ($programacion->tipoProgramacion->id != 1)
+                                                                                <div class="custom-control custom-radio">
+                                                                                    <input class="custom-control-input"
+                                                                                        type="radio"
+                                                                                        name="ProcesoApto[{{ $programacion->id }}]"
+                                                                                        id="{{ $programacion->id }}2"
+                                                                                        value="NO"
+                                                                                        {{$programacion->Apto == 'NO' ? 'checked' : ''}}
+                                                                                        disabled>
+
+                                                                                    <label for="{{ $programacion->id }}2"
+                                                                                        class="custom-control-label font-weight-normal text-secondary">
+                                                                                        PROCESO NO APTO
+                                                                                    </label>
+                                                                                </div>
+                                                                            @else
+                                                                                <div class="custom-control custom-radio">
+                                                                                    <input class="custom-control-input" type="radio"
+                                                                                    name="ProcesoApto[{{ $programacion->id }}]"
+                                                                                    id="{{ $programacion->id }}2"
+                                                                                    value="NO"
+                                                                                    {{$programacion->Apto == 'NO' ? 'checked' : ''}}>
+                                                                                    <label for="{{ $programacion->id }}2" class="custom-control-label font-weight-normal text-red">PROCESO NO APTO</label>
+                                                                                </div>
+                                                                            @endif
 
                                                                         </div>
 
@@ -316,7 +350,20 @@
 
                                                                         <div class="col-6">
                                                                             <div class="d-flex justify-content-end mt-3">
-                                                                                <button class="btn btn-sidebar btn-sm bg-orange">
+
+                                                                                <input type="hidden" name="accion">
+
+                                                                                @if ($programacion->tipoProgramacion->id != 1 && $programacion->itemOrdenTrabajo->Estado != 'APROBADO')
+                                                                                    <button type="button"
+                                                                                            class="btn btn-sidebar btn-sm bg-green"
+                                                                                            onclick="this.form.querySelector('[name=accion]').value='aprobar'; this.form.submit();">
+                                                                                        <span class="text-white">APROBAR TRABAJO</span>
+                                                                                    </button>
+                                                                                @endif
+
+                                                                                <button type="button"
+                                                                                        class="btn btn-sidebar btn-sm bg-orange ml-4"
+                                                                                        onclick="this.form.querySelector('[name=accion]').value='aceptar'; this.form.submit();">
                                                                                     <span class="text-white">Aceptar</span>
                                                                                     <i class="fas fa-check fa-fw text-white ml-2"></i>
                                                                                 </button>
@@ -372,6 +419,8 @@
 
                     @for ($i = 0; $i < $filasFaltantes; $i++)
                         <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
