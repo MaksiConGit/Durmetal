@@ -1,4 +1,4 @@
-<x-layout>
+{{-- <x-layout>
     <x-slot name="title">Compras</x-slot>
     <x-slot name="breadcrumbs">
         <li class="nav-home">
@@ -150,4 +150,114 @@
         </x-slot>
     </x-data-table-no-plus>
 
-</x-layout>
+</x-layout> --}}
+
+<x-layout2>
+    <x-slot name="title">Resumen mensual de egresos</x-slot>
+
+    {{-- @livewire('listado-cheques-proveedores2') --}}
+
+    <x-simple-table2>
+    <x-slot name="filtros">
+        <div class="row">
+
+            <div class="col-2">
+                <div class="form-group mb-0">
+                    <label for="filtro1" class="font-weight-normal">DESDE FECHA</label>
+                    <input type="date" id="filtro1" name="filtro1" wire:model.live="cliente_desde" class="form-control form-control-sm" placeholder="Buscar...">
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="form-group mb-0">
+                    <label for="filtro1" class="font-weight-normal">HASTA FECHA</label>
+                    <input type="date" id="filtro1" name="filtro1" wire:model.live="cliente_hasta" class="form-control form-control-sm" placeholder="Buscar...">
+                </div>
+            </div>
+
+        </div>
+      </div>
+    </x-slot>
+    <x-slot name="thead">
+        <tr>
+            <th>CUENTA</th>
+            <th>TIPO</th>
+            <th>ENERO</th>
+            <th>FEBRERO</th>
+            <th>MARZO</th>
+            <th>ABRIL</th>
+            <th>MAYO</th>
+            <th>JUNIO</th>
+            <th>JULIO</th>
+            <th>AGOSTO</th>
+            <th>SEPTIEMBRE</th>
+            <th>OCTUBRE</th>
+            <th>NOVIEMBRE</th>
+            <th>DICIEMBRE</th>
+            <th>TOTAL</th>
+        </tr>
+    </x-slot>
+    <x-slot name="tbody">
+
+            @foreach ($cuentas_gastos as $cuenta_gastos)
+                <tr>
+                    <td>{{ $cuenta_gastos->Nombre }}</td>
+                    <td>GASTOS</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                </tr>
+            @endforeach
+
+            @foreach ($cuentas_otros_egresos as $cuenta_otros_egresos)
+                <tr>
+                    <td>{{ $cuenta_otros_egresos->Nombre }}</td>
+                    <td>OTROS EGRESOS</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                    <td>{{ number_format(0, 2, '.', '') }}</td>
+                </tr>
+            @endforeach
+
+            <tr class="text-bold">
+                <td>SUBTOTAL MENSUAL</td>
+                <td></td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+                <td>{{ number_format(0, 2, '.', '') }}</td>
+            </tr>
+
+    </x-slot>
+</x-simple-table2>
+
+</x-layout2>
