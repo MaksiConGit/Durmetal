@@ -1,4 +1,4 @@
-<x-layout>
+{{-- <x-layout>
     <x-slot name="title">Compras</x-slot>
     <x-slot name="breadcrumbs">
         <li class="nav-home">
@@ -201,4 +201,88 @@
 
     </x-card>
 
-</x-layout>
+</x-layout> --}}
+
+<x-layout2>
+    <x-slot name="title">Ficha del cliente</x-slot>
+    
+    {{-- @livewire('ficha-del-cliente2') --}}
+
+    <x-simple-table2>
+        <x-slot name="filtros">
+            <div class="row">
+            <div class="col-2">
+                <div class="form-group mb-0">
+                    <label for="filtro1" class="font-weight-normal">CODIGO</label>
+                    <input type="text" id="filtro1" name="filtro1" wire:model.live="codigo" class="form-control form-control-sm">
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group mb-0">
+                    <label for="filtro1" class="font-weight-normal">NOMBRE</label>
+                    <input type="text" id="filtro1" name="filtro1" wire:model.live="nombre" class="form-control form-control-sm">
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group mb-0">
+                    <label for="filtro1" class="font-weight-normal">N° DOCUMENTO</label>
+                    <input type="text" id="filtro1" name="filtro1" wire:model.live="documento" class="form-control form-control-sm">
+                </div>
+            </div>
+            </div>
+        </div>
+        </x-slot>
+        <x-slot name="thead">
+            <tr>
+                <th>CODIGO</th>
+                <th>NOMBRE</th>
+                <th>N° DOCUMENTO</th>
+                <th>DOMICILIO</th>
+                <th>LOCALIDAD</th>
+                <th>PROVINCIA</th>
+                <th>CONDICION IVA</th>
+            </tr>
+        </x-slot>
+        <x-slot name="tbody">
+            {{-- @forelse ($clientes as $cliente)
+                <tr style="cursor: pointer;" 
+                    onclick="window.location='{{ match($filtro) {
+                        'trabajos_pendientes_nota_envio' => route('ventas.ficha-del-cliente-nota-envio.create', $cliente),
+                        'notas_pendientes' => route('ventas.ficha-del-cliente-factura-venta.create', $cliente),
+                        'facturas_pendientes' => route('ventas.ficha-del-cliente-recibo-venta.create', $cliente),
+                        default => route('ventas.ficha-del-cliente.show', $cliente)
+                    } }}'">
+                    
+                    @if($filtro !== null && $filtro !== '')
+                        <td>
+                            @switch($filtro)
+                                @case('notas_pendientes')
+                                    {{ $cliente->notas_envio_pendientes_count }}
+                                    @break
+                                @case('facturas_pendientes')
+                                    {{ $cliente->facturas_pendientes_count }}
+                                    @break
+                                @case('trabajos_pendientes_nota_envio')
+                                    {{ $cliente->ordenes_trabajo_pendientes_count  }}
+                                    @break
+                            @endswitch
+                        </td>
+                    @endif
+
+                    <td>{{ $cliente->id }}</td>
+                    <td>{{ $cliente->Nombre }}</td>
+                    <td>{{ $cliente->NroDocumento }}</td>
+                    <td>{{ $cliente->Domicilio }}</td>
+                    <td>{{ $cliente->localidad->Nombre ?? '-' }}</td>
+                    <td>{{ $cliente->localidad->provincia->Nombre ?? '-' }}</td>
+                    <td>{{ $cliente->condicionIVA->Nombre ?? '-' }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="9">No se encontraron resultados.</td>
+                </tr>
+            @endforelse --}}
+        </x-slot>
+    </x-simple-table2>
+
+</x-layout2>
