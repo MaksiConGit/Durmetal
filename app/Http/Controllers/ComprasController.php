@@ -229,25 +229,9 @@ class ComprasController extends Controller
     // Resumen de cuenta corriente proveedor
     public function resumenCuentaCorriente()
     {
-        $proveedores = Proveedor::all();
+        $proveedor_id = request('proveedor_id');
 
-        $proveedor = Proveedor::first();
-
-        $facturas_compra = $proveedor->facturasCompra;
-        $notas_debito_compra = $proveedor->notasDebitoCompra;
-        $notas_credito_compra = $proveedor->notasCreditoCompra;
-        $ordenes_pago = $proveedor->ordenesPago;
-        $minutas_compra = $proveedor->minutasCompra;
-
-        $documentos = $facturas_compra
-            ->concat($notas_debito_compra)
-            ->concat($notas_credito_compra)
-            ->concat($ordenes_pago)
-            ->concat($minutas_compra);
-
-        $documentos = $documentos->sortByDesc('FechaEmision')->values();
-
-        return view('compras.resumen-cuenta-corriente.index', compact('proveedores', 'proveedor', 'notas_debito_compra', 'notas_credito_compra', 'documentos'));
+        return view('compras.resumen-cuenta-corriente.index', compact('proveedor_id'));
     }
 
     // Listado de movimientos por cuentas de gastos

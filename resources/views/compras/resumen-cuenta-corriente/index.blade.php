@@ -260,6 +260,6 @@
 <x-layout2>
     <x-slot name="title">Resumen de cuenta corriente proveedor</x-slot>
 
-    @livewire('resumen-cuenta-corriente-proveedor2')
+    @livewire('resumen-cuenta-corriente-proveedor2', ['proveedor_id' => $proveedor_id])
 
 </x-layout2>

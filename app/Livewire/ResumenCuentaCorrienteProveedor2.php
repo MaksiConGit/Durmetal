@@ -28,7 +28,7 @@ class ResumenCuentaCorrienteProveedor2 extends Component
 
     public $periodo_id;
 
-    public function mount($proveedor_id = null)
+    public function mount($proveedor_id)
     {
         $this->proveedores = Proveedor::all();
         $this->proveedor_id = $proveedor_id;

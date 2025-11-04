@@ -61,7 +61,7 @@
 
         <div class="d-flex justify-content-end mr-3">
             <a class="btn btn-app bg-primary" 
-            href="{{ $clienteSeleccionado ? route('compras.resumen-cuenta-corriente.index', $clienteSeleccionado) : '#' }}">
+            href="{{ route('compras.resumen-cuenta-corriente.index', ['proveedor_id' => $proveedor->id]) }}">
                 <i class="fas fa-share"></i> Resumen Cta Cte
             </a>
             <a class="btn btn-app bg-primary disabled">
