@@ -109,7 +109,7 @@
                                 style="width: 2rem"
                                 class="text-center"
                                 maxlength="2"
-                                wire:model.live="codigoComplejidad.{{ $item_orden_trabajo->id }}"
+                                wire:model.lazy="codigoComplejidad.{{ $item_orden_trabajo->id }}"
                                 onclick="event.stopPropagation();">
                         </td>
 

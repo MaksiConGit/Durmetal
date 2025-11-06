@@ -112,6 +112,8 @@ class ValorizarTrabajos2 extends Component
 
     public function updatedCodigoComplejidad($value, $key)
     {
+        $value = $value === '' ? 0 : $value;
+
         ItemOrdenTrabajo::where('id', $key)->update([
             'CodigoComplejidad' => $value
         ]);
