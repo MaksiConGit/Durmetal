@@ -36,7 +36,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Left navbar links -->
         <ul class="navbar-nav" style="margin-left: 7.7rem;">
 
-          <li class="nav-item dropdown dropdown-hover">
+          <li class="nav-item dropdown">
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
               <i class="fas fa-cart-plus mr-1"></i> COMPRAS
             </a>
@@ -53,7 +53,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="dropdown-divider"></li>
 
               <!-- Level two dropdown-->
-              <li class="dropdown-submenu dropdown-hover">
+              <li class="dropdown-submenu">
                 <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Actualizaciones</a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                   <li>
@@ -68,7 +68,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li>
 
-          <li class="nav-item dropdown dropdown-hover">
+          <li class="nav-item dropdown">
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
               <i class="fas fa-money-bill-wave mr-1"></i> OTROS EGRESOS
             </a>
@@ -77,7 +77,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li><a href="{{ route('otros-egresos.listado-entre-fechas.index') }}" class="dropdown-item">Listado entre fechas</a></li>
 
               <!-- Level two dropdown-->
-              <li class="dropdown-submenu dropdown-hover">
+              <li class="dropdown-submenu">
                 <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Actualizaciones</a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                   <li>
@@ -90,7 +90,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
 
 
-          <li class="nav-item dropdown dropdown-hover">
+          <li class="nav-item dropdown">
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
               <i class="fas fa-dollar-sign mr-1"></i> VENTAS
             </a>
@@ -109,7 +109,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="dropdown-divider"></li>
 
               <!-- Level two dropdown-->
-              <li class="dropdown-submenu dropdown-hover">
+              <li class="dropdown-submenu">
                 <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Actualizaciones</a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                   <li>
@@ -128,7 +128,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
 
 
-          <li class="nav-item dropdown dropdown-hover">
+          <li class="nav-item dropdown">
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
               <i class="fas fa-cogs mr-1"></i> PRODUCCION
             </a>
@@ -174,7 +174,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="dropdown-divider"></li>
 
               <!-- Level two dropdown-->
-              <li class="dropdown-submenu dropdown-hover">
+              <li class="dropdown-submenu">
                 <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Actualizaciones</a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                   <li>
@@ -217,7 +217,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
 
               <!-- Level two dropdown-->
-              <li class="dropdown-submenu dropdown-hover">
+              <li class="dropdown-submenu">
                 <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Configuración</a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                   <li>
@@ -263,7 +263,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
 
               <!-- Level two dropdown-->
-              <li class="dropdown-submenu dropdown-hover">
+              <li class="dropdown-submenu">
                 <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Mantenimiento</a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                   <li>
@@ -276,7 +276,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
 
               <!-- Level two dropdown-->
-              <li class="dropdown-submenu dropdown-hover">
+              <li class="dropdown-submenu">
                 <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Desarrollador</a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                   <li>
@@ -328,7 +328,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="dropdown-divider"></li>
 
               <!-- Level two dropdown-->
-              <li class="dropdown-submenu dropdown-hover">
+              <li class="dropdown-submenu">
                 <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Actualizaciones</a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                   <li>
