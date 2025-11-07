@@ -34,7 +34,7 @@
             @csrf
             @method('PUT')
 
-            <x-data-table-acordion2>
+            <x-data-table-acordion3>
 
                 <x-slot name="filtros">
 
@@ -119,12 +119,21 @@
                             </div>
                         </div>
 
+                        
+                        <div class="row d-flex justify-content-end ml-5">
+                            <div>
+                                <button class="btn btn-app bg-primary">
+                                    <i class="fas fa-floppy-disk"></i> Guardar
+                                </button>
+                            </div>
+                        </div>
+
                     </div>
 
                 </x-slot>
 
                 <x-slot name="thead">
-                    <tr class="bg-secondary text-white">
+                    <tr>
                         <th>DESCRIPCION</th>
                         <th>MATERIAL</th>
                         <th>CANT.</th>
@@ -160,101 +169,99 @@
                             <td></td>
                         </tr>
 
-                        <tr class="expandable-body" style="display: {{ in_array($item_orden_trabajo->id, $expanded) ? 'table-row' : 'none' }};">
-                            <td colspan="15">
-                                <div class="p-0">
+                        <tr class="expandable-body" style="display: {{ in_array($item_orden_trabajo->id, $expanded) ? 'table-row' : 'none' }}; font-size: 0.8rem;">
+                            <td colspan="15" class="p-0">
+                                <div class="p-0 m-0">
                                     <x-panel-horizontal2>
-
                                         <x-slot name="pestañas">
-
                                             <li class="nav-item">
-                                                <a class="nav-link {{ $activeTabParametros === 'custom-tabs-1' ? 'active' : '' }}" wire:click.prevent="setActiveTabParametros('custom-tabs-1')" id="custom-tabs-1-tab" data-toggle="pill" href="#custom-tabs-1" role="tab" aria-controls="custom-tabs-1" aria-selected="true">ITEM</a>
+                                                <a class="nav-link {{ $activeTabParametros === 'custom-tabs-1' ? 'active' : '' }}"
+                                                wire:click.prevent="setActiveTabParametros('custom-tabs-1')"
+                                                id="custom-tabs-1-tab" data-toggle="pill"
+                                                href="#custom-tabs-1" role="tab"
+                                                aria-controls="custom-tabs-1" aria-selected="true"
+                                                style="padding: 3px 8px; font-size: 0.75rem;">
+                                                ITEM
+                                                </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link {{ $activeTabParametros === 'custom-tabs-2' ? 'active' : '' }}" wire:click.prevent="setActiveTabParametros('custom-tabs-2')" id="custom-tabs-2-tab" data-toggle="pill" href="#custom-tabs-2" role="tab" aria-controls="custom-tabs-2" aria-selected="true">OBSERVACIONES</a>
+                                                <a class="nav-link {{ $activeTabParametros === 'custom-tabs-2' ? 'active' : '' }}"
+                                                wire:click.prevent="setActiveTabParametros('custom-tabs-2')"
+                                                id="custom-tabs-2-tab" data-toggle="pill"
+                                                href="#custom-tabs-2" role="tab"
+                                                aria-controls="custom-tabs-2" aria-selected="true"
+                                                style="padding: 3px 8px; font-size: 0.75rem;">
+                                                OBSERVACIONES
+                                                </a>
                                             </li>
-
                                         </x-slot>
 
                                         <x-slot name="ventanas">
-
-                                            <div class="tab-pane fade show {{ $activeTabParametros === 'custom-tabs-1' ? 'active' : '' }}" id="custom-tabs-1" role="tabpanel" aria-labelledby="custom-tabs-1-tab"  style="height:23rem">
-
-                                                <div class="row">
-                                                    <div class="col-2"></div>
-                                                    <div class="card col-8">
-                                                        <div class="card-body">
-
-                                                            <div class="row justify-content-center">
-
-                                                                <div class="col-4 mb-3 mt-2">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="" class="font-weight-normal">ITEM NRO</label>
-                                                                        <input type="hidden" name="items[{{ $item_orden_trabajo->id }}][ItemNumero]" value="{{ old('ItemNumero', $item_orden_trabajo->ItemNumero) }}">
-                                                                        <input type="text" id="email1" name="" value="{{ old('ItemNumero', $item_orden_trabajo->ItemNumero) }}" disabled
-                                                                            class="form-control form-control-sm">
-                                                                    </div>
+                                            <div class="tab-pane fade show {{ $activeTabParametros === 'custom-tabs-1' ? 'active' : '' }}"
+                                                id="custom-tabs-1" role="tabpanel" aria-labelledby="custom-tabs-1-tab"
+                                                style="height: 18rem; padding: 0.5rem;">
+                                                <div class="row justify-content-center m-0">
+                                                    <div class="col-10 card p-1">
+                                                        <div class="card-body p-2">
+                                                            <div class="row justify-content-center m-0">
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">ITEM NRO</label>
+                                                                    <input type="hidden" name="items[{{ $item_orden_trabajo->id }}][ItemNumero]" value="{{ old('ItemNumero', $item_orden_trabajo->ItemNumero) }}">
+                                                                    <input type="text" value="{{ old('ItemNumero', $item_orden_trabajo->ItemNumero) }}" disabled class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
-                                                                <div class="col-4 mb-3 mt-2">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="email2" class="font-weight-normal">DESCRIPCION</label>
-                                                                        <input type="text" id="email2" name="items[{{ $item_orden_trabajo->id }}][Descripcion]" value="{{ old('items[$item_orden_trabajo->id][Descripcion]', $item_orden_trabajo->Descripcion) }}"
-                                                                            class="form-control form-control-sm">
-                                                                    </div>
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">DESCRIPCIÓN</label>
+                                                                    <input type="text" name="items[{{ $item_orden_trabajo->id }}][Descripcion]" value="{{ old('items[$item_orden_trabajo->id][Descripcion]', $item_orden_trabajo->Descripcion) }}" class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
-                                                                <div class="col-4 mb-3 mt-2">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="email2" class="font-weight-normal">NRO PLANO</label>
-                                                                        <input type="text" id="email2" name="" value=""
-                                                                            class="form-control form-control-sm">
-                                                                    </div>
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">NRO PLANO</label>
+                                                                    <input type="text" class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
-
                                                             </div>
-                                                            
-                                                            <div class="row justify-content-center">
 
-                                                                <div class="col-4 mb-3">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="email3" class="font-weight-normal">CANTIDAD</label>
-                                                                        <input type="text" id="email3" name="items[{{ $item_orden_trabajo->id }}][Cantidad]"
-                                                                            value="{{ old('items[$item_orden_trabajo->id][Cantidad]', $item_orden_trabajo->Cantidad) }}"
-                                                                            class="form-control form-control-sm">
-                                                                    </div>
+                                                            <div class="row justify-content-center m-0">
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">CANTIDAD</label>
+                                                                    <input type="text" name="items[{{ $item_orden_trabajo->id }}][Cantidad]" value="{{ old('items[$item_orden_trabajo->id][Cantidad]', $item_orden_trabajo->Cantidad) }}" class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
-                                                                <div class="col-4 mb-3">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="email4" class="font-weight-normal">PESO</label>
-                                                                        <input type="text" id="email4" name="items[{{ $item_orden_trabajo->id }}][Peso]" value="{{ old('items[$item_orden_trabajo->id][Peso]', $item_orden_trabajo->Peso) }}"
-                                                                            class="form-control form-control-sm">
-                                                                    </div>
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">PESO</label>
+                                                                    <input type="text" name="items[{{ $item_orden_trabajo->id }}][Peso]" value="{{ old('items[$item_orden_trabajo->id][Peso]', $item_orden_trabajo->Peso) }}" class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
-
-                                                                <div class="col-4 mb-3">
-
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="filtro1" class="font-weight-normal">TRATAMIENTO</label>
-                                                                    </div>
-                                                                    <div class="input-group">
-                                                                        <select wire:model="items_orden_trabajo_edit.{{ $item_orden_trabajo->id }}.tratamiento_id"
-                                                                                class="form-control form-control-sm"
-                                                                                name="items[{{ $item_orden_trabajo->id }}][IdTratamiento]">
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.7rem;">TRATAMIENTO</label>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <select 
+                                                                            wire:model="items_orden_trabajo_edit.{{ $item_orden_trabajo->id }}.tratamiento_id" 
+                                                                            class="form-control form-control-sm p-1" 
+                                                                            name="items[{{ $item_orden_trabajo->id }}][IdTratamiento]" 
+                                                                            style="height: 22px; font-size: 0.7rem; line-height: 1; padding-right: 20px;"
+                                                                        >
                                                                             @foreach ($tratamientos as $tratamiento)
-                                                                                <option value="{{ $tratamiento->id }}" {{ $item_orden_trabajo->IdTratamiento == $tratamiento->id ? 'selected' : '' }}>
+                                                                                <option 
+                                                                                    value="{{ $tratamiento->id }}" 
+                                                                                    {{ $item_orden_trabajo->IdTratamiento == $tratamiento->id ? 'selected' : '' }}
+                                                                                    style="font-size: 0.7rem; white-space: nowrap;"
+                                                                                >
                                                                                     {{ $tratamiento->Nombre }}
                                                                                 </option>
                                                                             @endforeach
                                                                         </select>
                                                                         <div class="input-group-append">
-                                                                            <button type="button" class="btn btn-sidebar btn-sm bg-orange"
-                                                                                    data-toggle="modal"
-                                                                                    data-target="#modal-items-{{ $item_orden_trabajo->id }}-tratamiento">
-                                                                                <i class="fas fa-search fa-fw text-white"></i>
+                                                                            <button 
+                                                                                type="button" 
+                                                                                class="btn btn-sidebar btn-xs bg-orange p-1" 
+                                                                                data-toggle="modal" 
+                                                                                data-target="#modal-items-{{ $item_orden_trabajo->id }}-tratamiento"
+                                                                                style="height: 22px;"
+                                                                            >
+                                                                                <i class="fas fa-search fa-xs text-white"></i>
                                                                             </button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
+                                                                                                                                <!-- Modal Tratamiento -->
                                                                 <div class="modal fade" id="modal-items-{{ $item_orden_trabajo->id }}-tratamiento" wire:ignore.self>
                                                                     <div class="modal-dialog modal-dialog-centered">
                                                                         <div class="modal-content">
@@ -309,31 +316,30 @@
                                                                     </div>
                                                                 </div>
 
-
                                                             </div>
 
-                                                            <div class="row">
-
-                                                                <div class="col-4 mb-3">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="filtro1" class="font-weight-normal">DUREZA</label>
-                                                                    </div>
-                                                                    <div class="input-group">
-                                                                        <select wire:model="items_orden_trabajo_edit.{{ $item_orden_trabajo->id }}.dureza_id"
-                                                                                class="form-control form-control-sm"
-                                                                                name="items[{{ $item_orden_trabajo->id }}][IdDureza]">
+                                                            <div class="row m-0">
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.7rem;">DUREZA</label>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <select
+                                                                            wire:model="items_orden_trabajo_edit.{{ $item_orden_trabajo->id }}.dureza_id"
+                                                                            class="form-control form-control-sm p-1"
+                                                                            name="items[{{ $item_orden_trabajo->id }}][IdDureza]"
+                                                                            style="height: 22px; font-size: 0.7rem; line-height: 1; padding-right: 20px;">
                                                                             @foreach ($durezas as $dureza)
-                                                                                <option value="{{ $dureza->id }}">
+                                                                                <option value="{{ $dureza->id }}"
+                                                                                        style="font-size: 0.7rem; white-space: nowrap;">
                                                                                     {{ $dureza->Nombre }}
                                                                                 </option>
                                                                             @endforeach
                                                                         </select>
-
                                                                         <div class="input-group-append">
-                                                                            <button type="button" class="btn btn-sidebar btn-sm bg-orange"
+                                                                            <button type="button"
+                                                                                    class="btn btn-sidebar btn-xs bg-orange p-1"
                                                                                     data-toggle="modal"
                                                                                     data-target="#modal-items-{{ $item_orden_trabajo->id }}-dureza">
-                                                                                <i class="fas fa-search fa-fw text-white"></i>
+                                                                                <i class="fas fa-search fa-xs text-white"></i>
                                                                             </button>
                                                                         </div>
                                                                     </div>
@@ -394,47 +400,49 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="col-4 mb-3">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="email4" class="font-weight-normal">DSMIN</label>
-                                                                        <input type="text" id="email4" name="items[{{ $item_orden_trabajo->id }}][DurezaSolicitadaMinima]" value="{{ old('items[$item_orden_trabajo->id][DurezaSolicitadaMinima]', $item_orden_trabajo->DurezaSolicitadaMinima) }}"
-                                                                            class="form-control form-control-sm">
-                                                                    </div>
+
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">DSMIN</label>
+                                                                    <input type="text" name="items[{{ $item_orden_trabajo->id }}][DurezaSolicitadaMinima]" value="{{ old('items[$item_orden_trabajo->id][DurezaSolicitadaMinima]', $item_orden_trabajo->DurezaSolicitadaMinima) }}" class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
 
-                                                                <div class="col-4 mb-3">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="email4" class="font-weight-normal">DSMAX</label>
-                                                                        <input type="text" id="email4" name="items[{{ $item_orden_trabajo->id }}][DurezaSolicitadaMaxima]" value="{{ old('items[$item_orden_trabajo->id][DurezaSolicitadaMaxima]', $item_orden_trabajo->DurezaSolicitadaMaxima) }}"
-                                                                            class="form-control form-control-sm">
-                                                                    </div>
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">DSMAX</label>
+                                                                    <input type="text" name="items[{{ $item_orden_trabajo->id }}][DurezaSolicitadaMaxima]" value="{{ old('items[$item_orden_trabajo->id][DurezaSolicitadaMaxima]', $item_orden_trabajo->DurezaSolicitadaMaxima) }}" class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
 
-                                                                <div class="col-4 mb-3">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="filtro1" class="font-weight-normal">MATERIAL</label>
-                                                                    </div>
-                                                                    <div class="input-group">
-                                                                        <select wire:model="items_orden_trabajo_edit.{{ $item_orden_trabajo->id }}.material_id"
-                                                                                class="form-control form-control-sm"
-                                                                                name="items[{{ $item_orden_trabajo->id }}][IdMaterial]">
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.7rem;">MATERIAL</label>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <select 
+                                                                            wire:model="items_orden_trabajo_edit.{{ $item_orden_trabajo->id }}.material_id" 
+                                                                            class="form-control form-control-sm p-1" 
+                                                                            name="items[{{ $item_orden_trabajo->id }}][IdMaterial]" 
+                                                                            style="height: 22px; font-size: 0.7rem; line-height: 1; padding-right: 20px;"
+                                                                        >
                                                                             @foreach ($materiales as $material)
-                                                                                <option value="{{ $material->id }}">
+                                                                                <option 
+                                                                                    value="{{ $material->id }}" 
+                                                                                    style="font-size: 0.7rem; white-space: nowrap;"
+                                                                                >
                                                                                     {{ $material->Nombre }}
                                                                                 </option>
                                                                             @endforeach
                                                                         </select>
-
                                                                         <div class="input-group-append">
-                                                                            <button type="button" class="btn btn-sidebar btn-sm bg-orange"
-                                                                                    data-toggle="modal"
-                                                                                    data-target="#modal-items-{{ $item_orden_trabajo->id }}-material">
-                                                                                <i class="fas fa-search fa-fw text-white"></i>
+                                                                            <button 
+                                                                                type="button" 
+                                                                                class="btn btn-sidebar btn-xs bg-orange p-1" 
+                                                                                data-toggle="modal" 
+                                                                                data-target="#modal-items-{{ $item_orden_trabajo->id }}-material"
+                                                                                style="height: 22px;"
+                                                                            >
+                                                                                <i class="fas fa-search fa-xs text-white"></i>
                                                                             </button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <!-- Modal Material -->
+   																<!-- Modal Material -->
                                                                 <div class="modal fade" id="modal-items-{{ $item_orden_trabajo->id }}-material" wire:ignore.self>
                                                                     <div class="modal-dialog modal-dialog-centered">
                                                                         <div class="modal-content">
@@ -491,38 +499,37 @@
 
                                                             </div>
 
+                                                            <div class="d-flex justify-content-end mt-2">
+                                                                <button class="btn btn-sidebar btn-xs bg-orange px-2 py-1">
+                                                                    <span class="text-white">Aceptar</span>
+                                                                    <i class="fas fa-check fa-xs text-white ml-1"></i>
+                                                                </button>
+                                                                <button class="btn btn-sidebar btn-xs bg-orange px-2 py-1 ml-2">
+                                                                    <span class="text-white">Cancelar</span>
+                                                                    <i class="fas fa-xmark fa-xs text-white ml-1"></i>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-2"></div>
                                                 </div>
-
                                             </div>
 
-                                            <div class="tab-pane fade show {{ $activeTabParametros === 'custom-tabs-2' ? 'active' : '' }}" id="custom-tabs-2" role="tabpanel" aria-labelledby="custom-tabs-2-tab" style="height:23rem">
-
-                                                <textarea class="form-control w-100" rows="13" placeholder="Escriba aquí..." style="resize: none;" name="items[{{ $item_orden_trabajo->id }}][Observaciones]">{{ old('items[$item_orden_trabajo->id][Observaciones]', $item_orden_trabajo->Observaciones) }}</textarea>
-
+                                            <div class="tab-pane fade show {{ $activeTabParametros === 'custom-tabs-2' ? 'active' : '' }}"
+                                                id="custom-tabs-2" role="tabpanel"
+                                                aria-labelledby="custom-tabs-2-tab"
+                                                style="height: 18rem; padding: 0.5rem;">
+                                                <textarea class="form-control w-100 p-1"
+                                                        rows="10"
+                                                        placeholder="Escriba aquí..."
+                                                        style="resize: none; font-size: 0.8rem;"
+                                                        name="items[{{ $item_orden_trabajo->id }}][Observaciones]">{{ old('items[$item_orden_trabajo->id][Observaciones]', $item_orden_trabajo->Observaciones) }}</textarea>
                                             </div>
-
-                                            <div class="d-flex justify-content-end">
-                                                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
-                                                    <span class="text-white">Aceptar</span>
-                                                    <i class="fas fa-check fa-fw text-white ml-2"></i>
-                                                </button>
-
-                                                <button class="btn btn-sidebar btn-sm bg-orange ml-2" data-dismiss="modal">
-                                                    <span class="text-white">Cancelar</span>
-                                                    <i class="fas fa-xmark fa-fw text-white ml-2"></i>
-                                                </button>
-                                            </div>
-
-
                                         </x-slot>
-
                                     </x-panel-horizontal2>
                                 </div>
                             </td>
                         </tr>
+
 
                     @endforeach
 
@@ -542,99 +549,87 @@
                             <td colspan="4"></td>
                         </tr>
 
-                        <tr class="expandable-body" style="display: {{ in_array($newItem['id'], $expanded) ? 'table-row' : 'none' }};">
-                            <td colspan="15">
-                                <div class="p-0">
+                        <tr class="expandable-body" style="display: {{ in_array($newItem['id'], $expanded) ? 'table-row' : 'none' }}; font-size: 0.8rem;">
+                            <td colspan="15" class="p-0">
+                                <div class="p-0 m-0">
                                     <x-panel-horizontal2>
-
                                         <x-slot name="pestañas">
-
                                             <li class="nav-item">
-                                                <a class="nav-link {{ $activeTabParametros === 'custom-tabs-1' ? 'active' : '' }}" wire:click.prevent="setActiveTabParametros('custom-tabs-1')" id="custom-tabs-1-tab" data-toggle="pill" href="#custom-tabs-1" role="tab" aria-controls="custom-tabs-1" aria-selected="true">ITEM</a>
+                                                <a class="nav-link {{ $activeTabParametros === 'custom-tabs-1' ? 'active' : '' }}"
+                                                wire:click.prevent="setActiveTabParametros('custom-tabs-1')"
+                                                id="custom-tabs-1-tab" data-toggle="pill"
+                                                href="#custom-tabs-1" role="tab"
+                                                aria-controls="custom-tabs-1" aria-selected="true"
+                                                style="padding: 3px 8px; font-size: 0.75rem;">
+                                                ITEM
+                                                </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link {{ $activeTabParametros === 'custom-tabs-2' ? 'active' : '' }}" wire:click.prevent="setActiveTabParametros('custom-tabs-2')" id="custom-tabs-2-tab" data-toggle="pill" href="#custom-tabs-2" role="tab" aria-controls="custom-tabs-2" aria-selected="true">OBSERVACIONES</a>
+                                                <a class="nav-link {{ $activeTabParametros === 'custom-tabs-2' ? 'active' : '' }}"
+                                                wire:click.prevent="setActiveTabParametros('custom-tabs-2')"
+                                                id="custom-tabs-2-tab" data-toggle="pill"
+                                                href="#custom-tabs-2" role="tab"
+                                                aria-controls="custom-tabs-2" aria-selected="true"
+                                                style="padding: 3px 8px; font-size: 0.75rem;">
+                                                OBSERVACIONES
+                                                </a>
                                             </li>
-
                                         </x-slot>
 
                                         <x-slot name="ventanas">
-
-                                            <div class="tab-pane fade show {{ $activeTabParametros === 'custom-tabs-1' ? 'active' : '' }}" id="custom-tabs-1" role="tabpanel" aria-labelledby="custom-tabs-1-tab"  style="height:23rem">
-
-                                                <div class="row">
-                                                    <div class="col-2"></div>
-                                                    <div class="card col-8">
-                                                        <div class="card-body">
-
-                                                            <div class="row justify-content-center">
-
-                                                                <div class="col-4 mb-3 mt-2">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="" class="font-weight-normal">ITEM NRO</label>
-                                                                        <input type="hidden" name="items[{{ $newItem['id'] }}][ItemNumero]" value="{{ ($item_orden_trabajo->ItemNumero ?? 0) + 1 }}">
-                                                                        <input type="text" id="email1" name="" disabled value="{{ ($item_orden_trabajo->ItemNumero ?? 0) + 1 }}"
-                                                                            class="form-control form-control-sm">
-                                                                    </div>
+                                            <div class="tab-pane fade show {{ $activeTabParametros === 'custom-tabs-1' ? 'active' : '' }}"
+                                                id="custom-tabs-1" role="tabpanel" aria-labelledby="custom-tabs-1-tab"
+                                                style="height: 18rem; padding: 0.5rem;">
+                                                <div class="row justify-content-center m-0">
+                                                    <div class="col-10 card p-1">
+                                                        <div class="card-body p-2">
+                                                            <div class="row justify-content-center m-0">
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">ITEM NRO</label>
+                                                                    <input type="hidden" name="items[{{ $newItem['id'] }}][ItemNumero]" value="{{ ($item_orden_trabajo->ItemNumero ?? 0) + 1 }}">
+                                                                    <input type="text" value="{{ ($item_orden_trabajo->ItemNumero ?? 0) + 1 }}" disabled class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
-                                                                <div class="col-4 mb-3 mt-2">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="email2" class="font-weight-normal">DESCRIPCION</label>
-                                                                        <input type="text" id="email2" name="items[{{ $newItem['id'] }}][Descripcion]" value="{{ old('items.' . $newItem['id'] . '.Descripcion', $newItem['Descripcion']) }}"
-                                                                            class="form-control form-control-sm">
-                                                                    </div>
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">DESCRIPCIÓN</label>
+                                                                    <input type="text" name="items[{{ $newItem['id'] }}][Descripcion]" value="{{ old('items.' . $newItem['id'] . '.Descripcion', $newItem['Descripcion']) }}" class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
-                                                                <div class="col-4 mb-3 mt-2">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="email2" class="font-weight-normal">NRO PLANO</label>
-                                                                        <input type="text" id="email2" name="" value=""
-                                                                            class="form-control form-control-sm">
-                                                                    </div>
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">NRO PLANO</label>
+                                                                    <input type="text" class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
-
                                                             </div>
-                                                            
-                                                            <div class="row justify-content-center">
 
-                                                                <div class="col-4 mb-3">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="email3" class="font-weight-normal">CANTIDAD</label>
-                                                                        <input type="text" id="email3" name="items[{{ $newItem['id'] }}][Cantidad]" value="{{ old('items.' . $newItem['id'] . '.Cantidad', $newItem['Cantidad']) }}"
-                                                                            class="form-control form-control-sm">
-                                                                    </div>
+                                                            <div class="row justify-content-center m-0">
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">CANTIDAD</label>
+                                                                    <input type="text" name="items[{{ $newItem['id'] }}][Cantidad]" value="{{ old('items.' . $newItem['id'] . '.Cantidad', $newItem['Cantidad']) }}" class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
-                                                                <div class="col-4 mb-3">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="email4" class="font-weight-normal">PESO</label>
-                                                                        <input type="text" id="email4" name="items[{{ $newItem['id'] }}][Peso]" value="{{ old('items.' . $newItem['id'] . '.Peso', $newItem['Peso']) }}"
-                                                                            class="form-control form-control-sm">
-                                                                    </div>
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">PESO</label>
+                                                                    <input type="text" name="items[{{ $newItem['id'] }}][Peso]" value="{{ old('items.' . $newItem['id'] . '.Peso', $newItem['Peso']) }}" class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
-
-                                                                <div class="col-4 mb-3">
-
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="filtro1" class="font-weight-normal">TRATAMIENTO</label>
-                                                                    </div>
-                                                                    <div class="input-group">
-                                                                        <select wire:model="newItems.{{ $newItem['id'] }}.tratamiento_id"
-                                                                                class="form-control form-control-sm"
-                                                                                name="items[{{ $newItem['id'] }}][IdTratamiento]">
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.7rem;">TRATAMIENTO</label>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <select
+                                                                            wire:model="newItems.{{ $newItem['id'] }}.tratamiento_id"
+                                                                            class="form-control form-control-sm p-1"
+                                                                            name="items[{{ $newItem['id'] }}][IdTratamiento]"
+                                                                            style="height: 22px; font-size: 0.7rem; line-height: 1; padding-right: 20px;">
                                                                             @foreach ($tratamientos as $tratamiento)
-                                                                                <option value="{{ $tratamiento->id }}" {{ $tratamiento->Predeterminado == 1 ? 'selected' : '' }}>
+                                                                                <option value="{{ $tratamiento->id }}"
+                                                                                        style="font-size: 0.7rem; white-space: nowrap;">
                                                                                     {{ $tratamiento->Nombre }}
                                                                                 </option>
                                                                             @endforeach
                                                                         </select>
-
                                                                         <div class="input-group-append">
-                                                                            <button type="button" 
-                                                                                    class="btn btn-sidebar btn-sm bg-orange" 
-                                                                                    data-toggle="modal" 
+                                                                            <button type="button"
+                                                                                    class="btn btn-sidebar btn-xs bg-orange p-1"
+                                                                                    data-toggle="modal"
                                                                                     data-target="#modal-items-{{ $newItem['id'] }}-tratamiento">
-                                                                                <i class="fas fa-search fa-fw text-white"></i>
+                                                                                <i class="fas fa-search fa-xs text-white"></i>
                                                                             </button>
-
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -701,31 +696,28 @@
 
                                                             </div>
 
-                                                            <div class="row">
-
-                                                                <div class="col-4 mb-3">
-                                                                    <div class="form-group mb-0">
-                                                                        <label class="font-weight-normal">DUREZA</label>
-                                                                    </div>
-                                                                    <div class="input-group">
+                                                            <div class="row m-0">
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.7rem;">DUREZA</label>
+                                                                    <div class="input-group input-group-sm">
                                                                         <select
                                                                             wire:model="newItems.{{ $newItem['id'] }}.dureza_id"
-                                                                            class="form-control form-control-sm"
+                                                                            class="form-control form-control-sm p-1"
                                                                             name="items[{{ $newItem['id'] }}][IdDureza]"
-                                                                        >
+                                                                            style="height: 22px; font-size: 0.7rem; line-height: 1; padding-right: 20px;">
                                                                             @foreach ($durezas as $dureza)
-                                                                                <option value="{{ $dureza->id }}" {{ $dureza->Predeterminado == 1 ? 'selected' : '' }}>
+                                                                                <option value="{{ $dureza->id }}"
+                                                                                        style="font-size: 0.7rem; white-space: nowrap;">
                                                                                     {{ $dureza->Nombre }}
                                                                                 </option>
                                                                             @endforeach
                                                                         </select>
-
                                                                         <div class="input-group-append">
-                                                                            <button type="button" 
-                                                                                    class="btn btn-sidebar btn-sm bg-orange" 
-                                                                                    data-toggle="modal" 
+                                                                            <button type="button"
+                                                                                    class="btn btn-sidebar btn-xs bg-orange p-1"
+                                                                                    data-toggle="modal"
                                                                                     data-target="#modal-items-{{ $newItem['id'] }}-dureza">
-                                                                                <i class="fas fa-search fa-fw text-white"></i>
+                                                                                <i class="fas fa-search fa-xs text-white"></i>
                                                                             </button>
                                                                         </div>
                                                                     </div>
@@ -781,136 +773,125 @@
                                                                     </div>
                                                                 </div>
 
-
-                                                                <div class="col-4 mb-3">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="email4" class="font-weight-normal">DSMIN</label>
-                                                                        <input type="text" id="email4" name="items[{{ $newItem['id'] }}][DurezaSolicitadaMinima]" value="{{ old('items.' . $newItem['id'] . '.DurezaSolicitadaMinima', $newItem['DurezaSolicitadaMinima']) }}"
-                                                                            class="form-control form-control-sm">
-                                                                    </div>
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">DSMIN</label>
+                                                                    <input type="text" name="items[{{ $newItem['id'] }}][DurezaSolicitadaMinima]" value="{{ old('items.' . $newItem['id'] . '.DurezaSolicitadaMinima', $newItem['DurezaSolicitadaMinima']) }}" class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
 
-                                                                <div class="col-4 mb-3">
-                                                                    <div class="form-group mb-0">
-                                                                        <label for="email4" class="font-weight-normal">DSMAX</label>
-                                                                        <input type="text" id="email4" name="items[{{ $newItem['id'] }}][DurezaSolicitadaMaxima]" value="{{ old('items.' . $newItem['id'] . '.DurezaSolicitadaMaxima', $newItem['DurezaSolicitadaMaxima']) }}"
-                                                                            class="form-control form-control-sm">
-                                                                    </div>
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">DSMAX</label>
+                                                                    <input type="text" name="items[{{ $newItem['id'] }}][DurezaSolicitadaMaxima]" value="{{ old('items.' . $newItem['id'] . '.DurezaSolicitadaMaxima', $newItem['DurezaSolicitadaMaxima']) }}" class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
 
-                                                                    <div class="col-4 mb-3">
-                                                                        <div class="form-group mb-0">
-                                                                            <label class="font-weight-normal">MATERIAL</label>
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.7rem;">MATERIAL</label>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <select
+                                                                            wire:model="newItems.{{ $newItem['id'] }}.material_id"
+                                                                            class="form-control form-control-sm p-1"
+                                                                            name="items[{{ $newItem['id'] }}][IdMaterial]"
+                                                                            style="height: 22px; font-size: 0.7rem; line-height: 1; padding-right: 20px;">
+                                                                            @foreach ($materiales as $material)
+                                                                                <option value="{{ $material->id }}"
+                                                                                        {{ $material->Predeterminado == 1 ? 'selected' : '' }}
+                                                                                        style="font-size: 0.7rem; white-space: nowrap;">
+                                                                                    {{ $material->Nombre }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                        <div class="input-group-append">
+                                                                            <button type="button"
+                                                                                    class="btn btn-sidebar btn-xs bg-orange p-1"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#modal-items-{{ $newItem['id'] }}-material">
+                                                                                <i class="fas fa-search fa-xs text-white"></i>
+                                                                            </button>
                                                                         </div>
-                                                                        <div class="input-group">
-                                                                            <select
-                                                                                wire:model="newItems.{{ $newItem['id'] }}.material_id"
-                                                                                class="form-control form-control-sm"
-                                                                                name="items[{{ $newItem['id'] }}][IdMaterial]"
-                                                                            >
-                                                                                @foreach ($materiales as $material)
-                                                                                    <option value="{{ $material->id }}" {{ $material->Predeterminado == 1 ? 'selected' : '' }}>
-                                                                                        {{ $material->Nombre }}
-                                                                                    </option>
-                                                                                @endforeach
-                                                                            </select>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Modal MATERIAL -->
+                                                                <div class="modal fade" id="modal-items-{{ $newItem['id'] }}-material" wire:ignore.self>
+                                                                    <div class="modal-dialog modal-dialog-centered">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title">BUSCAR MATERIAL</h5>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
 
-                                                                            <div class="input-group-append">
-                                                                                <button type="button" 
-                                                                                        class="btn btn-sidebar btn-sm bg-orange" 
-                                                                                        data-toggle="modal" 
-                                                                                        data-target="#modal-items-{{ $newItem['id'] }}-material">
-                                                                                    <i class="fas fa-search fa-fw text-white"></i>
+                                                                            <div class="modal-body">
+                                                                                <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
+                                                                                    <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
+                                                                                        <x-slot name="thead">
+                                                                                            <tr>
+                                                                                                <th style="padding: 14px 18px; font-size: 1.1rem;">NOMBRE</th>
+                                                                                            </tr>
+                                                                                        </x-slot>
+
+                                                                                        <x-slot name="tbody">
+                                                                                            @forelse ($materiales as $material)
+                                                                                                <tr wire:click.prevent="seleccionarMaterial({{ $newItem['id'] }}, {{ $material->id }})"
+                                                                                                    data-dismiss="modal"
+                                                                                                    style="cursor:pointer; height: 55px;"
+                                                                                                    class="{{ $newItem['material_id'] == $material->id ? 'table-primary' : '' }}">
+                                                                                                    <td style="padding: 12px 18px;">{{ $material->Nombre }}</td>
+                                                                                                </tr>
+                                                                                            @empty
+                                                                                                <tr><td class="text-center" style="padding: 12px;">No se encontraron resultados.</td></tr>
+                                                                                            @endforelse
+                                                                                        </x-slot>
+                                                                                    </x-simple-table2>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="modal-footer justify-content-end">
+                                                                                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                                    <span class="text-white">Aceptar</span>
+                                                                                    <i class="fas fa-check fa-fw text-white ml-2"></i>
+                                                                                </button>
+                                                                                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                                    <span class="text-white">Cancelar</span>
+                                                                                    <i class="fas fa-xmark fa-fw text-white ml-2"></i>
                                                                                 </button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-
-                                                                    <!-- Modal MATERIAL -->
-                                                                    <div class="modal fade" id="modal-items-{{ $newItem['id'] }}-material" wire:ignore.self>
-                                                                        <div class="modal-dialog modal-dialog-centered">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title">BUSCAR MATERIAL</h5>
-                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                        <span aria-hidden="true">&times;</span>
-                                                                                    </button>
-                                                                                </div>
-
-                                                                                <div class="modal-body">
-                                                                                    <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
-                                                                                        <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
-                                                                                            <x-slot name="thead">
-                                                                                                <tr>
-                                                                                                    <th style="padding: 14px 18px; font-size: 1.1rem;">NOMBRE</th>
-                                                                                                </tr>
-                                                                                            </x-slot>
-
-                                                                                            <x-slot name="tbody">
-                                                                                                @forelse ($materiales as $material)
-                                                                                                    <tr wire:click.prevent="seleccionarMaterial({{ $newItem['id'] }}, {{ $material->id }})"
-                                                                                                        data-dismiss="modal"
-                                                                                                        style="cursor:pointer; height: 55px;"
-                                                                                                        class="{{ $newItem['material_id'] == $material->id ? 'table-primary' : '' }}">
-                                                                                                        <td style="padding: 12px 18px;">{{ $material->Nombre }}</td>
-                                                                                                    </tr>
-                                                                                                @empty
-                                                                                                    <tr><td class="text-center" style="padding: 12px;">No se encontraron resultados.</td></tr>
-                                                                                                @endforelse
-                                                                                            </x-slot>
-                                                                                        </x-simple-table2>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="modal-footer justify-content-end">
-                                                                                    <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
-                                                                                        <span class="text-white">Aceptar</span>
-                                                                                        <i class="fas fa-check fa-fw text-white ml-2"></i>
-                                                                                    </button>
-                                                                                    <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
-                                                                                        <span class="text-white">Cancelar</span>
-                                                                                        <i class="fas fa-xmark fa-fw text-white ml-2"></i>
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
+                                                                </div>
 
                                                             </div>
 
+                                                            <div class="d-flex justify-content-end mt-2">
+                                                                <button class="btn btn-sidebar btn-xs bg-orange px-2 py-1">
+                                                                    <span class="text-white">Aceptar</span>
+                                                                    <i class="fas fa-check fa-xs text-white ml-1"></i>
+                                                                </button>
+                                                                <button class="btn btn-sidebar btn-xs bg-orange px-2 py-1 ml-2">
+                                                                    <span class="text-white">Cancelar</span>
+                                                                    <i class="fas fa-xmark fa-xs text-white ml-1"></i>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-2"></div>
                                                 </div>
-
                                             </div>
 
-                                            <div class="tab-pane fade show {{ $activeTabParametros === 'custom-tabs-2' ? 'active' : '' }}" id="custom-tabs-2" role="tabpanel" aria-labelledby="custom-tabs-2-tab" style="height:23rem">
-
-                                                <textarea class="form-control w-100" rows="13" placeholder="Escriba aquí..." style="resize: none;" name="items[{{ $newItem['id'] }}][Observaciones]">{{ old('items.' . $newItem['id'] . '.Observaciones', $newItem['Observaciones'] ?? '') }}</textarea>
-
+                                            <div class="tab-pane fade show {{ $activeTabParametros === 'custom-tabs-2' ? 'active' : '' }}"
+                                                id="custom-tabs-2" role="tabpanel"
+                                                aria-labelledby="custom-tabs-2-tab"
+                                                style="height: 18rem; padding: 0.5rem;">
+                                                <textarea class="form-control w-100 p-1"
+                                                        rows="10"
+                                                        placeholder="Escriba aquí..."
+                                                        style="resize: none; font-size: 0.8rem;"
+                                                        name="items[{{ $newItem['id'] }}][Observaciones]">{{ old('items.' . $newItem['id'] . '.Observaciones', $newItem['Observaciones'] ?? '') }}</textarea>
                                             </div>
-
-                                            <div class="d-flex justify-content-end">
-                                                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
-                                                    <span class="text-white">Aceptar</span>
-                                                    <i class="fas fa-check fa-fw text-white ml-2"></i>
-                                                </button>
-
-                                                <button class="btn btn-sidebar btn-sm bg-orange ml-2" data-dismiss="modal">
-                                                    <span class="text-white">Cancelar</span>
-                                                    <i class="fas fa-xmark fa-fw text-white ml-2"></i>
-                                                </button>
-                                            </div>
-
-
                                         </x-slot>
-
                                     </x-panel-horizontal2>
                                 </div>
                             </td>
                         </tr>
+
                     @endforeach
 
 
@@ -918,7 +899,7 @@
                         $filasFaltantes = max(0, 12 - count($items_orden_trabajo));
                     @endphp
 
-                    @for ($i = 0; $i < $filasFaltantes; $i++)
+                    @for ($i = 8; $i < 12; $i++)
                         <tr>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
@@ -937,15 +918,7 @@
 
                 </x-slot>
 
-            </x-data-table-acordion2>
-
-            <div class="row d-flex justify-content-end">
-                <div>
-                    <button class="btn btn-app bg-primary">
-                        <i class="fas fa-floppy-disk"></i> Guardar
-                    </button>
-                </div>
-            </div>
+            </x-data-table-acordion3>
 
         </form>
         

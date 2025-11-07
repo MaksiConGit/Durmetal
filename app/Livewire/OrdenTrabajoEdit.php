@@ -41,7 +41,7 @@ class OrdenTrabajoEdit extends Component
         $this->items_orden_trabajo = $items_orden_trabajo;
         $this->pto_ventas = $pto_ventas;
         $this->clientes = Client::all();
-        $this->cliente_id = $orden_trabajo->IdCliente ?? '';
+        $this->cliente_id = $orden_trabajo->IdCliente ?? Client::first()->id;
         $this->cliente_nombre = $orden_trabajo->cliente->Nombre ?? '';
 
         foreach ($this->items_orden_trabajo as $item) {
