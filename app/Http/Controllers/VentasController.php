@@ -11,6 +11,7 @@ use App\Models\CondicionVenta;
 use App\Models\ConfiguracionGlobal;
 use App\Models\DestinoCheque;
 use App\Models\FacturaVenta;
+use App\Models\ItemNotaEnvio;
 use App\Models\ItemOrdenTrabajo;
 use App\Models\NotaCreditoVenta;
 use App\Models\NotaEnvio;
@@ -87,25 +88,13 @@ class VentasController extends Controller
 
     public function fichaDelClienteNotaEnvioCreate(Client $cliente)
     {
-        $cliente_id = $cliente->id;
-
-        $items_orden_trabajo = ItemOrdenTrabajo::whereHas('ordenTrabajo', function($q) use ($cliente_id) {
-                $q->where('IdCliente', $cliente_id)
-                ->where('Estado', 'PENDIENTE');
-            })
-            ->where('Estado', 'APROBADO')
-            ->where('ConNotaEnvio', false)
-            ->get();
-
-        $next_nota_numero = NotaEnvio::max('Numero') + 1;
-
-        $pto_ventas = PuntoDeVenta::all();
-
-        return view('ventas.ficha-del-cliente.nota-envio', compact('items_orden_trabajo', 'next_nota_numero', 'cliente', 'pto_ventas'));
+        return view('ventas.ficha-del-cliente.nota-envio', compact('cliente'));
     }
 
     public function fichaDelClienteNotaEnvioStore(Request $request)
     {
+        // dd($request->all());
+
         $user_id = Auth::id();
 
         $cliente = Client::find($request->IdCliente);
@@ -114,7 +103,7 @@ class VentasController extends Controller
         $data['PuntoVenta'] = $request->PuntoVenta;
         $data['Numero'] = $request->Numero;
         $data['NumeroCompleto'] = "NE X 0001-0000$request->Numero";
-        $data['FechaEmision'] = now();
+        $data['FechaEmision'] = $request->FechaEmision;
         $data['FechaVencimiento'] = now();
         $data['AfectarPlanillaTurno'] = 0;
         $data['CondicionPrecios'] = 'A';
@@ -125,27 +114,52 @@ class VentasController extends Controller
         $data['NumeroDocumentoCliente'] = $cliente->NroDocumento;
         $data['Direccion'] = $cliente->Domicilio;
         $data['Localidad'] = $cliente->localidad->Nombre;
-        $data['Provincia'] = 1;
+        $data['Provincia'] = $cliente->localidad->provincia->Nombre;
         $data['Estado'] = 'PENDIENTE';
-        $data['TipoOperacion'] = 1;
-        $data['PorcentajeDescuento'] = 1;
-        $data['Neto'] = 1;
-        $data['IVA'] = 1;
-        $data['Total'] = 1;
-        $data['Observaciones'] = 1;
-        $data['NumeroTurno'] = 1;
-        $data['ReferenciaTurno'] = 1;
-        $data['AjusteCtaCtePlanillaTurno'] = 1;
+        $data['TipoOperacion'] = null;
+        $data['PorcentajeDescuento'] = $request->PorcentajeDescuento;
+        $data['Neto'] = $request->Neto;
+        $data['IVA'] = $request->IVA;
+        $data['Total'] = $request->Total;
+        $data['Observaciones'] = $request->Observaciones;
+        $data['NumeroTurno'] = 0;
+        $data['ReferenciaTurno'] = 2020;
+        $data['AjusteCtaCtePlanillaTurno'] = 0;
         $data['FechaCreacion'] = now();
         $data['CreadoPor'] = $user_id;
         $data['FechaActualizacion'] = now();
         $data['ActualizadoPor'] = $user_id;
         $data['Activo'] = 1;
-        $data['PuntoVentaNumero'] = 1;
-        $data['CantidadImpresiones'] = 1;
-        $data['CantidadEnviosPorCorreo'] = 1;
+        $data['PuntoVentaNumero'] = $request->PuntoVenta + $request->Numero;
+        $data['CantidadImpresiones'] = 0;
+        $data['CantidadEnviosPorCorreo'] = 0;
 
-        $notaEnvio = NotaEnvio::create($data);
+        $nota_envio = NotaEnvio::create($data);
+
+        foreach ($request->items as $index => $itemData) {
+
+            $item_orden_trabajo = ItemOrdenTrabajo::find($itemData['IdItemOrdenTrabajo']);
+            
+            ItemNotaEnvio::create([
+                'IdNotaEnvio' => $nota_envio->id,
+                'IdItemOrdenTrabajo' => $item_orden_trabajo->id,
+                'ItemNumero' => $index,
+                'Descripcion' => $itemData['Descripcion'],
+                'Cantidad' => $item_orden_trabajo->Cantidad,
+                'Peso' => $item_orden_trabajo->Peso,
+                'CodigoComplejidad' => $itemData['CodigoComplejidad'],
+                'Coeficiente' => $itemData['Coeficiente'],
+                'PrecioUnitario' => $itemData['PrecioUnitario'],
+                'PorcentajeDescuento' => $itemData['PorcentajeDescuento'],
+                'Total' => $itemData['Total'],
+                'Estado' => 'PENDIENTE',
+                'FechaCreacion' => now(),
+                'CreadoPor' => $user_id,
+                'FechaActualizacion' => now(),
+                'ActualizadoPor' => $user_id,
+                'Activo' => 1,
+            ]);
+        }
 
         return redirect()->route('ventas.ficha-del-cliente.show', $cliente);
     }

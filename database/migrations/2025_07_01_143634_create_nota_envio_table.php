@@ -39,7 +39,7 @@ return new class extends Migration
             $table->float('Neto');
             $table->float('IVA');
             $table->float('Total');
-            $table->string('Observaciones');
+            $table->string('Observaciones')->nullable();
             $table->integer('NumeroTurno');
             $table->integer('ReferenciaTurno');
             $table->float('AjusteCtaCtePlanillaTurno');

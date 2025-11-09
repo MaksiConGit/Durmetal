@@ -1,4 +1,4 @@
-<x-layout>
+{{-- <x-layout>
     <x-slot name="title">Ventas</x-slot>
     <x-slot name="breadcrumbs">
         <li class="nav-home">
@@ -306,26 +306,6 @@
         }
     </script>
 
-  {{-- <script>
-    
-    function redirigirConInputs() {
-    const ordenTrabajoId = @json($orden_trabajo->id);
+</x-layout> --}}
 
-    const puntoVenta = document.querySelector('[name="PuntoVenta"]').value;
-    const idCliente = document.querySelector('[name="IdCliente"]').value;
-    const numero = document.querySelector('[name="Numero"]').value;
-    const fechaEmision = document.querySelector('[name="FechaEmision"]').value;
-    const numeroRemitoCliente = document.querySelector('[name="NumeroRemitoCliente"]').value;
-
-    const url = new URL(`{{ url('/item-orden-trabajo/create') }}/${ordenTrabajoId}`);
-    url.searchParams.append('PuntoVenta', puntoVenta);
-    url.searchParams.append('IdCliente', idCliente);
-    url.searchParams.append('Numero', numero);
-    url.searchParams.append('FechaEmision', fechaEmision);
-    url.searchParams.append('NumeroRemitoCliente', numeroRemitoCliente);
-
-    window.location.href = url.toString();
-  }
-  </script> --}}
-
-</x-layout>
+@livewire('nota-envio-create', ['cliente' => $cliente])

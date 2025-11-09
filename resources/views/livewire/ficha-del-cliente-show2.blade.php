@@ -8,8 +8,36 @@
             <div class="form-inline mt-5 mr-3 d-flex flex-column align-items-center">
 
                 <div class="form-group mb-3">
-                    <a href="" 
-                    class="btn btn-app bg-primary disabled">
+
+                <a href="
+                    @switch($activeTabParametros)
+                        @case('custom-tabs-1')
+                            {{ route('ventas.ficha-del-cliente-nota-envio.create', $cliente->id) }}
+                            @break
+                        @case('custom-tabs-2')
+                            {{ route('ventas.ficha-del-cliente-nota-envio.create', $cliente->id) }}
+                            @break
+                        @case('custom-tabs-3')
+                            {{ route('ventas.ficha-del-cliente-factura-venta.create', $cliente->id) }}
+                            @break
+                        @case('custom-tabs-4')
+                            {{ route('ventas.ficha-del-cliente-recibo-venta.create', $cliente->id) }}
+                            @break
+                        @case('custom-tabs-5')
+                            {{ route('ventas.ficha-del-cliente-nota-credito.create', $cliente->id) }}
+                            @break
+                        @case('custom-tabs-6')
+                            {{ route('ventas.ficha-del-cliente-nota-debito.create', $cliente->id) }}
+                            @break
+                        @case('custom-tabs-7')
+                            {{ route('ventas.ficha-del-cliente-minuta.create', $cliente->id) }}
+                            @break
+                        @default
+                            
+                    @endswitch
+                    "
+                    class="btn btn-app bg-primary">
+
                         <i class="fas fa-plus"></i> Nuevo
                     </a>
                 </div>
@@ -109,10 +137,10 @@
 
                     </div>
 
-                    <x-data-table-acordion2>
+                    <x-data-table-acordion3>
 
                         <x-slot name="thead">
-                            <tr class="bg-secondary text-white">
+                            <tr>
                                 <th>FECHA</th>
                                 <th>NUMERO</th>
                                 <th>RAZON SOCIAL</th>
@@ -143,7 +171,7 @@
                                         <div class="p-0">
                                             <table class="table table-sm table-bordered mb-0">
                                                 <thead>
-                                                <tr class="bg-dark text-white">
+                                                <tr>
                                                     <th>N°</th>
                                                     <th>DESCRIPCION</th>
                                                     <th>MATERIAL</th>
@@ -223,7 +251,7 @@
 
                         </x-slot>
 
-                    </x-data-table-acordion2>
+                    </x-data-table-acordion3>
 
                 </div>
 
@@ -248,7 +276,7 @@
 
                     </div>
 
-                    <x-data-table-acordion2>
+                    <x-data-table-acordion3>
 
                         <x-slot name="thead">
                             <tr class="bg-secondary text-white">
@@ -292,7 +320,7 @@
                                         <div class="p-0">
                                             <table class="table table-sm table-bordered mb-0">
                                                 <thead>
-                                                <tr class="bg-dark text-white">
+                                                <tr>
                                                     <th>N°</th>
                                                     <th>OTI</th>
                                                     <th>DESCRIPCION</th>
@@ -308,7 +336,7 @@
                                                 <tbody>
                                                     @foreach ($nota_de_envio->itemsNotaEnvio as $index => $item_nota_envio)
                                                         <tr>
-                                                            <td>{{ $item_orden_trabajo->ItemNumero }}</td>
+                                                            <td>{{ $index + 1 }}</td>
                                                             <td>{{ $item_nota_envio->itemOrdenTrabajo->ordenTrabajo->NumeroCompleto }}</td>
                                                             <td>{{ $item_nota_envio->Descripcion }}</td>
                                                             <td>{{ $item_nota_envio->Cantidad }}</td>
@@ -370,7 +398,7 @@
 
                         </x-slot>
 
-                    </x-data-table-acordion2>
+                    </x-data-table-acordion3>
 
                 </div>
 
@@ -395,7 +423,7 @@
 
                     </div>
 
-                    <x-data-table-acordion2>
+                    <x-data-table-acordion3>
 
                         <x-slot name="thead">
                             <tr class="bg-secondary text-white">
@@ -436,7 +464,7 @@
                                         <div class="p-0">
                                             <table class="table table-sm table-bordered mb-0">
                                                 <thead>
-                                                <tr class="bg-dark text-white">
+                                                <tr>
                                                     <th>N°</th>
                                                     <th>OTI</th>
                                                     <th>DESCRIPCION</th>
@@ -512,7 +540,7 @@
 
                         </x-slot>
 
-                    </x-data-table-acordion2>
+                    </x-data-table-acordion3>
 
                 </div>
 
@@ -536,7 +564,7 @@
 
                     </div>
 
-                    <x-data-table-acordion2>
+                    <x-data-table-acordion3>
 
                         <x-slot name="thead">
                             <tr class="bg-secondary text-white">
@@ -575,7 +603,7 @@
                                         <div class="p-0">
                                             <table class="table table-sm table-bordered mb-0">
                                                 <thead>
-                                                <tr class="bg-dark text-white">
+                                                <tr>
                                                     <th>DESCRIPCION</th>
                                                     <th>TOTAL</th>
                                                 </tr>
@@ -626,7 +654,7 @@
 
                         </x-slot>
 
-                    </x-data-table-acordion2>
+                    </x-data-table-acordion3>
 
                 </div>
 
@@ -651,7 +679,7 @@
 
                     </div>
 
-                    <x-data-table-acordion2>
+                    <x-data-table-acordion3>
 
                         <x-slot name="thead">
                             <tr class="bg-secondary text-white">
@@ -694,7 +722,7 @@
                                         <div class="p-0">
                                             <table class="table table-sm table-bordered mb-0">
                                                 <thead>
-                                                <tr class="bg-dark text-white">
+                                                <tr>
                                                     <th>CODIGO</th>
                                                     <th>DESCRIPCION</th>
                                                     <th>CANTIDAD</th>
@@ -759,7 +787,7 @@
 
                         </x-slot>
 
-                    </x-data-table-acordion2>
+                    </x-data-table-acordion3>
 
                 </div>
 
@@ -784,7 +812,7 @@
 
                     </div>
 
-                    <x-data-table-acordion2>
+                    <x-data-table-acordion3>
 
                         <x-slot name="thead">
                             <tr class="bg-secondary text-white">
@@ -827,7 +855,7 @@
                                         <div class="p-0">
                                             <table class="table table-sm table-bordered mb-0">
                                                 <thead>
-                                                <tr class="bg-dark text-white">
+                                                <tr>
                                                     <th>CODIGO</th>
                                                     <th>DESCRIPCION</th>
                                                     <th>CANTIDAD</th>
@@ -892,7 +920,7 @@
 
                         </x-slot>
 
-                    </x-data-table-acordion2>
+                    </x-data-table-acordion3>
 
                 </div>
 
@@ -917,7 +945,7 @@
 
                     </div>
 
-                    <x-data-table-acordion2>
+                    <x-data-table-acordion3>
 
                         <x-slot name="thead">
                             <tr class="bg-secondary text-white">
@@ -956,7 +984,7 @@
 
                         </x-slot>
 
-                    </x-data-table-acordion2>
+                    </x-data-table-acordion3>
 
                 </div>
 

@@ -9,16 +9,15 @@ class NotaEnvio extends Model
     protected $table = 'nota_envio';
     public $timestamps = false;
 
-protected $fillable = [
-    'Letra', 'PuntoVenta', 'Numero', 'NumeroCompleto', 'FechaEmision', 'FechaVencimiento',
-    'AfectarPlanillaTurno', 'CondicionPrecios', 'IdCliente', 'RazonSocial', 'IdCondicionIva',
-    'TipoDocumento', 'NumeroDocumentoCliente', 'Direccion', 'Localidad', 'Provincia', 'Estado',
-    'TipoOperacion', 'PorcentajeDescuento', 'Neto', 'IVA', 'Total', 'Observaciones',
-    'NumeroTurno', 'ReferenciaTurno', 'AjusteCtaCtePlanillaTurno', 'FechaCreacion', 'CreadoPor',
-    'FechaActualizacion', 'ActualizadoPor', 'Activo', 'PuntoVentaNumero', 'CantidadImpresiones',
-    'CantidadEnviosPorCorreo'
-];
-
+    protected $fillable = [
+        'Letra', 'PuntoVenta', 'Numero', 'NumeroCompleto', 'FechaEmision', 'FechaVencimiento',
+        'AfectarPlanillaTurno', 'CondicionPrecios', 'IdCliente', 'RazonSocial', 'IdCondicionIva',
+        'TipoDocumento', 'NumeroDocumentoCliente', 'Direccion', 'Localidad', 'Provincia', 'Estado',
+        'TipoOperacion', 'PorcentajeDescuento', 'Neto', 'IVA', 'Total', 'Observaciones',
+        'NumeroTurno', 'ReferenciaTurno', 'AjusteCtaCtePlanillaTurno', 'FechaCreacion', 'CreadoPor',
+        'FechaActualizacion', 'ActualizadoPor', 'Activo', 'PuntoVentaNumero', 'CantidadImpresiones',
+        'CantidadEnviosPorCorreo'
+    ];
 
     public function cliente()
     {

@@ -1,3 +1,5 @@
+<div>
+<div>
 <x-simple-table2>
     <x-slot name="filtros">
         <div class="row">
