@@ -107,11 +107,10 @@
 
         </x-slot>
 
-            <x-data-table-acordion2>
+            <x-data-table-acordion3>
 
                 <x-slot name="thead">
-                    <tr class="bg-secondary text-white">
-                        <th></th>
+                    <tr>
                         <th></th>
                         <th>DESCRIPCION</th>
                         <th>RAZON SOCIAL</th>
@@ -140,10 +139,9 @@
 
                             <td class="text-center align-middle">
                                 <button class="btn btn-sm btn-light toggle-row" type="button">
-                                    <i class="fas fa-plus"></i>
+                                    <i class="fas {{ in_array($item->id, $expanded) ? 'fa-minus' : 'fa-plus' }}"></i>
                                 </button>
                             </td>
-                            <td></td>
                             <td>{{ $item->Descripcion }}</td>
                             <td>[{{$item->ordenTrabajo->cliente->id ?? 'null'}}] {{ $item->ordenTrabajo->cliente->Nombre ?? 'null' }}</td>
                             <td>{{ \Carbon\Carbon::parse($item->FechaCreacion)->format('j/n/Y') }}</td>
@@ -189,7 +187,7 @@
                                 <div class="p-0">
                                     <table class="table table-sm table-bordered mb-0">
                                         <thead>
-                                        <tr class="bg-dark text-white">
+                                        <tr>
                                             <th></th>
                                             <th></th>
                                             <th>PROGRAMACION</th>
@@ -221,7 +219,7 @@
                                                         <td></td>
                                                         <td class="text-center align-middle">
                                                             <button class="btn btn-sm btn-light toggle-row" type="button">
-                                                                <i class="fas fa-plus"></i>
+                                                                <i class="fas {{ in_array($programacion->id, $expandedInner ?? []) ? 'fa-minus' : 'fa-plus' }}"></i>
                                                             </button>
                                                         </td>
 
@@ -438,7 +436,7 @@
 
                 </x-slot>
 
-            </x-data-table-acordion2>
+            </x-data-table-acordion3>
 
     </x-layout2-sidebar>
 

@@ -24,8 +24,6 @@
       <!-- /.card-body -->
     </div>
     <!-- /.card -->
-  </div>
-</div>
 <!-- /.row -->
 
 <style>
