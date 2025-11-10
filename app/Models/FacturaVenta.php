@@ -9,7 +9,7 @@ class FacturaVenta extends Model
     protected $table = 'factura_venta';
     public $timestamps = false;
 
-protected $fillable = [
+    protected $fillable = [
         'Letra',
         'PuntoVenta',
         'Numero',

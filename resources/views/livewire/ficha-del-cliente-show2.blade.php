@@ -21,7 +21,7 @@
                             </a>
                             @break
                         @case('custom-tabs-3')
-                            <a href="{{ route('ventas.ficha-del-cliente-factura-venta.create', $cliente->id) }}" class="btn btn-app bg-primary disabled">
+                            <a href="{{ route('ventas.ficha-del-cliente-factura-venta.create', $cliente->id) }}" class="btn btn-app bg-primary">
                                 <i class="fas fa-plus"></i> Nuevo
                             </a>
                             
@@ -472,51 +472,39 @@
                                     <td>{{ $factura->CantidadEnviosPorCorreo }}</td>
                                 </tr>
 
-                                {{-- <tr class="expandable-body" style="display: {{ in_array($factura->id, $expanded) ? 'table-row' : 'none' }};">
+                                <tr class="expandable-body" style="display: {{ in_array($factura->id, $expanded) ? 'table-row' : 'none' }};">
 
                                     <td colspan="15">
                                         <div class="p-0">
                                             <table class="table table-sm table-bordered mb-0">
                                                 <thead>
                                                 <tr>
-                                                    <th>N°</th>
-                                                    <th>OTI</th>
+                                                    <th>CODIGO</th>
                                                     <th>DESCRIPCION</th>
-                                                    <th>CANT.</th>
-                                                    <th>PESO</th>
-                                                    <th>CC</th>
-                                                    <th>COEFIC.</th>
-                                                    <th>PRECIO U.</th>
-                                                    <th>% DESC</th>
-                                                    <th>TOTAL</th>
+                                                    <th>CANTIDAD</th>
+                                                    <th>PRECIO UNITARIO</th>
+                                                    <th>% IVA</th>
+                                                    <th>SUBTOTAL</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($nota_de_envio->itemsNotaEnvio as $index => $item_nota_envio)
+                                                    @foreach ($factura->itemsFacturaVenta as $index => $item_factura_venta)
                                                         <tr>
-                                                            <td>{{ $item_orden_trabajo->ItemNumero }}</td>
-                                                            <td>{{ $item_nota_envio->itemOrdenTrabajo->ordenTrabajo->NumeroCompleto }}</td>
-                                                            <td>{{ $item_nota_envio->Descripcion }}</td>
-                                                            <td>{{ $item_nota_envio->Cantidad }}</td>
-                                                            <td>{{ $item_nota_envio->Peso }}</td>
-                                                            <td>{{ $item_nota_envio->CodigoComplejidad }}</td>
-                                                            <td>{{ $item_nota_envio->Coeficiente }}</td>
-                                                            <td>{{ $item_nota_envio->PrecioUnitario }}</td>
-                                                            <td>{{ $item_nota_envio->PorcentajeDescuento }}</td>
-                                                            <td>{{ $item_nota_envio->Total }}</td>
+                                                            <td>¡¡REVISAR!!</td>
+                                                            <td>{{ $item_factura_venta->Descripcion }}</td>
+                                                            <td>{{ number_format($item_factura_venta->Cantidad, 2, '.', '') }}</td>
+                                                            <td>{{ number_format($item_factura_venta->PrecioUnitario, 2, '.', '') }}</td>
+                                                            <td>{{ number_format($item_factura_venta->AlicuotaIVA, 2, '.', '') }}</td>
+                                                            <td>{{ number_format($item_factura_venta->Total, 2, '.', '') }}</td>
                                                         </tr>
                                                     @endforeach
 
                                                     @php
-                                                        $filasFaltantes = max(0, 6 - count($nota_de_envio->itemsNotaEnvio));
+                                                        $filasFaltantes = max(0, 6 - count($factura->itemsFacturaVenta));
                                                     @endphp
 
-                                                    @for ($i = 0; $i < $filasFaltantes; $i++)
+                                                    @for ($i = 3; $i < $filasFaltantes; $i++)
                                                         <tr>
-                                                            <td>&nbsp;</td>
-                                                            <td>&nbsp;</td>
-                                                            <td>&nbsp;</td>
-                                                            <td>&nbsp;</td>
                                                             <td>&nbsp;</td>
                                                             <td>&nbsp;</td>
                                                             <td>&nbsp;</td>
@@ -530,7 +518,7 @@
                                         </div>
                                     </td>
 
-                                </tr> --}}
+                                </tr>
 
                             @endforeach
 

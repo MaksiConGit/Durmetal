@@ -12,6 +12,7 @@ use App\Models\CondicionVenta;
 use App\Models\ConfiguracionGlobal;
 use App\Models\DestinoCheque;
 use App\Models\FacturaVenta;
+use App\Models\ItemFacturaVenta;
 use App\Models\ItemNotaEnvio;
 use App\Models\ItemOrdenTrabajo;
 use App\Models\NotaCreditoVenta;
@@ -165,7 +166,7 @@ class VentasController extends Controller
             ItemNotaEnvio::create([
                 'IdNotaEnvio' => $nota_envio->id,
                 'IdItemOrdenTrabajo' => $item_orden_trabajo->id,
-                'ItemNumero' => $index,
+                'ItemNumero' => $index + 1,
                 'Descripcion' => $itemData['Descripcion'],
                 'Cantidad' => $item_orden_trabajo->Cantidad,
                 'Peso' => $item_orden_trabajo->Peso,
@@ -200,53 +201,92 @@ class VentasController extends Controller
 
     public function fichaDelClienteFacturaVentaStore(Request $request)
     {
+        if (!$request->has('items') || empty($request->items)) {
+            return redirect()->back()
+                ->with('error', 'Debe seleccionar al menos un ítem para crear la factura de venta.')
+                ->withInput();
+        }
+
         $user_id = Auth::id();
 
         $cliente = Client::find($request->IdCliente);
     
-        $data['Letra'] = 'X';
+        $data['Letra'] = 'A';
         $data['PuntoVenta'] = $request->PuntoVenta;
         $data['Numero'] = $request->Numero;
-        $data['NumeroCompleto'] = "FC X 0001-0000$request->Numero";
-        $data['FechaEmision'] = now()->toDateString();
-        $data['FechaVencimiento'] = now()->toDateString();
-        $data['FechaEstadisticas'] = now()->toDateString();
-        $data['TipoOperacion'] = 1;
-        $data['CondicionPrecios'] = 1;
-        $data['IdCliente'] = 1;
-        $data['RazonSocial'] = 1;
-        $data['TipoDocumentoCliente'] = 1;
-        $data['Direccion'] = 1;
-        $data['Localidad'] = 1;
-        $data['IdCondicionIva'] = 1;
-        $data['CondicionVenta'] = 1;
-        $data['Neto'] = 1;
-        $data['NetoNoGravado'] = 1;
-        $data['Exento'] = 1;
-        $data['IVA'] = 1;
-        $data['ImpuestoInterno'] = 1;
-        $data['Total'] = 1;
-        $data['AjusteCtaCtePlanillaTurno'] = 1;
-        $data['Estado'] = 1;
-        $data['CAE'] = 1;
-        $data['FechaVencimientoCAE'] = now()->toDateString();
-        $data['IdSolicitudCAE'] = 1;
-        $data['Observaciones'] = 1;
-        $data['NumeroTurno'] = 1;
-        $data['ReferenciaTurno'] = 1;
+        $data['NumeroCompleto'] = "FC A 0001-0000$request->Numero";
+        $data['FechaEmision'] = $request->FechaEmision;
+        $data['FechaVencimiento'] = $request->FechaVencimiento;
+        $data['FechaEstadisticas'] = $request->FechaEmision;
+        $data['TipoOperacion'] = null;
+        $data['CondicionPrecios'] = 'A';
+        $data['IdCliente'] = $cliente->id;
+        $data['RazonSocial'] = $cliente->Nombre;
+        $data['TipoDocumentoCliente'] = $cliente->TipoDocumento;
+        $data['NumeroDocumentoCliente'] = $cliente->NroDocumento;
+        $data['Direccion'] = $cliente->Domicilio;
+        $data['Localidad'] = $cliente->localidad->Nombre;
+        $data['IdCondicionIva'] = $cliente->IdCondicionIva;
+        $data['CondicionVenta'] = $request->CondicionVenta;
+        $data['Neto'] = $request->Neto;
+        $data['NetoNoGravado'] = 0;
+        $data['Exento'] = 0;
+        $data['IVA'] = $request->IVA;
+        $data['ImpuestoInterno'] = 0;
+        $data['Total'] = $request->Total;
+        $data['AjusteCtaCtePlanillaTurno'] = 0;
+        $data['Estado'] = 'PENDIENTE';
+        $data['CAE'] = '¡¡REVISAR!!';
+        $data['FechaVencimientoCAE'] = $request->FechaEmision;
+        $data['IdSolicitudCAE'] = 0;
+        $data['Observaciones'] = $request->Observaciones;
+        $data['NumeroTurno'] = 0;
+        $data['ReferenciaTurno'] = 2020;
         $data['AfectarPlanillaTurno'] = 1;
-        $data['EsNotaDeDebito'] = 1;
-        $data['NroFacturaNotaDebito'] = 1;
-        $data['EntregarMercaderiaConRemitos'] = 1;
+        $data['EsNotaDeDebito'] = 0;
+        $data['NroFacturaNotaDebito'] = '¡¡REVISAR!!';
+        $data['EntregarMercaderiaConRemitos'] = 0;
         $data['FechaCreacion'] = now()->toDateString();
         $data['CreadoPor'] = $user_id;
         $data['FechaActualizacion'] = now()->toDateString();
         $data['ActualizadoPor'] = $user_id;
         $data['Activo'] = 1;
-        $data['CantidadImpresiones'] = 1;
-        $data['CantidadEnviosPorCorreo'] = 1;
+        $data['CantidadImpresiones'] = 0;
+        $data['CantidadEnviosPorCorreo'] = 0;
 
-        FacturaVenta::create($data);
+        $factura_venta = FacturaVenta::create($data);
+
+        foreach ($request->items as $index => $itemData) {
+            
+            ItemFacturaVenta::create([
+                'IdFacturaVenta' => $factura_venta->id,
+                'ItemNumero' => $index + 1,
+                'Descripcion' => $itemData['Descripcion'],
+                'NroDeposito' => 1,
+                'Cantidad' => 1,
+                'PrecioCosto' => 0,
+                'PrecioUnitarioNeto' => 0,
+                'PrecioUnitario' => $itemData['Neto'],
+                'IdImpuestoIva' => 1,
+                'AlicuotaIVA' => 21,
+                'ImpuestosInternos' => 0,
+                'ImpuestoCombustible' => 0,
+                'ImpuestoTV' => 0,
+                'ImpuestoInterno' => 0,
+                'Neto' => $itemData['Neto'],
+                'IVA' => $itemData['IVA'],
+                'Total' => $itemData['Neto'] + $itemData['IVA'],
+                'AfectarPlanillaTurno' => 0,
+                'ControlarStock' => 0,
+                'Estado' => 'PENDIENTE',
+                'FechaCreacion' => now(),
+                'CreadoPor' => $user_id,
+                'FechaActualizacion' => now(),
+                'ActualizadoPor' => $user_id,
+                'Activo' => 1,
+            ]);
+            
+        }
 
         return redirect()->route('ventas.ficha-del-cliente.show', $cliente);
     }

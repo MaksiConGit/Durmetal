@@ -302,10 +302,10 @@ class VentasSeeder extends Seeder
         ]);
 
         NotaEnvio::create([
-            'Letra' => 'A',
+            'Letra' => 'X',
             'PuntoVenta' => 1,
             'Numero' => 1001,
-            'NumeroCompleto' => 'NE 0003-00001001',
+            'NumeroCompleto' => 'NE X 0003-00001001',
             'FechaEmision' => Carbon::now()->subDays(2)->toDateString(),
             'FechaVencimiento' => Carbon::now()->addDays(30)->toDateString(),
             'AfectarPlanillaTurno' => 1,
