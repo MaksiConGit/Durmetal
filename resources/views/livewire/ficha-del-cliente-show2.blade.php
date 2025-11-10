@@ -9,37 +9,51 @@
 
                 <div class="form-group mb-3">
 
-                <a href="
                     @switch($activeTabParametros)
                         @case('custom-tabs-1')
-                            {{ route('ventas.ficha-del-cliente-nota-envio.create', $cliente->id) }}
+                            <a class="btn btn-app bg-primary disabled">
+                                <i class="fas fa-plus"></i> Nuevo
+                            </a>
                             @break
                         @case('custom-tabs-2')
-                            {{ route('ventas.ficha-del-cliente-nota-envio.create', $cliente->id) }}
+                            <a href="" class="btn btn-app bg-primary" data-toggle="modal" data-target="#modal-create">
+                                <i class="fas fa-plus"></i> Nuevo
+                            </a>
                             @break
                         @case('custom-tabs-3')
-                            {{ route('ventas.ficha-del-cliente-factura-venta.create', $cliente->id) }}
+                            <a href="{{ route('ventas.ficha-del-cliente-factura-venta.create', $cliente->id) }}" class="btn btn-app bg-primary disabled">
+                                <i class="fas fa-plus"></i> Nuevo
+                            </a>
+                            
                             @break
                         @case('custom-tabs-4')
-                            {{ route('ventas.ficha-del-cliente-recibo-venta.create', $cliente->id) }}
+                            <a href="{{ route('ventas.ficha-del-cliente-recibo-venta.create', $cliente->id) }}" class="btn btn-app bg-primary disabled">
+                                <i class="fas fa-plus"></i> Nuevo
+                            </a>
+                            
                             @break
                         @case('custom-tabs-5')
-                            {{ route('ventas.ficha-del-cliente-nota-credito.create', $cliente->id) }}
+                            <a href="{{ route('ventas.ficha-del-cliente-nota-credito.create', $cliente->id) }}" class="btn btn-app bg-primary disabled">
+                                <i class="fas fa-plus"></i> Nuevo
+                            </a>
+                            
                             @break
                         @case('custom-tabs-6')
-                            {{ route('ventas.ficha-del-cliente-nota-debito.create', $cliente->id) }}
+                            <a href="{{ route('ventas.ficha-del-cliente-nota-debito.create', $cliente->id) }}" class="btn btn-app bg-primary disabled">
+                                <i class="fas fa-plus"></i> Nuevo
+                            </a>
+                            
                             @break
                         @case('custom-tabs-7')
-                            {{ route('ventas.ficha-del-cliente-minuta.create', $cliente->id) }}
+                            <a href="{{ route('ventas.ficha-del-cliente-minuta.create', $cliente->id) }}" class="btn btn-app bg-primary disabled">
+                                <i class="fas fa-plus"></i> Nuevo
+                            </a>
+                            
                             @break
                         @default
                             
                     @endswitch
-                    "
-                    class="btn btn-app bg-primary">
 
-                        <i class="fas fa-plus"></i> Nuevo
-                    </a>
                 </div>
 
                 <div class="form-group mb-3">
@@ -339,13 +353,13 @@
                                                             <td>{{ $index + 1 }}</td>
                                                             <td>{{ $item_nota_envio->itemOrdenTrabajo->ordenTrabajo->NumeroCompleto }}</td>
                                                             <td>{{ $item_nota_envio->Descripcion }}</td>
-                                                            <td>{{ $item_nota_envio->Cantidad }}</td>
-                                                            <td>{{ $item_nota_envio->Peso }}</td>
+                                                            <td>{{ number_format($item_nota_envio->Cantidad, 2, '.', '') }}</td>
+                                                            <td>{{ number_format($item_nota_envio->Peso, 2, '.', '') }}</td>
                                                             <td>{{ $item_nota_envio->CodigoComplejidad }}</td>
-                                                            <td>{{ $item_nota_envio->Coeficiente }}</td>
-                                                            <td>{{ $item_nota_envio->PrecioUnitario }}</td>
-                                                            <td>{{ $item_nota_envio->PorcentajeDescuento }}</td>
-                                                            <td>{{ $item_nota_envio->Total }}</td>
+                                                            <td>{{ number_format($item_nota_envio->Coeficiente, 2, '.', '') }}</td>
+                                                            <td>{{ number_format($item_nota_envio->PrecioUnitario, 2, '.', '') }}</td>
+                                                            <td>{{ number_format($item_nota_envio->PorcentajeDescuento, 2, '.', '') }}</td>
+                                                            <td>{{ number_format($item_nota_envio->Total, 2, '.', '') }}</td>
                                                         </tr>
                                                     @endforeach
 
@@ -353,7 +367,7 @@
                                                         $filasFaltantes = max(0, 6 - count($nota_de_envio->itemsNotaEnvio));
                                                     @endphp
 
-                                                    @for ($i = 0; $i < $filasFaltantes; $i++)
+                                                    @for ($i = 3; $i < $filasFaltantes; $i++)
                                                         <tr>
                                                             <td>&nbsp;</td>
                                                             <td>&nbsp;</td>

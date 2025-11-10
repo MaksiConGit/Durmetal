@@ -29,19 +29,30 @@ class NotaEnvioCreate extends Component
     public $iva = 0;
     public $total_final = 0;
     public $coeficiente = [];
+    public $pendientes;
 
     public function mount()
     {
         $this->fechaEmision = Carbon::today()->format('Y-m-d');
         $this->pto_ventas = PuntoDeVenta::all();
 
-        $this->items_orden_trabajo = ItemOrdenTrabajo::whereHas('ordenTrabajo', function ($q) {
-                $q->where('IdCliente', $this->cliente->id)
-                  ->where('Estado', 'PENDIENTE');
-            })
-            ->where('Estado', 'APROBADO')
-            ->where('ConNotaEnvio', false)
-            ->get();
+        if ($this->pendientes) {
+            $this->items_orden_trabajo = ItemOrdenTrabajo::whereHas('ordenTrabajo', function ($q) {
+                    $q->where('IdCliente', $this->cliente->id)
+                    ->where('Estado', 'PENDIENTE');
+                })
+                ->where('ConNotaEnvio', false)
+                ->get();
+        }
+        else{
+            $this->items_orden_trabajo = ItemOrdenTrabajo::whereHas('ordenTrabajo', function ($q) {
+                    $q->where('IdCliente', $this->cliente->id)
+                    ->where('Estado', 'PENDIENTE');
+                })
+                ->where('Estado', 'APROBADO')
+                ->where('ConNotaEnvio', false)
+                ->get();
+        }
 
         $this->next_nota_numero = NotaEnvio::max('Numero') + 1;
 
@@ -146,15 +157,15 @@ class NotaEnvioCreate extends Component
         $this->actualizarSubtotal();
     }
 
-public function onPorcentajeDescuentoChange($value)
-{
-    $porcentaje = floatval($value);
+    public function onPorcentajeDescuentoChange($value)
+    {
+        $porcentaje = floatval($value);
 
-    $this->base_imponible = $this->subtotal - ($this->subtotal * ($porcentaje / 100));
+        $this->base_imponible = $this->subtotal - ($this->subtotal * ($porcentaje / 100));
 
-    $this->iva = $this->base_imponible * 0.21;
+        $this->iva = $this->base_imponible * 0.21;
 
-    $this->total_final = $this->base_imponible + $this->iva;
+        $this->total_final = $this->base_imponible + $this->iva;
 }
 
     public function render()

@@ -53,7 +53,7 @@
         @forelse ($clientes as $cliente)
             <tr style="cursor: pointer;" 
                 onclick="window.location='{{ match($filtro) {
-                    'trabajos_pendientes_nota_envio' => route('ventas.ficha-del-cliente-nota-envio.create', $cliente),
+                    'trabajos_pendientes_nota_envio' => route('ventas.ficha-del-cliente.show', ['cliente' => $cliente, 'filtro' => 'trabajos_pendientes_nota_envio']),
                     'notas_pendientes' => route('ventas.ficha-del-cliente-factura-venta.create', $cliente),
                     'facturas_pendientes' => route('ventas.ficha-del-cliente-recibo-venta.create', $cliente),
                     default => route('ventas.ficha-del-cliente.show', $cliente)

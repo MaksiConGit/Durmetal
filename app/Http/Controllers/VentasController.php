@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUSDARSRequest;
 use App\Models\Arti;
 use App\Models\Banco;
 use App\Models\Chequecobro;
@@ -54,9 +55,10 @@ class VentasController extends Controller
         return view('ventas.ficha-del-cliente.index', compact('clientes'));
     }
 
-    public function fichaDelClienteShow(Client $cliente)
+    public function fichaDelClienteShow(Client $cliente, Request $request)
     {
-        return view('ventas.ficha-del-cliente.show', compact('cliente'));
+        $filtro = $request->filtro;
+        return view('ventas.ficha-del-cliente.show', compact('cliente', 'filtro'));
     }
 
     public function listadoDeCheques()
@@ -86,14 +88,34 @@ class VentasController extends Controller
         return redirect()->route('orden-trabajo.edit', $orden_trabajo);
     }
 
-    public function fichaDelClienteNotaEnvioCreate(Client $cliente)
+    public function divisasUpdate(StoreUSDARSRequest $request, ConfiguracionGlobal $configuracion_global, Client $cliente)
     {
-        return view('ventas.ficha-del-cliente.nota-envio', compact('cliente'));
+        $data = $request->all();
+
+        $data['FechaActualizacionUSD_ARS'] = now();
+
+        $configuracion_global->update($data);
+
+        return redirect()->route('ventas.ficha-del-cliente-nota-envio.create', [
+            'cliente' => $cliente,
+            'pendientes' => $request->Pendientes,
+        ]);
+    }
+
+    public function fichaDelClienteNotaEnvioCreate(Client $cliente, Request $request)
+    {
+        $pendientes = $request->pendientes;
+
+        return view('ventas.ficha-del-cliente.nota-envio', compact('cliente', 'pendientes'));
     }
 
     public function fichaDelClienteNotaEnvioStore(Request $request)
     {
-        // dd($request->all());
+        if (!$request->has('items') || empty($request->items)) {
+            return redirect()->back()
+                ->with('error', 'Debe seleccionar al menos un ítem para crear la nota de envío.')
+                ->withInput();
+        }
 
         $user_id = Auth::id();
 
@@ -159,6 +181,8 @@ class VentasController extends Controller
                 'ActualizadoPor' => $user_id,
                 'Activo' => 1,
             ]);
+
+            $item_orden_trabajo->update(['ConNotaEnvio' => 1]);
         }
 
         return redirect()->route('ventas.ficha-del-cliente.show', $cliente);
