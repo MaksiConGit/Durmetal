@@ -110,10 +110,11 @@
 
         </x-slot>
 
-            <x-data-table-acordion2>
+            <x-data-table-acordion3>
 
                 <x-slot name="thead">
-                    <tr class="bg-secondary text-white">
+                    <tr>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th>DESCRIPCION</th>
@@ -137,6 +138,12 @@
                             aria-expanded="{{ in_array($item_orden_trabajo->id, $expanded) ? 'true' : 'false' }}"
                             wire:click="toggleExpand({{ $item_orden_trabajo->id }})">
 
+                            <td class="text-center align-middle">
+                                <button class="btn btn-sm btn-light toggle-row" type="button">
+                                    <i class="fas {{ in_array($item_orden_trabajo->id, $expanded) ? 'fa-minus' : 'fa-plus' }}"></i>
+                                </button>
+                            </td>
+
                             @php
                                 $programaciones_filtradas = $item_orden_trabajo->programacion
                                     ->unique('NumeroProgramacion');
@@ -155,14 +162,18 @@
                             </td>
                             <td>{{ $item_orden_trabajo->Descripcion }}</td>
                             <td>{{ $item_orden_trabajo->ordenTrabajo->cliente->Nombre ?? 'Sin razón social' }}</td>
-                            <td>{{ $item_orden_trabajo->FechaCreacion }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item_orden_trabajo->ordenTrabajo->FechaEmision)->format('d/m/Y') }}</td>
                             <td>{{ $item_orden_trabajo->ordenTrabajo->Numero }}/{{ $item_orden_trabajo->ItemNumero }}</td>
                             <td>{{ $item_orden_trabajo->Cantidad }}</td>
                             <td>{{ $item_orden_trabajo->Peso }}</td>
                             <td>{{ $item_orden_trabajo->tratamiento->Nombre }}</td>
                             <td>{{ $item_orden_trabajo->material->Nombre }}</td>
                             <td>{{ $item_orden_trabajo->dureza->Nombre }}</td>
-                            <td>{{ $item_orden_trabajo->DurezaSolicitadaMinima }} - {{ $item_orden_trabajo->DurezaSolicitadaMaxima }}</td>
+                            <td>
+                                <span class="bg-olive px-1">
+                                    {{ $item_orden_trabajo->DurezaSolicitadaMinima }} - {{ $item_orden_trabajo->DurezaSolicitadaMaxima }}
+                                </span> 
+                            </td>
                         </tr>
 
                         <tr class="expandable-body" style="display: {{ in_array($item_orden_trabajo->id, $expanded) ? 'table-row' : 'none' }};">
@@ -171,7 +182,7 @@
                                 <div class="p-0">
                                     <table class="table table-sm table-bordered mb-0">
                                         <thead>
-                                        <tr class="bg-dark text-white">
+                                        <tr>
                                             <th></th>
                                             <th></th>
                                             <th></th>
@@ -193,10 +204,28 @@
                                             @php
                                                 $programacionesAgrupadas = $item_orden_trabajo->programacion->groupBy('NumeroProgramacion');
                                                 $programacionesCount = $item_orden_trabajo->programacion->count();
+                                                $contadorPorTipo = [];
                                             @endphp
 
                                             @forelse ($programacionesAgrupadas as $numeroProgramacion => $grupo)
+
+                                                @php
+                                                    $primeraProgramacion = $grupo->first();
+                                                    $tipoNombre = $primeraProgramacion->tipoProgramacion->Nombre;
+
+                                                    if (!isset($contadorPorTipo[$tipoNombre])) {
+                                                        $contadorPorTipo[$tipoNombre] = 1;
+                                                    } else {
+                                                        $contadorPorTipo[$tipoNombre]++;
+                                                    }
+
+                                                    $numeroTipo = $contadorPorTipo[$tipoNombre];
+
+                                                    $countGrupo = $grupo->count();
+                                                @endphp
+
                                                 @foreach ($grupo as $index => $programacion)
+
                                                     <tr>
                                                         <td></td>
 
@@ -231,7 +260,11 @@
 
                                                         <td>
                                                             <span class="bg-danger px-1">H{{ $programacion->NumeroHorno }}</span> 
-                                                            <span class="bg-primary px-1">{{ $programacion->tipoProgramacion->Nombre }} {{ $numeroProgramacion }}-{{ $index + 1 }}</span>
+                                                            @if ($countGrupo > 1)
+                                                                <span class="bg-primary px-1">{{ $programacion->tipoProgramacion->Nombre }} {{ $numeroTipo }}-{{ $index + 1 }}</span>
+                                                            @else
+                                                                <span class="bg-primary px-1">{{ $programacion->tipoProgramacion->Nombre }} {{ $numeroTipo }}</span>
+                                                            @endif
                                                         </td>
 
                                                         <td>{{ $programacion->Reproceso == 0 ? '' : 'RP' }}</td>
@@ -253,7 +286,7 @@
                                                     </tr>
                                                 @endforeach
                                             @empty
-                                                @for ($i = 0; $i < 6; $i++)
+                                                @for ($i = 3; $i < 6; $i++)
                                                     <tr>
                                                         <td colspan="15">&nbsp;</td>
                                                     </tr>
@@ -287,8 +320,9 @@
                         $filasFaltantes = max(0, 11 - count($this->items));
                     @endphp
 
-                    @for ($i = 0; $i < $filasFaltantes; $i++)
+                    @for ($i = 4; $i < $filasFaltantes; $i++)
                         <tr>
+                            <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
@@ -306,9 +340,9 @@
 
                 </x-slot>
 
-            </x-data-table-acordion2>
+            </x-data-table-acordion3>
 
-            <div class="d-flex justify-content-end">
+            <div class="d-flex justify-content-end mt-3">
                 <a href="{{ route('programacion.create', ['items' => implode(',', $selectedItemIds)]) }}" class="btn btn-app bg-primary">
                     <i class="fas fa-arrow-right"></i> Programar
                 </a>

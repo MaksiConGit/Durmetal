@@ -73,6 +73,7 @@
                         </div>
                         
                     </div>
+                    </div>
 
                 </x-slot>
 
@@ -131,7 +132,7 @@
                             />
                         </td>
 
-                        <td>{{ $item_orden_trabajo->ordenTrabajo->FechaEmision }}</td>
+                        <td>{{ \Carbon\Carbon::parse($item_orden_trabajo->ordenTrabajo->FechaEmision)->format('d/m/Y') }}</td>
                         <td>{{ $item_orden_trabajo->ordenTrabajo->NumeroCompleto }} {{ $item_orden_trabajo->ItemNumero }}</td>
                         <td class="text-center align-middle">
                             <button class="btn btn-sm toggle-row" type="button" style="background-color: #fd7e14; color: white;">

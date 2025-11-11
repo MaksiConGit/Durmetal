@@ -31,12 +31,16 @@
     </td>
 
     <td>{{ $item->ordenTrabajo->cliente->Nombre ?? 'Sin razón social' }}</td>
-    <td>{{ $item->FechaCreacion }}</td>
+    <td>{{ \Carbon\Carbon::parse($item->ordenTrabajo->FechaEmision)->format('d/m/Y') }}</td>
     <td>{{ $item->ordenTrabajo->Numero }}/{{ $item->ItemNumero }}</td>
     <td>{{ $item->Cantidad }}</td>
     <td>{{ $item->Peso }}</td>
     <td>{{ $item->tratamiento->Nombre }}</td>
     <td>{{ $item->material->Nombre }}</td>
     <td>{{ $item->dureza->Nombre }}</td>
-    <td>{{ $item->DurezaSolicitadaMinima }} - {{ $item->DurezaSolicitadaMaxima }}</td>
+    <td>
+        <span class="bg-olive px-1">
+            {{ $item->DurezaSolicitadaMinima }} - {{ $item->DurezaSolicitadaMaxima }}
+        </span>
+    </td>
 </tr>

@@ -153,12 +153,12 @@
                                 wire:model.live="seleccionados.{{ $id }}"
                             >
                         </td>
-                        <td>{{ $nota_envio->FechaEmision }}</td>
+                        <td>{{ \Carbon\Carbon::parse($nota_envio->FechaEmision)->format('d/m/Y') }}</td>
                         <td>{{ $nota_envio->NumeroCompleto }}</td>
                         <td style="min-width: 300px; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                             {{ $descripcion[$id] ?? $nota_envio->Descripcion }}
                         </td>
-                        <td>{{ $nota_envio->Neto }}</td>
+                        <td>{{ number_format($nota_envio->Neto, 2, ',', '.') }}</td>
                     </tr>
 
                     @if (!empty($seleccionados[$id]) && $seleccionados[$id])

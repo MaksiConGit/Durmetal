@@ -33,7 +33,7 @@
                         $filasFaltantes = max(0, 10 - count($items));
                     @endphp
 
-                    @for ($i = 0; $i < $filasFaltantes; $i++)
+                    @for ($i = 6; $i < $filasFaltantes; $i++)
                         <tr>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
