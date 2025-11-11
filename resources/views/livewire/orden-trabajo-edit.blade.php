@@ -294,6 +294,8 @@
                                                                                             @endforelse
                                                                                         </x-slot>
                                                                                     </x-simple-table2>
+                                                                                    </div>
+                                                                                    </div>
                                                                                 </div>
 
                                                                             </div>
@@ -378,6 +380,8 @@
                                                                                             @endforelse
                                                                                         </x-slot>
                                                                                     </x-simple-table2>
+                                                                                    </div>
+                                                                                    </div>
                                                                                 </div>
 
                                                                             </div>
@@ -475,6 +479,8 @@
                                                                                             @endforelse
                                                                                         </x-slot>
                                                                                     </x-simple-table2>
+                                                                                    </div>
+                                                                                    </div>
                                                                                 </div>
 
                                                                             </div>
@@ -671,6 +677,8 @@
 
                                                                                         </x-slot>
                                                                                     </x-simple-table2>
+                                                                                    </div>
+                                                                                    </div>
                                                                                 </div>
 
                                                                             </div>
@@ -756,6 +764,8 @@
                                                                                             @endforelse
                                                                                         </x-slot>
                                                                                     </x-simple-table2>
+                                                                                    </div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
 
@@ -842,6 +852,8 @@
                                                                                             @endforelse
                                                                                         </x-slot>
                                                                                     </x-simple-table2>
+                                                                                    </div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
 
@@ -992,6 +1004,8 @@
                             @endforelse
                         </x-slot>
                     </x-simple-table2>
+                    </div>
+                    </div>
 
                 </div>
 
