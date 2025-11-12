@@ -9,7 +9,7 @@
       @endif
 
       <!-- /.card-header -->
-      <div class="card-body table-responsive p-0">
+      <div class="card-body table-responsive p-0 table-scroll">
         <table class="table table-head-fixed text-nowrap table-hover table-bordered table-striped table-sm compact-table">
           @if(!empty($thead))
             <thead>
@@ -24,13 +24,20 @@
       <!-- /.card-body -->
     </div>
     <!-- /.card -->
-<!-- /.row -->
+  </div>
+</div>
 
 <style>
+  /* 🔸 Limitar altura de la tabla con scroll */
+  .table-scroll {
+    max-height: 400px; /* ajustá el alto a lo que necesites */
+    overflow-y: auto;
+  }
+
   /* 🔸 Compactar filas */
   .compact-table td,
   .compact-table th {
-    padding: 0.25rem 0.4rem !important; /* reduce el alto de las filas */
+    padding: 0.25rem 0.4rem !important;
     vertical-align: middle;
   }
 

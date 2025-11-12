@@ -126,6 +126,12 @@
                 <li class="nav-item {{ $activeTabParametros === 'custom-tabs-7' ? 'active' : '' }}" wire:click.prevent="setActiveTabParametros('custom-tabs-7')">
                     <a class="nav-link" id="custom-tabs-7-tab" data-toggle="pill" href="#custom-tabs-7" role="tab" aria-controls="custom-tabs-7" aria-selected="true">MINUTAS</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link bg-warning" 
+                    href="{{ route('ventas.resumen-cuenta-corriente', $cliente->id) }}">
+                    RESUMEN CTA CTE
+                    </a>
+                </li>
 
             </x-slot>
 
