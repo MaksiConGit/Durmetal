@@ -129,7 +129,7 @@
                 <li class="nav-item">
                     <a class="nav-link bg-warning" 
                     href="{{ route('ventas.resumen-cuenta-corriente', $cliente->id) }}">
-                    RESUMEN CTA CTE
+                    CTA CTE
                     </a>
                 </li>
 

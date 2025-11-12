@@ -24,8 +24,6 @@
       <!-- /.card-body -->
     </div>
     <!-- /.card -->
-  </div>
-</div>
 
 <style>
   /* 🔸 Limitar altura de la tabla con scroll */
