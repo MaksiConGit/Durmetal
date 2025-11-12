@@ -31,8 +31,8 @@ class IngresoDatosController extends Controller
                 if ($programacion) {
 
                     $programacion->update([
-                        'DurezaMinima' => $data['DurezaMinima'][$IdProgramacion],
-                        'DurezaMaxima' => $data['DurezaMaxima'][$IdProgramacion],
+                        'DurezaMinima' => $data['DurezaMinima'][$IdProgramacion] ?? 0,
+                        'DurezaMaxima' => $data['DurezaMaxima'][$IdProgramacion] ?? 0,
                         'Apto' => $data['ProcesoApto'][$IdProgramacion] ?? null,
                     ]);
                 }
@@ -53,8 +53,8 @@ class IngresoDatosController extends Controller
                 if ($programacion) {
 
                     $programacion->update([
-                        'DurezaMinima' => $data['DurezaMinima'][$IdProgramacion],
-                        'DurezaMaxima' => $data['DurezaMaxima'][$IdProgramacion],
+                        'DurezaMinima' => $data['DurezaMinima'][$IdProgramacion] ?? 0,
+                        'DurezaMaxima' => $data['DurezaMaxima'][$IdProgramacion] ?? 0,
                         'Apto' => $data['ProcesoApto'][$IdProgramacion] ?? null,
                     ]);
                 }
