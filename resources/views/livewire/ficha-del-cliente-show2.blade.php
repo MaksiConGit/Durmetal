@@ -133,6 +133,13 @@
                     </a>
                 </li>
 
+                <style>
+                    .nav-tabs .nav-link {
+                        font-size: 1rem !important;
+                        padding: 0.3rem 0.6rem !important;
+                    }
+                </style>
+
             </x-slot>
 
             <x-slot name="ventanas">
