@@ -407,7 +407,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="col-6">
                 <label>USD -> ARS</label>
                 <input type="text" name="USD_ARS" 
-                      value="{{ \App\Models\ConfiguracionGlobal::first()->USD_ARS }}" 
+                      value="{{ number_format(\App\Models\ConfiguracionGlobal::first()->USD_ARS, 2, '.', '') }}"
                       class="form-control form-control-sm">
               </div>
 
@@ -416,7 +416,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <input type="date" readonly 
                       value="{{ \App\Models\ConfiguracionGlobal::first()->FechaActualizacionUSD_ARS }}" 
                       class="form-control form-control-sm">
-                <!-- Si querés enviar la fecha igual -->
                 <input type="hidden" name="FechaActualizacionUSD_ARS" 
                       value="{{ \App\Models\ConfiguracionGlobal::first()->FechaActualizacionUSD_ARS }}">
               </div>

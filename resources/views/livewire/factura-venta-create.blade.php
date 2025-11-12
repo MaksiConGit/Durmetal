@@ -175,7 +175,7 @@
                     </tr>
 
                     @if (!empty($seleccionados[$id]) && $seleccionados[$id])
-                        <input type="hidden" name="items[{{ $id }}][IdFacturaVenta]" value="{{ $id }}">
+                        <input type="hidden" name="items[{{ $id }}][IdNotaEnvio]" value="{{ $id }}">
                         <input type="hidden" name="items[{{ $id }}][Descripcion]" value="{{ $descripcion[$id] ?? '' }}">
                         <input type="hidden" name="items[{{ $id }}][Neto]" value="{{ $total[$id] ?? 0 }}">
                         <input type="hidden" name="items[{{ $id }}][IVA]" value="{{ $IVA[$id] ?? 0 }}">

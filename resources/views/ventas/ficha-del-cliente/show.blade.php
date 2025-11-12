@@ -80,7 +80,7 @@
                     <div class="col-6">
                         <label>USD -> ARS</label>
                         <input type="text" name="USD_ARS" 
-                            value="{{ \App\Models\ConfiguracionGlobal::first()->USD_ARS }}" 
+                        value="{{ number_format(\App\Models\ConfiguracionGlobal::first()->USD_ARS, 2, '.', '') }}"
                             class="form-control form-control-sm">
                     </div>
 

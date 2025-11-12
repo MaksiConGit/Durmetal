@@ -285,6 +285,10 @@ class VentasController extends Controller
                 'ActualizadoPor' => $user_id,
                 'Activo' => 1,
             ]);
+
+            $nota_envio = NotaEnvio::find($itemData['IdNotaEnvio']);
+
+            $nota_envio->update(['Estado' => 'COMPLETO']);
             
         }
 
