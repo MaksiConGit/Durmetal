@@ -32,7 +32,8 @@ class StoreProgramacionRequest extends FormRequest
             'FechaActualizacion' => 'nullable|date',
             'ActualizadoPor' => 'integer|exists:users,id',
             'Activo' => 'boolean',
-
+            // 'Cantidad.*' => 'required|numeric|min:0',
+            // 'CantidadFinal.*' => 'required|numeric|min:0',
             // 'Cantidad' => 'required|numeric|min:0',
             // 'IdItemOrdenTrabajo' => 'required|integer|exists:items_orden_trabajo,id',
         ];

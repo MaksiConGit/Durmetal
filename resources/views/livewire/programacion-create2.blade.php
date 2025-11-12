@@ -63,9 +63,9 @@
             <div class="row">
                 <div class="col-3">
                     <div class="form-group mb-0">
-                        <select name="IdTipoProgramacion" id="" class="form-control form-control-sm"  wire:model.live="IdTipoProgramacion">
+                        <select name="IdTipoProgramacion" id="" class="form-control form-control-sm" wire:model.live="IdTipoProgramacion">
                             @foreach ($tipos_programacion as $tipo_programacion)
-                                <option value="{{$tipo_programacion->id}}">{{$tipo_programacion->Nombre}}</option>
+                                <option value="{{$tipo_programacion->id}}" {{$tipo_programacion->id == old('IdTipoProgramacion', $IdTipoProgramacion) ? 'selected' : ''}}>{{$tipo_programacion->Nombre}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -142,7 +142,7 @@
                 <div class="col-3">
                     <div class="form-group mb-0">
                         <label for="filtro4" class="font-weight-normal">TEMPERATURA</label>
-                        <input type="text" id="filtro4" name="Temperatura" class="form-control form-control-sm" value="{{ old('Temperatura', $Temperatura) }}">
+                        <input type="number" id="filtro4" name="Temperatura" class="form-control form-control-sm" value="{{ old('Temperatura', $Temperatura) }}">
                     </div>
                 </div>
                 <div class="col-3">
@@ -169,6 +169,33 @@
             </div>
 
         </form>
+
+        @if ($errors->any())
+            <div class="modal fade" id="errorModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning text-white">
+                            <h4 class="modal-title">Error</h4>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>{{ $errors->first() }}</p>
+                        </div>
+                        <div class="modal-footer justify-content-end">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    $('#errorModal').modal('show');
+                });
+            </script>
+        @endif
 
     </x-layout2>
 

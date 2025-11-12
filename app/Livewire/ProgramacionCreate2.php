@@ -19,10 +19,9 @@ class ProgramacionCreate2 extends Component
     public function mount($items)
     {
         $this->items = $items;
-        $this->IdTipoProgramacion = TipoProgramacion::first()?->id ?? null;
+        $this->IdTipoProgramacion = old('IdTipoProgramacion', TipoProgramacion::first()?->id ?? null);
         $this->Temperatura = 0;
         $this->IdMedioEnfriamiento = 7;
-        $this->updatedIdTipoProgramacion(1);
     }
 
 

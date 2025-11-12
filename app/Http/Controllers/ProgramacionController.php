@@ -50,22 +50,25 @@ class ProgramacionController extends Controller
     
         $data = $request->all();
 
-        // dd($data);
-
-        $validatedData = $request->validate([
-            'Cantidad' => 'required|numeric|lte:CantidadFinal',
-            'CantidadFinal' => 'required|numeric',
-        ]);
-
-
         foreach ($request->ItemOrdenTrabajoIds as $index => $itemOrdenTrabajoId) {
             if ($itemOrdenTrabajoId) {
-
                 $item_orden_trabajo = ItemOrdenTrabajo::find($itemOrdenTrabajoId);
 
-                
+                if ($data['Cantidad'][$index] > $data['CantidadFinal'][$index]) {
+                    return redirect()->back()
+                        ->withErrors(['Cantidad.'.$index => 'La cantidad a programar no puede ser mayor que la cantidad del trabajo'])
+                        ->withInput();
+                }
+
+                if ($data['Cantidad'][$index] <= 0) {
+                    return redirect()->back()
+                        ->withErrors(['Cantidad.'.$index => 'La cantidad a programar no puede ser cero'])
+                        ->withInput();
+                }
+
                 if ($data['NumeroProgramacion'][$index] == 0) {
-                    $data['NumeroProgramacion'][$index] = $item_orden_trabajo->programacion->max('NumeroProgramacion') + 1;
+                    $data['NumeroProgramacion'][$index] =
+                        ($item_orden_trabajo->programacion->max('NumeroProgramacion') ?? 0) + 1;
                 }
 
                 Programacion::create([
@@ -73,8 +76,8 @@ class ProgramacionController extends Controller
                     'DurezaMinima' => $item_orden_trabajo->DurezaSolicitadaMinima,
                     'DurezaMaxima' => $item_orden_trabajo->DurezaSolicitadaMaxima,
                     'IdTipoProgramacion' => $data['IdTipoProgramacion'],
-                    'Cantidad' => $data['Cantidad'],
-                    'Reproceso' => $data['Reproceso'][$index],
+                    'Cantidad' => $data['Cantidad'][$index],
+                    'Reproceso' => $data['Reproceso'][$index] ?? 0,
                     'FechaCreacion' => now(),
                     'FechaCarga' => $data['FechaCarga'],
                     'FechaDescarga' => $data['FechaDescarga'],
@@ -88,7 +91,6 @@ class ProgramacionController extends Controller
                     'Activo' => '1',
                     'NumeroProgramacion' => $data['NumeroProgramacion'][$index],
                 ]);
-
             }
         }
 
