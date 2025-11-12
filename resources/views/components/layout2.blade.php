@@ -504,7 +504,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </form>
   <!-- /.modal -->
 
+  @if ($errors->any())
+      <div class="modal fade" id="errorModal" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                  <div class="modal-header bg-warning text-white">
+                      <h4 class="modal-title">Error</h4>
+                      <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <p>{{ $errors->first() }}</p>
+                  </div>
+                  <div class="modal-footer justify-content-end">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                  </div>
+              </div>
+          </div>
+      </div>
 
+      <script>
+          document.addEventListener('DOMContentLoaded', function() {
+              $('#errorModal').modal('show');
+          });
+      </script>
+  @endif
+  
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->

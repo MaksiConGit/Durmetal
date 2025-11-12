@@ -22,8 +22,27 @@ class StoreUSDARSRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'USD_ARS' => 'required|numeric',
+            'USD_ARS' => 'required|numeric|min:1',
             'FechaActualizacionUSD_ARS' => 'required',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'USD_ARS.required' => 'Debe ingresar un valor para el tipo de cambio USD/ARS.',
+            'USD_ARS.numeric' => 'El tipo de cambio debe ser un número.',
+            'USD_ARS.min' => 'El valor del tipo de cambio debe ser mayor a 0.',
+            'FechaActualizacionUSD_ARS.required' => 'Debe ingresar la fecha de actualización.',
+            'FechaActualizacionUSD_ARS.date' => 'La fecha de actualización debe tener un formato válido.',
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'USD_ARS' => 'tipo de cambio USD/ARS',
+            'FechaActualizacionUSD_ARS' => 'fecha de actualización',
         ];
     }
 }
