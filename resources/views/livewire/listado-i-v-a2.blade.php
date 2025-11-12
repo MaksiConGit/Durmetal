@@ -193,7 +193,8 @@
                                 <td>{{ $documento->IdCliente }}</td>
                                 <td>{{ $documento->RazonSocial }}</td>
                                 <td>
-                                    @switch($documento->condicionIVA->Nombre)
+                                    @if ($documento->condicionIVA)
+                                        @switch($documento->condicionIVA->Nombre)
                                             @case('Exento')
                                                 EX
                                                 @break
@@ -213,7 +214,11 @@
                                                 NID
                                                 @break
                                             @default
-                                    @endswitch
+                                        @endswitch
+                                    @else
+                                        ¡¡REVISAR!!
+                                    @endif
+
                                 </td>
                                 <td>{{ $documento->cliente->NroDocumento }}</td>
                                 <td>{{ $signo . number_format($documento->Neto, 2, '.', '') }}</td>
