@@ -104,6 +104,29 @@ class FacturaVentaCreate extends Component
         $this->actualizarSubtotal();
     }
 
+    public function seleccionarTodo()
+    {
+        foreach ($this->notas_envio as $item) {
+            $id = $item->id;
+            $this->seleccionados[$id] = true;
+            $this->updatedSeleccionados(true, $id);
+        }
+
+        $this->actualizarSubtotal();
+    }
+
+    public function deseleccionarTodo()
+    {
+        foreach ($this->notas_envio as $item) {
+            $id = $item->id;
+            $this->seleccionados[$id] = false;
+            $this->updatedSeleccionados(false, $id);
+        }
+
+        $this->actualizarSubtotal();
+    }
+
+
     public function render()
     {
         return view('livewire.factura-venta-create');

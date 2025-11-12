@@ -76,7 +76,7 @@ class NotaEnvioCreate extends Component
 
         $item = $this->items_orden_trabajo->firstWhere('id', $id);
 
-        $codigo = CodigoComplejidad::where('CC', $nuevoCodigo)->first();
+        $codigo = CodigoComplejidad::where('IdTratamiento', $item->IdTratamiento)->where('CC', $nuevoCodigo)->first();
 
         if ($codigo) {
             $this->codigo_invalido[$id] = false;
@@ -166,7 +166,30 @@ class NotaEnvioCreate extends Component
         $this->iva = $this->base_imponible * 0.21;
 
         $this->total_final = $this->base_imponible + $this->iva;
-}
+    }
+
+    public function seleccionarTodo()
+    {
+        foreach ($this->items_orden_trabajo as $item) {
+            $id = $item->id;
+            $this->seleccionados[$id] = true;
+            $this->updatedSeleccionados(true, $id);
+        }
+
+        $this->actualizarSubtotal();
+    }
+
+    public function deseleccionarTodo()
+    {
+        foreach ($this->items_orden_trabajo as $item) {
+            $id = $item->id;
+            $this->seleccionados[$id] = false;
+            $this->updatedSeleccionados(false, $id);
+        }
+
+        $this->actualizarSubtotal();
+    }
+
 
     public function render()
     {

@@ -79,6 +79,18 @@
 
 
                 <x-slot name="thead">
+                    <div class="mb-2">
+                        <div class="icheck-primary d-inline">
+                            <input type="checkbox" id="checkAll" wire:click="seleccionarTodo" checked onclick="return false;">
+                            <label for="checkAll" title="Seleccionar todos"></label>
+                        </div>
+
+                        <div class="icheck-primary d-inline">
+                            <input type="checkbox" id="uncheckAll" wire:click="deseleccionarTodo" onclick="return false;">
+                            <label for="uncheckAll" title="Deseleccionar todos"></label>
+                        </div>
+                    </div>
+
                     <tr>
                         <th></th>
                         <th>N°</th>
@@ -157,9 +169,16 @@
                             />
                         </td>
                         <td class="text-center align-middle">
-                            <button class="btn btn-sm toggle-row" type="button" style="background-color: #fd7e14; color: white;">
-                                <i class="fa-solid fa-list"></i>
-                            </button>
+<button 
+    class="btn btn-sm toggle-row" 
+    type="button" 
+    style="background-color: #fd7e14; color: white;"
+    data-toggle="modal" 
+    data-target="#modal-cliente-{{ $item_orden_trabajo->id }}"
+>
+    <i class="fa-solid fa-list"></i>
+</button>
+
                         </td>
                         <td class="text-center align-middle">
                             <input 
@@ -299,9 +318,99 @@
                 </div>
         
             </div>
-    
+
+            @foreach ($items_orden_trabajo as $item_orden_trabajo)
+                <!-- .modal -->
+                <div class="modal fade" id="modal-cliente-{{ $item_orden_trabajo->id }}" wire:ignore.self>
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title text-bold">
+                                TRATAMIENTO: "{{ $item_orden_trabajo->tratamiento->Nombre }}"
+                            </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                            <div class="row">
+
+                                <x-simple-table2>
+
+                                    <x-slot name="thead">
+                                        <tr>
+                                            <th>CC</th>
+                                            <th>DESCRIPCION</th>
+                                            <th>PRECIO</th>
+                                            <th>DIVISA</th>
+                                            <th style="max-width: 80px;">% COEF.</th>
+                                            <th>COEFICIENTE</th>
+                                        </tr>
+                                    </x-slot>
+                                    <x-slot name="tbody">
+                                        @forelse ($item_orden_trabajo->tratamiento->precios->sortBy('CC') as $precio)
+                                            <tr>
+                                                <td>{{ $precio->CC }}</td>
+                                                <td style="min-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $precio->Descripcion }}">
+                                                    {{ $precio->Descripcion }}
+                                                </td>
+                                                <td>{{ number_format($precio->Precio, 2, ',', '.') }}</td>
+                                                <td>{{ $precio->Divisa }}</td>
+                                                <td style="max-width: 80px; white-space: nowrap;">{{ number_format($precio->PorcentajeCoeficiente, 2, ',', '.') }}</td>
+                                                <td>{{ number_format($precio->Coeficiente, 3, ',', '.') }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr><td colspan="8">No se encontraron resultados.</td></tr>
+                                        @endforelse
+
+                                    </x-slot>
+                                </x-simple-table2>
+                                </div>
+                                </div>
+
+                            </div>
+
+                            </div>
+
+                            <div class="modal-footer justify-content-end">
+
+                                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                    <span class="text-white">Cerrar</span>
+                                    <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                                </button>
+
+                            </div>
+                            </div>
+                            </div>
+
+                        </div>
+                <!-- /.modal -->
+            @endforeach
+
         </form>
 
     </x-layout2>
-    
+    @push('scripts')
+<script>
+    document.addEventListener('livewire:navigated', () => {
+        const all = document.getElementById('checkAll');
+        const none = document.getElementById('uncheckAll');
+        if (all) all.checked = false;
+        if (none) none.checked = false;
+    });
+
+    // También cuando se hace click (por si Livewire no recarga)
+    document.addEventListener('livewire:load', () => {
+        const resetCheckboxes = () => {
+            const all = document.getElementById('checkAll');
+            const none = document.getElementById('uncheckAll');
+            if (all) all.checked = false;
+            if (none) none.checked = false;
+        };
+        window.Livewire.hook('morph.updated', resetCheckboxes);
+    });
+</script>
+@endpush
 </div>
+
