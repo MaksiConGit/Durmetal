@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCodigoComplejidadRequest;
+use App\Http\Requests\StoreTratamientoRequest;
+use App\Http\Requests\UpdateCodigoComplejidadRequest;
+use App\Http\Requests\UpdateTratamientoRequest;
 use App\Models\CodigoComplejidad;
 use App\Models\Tratamiento;
 use Illuminate\Http\Request;
@@ -12,16 +15,16 @@ class CodigoComplejidadController extends Controller
 {
     public function index()
     {
-        $precios = CodigoComplejidad::all();
-
-        return view('produccion.actualizaciones.precios.index', compact('precios'));
+        return view('ventas.actualizaciones.precios.index');
     }
 
     public function create(Tratamiento $tratamiento)
     {
-        $next_codigo = CodigoComplejidad::max('CC') + 1;
-
-        return view('produccion.actualizaciones.precios.create', compact('next_codigo', 'tratamiento'));
+        if (!session('modal')) {
+            session()->put('modal', 'create');
+        }
+        
+        return view('ventas.actualizaciones.precios.create', compact('tratamiento'));
     }
 
     public function store(StoreCodigoComplejidadRequest $request)
@@ -39,21 +42,67 @@ class CodigoComplejidadController extends Controller
 
         $tratamiento = Tratamiento::find($data['IdTratamiento']);
 
-        return redirect()->route('tratamientos.edit', compact('tratamiento'));
+        return redirect()->route('ventas.precios.create', compact('tratamiento'));
     }
 
-    public function edit(CodigoComplejidad $precio)
-    {
-        return view('produccion.actualizaciones.precios.edit', compact('precio'));
-    }
-
-    public function update(StoreCodigoComplejidadRequest $request, CodigoComplejidad $precio)
+    public function update(UpdateCodigoComplejidadRequest $request, CodigoComplejidad $precio)
     {
         $data = $request->all();
 
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = Auth::id();
+
+        $precio = CodigoComplejidad::find($data['IdCodigoComplejidad']);
+        
         $precio->update($data);
+
+        $tratamiento = Tratamiento::find($data['IdTratamiento']);
     
-        return redirect()->route('tratamientos.index');
+        return redirect()->route('ventas.precios.create', compact('tratamiento'));
+    }
+
+    public function updateTratamiento(UpdateTratamientoRequest $request, Tratamiento $tratamiento)
+    {
+        $data = $request->all();
+
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = Auth::id();
+
+        $tratamiento->update($data);
+
+        session()->put('tratamiento_id', $tratamiento->id);
+    
+        return redirect()->route('ventas.precios.index', compact('tratamiento'));
+    }
+
+    public function updatePrecio(Request $request, CodigoComplejidad $precio)
+    {
+        session()->put('modal', 'other');
+
+        if (!$request->has('items') || empty($request->items)) {
+            return redirect()->back()
+                ->withErrors(['items' => 'Debe seleccionar al menos un ítem para actualizar el precio.'])
+                ->withInput();
+        }
+
+        $data = $request->all();
+
+        foreach ($request->items as $index => $itemData) {
+
+            $codigo_complejidad = CodigoComplejidad::find($itemData['IdCodigoComplejidad']);
+            
+            $codigo_complejidad->update([
+                'Precio' => $itemData['Precio'],
+                'Coeficiente' => $itemData['Coeficiente'],
+                'FechaActualizacion' => now(),
+                'FechaActualizacion' => now(),
+                'ActualizadoPor' => Auth::id(),
+            ]);
+        }
+
+        $tratamiento = Tratamiento::find($data['IdTratamiento']);
+    
+        return redirect()->route('ventas.precios.create', compact('tratamiento'));
     }
 
     public function destroy(Tratamiento $tratamiento, CodigoComplejidad $precio)

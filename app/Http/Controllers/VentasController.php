@@ -114,7 +114,7 @@ class VentasController extends Controller
     {
         if (!$request->has('items') || empty($request->items)) {
             return redirect()->back()
-                ->with('error', 'Debe seleccionar al menos un ítem para crear la nota de envío.')
+                ->withErrors(['items' => 'Debe seleccionar al menos un ítem para crear la nota de envío.'])
                 ->withInput();
         }
 
@@ -203,7 +203,7 @@ class VentasController extends Controller
     {
         if (!$request->has('items') || empty($request->items)) {
             return redirect()->back()
-                ->with('error', 'Debe seleccionar al menos un ítem para crear la factura de venta.')
+                ->withErrors(['items' => 'Debe seleccionar al menos un ítem para crear la factura de venta.'])
                 ->withInput();
         }
 

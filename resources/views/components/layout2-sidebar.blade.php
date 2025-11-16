@@ -111,7 +111,7 @@
                     <a tabindex="-1" href="{{route('clients.index')}}" class="dropdown-item">Clientes</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('tratamientos.index') }}" class="dropdown-item disabled">Precios</a>
+                    <a tabindex="-1" href="{{ route('ventas.precios.index') }}" class="dropdown-item">Precios</a>
                   </li>
                   <li>
                     <a href="" tabindex="-1" data-toggle="modal" data-target="#modal-divisas" class="dropdown-item">Divisas</a>

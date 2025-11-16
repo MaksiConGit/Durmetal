@@ -169,15 +169,15 @@
                             />
                         </td>
                         <td class="text-center align-middle">
-<button 
-    class="btn btn-sm toggle-row" 
-    type="button" 
-    style="background-color: #fd7e14; color: white;"
-    data-toggle="modal" 
-    data-target="#modal-cliente-{{ $item_orden_trabajo->id }}"
->
-    <i class="fa-solid fa-list"></i>
-</button>
+                            <button 
+                                class="btn btn-sm toggle-row" 
+                                type="button" 
+                                style="background-color: #fd7e14; color: white;"
+                                data-toggle="modal" 
+                                data-target="#modal-cliente-{{ $item_orden_trabajo->id }}"
+                            >
+                                <i class="fa-solid fa-list"></i>
+                            </button>
 
                         </td>
                         <td class="text-center align-middle">

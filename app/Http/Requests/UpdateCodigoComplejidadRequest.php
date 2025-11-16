@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCodigoComplejidadRequest extends FormRequest
+class UpdateCodigoComplejidadRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,7 +21,9 @@ class StoreCodigoComplejidadRequest extends FormRequest
      */
     public function rules(): array
     {
-        session()->put('modal', 'create');
+        session()->put([
+            'modal' => 'edit',
+        ]);
 
         return [
             'IdTratamiento' => 'integer|exists:tratamiento,id',

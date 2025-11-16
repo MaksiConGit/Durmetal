@@ -97,10 +97,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('actualizaciones/procesos', ProcesoController::class)->names('procesos');
     Route::resource('actualizaciones/factores-premio', FactorPremioController::class)->names('factores-premio')->parameters(['factores-premio' => 'factor_premio']);
     
-    Route::get('actualizaciones/tratamientos/{tratamiento}/precio/create', [CodigoComplejidadController::class, 'create'])->name('precios.create');
-    Route::post('actualizaciones/precios', [CodigoComplejidadController::class, 'store'])->name('precios.store');
-    Route::get('actualizaciones/precios/{precio}/edit', [CodigoComplejidadController::class, 'edit'])->name('precios.edit');
-    Route::delete('actualizaciones/tratamientos/{tratamiento}/precios/{precio}', [CodigoComplejidadController::class, 'destroy'])->name('precios.destroy');
+    // Route::get('actualizaciones/tratamientos/{tratamiento}/precio/create', [CodigoComplejidadController::class, 'create'])->name('precios.create');
+    // Route::post('actualizaciones/precios', [CodigoComplejidadController::class, 'store'])->name('precios.store');
+    // Route::get('actualizaciones/precios/{precio}/edit', [CodigoComplejidadController::class, 'edit'])->name('precios.edit');
+    // Route::delete('actualizaciones/tratamientos/{tratamiento}/precios/{precio}', [CodigoComplejidadController::class, 'destroy'])->name('precios.destroy');
 
     Route::resource('actualizaciones/asignar-factores', AsignarFactorController::class)->names('asignar-factores')->parameters(['asignar-factores' => 'usuario']);
     Route::resource('actualizaciones/repartir-premios', RepartirPremioController::class)->names('repartir-premios')->parameters(['repartir-premios' => 'premio']);
@@ -126,6 +126,14 @@ Route::middleware('auth')->group(function () {
     // Ventas
     Route::get('divisas', [DivisasController::class, 'edit'])->name('divisas.edit');
     Route::put('divisas/{configuracion_global}', [DivisasController::class, 'update'])->name('divisas.update');
+
+    Route::get('actualizaciones/precios', [CodigoComplejidadController::class, 'index'])->name('ventas.precios.index');
+    Route::get('actualizaciones/precios/create/{tratamiento}', [CodigoComplejidadController::class, 'create'])->name('ventas.precios.create');
+    Route::post('actualizaciones/precios', [CodigoComplejidadController::class, 'store'])->name('ventas.precios.store');
+    Route::put('actualizaciones/precios/{precio}', [CodigoComplejidadController::class, 'update'])->name('ventas.precios.update');
+    Route::put('actualizaciones/precios/tratamiento/{tratamiento}', [CodigoComplejidadController::class, 'updateTratamiento'])->name('ventas.precios.update.tratamiento');
+    Route::put('actualizaciones/precios/precio/{precio}', [CodigoComplejidadController::class, 'updatePrecio'])->name('ventas.precios.update.precio');
+    Route::delete('actualizaciones/precios/{precio}', [CodigoComplejidadController::class, 'destroy'])->name('ventas.precios.destroy');
 
     Route::get('trabajos-pendientes-de-facturar', [VentasController::class, 'trabajosSinFacturar'])->name('ventas.trabajos-sin-facturar');
     Route::get('listado-de-retenciones', [VentasController::class, 'listadoDeRetenciones'])->name('ventas.listado-de-retenciones');
