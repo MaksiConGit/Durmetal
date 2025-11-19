@@ -152,7 +152,9 @@
                             <td>{{ $item->material->Nombre }}</td>
                             <td>{{ $item->dureza->Nombre }}</td>
                             <td>
-                                <span class="bg-blue px-1">{{ $item->DurezaSolicitadaMinima }} - {{ $item->DurezaSolicitadaMaxima }}</span> 
+                                <span class="bg-olive px-1">
+                                    {{ $item->DurezaSolicitadaMinima }} - {{ $item->DurezaSolicitadaMaxima }}
+                                </span> 
                             </td>
                             <td>{{ $item->Estado }}</td>
                             @if ($item->Estado == 'APROBADO')
@@ -204,13 +206,29 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-
                                             @php
                                                 $programacionesAgrupadas = $item->programacion->groupBy('NumeroProgramacion');
                                                 $programacionesCount = $item->programacion->count();
+                                                $contadorPorTipo = [];
                                             @endphp
 
                                             @forelse ($programacionesAgrupadas as $numeroProgramacion => $grupo)
+
+                                                @php
+                                                    $primeraProgramacion = $grupo->first();
+                                                    $tipoNombre = $primeraProgramacion->tipoProgramacion->Nombre;
+
+                                                    if (!isset($contadorPorTipo[$tipoNombre])) {
+                                                        $contadorPorTipo[$tipoNombre] = 1;
+                                                    } else {
+                                                        $contadorPorTipo[$tipoNombre]++;
+                                                    }
+
+                                                    $numeroTipo = $contadorPorTipo[$tipoNombre];
+
+                                                    $countGrupo = $grupo->count();
+                                                @endphp
+
                                                 @foreach ($grupo as $index => $programacion)
                                                     <tr data-widget="expandable-table"
                                                         aria-expanded="{{ in_array($programacion->id, $expandedInner ?? []) ? 'true' : 'false' }}"
@@ -225,7 +243,11 @@
 
                                                         <td>
                                                             <span class="bg-danger px-1">H{{ $programacion->NumeroHorno }}</span> 
-                                                            <span class="bg-primary px-1">{{ $programacion->tipoProgramacion->Nombre }} {{ $numeroProgramacion }}-{{ $index + 1 }}</span>
+                                                            @if ($countGrupo > 1)
+                                                                <span class="bg-primary px-1">{{ $programacion->tipoProgramacion->Nombre }} {{ $numeroTipo }}-{{ $index + 1 }}</span>
+                                                            @else
+                                                                <span class="bg-primary px-1">{{ $programacion->tipoProgramacion->Nombre }} {{ $numeroTipo }}</span>
+                                                            @endif
                                                         </td>
 
                                                         <td>{{ $programacion->Reproceso == 0 ? '' : 'RP' }}</td>

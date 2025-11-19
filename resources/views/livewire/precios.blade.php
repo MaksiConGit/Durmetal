@@ -419,7 +419,7 @@
                                     <div class="col-4 mb-3">
                                         <div class="d-flex align-items-center">
                                             <label for="Multiplicador" class="mb-0 mr-2 font-weight-normal" style="white-space: nowrap;">Coeficiente act. precios:</label>
-                                            <input type="number" id="Multiplicador" wire:model.live="Multiplicador" class="form-control form-control-sm" style="width: 80px;">
+                                            <input type="text" id="Multiplicador" wire:model.live="Multiplicador" class="form-control form-control-sm" style="width: 80px;" >
 
                                         </div>
                                     </div>
@@ -427,7 +427,7 @@
                                     <div class="col-4 mb-3">
                                         <div class="d-flex align-items-center">
                                             <label for="Redondeo" class="mb-0 mr-2 font-weight-normal" style="white-space: nowrap;">Redondeo a múltiplo de:</label>
-                                            <input type="number" id="Redondeo" wire:model.live="Redondeo" class="form-control form-control-sm" style="width: 80px;">
+                                            <input type="text" id="Redondeo" wire:model.live="Redondeo" class="form-control form-control-sm" style="width: 80px;">
                                         </div>
                                     </div>
 
