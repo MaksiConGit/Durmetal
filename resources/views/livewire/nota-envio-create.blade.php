@@ -319,98 +319,224 @@
         
             </div>
 
-            @foreach ($items_orden_trabajo as $item_orden_trabajo)
-                <!-- .modal -->
-                <div class="modal fade" id="modal-cliente-{{ $item_orden_trabajo->id }}" wire:ignore.self>
-                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h5 class="modal-title text-bold">
-                                TRATAMIENTO: "{{ $item_orden_trabajo->tratamiento->Nombre }}"
-                            </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
+        </form>
 
-                            <div class="row">
+        @foreach ($items_orden_trabajo as $item_orden_trabajo)
+            <!-- .modal -->
+            <div class="modal fade" id="modal-cliente-{{ $item_orden_trabajo->id }}" wire:ignore.self>
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title text-bold">
+                            TRATAMIENTO: "{{ $item_orden_trabajo->tratamiento->Nombre }}"
+                        </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
 
-                                <x-simple-table2>
+                        <div class="row">
 
-                                    <x-slot name="thead">
+                            <x-simple-table2>
+
+                                <x-slot name="thead">
+                                    <tr>
+                                        <th>CC</th>
+                                        <th>DESCRIPCION</th>
+                                        <th>PRECIO</th>
+                                        <th>DIVISA</th>
+                                        <th style="max-width: 80px;">% COEF.</th>
+                                        <th>COEFICIENTE</th>
+                                        <th></th>
+                                    </tr>
+                                </x-slot>
+                                <x-slot name="tbody">
+                                    @forelse ($item_orden_trabajo->tratamiento->precios->sortBy('CC') as $precio)
                                         <tr>
-                                            <th>CC</th>
-                                            <th>DESCRIPCION</th>
-                                            <th>PRECIO</th>
-                                            <th>DIVISA</th>
-                                            <th style="max-width: 80px;">% COEF.</th>
-                                            <th>COEFICIENTE</th>
-                                        </tr>
-                                    </x-slot>
-                                    <x-slot name="tbody">
-                                        @forelse ($item_orden_trabajo->tratamiento->precios->sortBy('CC') as $precio)
-                                            <tr>
-                                                <td>{{ $precio->CC }}</td>
-                                                <td style="min-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $precio->Descripcion }}">
-                                                    {{ $precio->Descripcion }}
+                                            <td>{{ $precio->CC }}</td>
+                                            <td style="min-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $precio->Descripcion }}">
+                                                {{ $precio->Descripcion }}
+                                            </td>
+                                            <td>{{ number_format($precio->Precio, 2, ',', '.') }}</td>
+                                            <td>{{ $precio->Divisa }}</td>
+                                            <td style="max-width: 80px; white-space: nowrap;">{{ number_format($precio->PorcentajeCoeficiente, 2, ',', '.') }}</td>
+                                            <td>{{ number_format($precio->Coeficiente, 3, ',', '.') }}</td>
+
+                                            @if (($codigo_complejidad[$item_orden_trabajo->id] ?? null) == $precio->CC)
+                                                <td class="text-center align-middle">
+                                                    <button class="btn btn-sm toggle-row" type="button" style="background-color: #fd7e14; color: white;" data-toggle="modal" data-target="#modal-edit" wire:click="guardarEstado">
+                                                        <i class="fa-solid fa-pencil"></i>
+                                                    </button>
                                                 </td>
-                                                <td>{{ number_format($precio->Precio, 2, ',', '.') }}</td>
-                                                <td>{{ $precio->Divisa }}</td>
-                                                <td style="max-width: 80px; white-space: nowrap;">{{ number_format($precio->PorcentajeCoeficiente, 2, ',', '.') }}</td>
-                                                <td>{{ number_format($precio->Coeficiente, 3, ',', '.') }}</td>
-                                            </tr>
-                                        @empty
-                                            <tr><td colspan="8">No se encontraron resultados.</td></tr>
-                                        @endforelse
+                                            @else
+                                                <td></td>
+                                            @endif
 
-                                    </x-slot>
-                                </x-simple-table2>
-                                </div>
-                                </div>
+                                        </tr>
+                                    @empty
+                                        <tr><td colspan="8">No se encontraron resultados.</td></tr>
+                                    @endforelse
 
-                            </div>
-
-                            </div>
-
-                            <div class="modal-footer justify-content-end">
-
-                                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
-                                    <span class="text-white">Cerrar</span>
-                                    <i class="fas fa-xmark fa-fw text-white ml-2"></i>
-                                </button>
-
-                            </div>
+                                </x-slot>
+                            </x-simple-table2>
                             </div>
                             </div>
 
                         </div>
-                <!-- /.modal -->
+
+                        </div>
+
+                        <div class="modal-footer justify-content-end">
+
+                            <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                <span class="text-white">Cerrar</span>
+                                <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                            </button>
+
+                        </div>
+                        </div>
+                        </div>
+
+                    </div>
+            <!-- /.modal -->
+
+            @foreach ($item_orden_trabajo->tratamiento->precios->sortBy('CC') as $precio)
+
+                @if (($codigo_complejidad[$item_orden_trabajo->id] ?? null) == $precio->CC)
+
+                    <!-- .modal -->
+                    <form action="{{ route('ventas.ficha-del-cliente-nota-envio.cc', $precio)}}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal fade" id="modal-edit" wire:ignore.self>
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        MODIFICANDO CODIGO DE COMPLEJIDAD: "{{ old('CC', $precio->CC) }}"
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="row">
+
+                                        <div class="col-1"></div>
+
+                                        <input type="hidden" name="IdCodigoComplejidad" value="{{ old('IdCodigoComplejidad', $precio->id) }}">
+
+                                        <input type="hidden" name="IdTratamiento" value="{{ $item_orden_trabajo->tratamiento->id }}">
+
+                                        <div class="col-2">
+                                            <div class="form-group mb-0">
+                                                <label for="CC" class="font-weight-normal">CC</label>
+                                                <input type="number" id="CC" value="{{ old('CC', $precio->CC) }}" readonly class="form-control form-control-sm">
+                                                <input type="hidden" name="CC" value="{{ old('CC', $precio->CC) }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-2">
+                                            <div class="form-group mb-0">
+                                                <label for="Precio" class="font-weight-normal">PRECIO</label>
+                                                <input type="text" id="Precio" name="Precio" value="{{ number_format(old('Precio', $precio->Precio), 2, '.', '') }}" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-2">
+                                            <div class="form-group mb-0">
+                                                <label for="Divisa" class="font-weight-normal">DIVISA</label>
+                                                <select name="Divisa" id="Divisa" class="form-control form-control-sm">
+                                                    <option value="ARS" {{ old('Divisa', $precio->Divisa) == 'ARS' ? 'selected' : '' }}>ARS</option>
+                                                    <option value="USD" {{ old('Divisa', $precio->Divisa) == 'USD' ? 'selected' : '' }}>USD</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-2">
+                                            <div class="form-group mb-0">
+                                                <label for="PorcentajeCoeficiente" class="font-weight-normal">% COEFICIENTE</label>
+                                                <input type="number" id="PorcentajeCoeficiente" name="PorcentajeCoeficiente" value="{{ old('PorcentajeCoeficiente', $precio->PorcentajeCoeficiente) }}" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-2">
+                                            <div class="form-group mb-0">
+                                                <label for="Coeficiente" class="font-weight-normal">COEFICIENTE</label>
+                                                <input type="number" id="Coeficiente" name="Coeficiente" value="{{ old('Coeficiente', $precio->Coeficiente) }}" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-1"></div>
+
+                                    </div>
+
+                                    <div class="row mt-3">
+
+                                        <div class="col-1"></div>
+
+                                        <div class="col-10">
+                                            <div class="form-group mb-0">
+                                                <label for="Descripcion" class="font-weight-normal">DESCRIPCION</label>
+                                                <input type="text" id="Descripcion" name="Descripcion" value="{{ old('Descripcion', $precio->Descripcion) }}" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-1"></div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer justify-content-end">
+
+                                    <button type="submit" class="btn btn-sidebar btn-sm bg-orange">
+                                        <span class="text-white">Guardar</span>
+                                        <i class="fas fa-floppy-disk fa-fw text-white ml-2"></i>
+                                    </button>
+
+                                    <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                        <span class="text-white">Cancelar</span>
+                                        <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        </div>
+
+                    </form>
+                    <!-- /.modal -->
+                @endif
+
             @endforeach
 
-        </form>
+        @endforeach
 
     </x-layout2>
     @push('scripts')
-<script>
-    document.addEventListener('livewire:navigated', () => {
-        const all = document.getElementById('checkAll');
-        const none = document.getElementById('uncheckAll');
-        if (all) all.checked = false;
-        if (none) none.checked = false;
-    });
+        <script>
+            document.addEventListener('livewire:navigated', () => {
+                const all = document.getElementById('checkAll');
+                const none = document.getElementById('uncheckAll');
+                if (all) all.checked = false;
+                if (none) none.checked = false;
+            });
 
-    // También cuando se hace click (por si Livewire no recarga)
-    document.addEventListener('livewire:load', () => {
-        const resetCheckboxes = () => {
-            const all = document.getElementById('checkAll');
-            const none = document.getElementById('uncheckAll');
-            if (all) all.checked = false;
-            if (none) none.checked = false;
-        };
-        window.Livewire.hook('morph.updated', resetCheckboxes);
-    });
-</script>
-@endpush
+            // También cuando se hace click (por si Livewire no recarga)
+            document.addEventListener('livewire:load', () => {
+                const resetCheckboxes = () => {
+                    const all = document.getElementById('checkAll');
+                    const none = document.getElementById('uncheckAll');
+                    if (all) all.checked = false;
+                    if (none) none.checked = false;
+                };
+                window.Livewire.hook('morph.updated', resetCheckboxes);
+            });
+        </script>
+    @endpush
 </div>
 

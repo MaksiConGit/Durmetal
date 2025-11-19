@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUSDARSRequest;
+use App\Http\Requests\UpdateCodigoComplejidadRequest;
+use App\Models\CodigoComplejidad;
 use App\Models\Arti;
 use App\Models\Banco;
 use App\Models\Chequecobro;
@@ -186,7 +188,25 @@ class VentasController extends Controller
             $item_orden_trabajo->update(['ConNotaEnvio' => 1]);
         }
 
+        session()->forget('nota_envio_state');
+
         return redirect()->route('ventas.ficha-del-cliente.show', $cliente);
+    }
+
+    public function fichaDelClienteNotaEnvioCC(UpdateCodigoComplejidadRequest $request, CodigoComplejidad $precio)
+    {
+        $data = $request->all();
+
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = Auth::id();
+
+        $precio = CodigoComplejidad::find($data['IdCodigoComplejidad']);
+        
+        $precio->update($data);
+
+        $tratamiento = Tratamiento::find($data['IdTratamiento']);
+    
+        return redirect()->back();
     }
 
     public function fichaDelClienteFacturaVentaCreate(Client $cliente)

@@ -68,6 +68,33 @@ class NotaEnvioCreate extends Component
             $this->codigo_invalido[$item->id] = false;
         }
 
+        if (session()->has('nota_envio_state')) {
+            $state = session('nota_envio_state');
+
+            $this->seleccionados = $state['seleccionados'] ?? [];
+            $this->descripcion = $state['descripcion'] ?? [];
+            $this->codigo_complejidad = $state['codigo_complejidad'] ?? [];
+            $this->descuento = $state['descuento'] ?? [];
+            $this->precio_unitario = $state['precio_unitario'] ?? [];
+            $this->total = $state['total'] ?? [];
+            $this->porcentaje_descuento = $state['porcentaje_descuento'] ?? null;
+
+            $this->actualizarSubtotal();
+        }
+
+    }
+
+    public function guardarEstado()
+    {
+        session()->put('nota_envio_state', [
+            'seleccionados' => $this->seleccionados,
+            'descripcion' => $this->descripcion,
+            'codigo_complejidad' => $this->codigo_complejidad,
+            'descuento' => $this->descuento,
+            'precio_unitario' => $this->precio_unitario,
+            'total' => $this->total,
+            'porcentaje_descuento' => $this->porcentaje_descuento,
+        ]);
     }
 
     public function onCodigoComplejidadChange($id, $nuevoCodigo)
