@@ -129,22 +129,9 @@
 
                     <div class="col-6">
                         <div class="form-check">
-                            <input id="Predeterminado" type="checkbox" name="Predeterminado" value="1" {{ old('Predeterminado') == 1 ? 'checked' : '' }} class="form-check-input
-                                @if ($errors->has('Predeterminado'))
-                                    is-invalid
-                                @elseif (old('Predeterminado') && ! $errors->has('Predeterminado'))
-                                    is-valid
-                                @endif">
-
-                            <div>
+                            <input id="Predeterminado" type="checkbox" name="Predeterminado" value="1" {{ old('Predeterminado') == 1 ? 'checked' : '' }} class="form-check-input">
                                 <label for="Predeterminado" class="form-check-label">PREDETERMINADO</label>
-                            </div>
 
-                            @if ($errors->has('Predeterminado'))
-                                <span class="invalid-feedback">{{ $errors->first('Predeterminado') }}</span>
-                            @elseif (old('Predeterminado') && ! $errors->has('Predeterminado'))
-                                <span class="valid-feedback">Todo correcto</span>
-                            @endif
                         </div>
                     </div>
 

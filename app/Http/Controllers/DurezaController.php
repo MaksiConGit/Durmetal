@@ -46,9 +46,16 @@ class DurezaController extends Controller
         $data = $request->all();
 
         $dureza->update($data);
-    
+
+        if ($data['Predeterminado'] == 1) {
+
+            Dureza::where('id', '!=', $dureza->id)
+                ->update(['Predeterminado' => 0]);
+        }
+
         return redirect()->route('durezas.index');
     }
+
 
     public function destroy(Dureza $dureza)
     {
