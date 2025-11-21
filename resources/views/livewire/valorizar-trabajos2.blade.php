@@ -67,9 +67,9 @@
 
         </x-slot>
 
-        <x-data-table-acordion2>
+        <x-data-table-acordion3>
             <x-slot name="thead">
-                <tr class="bg-secondary text-white">
+                <tr>
                     <th></th>
                     <th>CC</th>
                     <th>CANT.</th>
@@ -109,7 +109,9 @@
                                 style="width: 2rem"
                                 class="text-center"
                                 maxlength="2"
+                                id="cc-{{ $index }}"
                                 wire:model.lazy="codigoComplejidad.{{ $item_orden_trabajo->id }}"
+                                wire:keydown.enter="focusNext({{ $index }})"
                                 onclick="event.stopPropagation();">
                         </td>
 
@@ -141,10 +143,7 @@
                             <div class="p-0">
                             <table class="table table-sm table-bordered mb-0">
                                 <thead>
-                                <tr class="bg-dark text-white">
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
+                                <tr>
                                     <th>PROGRAMACION</th>
                                     <th>RP</th>
                                     <th>CANTIDAD</th>
@@ -163,45 +162,35 @@
                                     @php
                                         $programacionesAgrupadas = $item_orden_trabajo->programacion->groupBy('NumeroProgramacion');
                                         $programacionesCount = $item_orden_trabajo->programacion->count();
+                                        $contadorPorTipo = [];
                                     @endphp
 
                                     @forelse ($programacionesAgrupadas as $numeroProgramacion => $grupo)
+
+                                        @php
+                                            $primeraProgramacion = $grupo->first();
+                                            $tipoNombre = $primeraProgramacion->tipoProgramacion->Nombre;
+
+                                            if (!isset($contadorPorTipo[$tipoNombre])) {
+                                                $contadorPorTipo[$tipoNombre] = 1;
+                                            } else {
+                                                $contadorPorTipo[$tipoNombre]++;
+                                            }
+
+                                            $numeroTipo = $contadorPorTipo[$tipoNombre];
+
+                                            $countGrupo = $grupo->count();
+                                        @endphp
+                                                
                                         @foreach ($grupo as $index => $programacion)
                                             <tr>
-                                                <td></td>
-
-                                                <td class="text-center align-middle">
-                                                    <form
-                                                        action="{{ route('programacion.destroy', $programacion->id) }}"
-                                                        method="POST"
-                                                        onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta programación?')"
-                                                        class="m-0 p-0"
-                                                    >
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button
-                                                            type="submit"
-                                                            class="btn btn-sidebar btn-sm bg-danger"
-                                                            data-bs-toggle="tooltip"
-                                                            title="Eliminar programación"
-                                                        >
-                                                            <i class="fas fa-ban fa-fw text-white"></i>
-                                                        </button>
-                                                    </form>
-                                                </td>
-
-                                                <td class="text-center align-middle">
-                                                    <a href="{{ route('programacion.edit', $programacion->id) }}"
-                                                        class="btn btn-sidebar btn-sm bg-secondary"
-                                                        data-bs-toggle="tooltip"
-                                                        title="Editar programación">
-                                                        <i class="fas fa-pen fa-fw"></i>
-                                                    </a>
-                                                </td>
-
                                                 <td>
                                                     <span class="bg-danger px-1">H{{ $programacion->NumeroHorno }}</span> 
-                                                    <span class="bg-primary px-1">{{ $programacion->tipoProgramacion->Nombre }} {{ $numeroProgramacion }}-{{ $index + 1 }}</span>
+                                                    @if ($countGrupo > 1)
+                                                        <span class="bg-primary px-1">{{ $programacion->tipoProgramacion->Nombre }} {{ $numeroTipo }}-{{ $index + 1 }}</span>
+                                                    @else
+                                                        <span class="bg-primary px-1">{{ $programacion->tipoProgramacion->Nombre }} {{ $numeroTipo }}</span>
+                                                    @endif
                                                 </td>
 
                                                 <td>{{ $programacion->Reproceso == 0 ? '' : 'RP' }}</td>
@@ -276,7 +265,7 @@
                 @endfor
 
             </x-slot>
-        </x-data-table-acordion2>
+        </x-data-table-acordion3>
 
     </x-layout2-sidebar>
 
@@ -393,7 +382,6 @@
 
     <script>
         document.addEventListener('trabajo-actualizado', function () {
-            // También podés lanzar el Toast automáticamente
             Swal.fire({
                 toast: true,
                 position: 'top-end',
@@ -405,5 +393,16 @@
         });
     </script>
 
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('focus-cc', ({ index }) => {
+                const input = document.getElementById('cc-' + index);
+                if (input) {
+                    input.focus();
+                    input.select();
+                }
+            });
+        });
+    </script>
 
 </div>

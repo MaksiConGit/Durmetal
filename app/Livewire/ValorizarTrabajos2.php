@@ -31,6 +31,16 @@ class ValorizarTrabajos2 extends Component
         }
     }
 
+    public function focusNext($index)
+    {
+        $next = $index + 1;
+        $total = count($this->items);
+
+        if ($next < $total) {
+            $this->dispatch('focus-cc', index: $next);
+        }
+    }
+
     public function cancelarCliente()
     {
         $this->cliente_id = null;
