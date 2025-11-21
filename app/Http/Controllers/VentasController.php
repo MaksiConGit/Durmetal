@@ -60,7 +60,10 @@ class VentasController extends Controller
 
     public function fichaDelClienteShow(Client $cliente, Request $request)
     {
+        session()->forget('nota_envio_state');
+
         $filtro = $request->filtro;
+        
         return view('ventas.ficha-del-cliente.show', compact('cliente', 'filtro'));
     }
 

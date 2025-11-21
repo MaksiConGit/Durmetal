@@ -73,7 +73,7 @@ class NotaEnvioCreate extends Component
 
             $this->seleccionados = $state['seleccionados'] ?? [];
             $this->descripcion = $state['descripcion'] ?? [];
-            $this->codigo_complejidad = $state['codigo_complejidad'] ?? [];
+            $this->codigo_complejidad = $state['codigo_complejidad'] ?? 0;
             $this->descuento = $state['descuento'] ?? [];
             $this->precio_unitario = $state['precio_unitario'] ?? [];
             $this->total = $state['total'] ?? [];
