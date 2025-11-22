@@ -23,6 +23,7 @@ use App\Models\OrdenTrabajo;
 use App\Models\PuntoDeVenta;
 use App\Models\ReciboVenta;
 use App\Models\Tratamiento;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -193,7 +194,7 @@ class VentasController extends Controller
 
         session()->forget('nota_envio_state');
 
-        return redirect()->route('ventas.ficha-del-cliente.show', $cliente);
+        return redirect()->route('ventas.ficha-del-cliente-nota-envio.show', $nota_envio);
     }
 
     public function fichaDelClienteNotaEnvioCC(UpdateCodigoComplejidadRequest $request, CodigoComplejidad $precio)
@@ -210,6 +211,35 @@ class VentasController extends Controller
         $tratamiento = Tratamiento::find($data['IdTratamiento']);
     
         return redirect()->back();
+    }
+
+    public function fichaDelClienteNotaEnvioShow(NotaEnvio $nota_envio)
+    {
+        $pto_ventas = PuntoDeVenta::all();
+
+        return view('ventas.ficha-del-cliente.nota-envio-show', compact('nota_envio', 'pto_ventas'));
+    }
+
+    public function fichaDelClienteNotaEnvioPDF(NotaEnvio $nota_envio)
+    {
+        $nuevo_cantidad_impresiones = $nota_envio->CantidadImpresiones + 1;
+
+        $nota_envio->update(['CantidadImpresiones' => $nuevo_cantidad_impresiones]);
+
+        $items_nota_envio = $nota_envio->itemsNotaEnvio;
+
+        preg_match('/' . $nota_envio->Letra . '\s*([0-9]+-[0-9]+)/', $nota_envio->NumeroCompleto, $m);
+
+        $numero = $m[1] ?? null;
+
+        $pdf = Pdf::loadView('ventas.ficha-del-cliente.nota-envio-pdf', [
+            'nota_envio' => $nota_envio,
+            'items_nota_envio' => $items_nota_envio,
+            'numero' => $numero,
+
+        ])->setPaper('A4');
+
+        return $pdf->stream('nota_envio.pdf');
     }
 
     public function fichaDelClienteFacturaVentaCreate(Client $cliente)
