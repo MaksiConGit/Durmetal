@@ -261,54 +261,130 @@
 
                             <div class="w-100 mb-1 d-flex justify-content-between">
                                 <span class="fw-semibold" style="font-size: 0.9rem;">SUBTOTAL</span>
-                                <span class="text-muted" style="font-size: 0.9rem;">
-                                    {{ number_format($subtotal, 2, ',', '.') }}
-                                </span>
-                            </div>
 
-                            <div class="w-100 mb-1 d-flex justify-content-between align-items-center">
-                                <span class="fw-semibold" style="font-size: 1rem;">% DESCUENTO</span>
                                 <input 
-                                    name="PorcentajeDescuento"
-                                    class="form-control form-control-sm text-end"
-                                    style="width: 80px; text-align: right;"
-                                    wire:model.live="porcentaje_descuento"
-                                    wire:input="onPorcentajeDescuentoChange($event.target.value)"
+                                    type="text"
+                                    readonly
+                                    value="{{ number_format($subtotal, 2, ',', '.') }}"
+
+                                    style="
+                                        width: 160px;
+                                        text-align: right;
+                                        border: none;
+                                        border-bottom: 1px solid black;
+                                        background: transparent;
+                                        padding: 2px 0;
+                                        outline: none;
+                                        font-size: 0.9rem;
+                                        color: #6c757d;
+                                    "
                                 />
                             </div>
 
+
+                            <div class="w-100 mb-1 d-flex justify-content-between align-items-center">
+                                <span class="fw-semibold" style="font-size: 1rem;">% DESCUENTO</span>
+
+                                <input 
+                                    name="PorcentajeDescuento"
+                                    wire:model.live="porcentaje_descuento"
+                                    wire:input="onPorcentajeDescuentoChange($event.target.value)"
+
+                                    style="
+                                        width: 160px;
+                                        text-align: right;
+                                        border: none;
+                                        border-bottom: 1px solid black;
+                                        background: transparent;
+                                        padding: 2px 0;
+                                        outline: none;
+                                        font-size: 1rem;
+                                    "
+                                />
+                            </div>
+
+
                             <div class="w-100 mb-1 d-flex justify-content-between">
                                 <span class="fw-semibold" style="font-size: 1rem;">BASE IMPONIBLE</span>
-                                <span class="text-muted" style="font-size: 1rem;">
-                                    {{ number_format($base_imponible, 2, ',', '.') }}
-                                </span>
+
+                                <input 
+                                    type="text"
+                                    readonly
+                                    value="{{ number_format($base_imponible, 2, ',', '.') }}"
+
+                                    style="
+                                        width: 160px;
+                                        text-align: right;
+                                        border: none;
+                                        border-bottom: 1px solid black;
+                                        background: transparent;
+                                        padding: 2px 0;
+                                        outline: none;
+                                        font-size: 1rem;
+                                        color: #6c757d;
+                                    "
+                                />
+
                                 <input type="hidden" name="Neto" value="{{ $base_imponible }}">
                             </div>
 
+
                             <div class="w-100 mb-2 d-flex justify-content-between">
                                 <span class="fw-semibold" style="font-size: 1rem;">IVA (21%)</span>
-                                <span class="text-muted" style="font-size: 1rem;">
-                                    {{ number_format($iva, 2, ',', '.') }}
-                                </span>
+
+                                <input 
+                                    type="text"
+                                    readonly
+                                    value="{{ number_format($iva, 2, ',', '.') }}"
+
+                                    style="
+                                        width: 160px;
+                                        text-align: right;
+                                        border: none;
+                                        border-bottom: 1px solid black;
+                                        background: transparent;
+                                        padding: 2px 0;
+                                        outline: none;
+                                        font-size: 1rem;
+                                        color: #6c757d;
+                                    "
+                                />
+
                                 <input type="hidden" name="IVA" value="{{ $iva }}">
                             </div>
 
-                            <div class="w-100 mt-2 d-flex justify-content-between align-items-center bg-light px-3 py-2 rounded border">
-                                <span class="fw-bold text-dark" style="font-size: 1.15rem;">TOTAL</span>
-                                <span class="fw-bold text-dark" style="font-size: 1.15rem;">
-                                    {{ number_format($total_final, 2, ',', '.') }}
-                                </span>
+
+                            <div class="w-100 mb-2 d-flex justify-content-between align-items-center">
+                                <span class="fw-bold text-dark" style="font-size: 1.30rem;">TOTAL</span>
+
+                                <input 
+                                    type="text"
+                                    disabled
+                                    value="{{ number_format($total_final, 2, ',', '.') }}"
+
+                                    class="form-control form-control-sm"
+                                    style="
+                                        width: 160px;
+                                        font-size: 1rem;
+                                        color: #000;
+                                        text-align: right;      /* <-- Centrado a la derecha */
+                                        background-color: #e9ecef;
+                                    "
+                                />
+
                                 <input type="hidden" name="Total" value="{{ $total_final }}">
                             </div>
+
                         </div>
 
-                        <div class="mt-3 text-end">
-                            <button class="btn btn-sm btn-primary me-2">
-                            <i class="bi bi-save"></i> Guardar
+                        <div class="d-flex justify-content-end mt-3">
+
+                            <button class="btn btn-app bg-primary">
+                                <i class="fas fa-floppy-disk"></i> Guardar
                             </button>
 
-                            <a class="btn btn-sm btn-outline-secondary" href="{{ route('ventas.ficha-del-cliente.show', $cliente) }}">
-                                <i class="bi bi-x-circle"></i> Cancelar
+                            <a class="btn btn-app bg-primary" href="{{ route('ventas.ficha-del-cliente.show', $cliente) }}">
+                                <i class="fas fa-ban"></i> Cancelar
                             </a>
 
                         </div>
@@ -398,134 +474,133 @@
                         </div>
                         </div>
 
-                    </div>
+            </div>
             <!-- /.modal -->
 
-          @foreach ($item_orden_trabajo->tratamiento->precios->sortBy('CC') as $precio)
+            @foreach ($item_orden_trabajo->tratamiento->precios->sortBy('CC') as $precio)
 
-    @if (($codigo_complejidad[$item_orden_trabajo->id] ?? null) == $precio->CC)
+                @if (($codigo_complejidad[$item_orden_trabajo->id] ?? null) == $precio->CC)
 
-        <!-- .modal -->
-        <form action="{{ route('ventas.ficha-del-cliente-nota-envio.cc', $precio)}}" method="POST">
-            @csrf
-            @method('PUT')
+                    <!-- .modal -->
+                    <form action="{{ route('ventas.ficha-del-cliente-nota-envio.cc', $precio)}}" method="POST">
+                        @csrf
+                        @method('PUT')
 
-            <!-- ID único por cada precio -->
-            <div class="modal fade" 
-                 id="modal-edit-{{ $precio->id }}" 
-                 wire:ignore.self>
+                        <!-- ID único por cada precio -->
+                        <div class="modal fade" 
+                            id="modal-edit-{{ $precio->id }}" 
+                            wire:ignore.self>
 
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
 
-                        <div class="modal-header">
-                            <h5 class="modal-title">
-                                MODIFICANDO CODIGO DE COMPLEJIDAD: "{{ old('CC', $precio->CC) }}"
-                            </h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-
-                        <div class="modal-body">
-
-                            <div class="row">
-                                <div class="col-1"></div>
-
-                                <input type="hidden" name="IdCodigoComplejidad" value="{{ old('IdCodigoComplejidad', $precio->id) }}">
-                                <input type="hidden" name="IdTratamiento" value="{{ $item_orden_trabajo->tratamiento->id }}">
-
-                                <div class="col-2">
-                                    <div class="form-group mb-0">
-                                        <label for="CC" class="font-weight-normal">CC</label>
-                                        <input type="number" id="CC" 
-                                               value="{{ old('CC', $precio->CC) }}" 
-                                               readonly 
-                                               class="form-control form-control-sm">
-                                        <input type="hidden" name="CC" value="{{ old('CC', $precio->CC) }}">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">
+                                            MODIFICANDO CODIGO DE COMPLEJIDAD: "{{ old('CC', $precio->CC) }}"
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
-                                </div>
 
-                                <div class="col-2">
-                                    <div class="form-group mb-0">
-                                        <label for="Precio" class="font-weight-normal">PRECIO</label>
-                                        <input type="text" id="Precio" name="Precio" 
-                                               value="{{ number_format(old('Precio', $precio->Precio), 2, '.', '') }}" 
-                                               class="form-control form-control-sm">
+                                    <div class="modal-body">
+
+                                        <div class="row">
+                                            <div class="col-1"></div>
+
+                                            <input type="hidden" name="IdCodigoComplejidad" value="{{ old('IdCodigoComplejidad', $precio->id) }}">
+                                            <input type="hidden" name="IdTratamiento" value="{{ $item_orden_trabajo->tratamiento->id }}">
+
+                                            <div class="col-2">
+                                                <div class="form-group mb-0">
+                                                    <label for="CC" class="font-weight-normal">CC</label>
+                                                    <input type="number" id="CC" 
+                                                        value="{{ old('CC', $precio->CC) }}" 
+                                                        readonly 
+                                                        class="form-control form-control-sm">
+                                                    <input type="hidden" name="CC" value="{{ old('CC', $precio->CC) }}">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-2">
+                                                <div class="form-group mb-0">
+                                                    <label for="Precio" class="font-weight-normal">PRECIO</label>
+                                                    <input type="text" id="Precio" name="Precio" 
+                                                        value="{{ number_format(old('Precio', $precio->Precio), 2, '.', '') }}" 
+                                                        class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-2">
+                                                <div class="form-group mb-0">
+                                                    <label for="Divisa" class="font-weight-normal">DIVISA</label>
+                                                    <select name="Divisa" id="Divisa" 
+                                                            class="form-control form-control-sm">
+                                                        <option value="ARS" {{ old('Divisa', $precio->Divisa) == 'ARS' ? 'selected' : '' }}>ARS</option>
+                                                        <option value="USD" {{ old('Divisa', $precio->Divisa) == 'USD' ? 'selected' : '' }}>USD</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-2">
+                                                <div class="form-group mb-0">
+                                                    <label for="PorcentajeCoeficiente" class="font-weight-normal">% COEFICIENTE</label>
+                                                    <input type="number" id="PorcentajeCoeficiente" name="PorcentajeCoeficiente" 
+                                                        value="{{ old('PorcentajeCoeficiente', $precio->PorcentajeCoeficiente) }}" 
+                                                        class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-2">
+                                                <div class="form-group mb-0">
+                                                    <label for="Coeficiente" class="font-weight-normal">COEFICIENTE</label>
+                                                    <input type="number" id="Coeficiente" name="Coeficiente" 
+                                                        value="{{ old('Coeficiente', $precio->Coeficiente) }}" 
+                                                        class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-1"></div>
+                                        </div>
+
+                                        <div class="row mt-3">
+                                            <div class="col-1"></div>
+
+                                            <div class="col-10">
+                                                <div class="form-group mb-0">
+                                                    <label for="Descripcion" class="font-weight-normal">DESCRIPCION</label>
+                                                    <input type="text" id="Descripcion" name="Descripcion" 
+                                                        value="{{ old('Descripcion', $precio->Descripcion) }}" 
+                                                        class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-1"></div>
+                                        </div>
+
                                     </div>
-                                </div>
 
-                                <div class="col-2">
-                                    <div class="form-group mb-0">
-                                        <label for="Divisa" class="font-weight-normal">DIVISA</label>
-                                        <select name="Divisa" id="Divisa" 
-                                                class="form-control form-control-sm">
-                                            <option value="ARS" {{ old('Divisa', $precio->Divisa) == 'ARS' ? 'selected' : '' }}>ARS</option>
-                                            <option value="USD" {{ old('Divisa', $precio->Divisa) == 'USD' ? 'selected' : '' }}>USD</option>
-                                        </select>
+                                    <div class="modal-footer justify-content-end">
+                                        <button type="submit" class="btn btn-sidebar btn-sm bg-orange">
+                                            <span class="text-white">Guardar</span>
+                                            <i class="fas fa-floppy-disk fa-fw text-white ml-2"></i>
+                                        </button>
+
+                                        <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                            <span class="text-white">Cancelar</span>
+                                            <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                                        </button>
                                     </div>
-                                </div>
 
-                                <div class="col-2">
-                                    <div class="form-group mb-0">
-                                        <label for="PorcentajeCoeficiente" class="font-weight-normal">% COEFICIENTE</label>
-                                        <input type="number" id="PorcentajeCoeficiente" name="PorcentajeCoeficiente" 
-                                               value="{{ old('PorcentajeCoeficiente', $precio->PorcentajeCoeficiente) }}" 
-                                               class="form-control form-control-sm">
-                                    </div>
                                 </div>
-
-                                <div class="col-2">
-                                    <div class="form-group mb-0">
-                                        <label for="Coeficiente" class="font-weight-normal">COEFICIENTE</label>
-                                        <input type="number" id="Coeficiente" name="Coeficiente" 
-                                               value="{{ old('Coeficiente', $precio->Coeficiente) }}" 
-                                               class="form-control form-control-sm">
-                                    </div>
-                                </div>
-
-                                <div class="col-1"></div>
                             </div>
-
-                            <div class="row mt-3">
-                                <div class="col-1"></div>
-
-                                <div class="col-10">
-                                    <div class="form-group mb-0">
-                                        <label for="Descripcion" class="font-weight-normal">DESCRIPCION</label>
-                                        <input type="text" id="Descripcion" name="Descripcion" 
-                                               value="{{ old('Descripcion', $precio->Descripcion) }}" 
-                                               class="form-control form-control-sm">
-                                    </div>
-                                </div>
-
-                                <div class="col-1"></div>
-                            </div>
-
                         </div>
+                    </form>
+                    <!-- /.modal -->
 
-                        <div class="modal-footer justify-content-end">
-                            <button type="submit" class="btn btn-sidebar btn-sm bg-orange">
-                                <span class="text-white">Guardar</span>
-                                <i class="fas fa-floppy-disk fa-fw text-white ml-2"></i>
-                            </button>
+                @endif
 
-                            <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
-                                <span class="text-white">Cancelar</span>
-                                <i class="fas fa-xmark fa-fw text-white ml-2"></i>
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </form>
-        <!-- /.modal -->
-
-    @endif
-
-@endforeach
-
+            @endforeach
 
         @endforeach
 

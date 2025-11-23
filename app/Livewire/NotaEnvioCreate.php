@@ -73,13 +73,34 @@ class NotaEnvioCreate extends Component
 
             $this->seleccionados = $state['seleccionados'] ?? [];
             $this->descripcion = $state['descripcion'] ?? [];
-            $this->codigo_complejidad = $state['codigo_complejidad'] ?? 0;
+            $this->codigo_complejidad = $state['codigo_complejidad'] ?? [];
             $this->descuento = $state['descuento'] ?? [];
-            $this->precio_unitario = $state['precio_unitario'] ?? [];
-            $this->total = $state['total'] ?? [];
             $this->porcentaje_descuento = $state['porcentaje_descuento'] ?? null;
+
+            foreach ($this->items_orden_trabajo as $item) {
+                $id = $item->id;
+
+                $codigoActual = $this->codigo_complejidad[$id] ?? $item->CodigoComplejidad;
+
+                $codigo = CodigoComplejidad::where('IdTratamiento', $item->IdTratamiento)
+                    ->where('CC', $codigoActual)
+                    ->first();
+
+                if ($codigo) {
+                    $this->precio_unitario[$id] = $codigo->Precio;
+                    $this->coeficiente[$id] = $codigo->Coeficiente;
+                    $this->total[$id] = $codigo->Precio * $item->Peso;
+                    $this->codigo_invalido[$id] = false;
+                } else {
+                    $this->precio_unitario[$id] = 0;
+                    $this->coeficiente[$id] = 0;
+                    $this->total[$id] = 0;
+                    $this->codigo_invalido[$id] = true;
+                }
+            }
+
         }
-        
+
         $this->actualizarSubtotal();
 
     }
