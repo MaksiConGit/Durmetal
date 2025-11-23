@@ -57,7 +57,7 @@ class NotaEnvioCreate extends Component
         $this->next_nota_numero = NotaEnvio::max('Numero') + 1;
 
         foreach ($this->items_orden_trabajo as $item) {
-            $codigo = $item->codigoComplejidad;
+            $codigo = CodigoComplejidad::where('IdTratamiento', $item->IdTratamiento)->where('CC', $item->CodigoComplejidad)->first();
             $precio = $codigo->Precio ?? 0;
             $coef = $codigo->Coeficiente ?? 1;
             $this->codigo_complejidad[$item->id] = $item->CodigoComplejidad;
@@ -78,9 +78,9 @@ class NotaEnvioCreate extends Component
             $this->precio_unitario = $state['precio_unitario'] ?? [];
             $this->total = $state['total'] ?? [];
             $this->porcentaje_descuento = $state['porcentaje_descuento'] ?? null;
-
-            $this->actualizarSubtotal();
         }
+        
+        $this->actualizarSubtotal();
 
     }
 
