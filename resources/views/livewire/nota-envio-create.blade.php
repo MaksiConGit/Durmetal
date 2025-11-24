@@ -1,6 +1,4 @@
 <div>
-<div>
-<div>
     <x-layout2>
         <x-slot name="title">Crear Nota de Envío</x-slot>
 
@@ -517,63 +515,6 @@
                                                             </div>
                                                         </div>
 
-                                                        <!-- Modal Tratamiento -->
-                                                        <div class="modal fade" id="modal-items-{{ $item_orden_trabajo->id }}-tratamiento" wire:ignore.self>
-                                                            <div class="modal-dialog modal-dialog-centered">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title">BUSCAR TRATAMIENTO</h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-
-                                                                        <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
-                                                                            <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
-                                                                                <x-slot name="thead">
-                                                                                    <tr>
-                                                                                        <th style="padding: 14px 18px; font-size: 1.1rem;">NOMBRE</th>
-                                                                                    </tr>
-                                                                                </x-slot>
-
-                                                                                <x-slot name="tbody">
-                                                                                    @forelse ($tratamientos as $tratamiento)
-                                                                                        <tr wire:click.prevent="seleccionarTratamientoExistente({{ $item_orden_trabajo->id }}, {{ $tratamiento->id }})"
-                                                                                            data-dismiss="modal"
-                                                                                            style="cursor:pointer; height: 55px;"
-                                                                                            class="{{ $items_orden_trabajo_edit[$item_orden_trabajo->id]['tratamiento_id'] == $tratamiento->id ? 'table-primary' : '' }}">
-                                                                                            <td style="padding: 12px 18px;">{{ $tratamiento->Nombre }}</td>
-                                                                                        </tr>
-                                                                                    @empty
-                                                                                        <tr><td colspan="8">No se encontraron resultados.</td></tr>
-                                                                                    @endforelse
-                                                                                </x-slot>
-                                                                            </x-simple-table2>
-                                                                            </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="modal-footer justify-content-end">
-
-                                                                        <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
-                                                                            <span class="text-white">Aceptar</span>
-                                                                            <i class="fas fa-check fa-fw text-white ml-2"></i>
-                                                                        </button>
-
-                                                                        <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
-                                                                            <span class="text-white">Cancelar</span>
-                                                                            <i class="fas fa-xmark fa-fw text-white ml-2"></i>
-                                                                        </button>
-
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
                                                     </div>
 
                                                     <div class="row m-0">
@@ -600,63 +541,6 @@
                                                                             data-target="#modal-items-{{ $item_orden_trabajo->id }}-dureza">
                                                                         <i class="fas fa-search fa-xs text-white"></i>
                                                                     </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- Modal Dureza -->
-                                                        <div class="modal fade" id="modal-items-{{ $item_orden_trabajo->id }}-dureza" wire:ignore.self>
-                                                            <div class="modal-dialog modal-dialog-centered">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title">BUSCAR DUREZA</h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-
-                                                                        <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
-                                                                            <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
-                                                                                <x-slot name="thead">
-                                                                                    <tr>
-                                                                                        <th style="padding: 14px 18px; font-size: 1.1rem;">NOMBRE</th>
-                                                                                    </tr>
-                                                                                </x-slot>
-
-                                                                                <x-slot name="tbody">
-                                                                                    @forelse ($durezas as $dureza)
-                                                                                        <tr wire:click.prevent="seleccionarDurezaExistente({{ $item_orden_trabajo->id }}, {{ $dureza->id }})"
-                                                                                            data-dismiss="modal"
-                                                                                            style="cursor:pointer; height: 55px;"
-                                                                                            class="{{ $items_orden_trabajo_edit[$item_orden_trabajo->id]['dureza_id'] == $dureza->id ? 'table-primary' : '' }}">
-                                                                                            <td style="padding: 12px 18px;">{{ $dureza->Nombre }}</td>
-                                                                                        </tr>
-                                                                                    @empty
-                                                                                        <tr><td colspan="8">No se encontraron resultados.</td></tr>
-                                                                                    @endforelse
-                                                                                </x-slot>
-                                                                            </x-simple-table2>
-                                                                            </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="modal-footer justify-content-end">
-
-                                                                        <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
-                                                                            <span class="text-white">Aceptar</span>
-                                                                            <i class="fas fa-check fa-fw text-white ml-2"></i>
-                                                                        </button>
-
-                                                                        <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
-                                                                            <span class="text-white">Cancelar</span>
-                                                                            <i class="fas fa-xmark fa-fw text-white ml-2"></i>
-                                                                        </button>
-
-                                                                    </div>
-
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -704,62 +588,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!-- Modal Material -->
-                                                        <div class="modal fade" id="modal-items-{{ $item_orden_trabajo->id }}-material" wire:ignore.self>
-                                                            <div class="modal-dialog modal-dialog-centered">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title">BUSCAR MATERIAL</h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-
-                                                                        <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
-                                                                            <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
-                                                                                <x-slot name="thead">
-                                                                                    <tr>
-                                                                                        <th style="padding: 14px 18px; font-size: 1.1rem;">NOMBRE</th>
-                                                                                    </tr>
-                                                                                </x-slot>
-
-                                                                                <x-slot name="tbody">
-                                                                                    @forelse ($materiales as $material)
-                                                                                        <tr wire:click.prevent="seleccionarMaterialExistente({{ $item_orden_trabajo->id }}, {{ $material->id }})"
-                                                                                            data-dismiss="modal"
-                                                                                            style="cursor:pointer; height: 55px;"
-                                                                                            class="{{ $items_orden_trabajo_edit[$item_orden_trabajo->id]['material_id'] == $material->id ? 'table-primary' : '' }}">
-                                                                                            <td style="padding: 12px 18px;">{{ $material->Nombre }}</td>
-                                                                                        </tr>
-                                                                                    @empty
-                                                                                        <tr><td colspan="8">No se encontraron resultados.</td></tr>
-                                                                                    @endforelse
-                                                                                </x-slot>
-                                                                            </x-simple-table2>
-                                                                            </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="modal-footer justify-content-end">
-
-                                                                        <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal" >
-                                                                            <span class="text-white">Aceptar</span>
-                                                                            <i class="fas fa-check fa-fw text-white ml-2"></i>
-                                                                        </button>
-
-                                                                        <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
-                                                                            <span class="text-white">Cancelar</span>
-                                                                            <i class="fas fa-xmark fa-fw text-white ml-2"></i>
-                                                                        </button>
-
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                    
 
                                                         <div class="col-4 mb-2 px-1">
                                                             <label class="font-weight-normal mb-1" style="font-size: 0.7rem;">CC</label>
