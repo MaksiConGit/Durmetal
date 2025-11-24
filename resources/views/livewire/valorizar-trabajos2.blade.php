@@ -1,7 +1,48 @@
 <div>
-    <x-layout2-sidebar>
+    <x-layout2-sidebar-x>
 
         <x-slot name="title">Valorizar trabajos</x-slot>
+        <x-slot name="title_button">
+            <div class="card-header bg-dark position-relative">
+                <h3 class="card-title mb-0">Valorizar trabajos</h3>
+
+                <a href="{{ route('ventas.buscar-documentos') }}"
+                    class="win7-close-btn position-absolute"
+                    style="right: 10px; top: 50%; transform: translateY(-50%);">
+                    ✕
+                </a>
+
+                <style>
+                    .win7-close-btn {
+                    width: 28px;
+                    height: 28px;
+                    border-radius: 50%;
+                    border: 1px solid #b30000;
+                    background: linear-gradient(to bottom, #ff5c5c, #b30000);
+                    color: white;
+                    font-weight: bold;
+                    font-size: 15px;
+                    line-height: 1;
+                    padding: 0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    box-shadow: inset 0 0 3px rgba(255,255,255,0.7),
+                                0 0 3px rgba(0,0,0,0.4);
+                    cursor: pointer;
+                    }
+
+                    .win7-close-btn:hover {
+                        background: linear-gradient(to bottom, #ff7b7b, #cc0000);
+                    }
+
+                    .win7-close-btn:active {
+                        background: linear-gradient(to bottom, #cc0000, #7a0000);
+                        box-shadow: inset 0 0 4px rgba(0,0,0,0.6);
+                    }
+                </style>
+            </div>
+        </x-slot>
 
         <x-slot name="filtros">
 
@@ -267,7 +308,7 @@
             </x-slot>
         </x-data-table-acordion3>
 
-    </x-layout2-sidebar>
+    </x-layout2-sidebar-x>
 
     <!-- .modal -->
     <div class="modal fade" id="modal-cliente" wire:ignore.self>
