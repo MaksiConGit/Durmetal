@@ -1,5 +1,6 @@
 <div>
 <div>
+<div>
     <x-layout2>
         <x-slot name="title">Crear Nota de Envío</x-slot>
 
