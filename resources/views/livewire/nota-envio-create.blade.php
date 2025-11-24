@@ -1,4 +1,5 @@
 <div>
+<div>
     <x-layout2>
         <x-slot name="title">Crear Nota de Envío</x-slot>
 
@@ -147,7 +148,13 @@
                         <td>{{ \Carbon\Carbon::parse($item_orden_trabajo->ordenTrabajo->FechaEmision)->format('d/m/Y') }}</td>
                         <td>{{ $item_orden_trabajo->ordenTrabajo->NumeroCompleto }} {{ $item_orden_trabajo->ItemNumero }}</td>
                         <td class="text-center align-middle">
-                            <button class="btn btn-sm toggle-row" type="button" style="background-color: #fd7e14; color: white;">
+                            <button 
+                                class="btn btn-sm toggle-row"
+                                type="button"
+                                style="background-color: #fd7e14; color: white;"
+                                data-toggle="modal"
+                                data-target="#modal-ot-{{ $item_orden_trabajo->id }}"
+                            >
                                 <i class="fa-solid fa-pencil"></i>
                             </button>
                         </td>
@@ -398,6 +405,512 @@
         </form>
 
         @foreach ($items_orden_trabajo as $item_orden_trabajo)
+
+            <!-- .modal -->
+            <div class="modal fade" id="modal-ot-{{ $item_orden_trabajo->id }}" wire:ignore.self>
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title text-bold">
+                            TRABAJO OT {{ $item_orden_trabajo->ordenTrabajo->NumeroCompleto }}
+                        </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                        <div class="row">
+
+                            <form action="{{ route('ventas.ficha-del-cliente-nota-envio.orden-trabajo', $item_orden_trabajo) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+
+                            <x-panel-horizontal2>
+                                <x-slot name="pestañas">
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ $activeTab === 'custom-tabs-1' ? 'active' : '' }}"
+                                        wire:click.prevent="setActiveTab('custom-tabs-1')"
+                                        id="custom-tabs-1-tab" data-toggle="pill"
+                                        href="#custom-tabs-1" role="tab"
+                                        aria-controls="custom-tabs-1" aria-selected="true"
+                                        style="padding: 3px 8px; font-size: 0.75rem;">
+                                        ITEM
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ $activeTab === 'custom-tabs-2' ? 'active' : '' }}"
+                                        wire:click.prevent="setActiveTab('custom-tabs-2')"
+                                        id="custom-tabs-2-tab" data-toggle="pill"
+                                        href="#custom-tabs-2" role="tab"
+                                        aria-controls="custom-tabs-2" aria-selected="true"
+                                        style="padding: 3px 8px; font-size: 0.75rem;">
+                                        OBSERVACIONES
+                                        </a>
+                                    </li>
+                                </x-slot>
+
+                                <x-slot name="ventanas">
+                                    <div class="tab-pane fade show {{ $activeTab === 'custom-tabs-1' ? 'active' : '' }}"
+                                        id="custom-tabs-1" role="tabpanel" aria-labelledby="custom-tabs-1-tab"
+                                        style="height: 18rem; padding: 0.5rem;">
+                                        <div class="row justify-content-center m-0">
+                                            <div class="col-10 card p-1">
+                                                <div class="card-body p-2">
+                                                    <div class="row justify-content-center m-0">
+                                                        <div class="col-4 mb-2 px-1">
+                                                            <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">ITEM NRO</label>
+                                                            <input type="hidden" name="items[{{ $item_orden_trabajo->id }}][ItemNumero]" value="{{ old('ItemNumero', $item_orden_trabajo->ItemNumero) }}">
+                                                            <input type="text" value="{{ old('ItemNumero', $item_orden_trabajo->ItemNumero) }}" disabled class="form-control form-control-sm p-1" style="height: 22px;">
+                                                        </div>
+                                                        <div class="col-4 mb-2 px-1">
+                                                            <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">DESCRIPCIÓN</label>
+                                                            <input type="text" name="items[{{ $item_orden_trabajo->id }}][Descripcion]" value="{{ old('items[$item_orden_trabajo->id][Descripcion]', $item_orden_trabajo->Descripcion) }}" class="form-control form-control-sm p-1" style="height: 22px;">
+                                                        </div>
+                                                        <div class="col-4 mb-2 px-1">
+                                                            <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">NRO PLANO PREDETERMINADO</label>
+                                                            <input type="text" class="form-control form-control-sm p-1" style="height: 22px;">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row justify-content-center m-0">
+                                                        <div class="col-4 mb-2 px-1">
+                                                            <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">CANTIDAD</label>
+                                                            <input type="text" name="items[{{ $item_orden_trabajo->id }}][Cantidad]" value="{{ old('items[$item_orden_trabajo->id][Cantidad]', $item_orden_trabajo->Cantidad) }}" class="form-control form-control-sm p-1" style="height: 22px;">
+                                                        </div>
+                                                        <div class="col-4 mb-2 px-1">
+                                                            <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">PESO</label>
+                                                            <input type="text" name="items[{{ $item_orden_trabajo->id }}][Peso]" value="{{ old('items[$item_orden_trabajo->id][Peso]', $item_orden_trabajo->Peso) }}" class="form-control form-control-sm p-1" style="height: 22px;">
+                                                        </div>
+                                                        <div class="col-4 mb-2 px-1">
+                                                            <label class="font-weight-normal mb-1" style="font-size: 0.7rem;">TRATAMIENTO</label>
+                                                            <div class="input-group input-group-sm">
+                                                                <select 
+                                                                    wire:model="items_orden_trabajo_edit.{{ $item_orden_trabajo->id }}.tratamiento_id" 
+                                                                    class="form-control form-control-sm p-1" 
+                                                                    name="items[{{ $item_orden_trabajo->id }}][IdTratamiento]" 
+                                                                    style="height: 22px; font-size: 0.7rem; line-height: 1; padding-right: 20px;"
+                                                                >
+                                                                    @foreach ($tratamientos as $tratamiento)
+                                                                        <option 
+                                                                            value="{{ $tratamiento->id }}" 
+                                                                            {{ $item_orden_trabajo->IdTratamiento == $tratamiento->id ? 'selected' : '' }}
+                                                                            style="font-size: 0.7rem; white-space: nowrap;"
+                                                                        >
+                                                                            {{ $tratamiento->Nombre }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <div class="input-group-append">
+                                                                    <button 
+                                                                        type="button"
+                                                                        disabled
+                                                                        class="btn btn-sidebar btn-xs bg-orange p-1" 
+                                                                        data-toggle="modal" 
+                                                                        data-target="#modal-items-{{ $item_orden_trabajo->id }}-tratamiento"
+                                                                        style="height: 22px;"
+                                                                    >
+                                                                        <i class="fas fa-search fa-xs text-white"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Modal Tratamiento -->
+                                                        <div class="modal fade" id="modal-items-{{ $item_orden_trabajo->id }}-tratamiento" wire:ignore.self>
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">BUSCAR TRATAMIENTO</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+
+                                                                        <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
+                                                                            <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
+                                                                                <x-slot name="thead">
+                                                                                    <tr>
+                                                                                        <th style="padding: 14px 18px; font-size: 1.1rem;">NOMBRE</th>
+                                                                                    </tr>
+                                                                                </x-slot>
+
+                                                                                <x-slot name="tbody">
+                                                                                    @forelse ($tratamientos as $tratamiento)
+                                                                                        <tr wire:click.prevent="seleccionarTratamientoExistente({{ $item_orden_trabajo->id }}, {{ $tratamiento->id }})"
+                                                                                            data-dismiss="modal"
+                                                                                            style="cursor:pointer; height: 55px;"
+                                                                                            class="{{ $items_orden_trabajo_edit[$item_orden_trabajo->id]['tratamiento_id'] == $tratamiento->id ? 'table-primary' : '' }}">
+                                                                                            <td style="padding: 12px 18px;">{{ $tratamiento->Nombre }}</td>
+                                                                                        </tr>
+                                                                                    @empty
+                                                                                        <tr><td colspan="8">No se encontraron resultados.</td></tr>
+                                                                                    @endforelse
+                                                                                </x-slot>
+                                                                            </x-simple-table2>
+                                                                            </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                    <div class="modal-footer justify-content-end">
+
+                                                                        <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                            <span class="text-white">Aceptar</span>
+                                                                            <i class="fas fa-check fa-fw text-white ml-2"></i>
+                                                                        </button>
+
+                                                                        <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                            <span class="text-white">Cancelar</span>
+                                                                            <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                                                                        </button>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row m-0">
+                                                        <div class="col-4 mb-2 px-1">
+                                                            <label class="font-weight-normal mb-1" style="font-size: 0.7rem;">DUREZA</label>
+                                                            <div class="input-group input-group-sm">
+                                                                <select
+                                                                    wire:model="items_orden_trabajo_edit.{{ $item_orden_trabajo->id }}.dureza_id"
+                                                                    class="form-control form-control-sm p-1"
+                                                                    name="items[{{ $item_orden_trabajo->id }}][IdDureza]"
+                                                                    style="height: 22px; font-size: 0.7rem; line-height: 1; padding-right: 20px;">
+                                                                    @foreach ($durezas as $dureza)
+                                                                        <option value="{{ $dureza->id }}"
+                                                                                style="font-size: 0.7rem; white-space: nowrap;">
+                                                                            {{ $dureza->Nombre }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <div class="input-group-append">
+                                                                    <button type="button"
+                                                                            disabled
+                                                                            class="btn btn-sidebar btn-xs bg-orange p-1"
+                                                                            data-toggle="modal"
+                                                                            data-target="#modal-items-{{ $item_orden_trabajo->id }}-dureza">
+                                                                        <i class="fas fa-search fa-xs text-white"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Modal Dureza -->
+                                                        <div class="modal fade" id="modal-items-{{ $item_orden_trabajo->id }}-dureza" wire:ignore.self>
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">BUSCAR DUREZA</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+
+                                                                        <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
+                                                                            <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
+                                                                                <x-slot name="thead">
+                                                                                    <tr>
+                                                                                        <th style="padding: 14px 18px; font-size: 1.1rem;">NOMBRE</th>
+                                                                                    </tr>
+                                                                                </x-slot>
+
+                                                                                <x-slot name="tbody">
+                                                                                    @forelse ($durezas as $dureza)
+                                                                                        <tr wire:click.prevent="seleccionarDurezaExistente({{ $item_orden_trabajo->id }}, {{ $dureza->id }})"
+                                                                                            data-dismiss="modal"
+                                                                                            style="cursor:pointer; height: 55px;"
+                                                                                            class="{{ $items_orden_trabajo_edit[$item_orden_trabajo->id]['dureza_id'] == $dureza->id ? 'table-primary' : '' }}">
+                                                                                            <td style="padding: 12px 18px;">{{ $dureza->Nombre }}</td>
+                                                                                        </tr>
+                                                                                    @empty
+                                                                                        <tr><td colspan="8">No se encontraron resultados.</td></tr>
+                                                                                    @endforelse
+                                                                                </x-slot>
+                                                                            </x-simple-table2>
+                                                                            </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                    <div class="modal-footer justify-content-end">
+
+                                                                        <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                            <span class="text-white">Aceptar</span>
+                                                                            <i class="fas fa-check fa-fw text-white ml-2"></i>
+                                                                        </button>
+
+                                                                        <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                            <span class="text-white">Cancelar</span>
+                                                                            <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                                                                        </button>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-4 mb-2 px-1">
+                                                            <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">DSMIN</label>
+                                                            <input type="text" name="items[{{ $item_orden_trabajo->id }}][DurezaSolicitadaMinima]" value="{{ old('items[$item_orden_trabajo->id][DurezaSolicitadaMinima]', $item_orden_trabajo->DurezaSolicitadaMinima) }}" class="form-control form-control-sm p-1" style="height: 22px;">
+                                                        </div>
+
+                                                        <div class="col-4 mb-2 px-1">
+                                                            <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">DSMAX</label>
+                                                            <input type="text" name="items[{{ $item_orden_trabajo->id }}][DurezaSolicitadaMaxima]" value="{{ old('items[$item_orden_trabajo->id][DurezaSolicitadaMaxima]', $item_orden_trabajo->DurezaSolicitadaMaxima) }}" class="form-control form-control-sm p-1" style="height: 22px;">
+                                                        </div>
+
+                                                        <div class="col-4 mb-2 px-1">
+                                                            <label class="font-weight-normal mb-1" style="font-size: 0.7rem;">MATERIAL</label>
+                                                            <div class="input-group input-group-sm">
+                                                                <select 
+                                                                    wire:model="items_orden_trabajo_edit.{{ $item_orden_trabajo->id }}.material_id" 
+                                                                    class="form-control form-control-sm p-1" 
+                                                                    name="items[{{ $item_orden_trabajo->id }}][IdMaterial]" 
+                                                                    style="height: 22px; font-size: 0.7rem; line-height: 1; padding-right: 20px;"
+                                                                >
+                                                                    @foreach ($materiales as $material)
+                                                                        <option 
+                                                                            value="{{ $material->id }}" 
+                                                                            style="font-size: 0.7rem; white-space: nowrap;"
+                                                                        >
+                                                                            {{ $material->Nombre }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <div class="input-group-append">
+                                                                    <button 
+                                                                        type="button"
+                                                                        disabled
+                                                                        class="btn btn-sidebar btn-xs bg-orange p-1" 
+                                                                        data-toggle="modal" 
+                                                                        data-target="#modal-items-{{ $item_orden_trabajo->id }}-material"
+                                                                        style="height: 22px;"
+                                                                    >
+                                                                        <i class="fas fa-search fa-xs text-white"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Modal Material -->
+                                                        <div class="modal fade" id="modal-items-{{ $item_orden_trabajo->id }}-material" wire:ignore.self>
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">BUSCAR MATERIAL</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+
+                                                                        <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
+                                                                            <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
+                                                                                <x-slot name="thead">
+                                                                                    <tr>
+                                                                                        <th style="padding: 14px 18px; font-size: 1.1rem;">NOMBRE</th>
+                                                                                    </tr>
+                                                                                </x-slot>
+
+                                                                                <x-slot name="tbody">
+                                                                                    @forelse ($materiales as $material)
+                                                                                        <tr wire:click.prevent="seleccionarMaterialExistente({{ $item_orden_trabajo->id }}, {{ $material->id }})"
+                                                                                            data-dismiss="modal"
+                                                                                            style="cursor:pointer; height: 55px;"
+                                                                                            class="{{ $items_orden_trabajo_edit[$item_orden_trabajo->id]['material_id'] == $material->id ? 'table-primary' : '' }}">
+                                                                                            <td style="padding: 12px 18px;">{{ $material->Nombre }}</td>
+                                                                                        </tr>
+                                                                                    @empty
+                                                                                        <tr><td colspan="8">No se encontraron resultados.</td></tr>
+                                                                                    @endforelse
+                                                                                </x-slot>
+                                                                            </x-simple-table2>
+                                                                            </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                    <div class="modal-footer justify-content-end">
+
+                                                                        <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal" >
+                                                                            <span class="text-white">Aceptar</span>
+                                                                            <i class="fas fa-check fa-fw text-white ml-2"></i>
+                                                                        </button>
+
+                                                                        <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                            <span class="text-white">Cancelar</span>
+                                                                            <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                                                                        </button>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-4 mb-2 px-1">
+                                                            <label class="font-weight-normal mb-1" style="font-size: 0.7rem;">CC</label>
+                                                            <div class="input-group input-group-sm">
+                                                            <input type="text" name="items[{{ $item_orden_trabajo->id }}][CodigoComplejidad]" value="{{ old('items[$item_orden_trabajo->id][CodigoComplejidad]', $item_orden_trabajo->CodigoComplejidad) }}" class="form-control form-control-sm p-1" style="height: 22px;">
+                                                                <div class="input-group-append">
+                                                                    <button 
+                                                                        type="button" 
+                                                                        disabled
+                                                                        class="btn btn-sidebar btn-xs bg-orange p-1" 
+                                                                        data-toggle="modal" 
+                                                                        data-target="#modal-items-{{ $item_orden_trabajo->id }}-tratamiento"
+                                                                        style="height: 22px;"
+                                                                    >
+                                                                        <i class="fas fa-search fa-xs text-white"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-4 mb-2 px-1">
+                                                            <label class="font-weight-normal mb-1" style="font-size: 0.7rem;">ESTADO</label>
+                                                            <div class="input-group input-group-sm">
+                                                                <select 
+                                                                    class="form-control form-control-sm p-1" 
+                                                                    name="items[{{ $item_orden_trabajo->id }}][Estado]" 
+                                                                    style="height: 22px; font-size: 0.7rem; line-height: 1; padding-right: 20px;"
+                                                                >
+                                                                    <option 
+                                                                        value="PENDIENTE" 
+                                                                        {{ $item_orden_trabajo->Estado == 'PENDIENTE' ? 'selected' : '' }}
+                                                                        style="font-size: 0.7rem; white-space: nowrap;"
+                                                                    >
+                                                                    PENDIENTE
+                                                                    </option>
+                                                                    <option 
+                                                                        value="APROBADO" 
+                                                                        {{ $item_orden_trabajo->Estado == 'APROBADO' ? 'selected' : '' }}
+                                                                        style="font-size: 0.7rem; white-space: nowrap;"
+                                                                    >
+                                                                    APROBADO
+                                                                    </option>
+                                                                    <option 
+                                                                        value="NO APTO" 
+                                                                        {{ $item_orden_trabajo->Estado == 'NO APTO' ? 'selected' : '' }}
+                                                                        style="font-size: 0.7rem; white-space: nowrap;"
+                                                                    >
+                                                                    NO APTO
+                                                                    </option>
+                                                                </select>
+                                                                <div class="input-group-append">
+                                                                    <button 
+                                                                        type="button"
+                                                                        disabled
+                                                                        class="btn btn-sidebar btn-xs bg-orange p-1" 
+                                                                        data-toggle="modal" 
+                                                                        data-target="#modal-items-{{ $item_orden_trabajo->id }}-tratamiento"
+                                                                        style="height: 22px;"
+                                                                    >
+                                                                        <i class="fas fa-search fa-xs text-white"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="d-flex justify-content-end mt-2">
+                                                        <button class="btn btn-sidebar btn-xs bg-orange px-2 py-1">
+                                                            <span class="text-white">Aceptar</span>
+                                                            <i class="fas fa-check fa-xs text-white ml-1"></i>
+                                                        </button>
+                                                        <button class="btn btn-sidebar btn-xs bg-orange px-2 py-1 ml-2" data-dismiss="modal" >
+                                                            <span class="text-white">Cancelar</span>
+                                                            <i class="fas fa-xmark fa-xs text-white ml-1"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade show {{ $activeTab === 'custom-tabs-2' ? 'active' : '' }}"
+                                        id="custom-tabs-2" role="tabpanel"
+                                        aria-labelledby="custom-tabs-2-tab"
+                                        style="height: 18rem; padding: 0.5rem;">
+                                        <textarea class="form-control w-100 p-1"
+                                                rows="10"
+                                                placeholder="Escriba aquí..."
+                                                style="resize: none; font-size: 0.8rem;"
+                                                name="items[{{ $item_orden_trabajo->id }}][Observaciones]">{{ old('items[$item_orden_trabajo->id][Observaciones]', $item_orden_trabajo->Observaciones) }}</textarea>
+                                    </div>
+                                </x-slot>
+                            </x-panel-horizontal2>
+                            </form>
+
+                            {{-- <x-simple-table2>
+
+                                <x-slot name="thead">
+                                    <tr>
+                                        <th>CC</th>
+                                        <th>DESCRIPCION</th>
+                                        <th>PRECIO</th>
+                                        <th>DIVISA</th>
+                                        <th style="max-width: 80px;">% COEF.</th>
+                                        <th>COEFICIENTE</th>
+                                        <th></th>
+                                    </tr>
+                                </x-slot>
+                                <x-slot name="tbody">
+                                    @forelse ($item_orden_trabajo->tratamiento->precios->sortBy('CC') as $precio)
+                                        <tr>
+                                            <td>{{ $precio->CC }}</td>
+                                            <td style="min-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $precio->Descripcion }}">
+                                                {{ $precio->Descripcion }}
+                                            </td>
+                                            <td>{{ number_format($precio->Precio, 2, ',', '.') }}</td>
+                                            <td>{{ $precio->Divisa }}</td>
+                                            <td style="max-width: 80px; white-space: nowrap;">{{ number_format($precio->PorcentajeCoeficiente, 2, ',', '.') }}</td>
+                                            <td>{{ number_format($precio->Coeficiente, 3, ',', '.') }}</td>
+
+                                            @if (($codigo_complejidad[$item_orden_trabajo->id] ?? null) == $precio->CC)
+                                                <td class="text-center align-middle">
+                                                    <button class="btn btn-sm toggle-row" type="button" style="background-color: #fd7e14; color: white;" data-toggle="modal" data-target="#modal-edit-{{ $precio->id }}" wire:click="guardarEstado">
+                                                        <i class="fa-solid fa-pencil"></i>
+                                                    </button>
+                                                </td>
+                                            @else
+                                                <td></td>
+                                            @endif
+
+                                        </tr>
+                                    @empty
+                                        <tr><td colspan="8">No se encontraron resultados.</td></tr>
+                                    @endforelse
+
+                                </x-slot>
+                            </x-simple-table2> --}}
+                            </div>
+
+                        </div>
+
+                        </div>
+
+                        </div>
+                        </div>
+
+            </div>
+            <!-- /.modal -->
+
+
+
             <!-- .modal -->
             <div class="modal fade" id="modal-cliente-{{ $item_orden_trabajo->id }}" wire:ignore.self>
                 <div class="modal-dialog modal-dialog-centered modal-lg">

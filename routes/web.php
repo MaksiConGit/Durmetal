@@ -150,6 +150,7 @@ Route::middleware('auth')->group(function () {
     Route::put('ficha-del-cliente/nota-envio/precios/{precio}', [VentasController::class, 'fichaDelClienteNotaEnvioCC'])->name('ventas.ficha-del-cliente-nota-envio.cc');
     Route::get('ficha-del-cliente/nota-envio/show/{nota_envio}', [VentasController::class, 'fichaDelClienteNotaEnvioShow'])->name('ventas.ficha-del-cliente-nota-envio.show');
     Route::get('ficha-del-cliente/nota-envio/pdf/{nota_envio}', [VentasController::class, 'fichaDelClienteNotaEnvioPDF'])->name('ventas.ficha-del-cliente-nota-envio.pdf');
+    Route::put('ficha-del-cliente/nota-envio/orden-trabajo/{item_orden_trabajo}', [VentasController::class, 'fichaDelClienteNotaEnvioOrdenTrabajo'])->name('ventas.ficha-del-cliente-nota-envio.orden-trabajo');
 
     Route::get('ficha-del-cliente/factura-venta/create/{cliente}', [VentasController::class, 'fichaDelClienteFacturaVentaCreate'])->name('ventas.ficha-del-cliente-factura-venta.create');
     Route::post('ficha-del-cliente/factura-venta/{cliente}', [VentasController::class, 'fichaDelClienteFacturaVentaStore'])->name('ventas.ficha-del-cliente-factura-venta.store');

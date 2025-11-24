@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreItemOrdenTrabajoRequest;
 use App\Http\Requests\StoreUSDARSRequest;
 use App\Http\Requests\UpdateCodigoComplejidadRequest;
 use App\Models\CodigoComplejidad;
@@ -240,6 +241,38 @@ class VentasController extends Controller
         ])->setPaper('A4');
 
         return $pdf->stream('nota_envio.pdf');
+    }
+
+    public function fichaDelClienteNotaEnvioOrdenTrabajo(Request $request)
+    {
+        $data = $request->all();
+
+        if (!isset($data['items'])) {
+            return back()->with('error', 'No se enviaron ítems.');
+        }
+
+        foreach ($data['items'] as $itemId => $itemData) {
+
+            $item = ItemOrdenTrabajo::find($itemId);
+
+            if ($item) {
+                $item->update([
+                    'Descripcion' => $itemData['Descripcion'],
+                    'Cantidad' => $itemData['Cantidad'],
+                    'Peso' => $itemData['Peso'],
+                    'IdTratamiento' => $itemData['IdTratamiento'],
+                    'IdDureza' => $itemData['IdDureza'],
+                    'DurezaSolicitadaMinima' => $itemData['DurezaSolicitadaMinima'],
+                    'DurezaSolicitadaMaxima' => $itemData['DurezaSolicitadaMaxima'],
+                    'IdMaterial' => $itemData['IdMaterial'],
+                    'CodigoComplejidad' => $itemData['CodigoComplejidad'],
+                    'Estado' => $itemData['Estado'],
+                    'Observaciones' => $itemData['Observaciones'],
+                ]);
+            }
+        }
+
+        return redirect()->back();
     }
 
     public function fichaDelClienteFacturaVentaCreate(Client $cliente)

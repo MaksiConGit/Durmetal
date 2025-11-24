@@ -6,6 +6,9 @@ use App\Models\ItemOrdenTrabajo;
 use App\Models\NotaEnvio;
 use App\Models\PuntoDeVenta;
 use App\Models\CodigoComplejidad;
+use App\Models\Dureza;
+use App\Models\Material;
+use App\Models\Tratamiento;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -30,6 +33,8 @@ class NotaEnvioCreate extends Component
     public $total_final = 0;
     public $coeficiente = [];
     public $pendientes;
+    public $activeTab = 'custom-tabs-1';
+    public array $items_orden_trabajo_edit = [];
 
     public function mount()
     {
@@ -66,6 +71,18 @@ class NotaEnvioCreate extends Component
             $this->descuento[$item->id] = 0;
             $this->total[$item->id] = $precio * $item->Peso;
             $this->codigo_invalido[$item->id] = false;
+
+            $this->items_orden_trabajo_edit[$item->id] = [
+                'tratamiento_id' => $item->IdTratamiento,
+                'dureza_id' => $item->IdDureza,
+                'material_id' => $item->IdMaterial,
+                'Descripcion' => $item->Descripcion,
+                'Cantidad' => $item->Cantidad,
+                'Peso' => $item->Peso,
+                'DurezaSolicitadaMinima' => $item->DurezaSolicitadaMinima,
+                'DurezaSolicitadaMaxima' => $item->DurezaSolicitadaMaxima,
+                'Observaciones' => $item->Observaciones,
+            ];
         }
 
         if (session()->has('nota_envio_state')) {
@@ -103,6 +120,32 @@ class NotaEnvioCreate extends Component
 
         $this->actualizarSubtotal();
 
+    }
+
+    public function setActiveTab($tabId)
+    {
+        $this->activeTab = $tabId;
+    }
+
+    public function seleccionarTratamientoExistente($itemId, $tratamientoId)
+    {
+        if(isset($this->items_orden_trabajo_edit[$itemId])) {
+            $this->items_orden_trabajo_edit[$itemId]['tratamiento_id'] = $tratamientoId;
+        }
+    }
+
+    public function seleccionarDurezaExistente($itemId, $durezaId)
+    {
+        if(isset($this->items_orden_trabajo_edit[$itemId])) {
+            $this->items_orden_trabajo_edit[$itemId]['dureza_id'] = $durezaId;
+        }
+    }
+
+    public function seleccionarMaterialExistente($itemId, $materialId)
+    {
+        if(isset($this->items_orden_trabajo_edit[$itemId])) {
+            $this->items_orden_trabajo_edit[$itemId]['material_id'] = $materialId;
+        }
     }
 
     public function guardarEstado()
@@ -241,6 +284,10 @@ class NotaEnvioCreate extends Component
 
     public function render()
     {
-        return view('livewire.nota-envio-create');
+        return view('livewire.nota-envio-create', [
+            'tratamientos' => Tratamiento::all(),
+            'durezas' => Dureza::all(),
+            'materiales' => Material::all(),
+        ]);
     }
 }
