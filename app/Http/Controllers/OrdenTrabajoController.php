@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrdenTrabajoRequest;
 use App\Mail\OrdenCreadaMail;
+use App\Models\Certificado;
 use App\Models\Client;
 use App\Models\ItemOrdenTrabajo;
 use App\Models\OrdenTrabajo;
@@ -102,10 +103,22 @@ class OrdenTrabajoController extends Controller
 
             if ($id > 0) {
 
+                unset($data['NroPlano']);
+
                 $data['ActualizadoPor'] = Auth::id();
                 $data['FechaActualizacion'] = now();
 
-                ItemOrdenTrabajo::where('id', $id)->update($data);
+                $item = ItemOrdenTrabajo::find($id);
+                $item->update($data);
+
+                $certificado = Certificado::where('IdItemOrdenTrabajo', $item->id)->first();
+
+                if ($certificado) {
+                    $certificado->update([
+                        'Nombre' => $request->items[$id]['NroPlano'],
+                        'NroPlano' => $request->items[$id]['NroPlano'],
+                    ]);
+                }
 
             } else {
 
@@ -134,7 +147,19 @@ class OrdenTrabajoController extends Controller
                 $data['IDEstadoConNotaEnvio'] = 0;
                 $data['IDIdOrdenTrabajoIdMaterialIdTratamientoCodigoComplejidadEstado'] = 0;
 
-                $orden_trabajo->itemsOrdenTrabajo()->create($data);
+                $item = $orden_trabajo->itemsOrdenTrabajo()->create($data);
+
+                Certificado::create([
+                    'IdItemOrdenTrabajo' => $item->id,
+                    'Nombre' => $data['NroPlano'],
+                    'NroPlano' => $data['NroPlano'],
+                    'Observaciones' => '',
+                    'CantidadImpresiones' => 0,
+                    'CantidadEnviosPorCorreo' => 0,
+                    'Cantidad' => $item->Cantidad,
+                    'IdUsuario' => Auth::id(),
+                    'Predeterminado' => 1,
+                ]);
 
             }
         }

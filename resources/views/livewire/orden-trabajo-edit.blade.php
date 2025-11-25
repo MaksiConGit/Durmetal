@@ -215,7 +215,7 @@
                                                                 </div>
                                                                 <div class="col-4 mb-2 px-1">
                                                                     <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">NRO PLANO</label>
-                                                                    <input type="text" class="form-control form-control-sm p-1" style="height: 22px;">
+                                                                    <input type="text" name="items[{{ $item_orden_trabajo->id }}][NroPlano]" value="{{ old('NroPlano', $item_orden_trabajo->certificado->NroPlano ?? '') }}" class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
                                                             </div>
 
@@ -601,7 +601,7 @@
                                                                 </div>
                                                                 <div class="col-4 mb-2 px-1">
                                                                     <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">NRO PLANO</label>
-                                                                    <input type="text" class="form-control form-control-sm p-1" style="height: 22px;">
+                                                                    <input type="text" name="items[{{ $newItem['id'] }}][NroPlano]" class="form-control form-control-sm p-1" style="height: 22px;">
                                                                 </div>
                                                             </div>
 

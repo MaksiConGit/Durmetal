@@ -81,4 +81,8 @@ class ItemOrdenTrabajo extends Model
                     ->whereColumn('IdTratamiento', 'IdTratamiento');
     }
 
+    public function certificado()
+    {
+        return $this->hasOne(Certificado::class, 'IdItemOrdenTrabajo');
+    }
 }
