@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Certificado;
 use App\Models\CodigoComplejidad;
 use App\Models\Dureza;
 use App\Models\FactorPremio;
@@ -808,6 +809,42 @@ class ProductionSeeder extends Seeder
             'ConNotaEnvio' => '0',
             'IDEstadoConNotaEnvio' => '93494,APROBADO,0s',
             'IDIdOrdenTrabajoIdMaterialIdTratamientoCodigoComplejidadEstado' => '93494,55217,179,40.0.APROBADO',
+        ]);
+
+        Certificado::create([
+            'IdItemOrdenTrabajo' => 1,
+            'Nombre' => 10,
+            'NroPlano' => 10,
+            'Observaciones' => '',
+            'CantidadImpresiones' => 0,
+            'CantidadEnviosPorCorreo' => 0,
+            'Cantidad' => 3,
+            'IdUsuario' => 1,
+            'Predeterminado' => 1,
+        ]);
+
+        Certificado::create([
+            'IdItemOrdenTrabajo' => 1,
+            'Nombre' => 20,
+            'NroPlano' => 20,
+            'Observaciones' => '',
+            'CantidadImpresiones' => 0,
+            'CantidadEnviosPorCorreo' => 0,
+            'Cantidad' => 3,
+            'IdUsuario' => 1,
+            'Predeterminado' => 1,
+        ]);
+
+        Certificado::create([
+            'IdItemOrdenTrabajo' => 1,
+            'Nombre' => 30,
+            'NroPlano' => 30,
+            'Observaciones' => '',
+            'CantidadImpresiones' => 0,
+            'CantidadEnviosPorCorreo' => 0,
+            'Cantidad' => 3,
+            'IdUsuario' => 1,
+            'Predeterminado' => 1,
         ]);
 
         $datos = [

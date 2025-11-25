@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateCodigoComplejidadRequest;
 use App\Models\CodigoComplejidad;
 use App\Models\Arti;
 use App\Models\Banco;
+use App\Models\Certificado;
 use App\Models\Chequecobro;
 use App\Models\Client;
 use App\Models\ClientType;
@@ -268,6 +269,12 @@ class VentasController extends Controller
                     'CodigoComplejidad' => $itemData['CodigoComplejidad'],
                     'Estado' => $itemData['Estado'],
                     'Observaciones' => $itemData['Observaciones'],
+                ]);
+                
+                $item->certificado->update([
+                    'Nombre' => $itemData['NroPlano'],
+                    'NroPlano' => $itemData['NroPlano'],
+                    'IdUsuario' => Auth::id(),
                 ]);
             }
         }

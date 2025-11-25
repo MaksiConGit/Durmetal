@@ -468,7 +468,7 @@
                                                         </div>
                                                         <div class="col-4 mb-2 px-1">
                                                             <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">NRO PLANO PREDETERMINADO</label>
-                                                            <input type="text" class="form-control form-control-sm p-1" style="height: 22px;">
+                                                            <input type="text" name="items[{{ $item_orden_trabajo->id }}][NroPlano]" value="{{ old('items[$item_orden_trabajo->id][NroPlano]', $item_orden_trabajo->certificado->NroPlano ?? '') }}" class="form-control form-control-sm p-1" style="height: 22px;">
                                                         </div>
                                                     </div>
 
@@ -685,48 +685,7 @@
                             </x-panel-horizontal2>
                             </form>
 
-                            {{-- <x-simple-table2>
-
-                                <x-slot name="thead">
-                                    <tr>
-                                        <th>CC</th>
-                                        <th>DESCRIPCION</th>
-                                        <th>PRECIO</th>
-                                        <th>DIVISA</th>
-                                        <th style="max-width: 80px;">% COEF.</th>
-                                        <th>COEFICIENTE</th>
-                                        <th></th>
-                                    </tr>
-                                </x-slot>
-                                <x-slot name="tbody">
-                                    @forelse ($item_orden_trabajo->tratamiento->precios->sortBy('CC') as $precio)
-                                        <tr>
-                                            <td>{{ $precio->CC }}</td>
-                                            <td style="min-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $precio->Descripcion }}">
-                                                {{ $precio->Descripcion }}
-                                            </td>
-                                            <td>{{ number_format($precio->Precio, 2, ',', '.') }}</td>
-                                            <td>{{ $precio->Divisa }}</td>
-                                            <td style="max-width: 80px; white-space: nowrap;">{{ number_format($precio->PorcentajeCoeficiente, 2, ',', '.') }}</td>
-                                            <td>{{ number_format($precio->Coeficiente, 3, ',', '.') }}</td>
-
-                                            @if (($codigo_complejidad[$item_orden_trabajo->id] ?? null) == $precio->CC)
-                                                <td class="text-center align-middle">
-                                                    <button class="btn btn-sm toggle-row" type="button" style="background-color: #fd7e14; color: white;" data-toggle="modal" data-target="#modal-edit-{{ $precio->id }}" wire:click="guardarEstado">
-                                                        <i class="fa-solid fa-pencil"></i>
-                                                    </button>
-                                                </td>
-                                            @else
-                                                <td></td>
-                                            @endif
-
-                                        </tr>
-                                    @empty
-                                        <tr><td colspan="8">No se encontraron resultados.</td></tr>
-                                    @endforelse
-
-                                </x-slot>
-                            </x-simple-table2> --}}
+                        
                             </div>
 
                         </div>
@@ -736,10 +695,7 @@
                         </div>
                         </div>
 
-            </div>
             <!-- /.modal -->
-
-
 
             <!-- .modal -->
             <div class="modal fade" id="modal-cliente-{{ $item_orden_trabajo->id }}" wire:ignore.self>
