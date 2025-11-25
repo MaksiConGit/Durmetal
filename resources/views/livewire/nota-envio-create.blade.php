@@ -207,33 +207,7 @@
                         <input type="hidden" name="items[{{ $id }}][Total]" value="{{ $total[$id] ?? 0 }}">
                     @endif
                 @endforeach
-
-
-                    @php
-                        $filasFaltantes = max(0, 12 - count($items_orden_trabajo));
-                    @endphp
-
-                    @for ($i = 10; $i < 12; $i++)
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                    @endfor
-
+                
                 </x-slot>
 
             </x-simple-table2>

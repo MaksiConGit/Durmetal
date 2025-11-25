@@ -35,6 +35,14 @@ class FacturaVentaCreate extends Component
         $this->pto_ventas = PuntoDeVenta::all();
         $this->condiciones_venta = CondicionVenta::all();
 
+        $this->condicionesSeleccionadas = 
+            collect($this->condiciones_venta)
+                ->where('Seleccionado', 1)
+                ->pluck('Nombre')
+                ->toArray();
+
+        $this->ordenarCondiciones();
+
         $this->notas_envio = NotaEnvio::where('IdCliente', $this->cliente->id)->where('Estado', 'PENDIENTE')->get();
 
         $this->next_factura_numero = FacturaVenta::max('Numero') + 1;
@@ -46,6 +54,11 @@ class FacturaVentaCreate extends Component
     }
 
     public function updatedCondicionesSeleccionadas()
+    {
+        $this->ordenarCondiciones();
+    }
+
+    public function ordenarCondiciones()
     {
         $ordenOriginal = collect($this->condiciones_venta)->pluck('Nombre')->toArray();
 

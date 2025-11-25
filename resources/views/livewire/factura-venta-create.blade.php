@@ -189,21 +189,6 @@
                     @endif
                 @endforeach
 
-
-                    @php
-                        $filasFaltantes = max(0, 12 - count($notas_envio));
-                    @endphp
-
-                    @for ($i = 10; $i < 12; $i++)
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                    @endfor
-
                 </x-slot>
 
             </x-simple-table2>
@@ -304,13 +289,14 @@
 
                         </div>
 
-                        <div class="mt-3 text-end">
-                            <button class="btn btn-sm btn-primary me-2">
-                            <i class="bi bi-save"></i> Guardar
+                        <div class="d-flex justify-content-end mt-3">
+
+                            <button class="btn btn-app bg-primary">
+                                <i class="fas fa-floppy-disk"></i> Guardar
                             </button>
 
-                            <a class="btn btn-sm btn-outline-secondary" href="{{ route('ventas.ficha-del-cliente.show', $cliente) }}">
-                                <i class="bi bi-x-circle"></i> Cancelar
+                            <a class="btn btn-app bg-primary" href="{{ route('ventas.ficha-del-cliente.show', $cliente) }}">
+                                <i class="fas fa-ban"></i> Cancelar
                             </a>
 
                         </div>
@@ -349,11 +335,12 @@
                                     @forelse ($condiciones_venta as $condicion_venta)
                                         <tr>
                                             <td>
-<input 
-    type="checkbox"
-    wire:model.live="condicionesSeleccionadas"
-    value="{{ $condicion_venta->Nombre }}"
->
+                                                <input 
+                                                    type="checkbox"
+                                                    wire:model.live="condicionesSeleccionadas"
+                                                    value="{{ $condicion_venta->Nombre }}"
+                                                    @if($condicion_venta->Seleccionado == 1) checked @endif
+                                                >
                                             </td>
                                             <td>{{ $condicion_venta->Nombre }}</td>
                                         </tr>
