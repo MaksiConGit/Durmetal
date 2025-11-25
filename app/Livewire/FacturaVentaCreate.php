@@ -26,6 +26,7 @@ class FacturaVentaCreate extends Component
     public $subtotal = 0;
     public $iva = 0;
     public $total_final = 0;
+    public $condicionesSeleccionadas = [];
 
     public function mount()
     {
@@ -42,6 +43,15 @@ class FacturaVentaCreate extends Component
             $this->total[$item->id] = $item->Neto;
             $this->IVA[$item->id] = $item->Neto * 0.21;
         }
+    }
+
+    public function updatedCondicionesSeleccionadas()
+    {
+        $ordenOriginal = collect($this->condiciones_venta)->pluck('Nombre')->toArray();
+
+        usort($this->condicionesSeleccionadas, function ($a, $b) use ($ordenOriginal) {
+            return array_search($a, $ordenOriginal) <=> array_search($b, $ordenOriginal);
+        });
     }
 
     public function setFechaVencimiento()
@@ -75,6 +85,10 @@ class FacturaVentaCreate extends Component
 
             $this->descripcion[$id] = "CORRESPONDE A NOTA DE ENVIO {$numero}";
         }
+        else {
+            $this->descripcion[$id] = $item->Descripcion ?? '';
+        }
+
         $this->actualizarSubtotal();
     }
 

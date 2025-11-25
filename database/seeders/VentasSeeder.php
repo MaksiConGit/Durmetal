@@ -706,10 +706,17 @@ class VentasSeeder extends Seeder
             'Activo' => true,
         ]);
 
-        CondicionVenta::create([
-            'Nombre' => 'Contado',
-            'Seleccionado' => 1
-        ]);
+        $condiciones_venta = [
+            ['id' => 1, 'Nombre' => 'Contado', 'Seleccionado' => 0],
+            ['id' => 2, 'Nombre' => 'Tarjeta de Débito', 'Seleccionado' => 0],
+            ['id' => 3, 'Nombre' => 'Tarjeta de Crédito', 'Seleccionado' => 0],
+            ['id' => 4, 'Nombre' => 'Cuenta Corriente 30 dias ff', 'Seleccionado' => 0],
+            ['id' => 5, 'Nombre' => 'Cheque 60 dias ff.', 'Seleccionado' => 0],
+            ['id' => 6, 'Nombre' => 'Cheque o transf. 7 dias ff.', 'Seleccionado' => 1],
+            ['id' => 7, 'Nombre' => 'Cta Cte 15 días ff', 'Seleccionado' => 0],
+        ];
+
+        CondicionVenta::insert($condiciones_venta);
 
         Arti::create([
             'CODART' => 1,
