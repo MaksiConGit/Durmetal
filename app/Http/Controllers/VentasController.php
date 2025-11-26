@@ -270,12 +270,37 @@ class VentasController extends Controller
                     'Estado' => $itemData['Estado'],
                     'Observaciones' => $itemData['Observaciones'],
                 ]);
-                
-                $item->certificado->update([
-                    'Nombre' => $itemData['NroPlano'],
-                    'NroPlano' => $itemData['NroPlano'],
-                    'IdUsuario' => Auth::id(),
-                ]);
+
+                if ($item->certificado) {
+
+                    if ($itemData['NroPlano']) {
+                        $item->certificado->update([
+                            'Nombre' => $itemData['NroPlano'],
+                            'NroPlano' => $itemData['NroPlano'],
+                            'IdUsuario' => Auth::id(),
+                        ]);
+                    }
+                    else{
+                        $item->certificado->delete();
+                    }
+
+                }
+                else{
+                    if ($itemData['NroPlano']) {
+                        Certificado::create([
+                            'IdItemOrdenTrabajo' => $item->id,
+                            'Nombre' => $itemData['NroPlano'],
+                            'NroPlano' => $itemData['NroPlano'],
+                            'Observaciones' => '',
+                            'CantidadImpresiones' => 0,
+                            'CantidadEnviosPorCorreo' => 0,
+                            'Cantidad' => $item->Cantidad,
+                            'IdUsuario' => Auth::id(),
+                            'Predeterminado' => 1,
+                        ]);
+                    }
+                }
+
             }
         }
 

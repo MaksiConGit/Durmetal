@@ -824,7 +824,7 @@ class ProductionSeeder extends Seeder
         ]);
 
         Certificado::create([
-            'IdItemOrdenTrabajo' => 1,
+            'IdItemOrdenTrabajo' => 2,
             'Nombre' => 20,
             'NroPlano' => 20,
             'Observaciones' => '',
@@ -836,7 +836,7 @@ class ProductionSeeder extends Seeder
         ]);
 
         Certificado::create([
-            'IdItemOrdenTrabajo' => 1,
+            'IdItemOrdenTrabajo' => 3,
             'Nombre' => 30,
             'NroPlano' => 30,
             'Observaciones' => '',
