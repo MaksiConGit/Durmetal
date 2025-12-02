@@ -123,20 +123,28 @@
                     ">
 
                     <span style="font-size:15px; font-weight:bold;">
-                        NOTA DE ENVÍO
-                    </span><br><br>
-
-                    <span style="font-size:15px;">
-                        Comp. Nro: {{ $numero }}
+                        FACTURA {{ $numero }}
                     </span><br><br>
 
                     <span style="font-size:10px; font-weight:normal;">
-                        {{ \Carbon\Carbon::parse($nota_envio->FechaEmision)->format('d/m/Y') }}
-                    </span><br><br>
+                        Fecha: {{ \Carbon\Carbon::parse($factura_venta->FechaEmision)->format('d/m/Y') }}
+                    </span><br>
 
                     <span style="font-size:10px; font-weight:normal;">
-                        PÁGINA 1/1
-                    </span>
+                        Vencimiento: {{ \Carbon\Carbon::parse($factura_venta->FechaVencimiento)->format('d/m/Y') }}
+                    </span><br><br>
+
+
+                    <span style="font-size:10px; font-weight:normal;">
+                        C.U.I.T.: {{ $configuracion_global->CUITEmpresa }}
+                    </span><br>
+                    <span style="font-size:10px; font-weight:normal;">
+                        Ingresos brutos: {{ $configuracion_global->IIBBEmpresa }}
+                    </span><br>
+                    <span style="font-size:10px">
+                        Inicio actividades: {{ \Carbon\Carbon::parse($configuracion_global->FechaInicioActividadesEmpresa)->format('d/m/Y') }}
+                    </span><br>
+
 
                 </td>
 
@@ -148,45 +156,47 @@
 
         <table class="cliente-info">
             <tr>
-                <td><strong>Cliente Nº:</strong></td>
-                <td>{{ $nota_envio->IdCliente }}</td>
-
-                <td><strong>Razón Social:</strong></td>
-                <td>{{ $nota_envio->RazonSocial }}</td>
+                <td colspan="3"><span style="font-size:14px">Razón social:</span></td>
+                <td><span style="font-size:14px">{{ $factura_venta->RazonSocial }}</span></td>
             </tr>
             <tr>
-                <td><strong>Dirección:</strong></td>
-                <td colspan="3">{{ $nota_envio->Direccion }}</td>
+                <td colspan="3"><span style="font-size:14px">Dirección:</span></td>
+                <td><span style="font-size:14px">{{ $factura_venta->Direccion }}, {{ $factura_venta->Localidad }}</span></td>
             </tr>
             <tr>
-                <td><strong>Cond. IVA:</strong></td>
-                <td>{{ $nota_envio->cliente->condicionIVA->Nombre }}</td>
-
-                <td><strong>CUIT:</strong></td>
-                <td>{{ $nota_envio->NumeroDocumentoCliente }}</td>
+                <td colspan="3"><span style="font-size:14px">Categoría IVA:</span></td>
+                <td><span style="font-size:14px">{{ $factura_venta->condicionIVA->Nombre ?? "N/A" }}</span></td>
+            </tr>
+            <tr>
+                <td colspan="3"><span style="font-size:14px">CUIT:</span></td>
+                <td><span style="font-size:14px">{{ $factura_venta->NumeroDocumentoCliente }}</span></td>
+            </tr>
+            <tr>
+                <td colspan="3"><span style="font-size:14px">Condición de venta:</span></td>
+                <td><span style="font-size:14px">{{ $factura_venta->CondicionVenta }}</span></td>
             </tr>
         </table>
 
         <table class="tabla-detalle">
             <thead>
                 <tr>
-                    <th>CANT.</th>
-                    <th>DESCRIPCIÓN</th>
-                    <th>PESO</th>
-                    <th>PRECIO U.</th>
-                    <th>% DESC.</th>
-                    <th>TOTAL</th>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>% IVA</th>
+                    <th>Subtotal</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($items_nota_envio as $item_nota_envio)
+                @foreach($items_factura_venta as $item_factura_venta)
                     <tr>
-                        <td>{{ number_format($item_nota_envio->Cantidad, 2, ',', '.') }}</td>
-                        <td class="descripcion">{{ $item_nota_envio->Descripcion }}</td>
-                        <td>{{ number_format($item_nota_envio->Peso, 2, ',', '.') }}</td>
-                        <td>{{ number_format($item_nota_envio->PrecioUnitario, 2, ',', '.') }}</td>
-                        <td>{{ number_format($item_nota_envio->PorcentajeDescuento, 2, ',', '.') }}</td>
-                        <td>{{ number_format($item_nota_envio->Total, 2, ',', '.') }}</td>
+                        <td>{{ number_format($item_factura_venta->id, 2, ',', '.') }}</td>
+                        <td class="descripcion">{{ $item_factura_venta->Descripcion }}</td>
+                        <td>{{ number_format($item_factura_venta->Cantidad, 2, ',', '.') }}</td>
+                        <td>{{ number_format($item_factura_venta->PrecioUnitario, 2, ',', '.') }}</td>
+                        <td>{{ number_format(21, 2, ',', '.') }}</td>
+                        <td>{{ number_format($item_factura_venta->Total, 2, ',', '.') }}</td>
                     </tr>
                 @endforeach
             </tbody>
@@ -195,17 +205,14 @@
         <div id="footer">
             <div class="footer-separator"></div>
 
-            <div class="pagina">
-                PÁGINA 1/1
-            </div>
-
             <table class="totales" style="float:right;">
-                <tr><td>Subtotal:</td><td>{{ number_format($nota_envio->Neto, 2, ',', '.') }}</td></tr>
-                <tr><td>Descuento %:</td><td>{{ number_format($nota_envio->PorcentajeDescuento, 2, ',', '.') }}</td></tr>
-                <tr><td>Neto:</td><td>{{ number_format($nota_envio->Neto, 2, ',', '.') }}</td></tr>
-                <tr><td>IVA:</td><td>{{ number_format($nota_envio->IVA, 2, ',', '.') }}</td></tr>
-                <tr><td><strong>Importe:</strong></td>
-                    <td><strong>{{ number_format($nota_envio->Total, 2, ',', '.') }}</strong></td>
+                <tr><td>Exento:</td><td>{{ number_format($factura_venta->Exento, 2, ',', '.') }}</td></tr>
+                <tr><td>No Gravado:</td><td>{{ number_format($factura_venta->NetoNoGravado, 2, ',', '.') }}</td></tr>
+                <tr><td>Neto:</td><td>{{ number_format($factura_venta->Neto, 2, ',', '.') }}</td></tr>
+                <tr><td>IVA:</td><td>{{ number_format($factura_venta->IVA, 2, ',', '.') }}</td></tr>
+                <tr><td>Otros Tributos:</td><td>{{ number_format(0, 2, ',', '.') }}</td></tr>
+                <tr><td><strong>Total:</strong></td>
+                    <td><strong>{{ number_format($factura_venta->Total, 2, ',', '.') }}</strong></td>
                 </tr>
             </table>
         </div>

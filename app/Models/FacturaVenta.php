@@ -22,6 +22,7 @@ class FacturaVenta extends Model
         'IdCliente',
         'RazonSocial',
         'TipoDocumentoCliente',
+        'NumeroDocumentoCliente',
         'Direccion',
         'Localidad',
         'IdCondicionIva',

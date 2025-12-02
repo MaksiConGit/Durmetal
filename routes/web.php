@@ -154,6 +154,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('ficha-del-cliente/factura-venta/create/{cliente}', [VentasController::class, 'fichaDelClienteFacturaVentaCreate'])->name('ventas.ficha-del-cliente-factura-venta.create');
     Route::post('ficha-del-cliente/factura-venta/{cliente}', [VentasController::class, 'fichaDelClienteFacturaVentaStore'])->name('ventas.ficha-del-cliente-factura-venta.store');
+    Route::get('ficha-del-cliente/factura-venta/show/{factura_venta}', [VentasController::class, 'fichaDelClienteFacturaVentaShow'])->name('ventas.ficha-del-cliente-factura-venta.show');
+    Route::get('ficha-del-cliente/factura-venta/pdf/{factura_venta}', [VentasController::class, 'fichaDelClienteFacturaVentaPDF'])->name('ventas.ficha-del-cliente-factura-venta.pdf');
 
     Route::get('ficha-del-cliente/recibo-venta/create/{cliente}', [VentasController::class, 'fichaDelClienteReciboVentaCreate'])->name('ventas.ficha-del-cliente-recibo-venta.create');
     Route::get('ficha-del-cliente/nota-credito/create/{cliente}', [VentasController::class, 'fichaDelClienteNotaCreditoCreate'])->name('ventas.ficha-del-cliente-nota-credito.create');

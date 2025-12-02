@@ -27,6 +27,7 @@ return new class extends Migration
                                                         ->onUpdate('cascade');
             $table->string('RazonSocial');
             $table->string('TipoDocumentoCliente');
+            $table->string('NumeroDocumentoCliente');
             $table->string('Direccion');
             $table->string('Localidad');
             $table->foreignId('IdCondicionIva')->nullable()->constrained('condicion_iva')
