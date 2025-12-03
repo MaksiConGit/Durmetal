@@ -8,4 +8,17 @@ class ItemReciboVenta extends Model
 {
     protected $table = 'item_recibo_venta';
     public $timestamps = false;
+
+    protected $fillable = [
+        'IdReciboVenta',
+        'IdFacturaVenta',
+        'IdSubiva',
+        'Descripcion',
+        'Total',
+        'FechaCreacion',
+        'CreadoPor',
+        'FechaActualizacion',
+        'ActualizadoPor',
+        'Activo',
+    ];
 }

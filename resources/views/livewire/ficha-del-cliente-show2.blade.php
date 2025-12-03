@@ -27,7 +27,7 @@
                             
                             @break
                         @case('custom-tabs-4')
-                            <a href="{{ route('ventas.ficha-del-cliente-recibo-venta.create', $cliente->id) }}" class="btn btn-app bg-primary disabled">
+                            <a href="{{ route('ventas.ficha-del-cliente-recibo-venta.create', $cliente->id) }}" class="btn btn-app bg-primary">
                                 <i class="fas fa-plus"></i> Nuevo
                             </a>
                             

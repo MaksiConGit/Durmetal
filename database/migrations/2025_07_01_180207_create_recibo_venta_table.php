@@ -36,9 +36,10 @@ return new class extends Migration
             $table->float('RetencionSUSS');
             $table->string('Estado');
             $table->float('Total');
-            $table->string('Observaciones');
+            $table->string('Observaciones')->nullable();
             $table->integer('NumeroTurno');
             $table->integer('ReferenciaTurno');
+            $table->integer('IdEntorno')->default(1);
             $table->boolean('AfectarPlanillaTurno');
             $table->date('FechaCreacion')->nullable();
             $table->foreignId('CreadoPor')->nullable()->constrained('users')

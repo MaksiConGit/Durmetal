@@ -18,10 +18,8 @@ return new class extends Migration
                                                                 ->onUpdate('cascade');
             $table->foreignId('IdFacturaVenta')->nullable()->constrained('factura_venta')
                                                                 ->onDelete('restrict')
-                                                                ->onUpdate('cascade'); 
-            // $table->foreignId('IdSubiva')->nullable()->constrained('subiva')
-            //                                             ->onDelete('restrict')
-            //                                             ->onUpdate('cascade');          
+                                                                ->onUpdate('cascade');       
+            $table->integer('IdSubiva')->default(0);
             $table->string('Descripcion');
             $table->float('Total');
             $table->date('FechaCreacion')->nullable();

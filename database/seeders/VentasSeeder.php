@@ -408,7 +408,7 @@ class VentasSeeder extends Seeder
             'ImpuestoInterno' => 0,
             'Total' => 12100,
             'AjusteCtaCtePlanillaTurno' => 0,
-            'Estado' => 'COMPLETA',
+            'Estado' => 'COMPLETO',
             'CAE' => '12345678901234',
             'FechaVencimientoCAE' => '2025-12-31',
             'IdSolicitudCAE' => 999,

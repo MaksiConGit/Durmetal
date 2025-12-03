@@ -19,6 +19,7 @@ use App\Models\FacturaVenta;
 use App\Models\ItemFacturaVenta;
 use App\Models\ItemNotaEnvio;
 use App\Models\ItemOrdenTrabajo;
+use App\Models\ItemReciboVenta;
 use App\Models\NotaCreditoVenta;
 use App\Models\NotaEnvio;
 use App\Models\OrdenTrabajo;
@@ -450,6 +451,106 @@ class VentasController extends Controller
         $bancos = Banco::all();
 
         return view('ventas.ficha-del-cliente.recibo-venta', compact('facturas_venta', 'pto_ventas', 'next_numero', 'cliente', 'bancos'));
+    }
+
+    public function fichaDelClienteReciboVentaStore(Request $request)
+    {
+        if (!$request->has('items') || empty($request->items)) {
+            return redirect()->back()
+                ->withErrors(['items' => 'Debe seleccionar al menos un ítem para crear el recibo de venta.'])
+                ->withInput();
+        }
+
+        $user_id = Auth::id();
+
+        $cliente = Client::find($request->IdCliente);
+    
+        $data['Letra'] = 'X';
+        $data['PuntoVenta'] = $request->PuntoVenta;
+        $data['Numero'] = $request->Numero;
+        $data['NumeroCompleto'] = "RC X 0001-0000$request->Numero";
+        $data['FechaEmision'] = $request->FechaEmision;
+        $data['IdCliente'] = $cliente->id;
+        $data['RazonSocial'] = $cliente->Nombre;
+        $data['IdCondicionIva'] = $cliente->IdCondicionIVA;
+        $data['TipoDocumentoCliente'] = $cliente->TipoDocumento;
+        $data['NumeroDocumentoCliente'] = $cliente->NroDocumento;
+        $data['Direccion'] = $cliente->Domicilio;
+        $data['Localidad'] = $cliente->localidad->Nombre;
+        $data['RetencionDREI'] = $request->RetencionDREI;
+        $data['RetencionIIBB'] = $request->RetencionIIBB;
+        $data['RetencionIVA'] = $request->RetencionIVA;
+        $data['RetencionGanancias'] = $request->RetencionGanancias;
+        $data['RetencionSUSS'] = $request->RetencionSUSS;
+        $data['Estado'] = 'PENDIENTE'; // REVISAR
+        $data['Total'] = $request->Total;
+        $data['Observaciones'] = null;
+        $data['NumeroTurno'] = 0;
+        $data['ReferenciaTurno'] = 0;
+        $data['AfectarPlanillaTurno'] = 0;
+        $data['FechaCreacion'] = now()->toDateString();
+        $data['CreadoPor'] = $user_id;
+        $data['FechaActualizacion'] = now()->toDateString();
+        $data['ActualizadoPor'] = $user_id;
+        $data['Activo'] = 1;
+        $data['LetraNumeroCompleto'] = 'X,' . $data['NumeroCompleto'];
+        $data['CantidadImpresiones'] = 0;
+        $data['CantidadEnviosPorCorreo'] = 0;
+        $data['DescripcionSaldoTransportado'] = null;
+        $data['ImporteSaldoTransportado'] = 0;
+
+        $recibo_venta = ReciboVenta::create($data);
+
+        foreach ($request->items as $index => $itemData) {
+            
+            ItemReciboVenta::create([
+                'IdReciboVenta' => $recibo_venta->id,
+                'IdFacturaVenta' => $itemData['IdFacturaVenta'],
+                'IdSubiva' => 0,
+                'Descripcion' => FacturaVenta::find($itemData['IdFacturaVenta'])->NumeroCompleto,
+                'Total' => $itemData['Total'],
+                'FechaCreacion' => now(),
+                'CreadoPor' => $user_id,
+                'FechaActualizacion' => now(),
+                'ActualizadoPor' => $user_id,
+                'Activo' => 1,
+            ]);
+
+            $factura_venta = FacturaVenta::find($itemData['IdFacturaVenta']);
+
+            $factura_venta->update(['Estado' => 'COMPLETO']);
+        }
+
+        return redirect()->route('ventas.ficha-del-cliente-recibo-venta.show', $recibo_venta);
+    }
+
+    public function fichaDelClienteReciboVentaShow(ReciboVenta $recibo_venta)
+    {
+        $pto_ventas = PuntoDeVenta::all();
+
+        return view('ventas.ficha-del-cliente.recibo-venta-show', compact('recibo_venta', 'pto_ventas'));
+    }
+
+    public function fichaDelClienteReciboVentaPDF(FacturaVenta $factura_venta)
+    {
+        $nuevo_cantidad_impresiones = $factura_venta->CantidadImpresiones + 1;
+
+        $factura_venta->update(['CantidadImpresiones' => $nuevo_cantidad_impresiones]);
+
+        $items_factura_venta = $factura_venta->itemsFacturaVenta;
+
+        preg_match('/' . $factura_venta->Letra . '\s*([0-9]+-[0-9]+)/', $factura_venta->NumeroCompleto, $m);
+
+        $numero = $m[1] ?? null;
+
+        $pdf = Pdf::loadView('ventas.ficha-del-cliente.recibo-venta-pdf', [
+            'factura_venta' => $factura_venta,
+            'items_factura_venta' => $items_factura_venta,
+            'numero' => $numero,
+            'configuracion_global' => ConfiguracionGlobal::first(),
+        ])->setPaper('A4');
+
+        return $pdf->stream('factura_venta.pdf');
     }
 
     public function fichaDelClienteNotaCreditoCreate(Client $cliente)
