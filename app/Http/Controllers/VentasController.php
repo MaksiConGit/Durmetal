@@ -531,26 +531,26 @@ class VentasController extends Controller
         return view('ventas.ficha-del-cliente.recibo-venta-show', compact('recibo_venta', 'pto_ventas'));
     }
 
-    public function fichaDelClienteReciboVentaPDF(FacturaVenta $factura_venta)
+    public function fichaDelClienteReciboVentaPDF(ReciboVenta $recibo_venta)
     {
-        $nuevo_cantidad_impresiones = $factura_venta->CantidadImpresiones + 1;
+        $nuevo_cantidad_impresiones = $recibo_venta->CantidadImpresiones + 1;
 
-        $factura_venta->update(['CantidadImpresiones' => $nuevo_cantidad_impresiones]);
+        $recibo_venta->update(['CantidadImpresiones' => $nuevo_cantidad_impresiones]);
 
-        $items_factura_venta = $factura_venta->itemsFacturaVenta;
+        $items_recibo_venta = $recibo_venta->itemsReciboVenta;
 
-        preg_match('/' . $factura_venta->Letra . '\s*([0-9]+-[0-9]+)/', $factura_venta->NumeroCompleto, $m);
+        preg_match('/' . $recibo_venta->Letra . '\s*([0-9]+-[0-9]+)/', $recibo_venta->NumeroCompleto, $m);
 
         $numero = $m[1] ?? null;
 
         $pdf = Pdf::loadView('ventas.ficha-del-cliente.recibo-venta-pdf', [
-            'factura_venta' => $factura_venta,
-            'items_factura_venta' => $items_factura_venta,
+            'recibo_venta' => $recibo_venta,
+            'items_recibo_venta' => $items_recibo_venta,
             'numero' => $numero,
             'configuracion_global' => ConfiguracionGlobal::first(),
         ])->setPaper('A4');
 
-        return $pdf->stream('factura_venta.pdf');
+        return $pdf->stream('recibo_venta.pdf');
     }
 
     public function fichaDelClienteNotaCreditoCreate(Client $cliente)
