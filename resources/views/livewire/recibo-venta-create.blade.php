@@ -183,8 +183,8 @@
                                                 <td>
                                                     <input 
                                                         type="number"
-                                                        wire:model.live="efectivo"
-                                                    >
+                                                        name="Efectivo[Total]"
+                                                        wire:model.live="efectivo">
                                                 </td>
                                             </tr>
 
@@ -225,10 +225,11 @@
                                                     </td>
 
                                                     <td>
-                                                        <select wire:model="filas.{{ $index }}.banco_id">
+                                                        <select wire:model="filas.{{ $index }}.banco_id"
+                                                                    name="Transferencias[{{ $index }}][Descripcion]">
                                                             <option value="">Seleccionar un banco</option>
                                                             @foreach ($bancos as $banco)
-                                                                <option value="{{ $banco->id }}">{{ $banco->Nombre }}</option>
+                                                                <option value="{{ $banco->Nombre }}">{{ $banco->Nombre }}</option>
                                                             @endforeach
                                                         </select>
                                                     </td>
@@ -236,6 +237,7 @@
                                                     <td>
                                                         <input
                                                             type="number"
+                                                            name="Transferencias[{{ $index }}][Total]"
                                                             wire:model.live="filas.{{ $index }}.monto"
                                                         >
                                                     </td>
@@ -282,7 +284,7 @@
                                                     </td>
 
                                                     <td>
-                                                        <select wire:model="cheques.{{ $index }}.banco_id">
+                                                        <select wire:model="cheques.{{ $index }}.banco_id" name="Cheques[{{ $index }}][IdBanco]">
                                                             <option value="">Seleccionar un banco</option>
                                                             @foreach ($bancos as $banco)
                                                                 <option value="{{ $banco->id }}">{{ $banco->Nombre }}</option>
@@ -291,28 +293,30 @@
                                                     </td>
 
                                                     <td>
-                                                        <input type="number" wire:model.live="cheques.{{ $index }}.numero">
+                                                        <input type="number" wire:model.live="cheques.{{ $index }}.numero" name="Cheques[{{ $index }}][Numero]">
                                                     </td>
 
                                                     <td>
-                                                        <input type="date" wire:model.live="cheques.{{ $index }}.fecha_emision">
+                                                        <input type="date" wire:model.live="cheques.{{ $index }}.fecha_emision" name="Cheques[{{ $index }}][FechaEmision]">
                                                     </td>
 
                                                     <td>
-                                                        <input type="date" wire:model.live="cheques.{{ $index }}.fecha_vencimiento">
+                                                        <input type="date" wire:model.live="cheques.{{ $index }}.fecha_vencimiento" name="Cheques[{{ $index }}][FechaAcreditacion]">
                                                     </td>
 
                                                     <td>
-                                                        <input type="number" wire:model.live="cheques.{{ $index }}.plaza">
+                                                        <input type="number" wire:model.live="cheques.{{ $index }}.plaza" name="Cheques[{{ $index }}][Plaza]">
                                                     </td>
 
                                                     <td class="text-center">
-                                                        <input type="checkbox" wire:model.live="cheques.{{ $index }}.es_echeck">
+                                                        <input type="hidden" name="Cheques[{{ $index }}][eCheck]" value="0">
+                                                        <input type="checkbox" wire:model.live="cheques.{{ $index }}.es_echeck" name="Cheques[{{ $index }}][eCheck]" value="1">
                                                     </td>
 
                                                     <td>
                                                         <input 
-                                                            type="number" 
+                                                            type="number"
+                                                            name="Cheques[{{ $index }}][Total]"
                                                             min="0"
                                                             wire:model.live="cheques.{{ $index }}.monto"
                                                         >
@@ -356,7 +360,8 @@
 
                                                     <td>
                                                         <input 
-                                                            type="text" 
+                                                            type="text"
+                                                            name="Tarjetas[{{ $index }}][Descripcion]"
                                                             wire:model.live="tarjetas.{{ $index }}.descripcion"
                                                         >
                                                     </td>
@@ -364,6 +369,7 @@
                                                     <td>
                                                         <input 
                                                             type="number"
+                                                            name="Tarjetas[{{ $index }}][Total]"
                                                             min="0"
                                                             wire:model.live="tarjetas.{{ $index }}.monto"
                                                         >

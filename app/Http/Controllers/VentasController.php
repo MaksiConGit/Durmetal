@@ -12,6 +12,7 @@ use App\Models\Certificado;
 use App\Models\Chequecobro;
 use App\Models\Client;
 use App\Models\ClientType;
+use App\Models\Cobro;
 use App\Models\CondicionVenta;
 use App\Models\ConfiguracionGlobal;
 use App\Models\DestinoCheque;
@@ -29,6 +30,8 @@ use App\Models\Tratamiento;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
+use function PHPUnit\Framework\isEmpty;
 
 class VentasController extends Controller
 {
@@ -501,6 +504,86 @@ class VentasController extends Controller
 
         $recibo_venta = ReciboVenta::create($data);
 
+        foreach ($request->Efectivo as $efectivo) {
+            if ($efectivo > 0) {
+                Cobro::create([
+                    'IdReciboVenta' => $recibo_venta->id,
+                    'FormaPago' => 'EFECTIVO',
+                    'Descripcion' => 'EFECTIVO',
+                    'Total' => $efectivo ?? 0,
+                    'FechaCreacion' => now(),
+                    'CreadoPor' => $user_id,
+                    'FechaActualizacion' => now(),
+                    'ActualizadoPor' => $user_id,
+                    'Activo' => 1,
+                ]);
+            }
+        }
+
+        foreach ($request->Transferencias as $transferencia) {
+            if ($transferencia['Descripcion']) {
+                Cobro::create([
+                    'IdReciboVenta' => $recibo_venta->id,
+                    'FormaPago' => 'TRANSFERENCIA',
+                    'Descripcion' => $transferencia['Descripcion'] ?? 'REVISAR!!',
+                    'Total' => $transferencia['Total'] ?? 0,
+                    'FechaCreacion' => now(),
+                    'CreadoPor' => $user_id,
+                    'FechaActualizacion' => now(),
+                    'ActualizadoPor' => $user_id,
+                    'Activo' => 1,
+                ]);
+            }
+        }
+
+        foreach ($request->Cheques as $cheque) {
+            if ($cheque['IdBanco'] && $cheque['FechaEmision'] && $cheque['FechaAcreditacion'] && $cheque['Numero'] && $cheque['Plaza']) {
+                $cobro = Cobro::create([
+                    'IdReciboVenta' => $recibo_venta->id,
+                    'FormaPago' => 'CHEQUE',
+                    'Descripcion' => Banco::find($cheque['IdBanco'])->Nombre ?? 'REVISAR!!',
+                    'Total' => $cheque['Total'] ?? 0,
+                    'FechaCreacion' => now(),
+                    'CreadoPor' => $user_id,
+                    'FechaActualizacion' => now(),
+                    'ActualizadoPor' => $user_id,
+                    'Activo' => 1,
+                ]);
+
+                Chequecobro::create([
+                    'IdCobro' =>  $cobro->id,
+                    'FechaEmision' => $cheque['FechaEmision'],
+                    'FechaAcreditacion' => $cheque['FechaAcreditacion'],
+                    'IdBanco' => $cheque['IdBanco'],
+                    'Numero' => $cheque['Numero'],
+                    'IdDestinoCheque' => $cheque['IdDestinoCheque'] ?? null,
+                    'Plaza' => $cheque['Plaza'],
+                    'eCheck' => $cheque['eCheck'],
+                    'FechaCreacion' => now(),
+                    'CreadoPor' => $user_id,
+                    'FechaActualizacion' => now(),
+                    'ActualizadoPor' => $user_id,
+                    'Activo' => 1,
+                ]);
+            }
+        }
+
+        foreach ($request->Tarjetas as $tarjeta) {
+            if ($transferencia['Descripcion']) {
+                Cobro::create([
+                    'IdReciboVenta' => $recibo_venta->id,
+                    'FormaPago' => 'TARJETA',
+                    'Descripcion' => $tarjeta['Descripcion'] ?? 'REVISAR!!',
+                    'Total' => $tarjeta['Total'] ?? 0,
+                    'FechaCreacion' => now(),
+                    'CreadoPor' => $user_id,
+                    'FechaActualizacion' => now(),
+                    'ActualizadoPor' => $user_id,
+                    'Activo' => 1,
+                ]);
+            }
+        }
+
         foreach ($request->items as $index => $itemData) {
             
             ItemReciboVenta::create([
@@ -508,7 +591,7 @@ class VentasController extends Controller
                 'IdFacturaVenta' => $itemData['IdFacturaVenta'],
                 'IdSubiva' => 0,
                 'Descripcion' => FacturaVenta::find($itemData['IdFacturaVenta'])->NumeroCompleto,
-                'Total' => $itemData['Total'],
+                'Total' => $itemData['Total'] ?? 0,
                 'FechaCreacion' => now(),
                 'CreadoPor' => $user_id,
                 'FechaActualizacion' => now(),
@@ -516,10 +599,11 @@ class VentasController extends Controller
                 'Activo' => 1,
             ]);
 
-            $factura_venta = FacturaVenta::find($itemData['IdFacturaVenta']);
-
-            $factura_venta->update(['Estado' => 'COMPLETO']);
         }
+
+        $factura_venta = FacturaVenta::find($itemData['IdFacturaVenta']);
+
+        $factura_venta->update(['Estado' => 'COMPLETO']);
 
         return redirect()->route('ventas.ficha-del-cliente-recibo-venta.show', $recibo_venta);
     }
