@@ -29,7 +29,7 @@
 
         </x-slot>
 
-        <form action="{{ route('ventas.ficha-del-cliente-nota-credito.store', $cliente)}}" method="POST">
+        <form action="{{ route('ventas.ficha-del-cliente-nota-debito.store', $cliente)}}" method="POST">
             @csrf
 
             <x-simple-table2>
@@ -118,9 +118,51 @@
 
                         <div class="col-2"></div>
 
-
+                        <div class="col-4">
+                            <div class="form-check">
+                                <input id="saldo0" type="checkbox" class="form-check-input">
+                                <label for="saldo0" class="form-check-label">GENERAR RECIBO CON PAGO EN EFECTIVO</label>
+                            </div>
+                        </div>
 
                     </div>
+
+                    <div class="row mb-2 align-items-end">
+
+                        <div class="col-10">
+
+                            <div class="form-group mb-1">
+                                <label for="CondicionVenta" class="form-label mb-1" style="font-size: 0.8rem;">CONDICION DE VENTA</label>
+                            </div>
+                            <div class="input-group mb-1">
+
+                            <input 
+                                value="{{ implode(' / ', $condicionesSeleccionadas ?? []) }}"
+                                class="form-control form-control-sm py-0"
+                                disabled
+                            >
+
+                            <input 
+                                type="hidden"
+                                name="CondicionVenta"
+                                value="{{ implode(' / ', $condicionesSeleccionadas ?? []) }}"
+                            >
+                                
+                                <div class="input-group-append">
+                                    <button type="button"
+                                            data-toggle="modal"
+                                            data-target="#modal-condicion"
+                                            class="btn btn-sidebar btn-sm bg-orange">
+                                        <i class="fas fa-pencil fa-fw text-white"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    
+                    </div>
+
                         
                     </div>
 
@@ -143,7 +185,8 @@
 
                     <tr>
                         <th>DESCRIPCION</th>
-                        <th>A ACREDITAR</th>
+                        <th>IVA</th>
+                        <th>SUBTOTAL</th>
                     </tr>
                 </x-slot>
                 <x-slot name="tbody">
@@ -152,12 +195,33 @@
                         <tr wire:click.prevent="seleccionarItem({{ $id }})"
                             style="cursor:pointer;"
                             class="{{ $item_id == $id ? 'table-primary' : '' }}">
+
                             <td>
-                                <input type="text" name="items[{{ $id }}][Descripcion]" id="" value="{{ $newItem['Descripcion'] }}">
+                                <input type="text"
+                                    wire:model.live="newItems.{{ $id }}.Descripcion"
+                                    name="items[{{ $id }}][Descripcion]">
                             </td>
+
                             <td>
-                                <input type="number" name="items[{{ $id }}][Total]" id="" wire:model.live="newItems.{{ $id }}.Total">
+                                <select wire:model.live="newItems.{{ $id }}.iva_tipo" name="items[{{ $id }}][IvaTipo]">
+                                    @foreach ($this->impuestos_iva as $impuesto_iva)
+                                        @if ($impuesto_iva->id == 6)
+                                            <option value="nogravado">{{ $impuesto_iva->Nombre }}</option>
+                                        @elseif ($impuesto_iva->id == 3)
+                                            <option value="exento">{{ $impuesto_iva->Nombre }}</option>
+                                        @else
+                                            <option value="{{ $impuesto_iva->Tasa }}">{{ $impuesto_iva->Nombre }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
                             </td>
+
+                            <td>
+                                <input type="number"
+                                    wire:model.live="newItems.{{ $id }}.Subtotal"
+                                    name="items[{{ $id }}][Neto]">
+                            </td>
+
                         </tr>
                     @endforeach
 
@@ -238,28 +302,6 @@
                                 <input type="hidden" name="IVA" value="{{ $iva }}">
                             </div>
 
-                            <div class="w-100 mb-2 d-flex justify-content-between">
-                                <span class="fw-semibold" style="font-size: 1.1rem;">AJUSTE</span>
-
-                                <input 
-                                    type="text"
-                                    readonly
-                                    value="{{ number_format($ajuste, 2, ',', '.') }}"
-
-                                    style="
-                                        width: 160px;
-                                        text-align: right;
-                                        border: none;
-                                        border-bottom: 1px solid black;
-                                        background: transparent;
-                                        padding: 2px 0;
-                                        outline: none;
-                                        font-size: 0.9rem;
-                                        color: #6c757d;
-                                    "
-                                />
-                                <input type="hidden" name="IVA" value="{{ $iva }}">
-                            </div>
 
                             <div class="w-100 mb-2 d-flex justify-content-between align-items-center">
                                 <span class="fw-bold text-dark" style="font-size: 1.3rem;">TOTAL</span>
@@ -280,29 +322,6 @@
                                 />
 
                                 <input type="hidden" name="Total" value="{{ $total_final }}">
-                            </div>
-
-                            <div class="w-100 mb-2 d-flex justify-content-between">
-                                <span class="fw-semibold" style="font-size: 1.1rem;">TOTAL PENDIENTE</span>
-
-                                <input 
-                                    type="text"
-                                    readonly
-                                    value="{{ number_format($factura_venta->Total, 2, ',', '.') }}"
-
-                                    style="
-                                        width: 160px;
-                                        text-align: right;
-                                        border: none;
-                                        border-bottom: 1px solid black;
-                                        background: transparent;
-                                        padding: 2px 0;
-                                        outline: none;
-                                        font-size: 0.9rem;
-                                        color: #6c757d;
-                                    "
-                                />
-                                <input type="hidden" name="IVA" value="{{ $iva }}">
                             </div>
 
                         </div>

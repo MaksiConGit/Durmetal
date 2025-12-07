@@ -166,7 +166,10 @@ Route::middleware('auth')->group(function () {
     Route::post('ficha-del-cliente/nota-credito/{cliente}', [VentasController::class, 'fichaDelClienteNotaCreditoStore'])->name('ventas.ficha-del-cliente-nota-credito.store');
     Route::get('ficha-del-cliente/nota-credito/show/{nota_credito_venta}', [VentasController::class, 'fichaDelClienteNotaCreditoShow'])->name('ventas.ficha-del-cliente-nota-credito.show');
 
-    Route::get('ficha-del-cliente/nota-debito/create/{cliente}/{factura_venta}', [VentasController::class, 'fichaDelClienteNotaDebitoCreate'])->name('ventas.ficha-del-cliente-nota-debito.create');    
+    Route::get('ficha-del-cliente/nota-debito/create/{cliente}/{factura_venta}', [VentasController::class, 'fichaDelClienteNotaDebitoCreate'])->name('ventas.ficha-del-cliente-nota-debito.create');
+    Route::post('ficha-del-cliente/nota-debito/{cliente}', [VentasController::class, 'fichaDelClienteNotaDebitoStore'])->name('ventas.ficha-del-cliente-nota-debito.store');
+    Route::get('ficha-del-cliente/nota-debito/show/{nota_debito}', [VentasController::class, 'fichaDelClienteNotaDebitoShow'])->name('ventas.ficha-del-cliente-nota-debito.show');
+
     Route::get('ficha-del-cliente/minuta/create/{cliente}', [VentasController::class, 'fichaDelClienteMinutaCreate'])->name('ventas.ficha-del-cliente-minuta.create');
 
     Route::get('listado-de-cheques', [VentasController::class, 'listadoDeCheques'])->name('ventas.listado-de-cheques');

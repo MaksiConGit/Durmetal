@@ -24,7 +24,7 @@ return new class extends Migration
                                                             ->onDelete('restrict')
                                                             ->onUpdate('cascade');
             $table->boolean('Activo');
-            $table->string('Observaciones');
+            $table->string('Observaciones')->nullable();
         });
     }
 

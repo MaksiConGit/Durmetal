@@ -436,7 +436,7 @@ class VentasSeeder extends Seeder
             'FechaActualizacion' => Carbon::now(),
             'ActualizadoPor' => 1,
             'Activo' => 1,
-            'Observaciones' => 'Tasa general del IVA'
+            'Observaciones' => null
         ]);
 
         ImpuestoIva::create([
@@ -447,7 +447,7 @@ class VentasSeeder extends Seeder
             'FechaActualizacion' => Carbon::now(),
             'ActualizadoPor' => 1,
             'Activo' => 1,
-            'Observaciones' => 'Tasa reducida del IVA'
+            'Observaciones' => null
         ]);
 
         ImpuestoIva::create([
@@ -458,7 +458,51 @@ class VentasSeeder extends Seeder
             'FechaActualizacion' => Carbon::now(),
             'ActualizadoPor' => 1,
             'Activo' => 1,
-            'Observaciones' => 'Operaciones exentas del IVA'
+            'Observaciones' => null
+        ]);
+
+        ImpuestoIva::create([
+            'Nombre' => 'IVA 27%',
+            'Tasa' => 27.00,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => 0,
+            'Observaciones' => null
+        ]);
+
+        ImpuestoIva::create([
+            'Nombre' => 'IVA 2.5%',
+            'Tasa' => 2.50,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => 0,
+            'Observaciones' => null
+        ]);
+
+        ImpuestoIva::create([
+            'Nombre' => 'No Gravado',
+            'Tasa' => 0.00,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => 1,
+            'Observaciones' => null
+        ]);
+
+        ImpuestoIva::create([
+            'Nombre' => 'IVA 0%',
+            'Tasa' => 0.00,
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => 1,
+            'Observaciones' => null
         ]);
 
         ItemFacturaVenta::create([
