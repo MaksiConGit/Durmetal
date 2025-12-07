@@ -17,6 +17,7 @@ return new class extends Migration
                                                                 ->onDelete('restrict')
                                                                 ->onUpdate('cascade');
             $table->integer('ItemNumero');
+            $table->integer('IdArticulo');
             // $table->foreignId('IdArticulo')->nullable()->constrained('factura_venta')
             //                                                 ->onDelete('restrict')
             //                                                 ->onUpdate('cascade');

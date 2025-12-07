@@ -1,0 +1,1 @@
+@livewire('nota-credito-create', ['cliente' => $cliente, 'factura_venta' => $factura_venta])

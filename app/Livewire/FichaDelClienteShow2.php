@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Client;
+use App\Models\FacturaVenta;
 use Livewire\Component;
 
 class FichaDelClienteShow2 extends Component
@@ -11,6 +12,27 @@ class FichaDelClienteShow2 extends Component
     public $cliente;
     public $selectedId = null;
     public $expanded = [];
+    public $factura_venta_id = null;
+    public $factura_venta = null;
+
+    public function cancelarCliente()
+    {
+        $this->factura_venta_id = null;
+    }
+
+    public function updatedClienteId($value)
+    {
+        $factura_venta = FacturaVenta::find($value);
+    }
+
+    public function seleccionarCliente($id)
+    {
+        $factura_venta = FacturaVenta::find($id);
+
+        if ($factura_venta) {
+            $this->factura_venta_id = $factura_venta->id;
+        }
+    }
 
     public function toggleExpand($id)
     {
@@ -27,6 +49,7 @@ class FichaDelClienteShow2 extends Component
     public function mount(Client $cliente)
     {
         $this->cliente = $cliente;
+        $this->factura_venta_id = 1;
     }
 
     public function setActiveTabParametros($tabId)
@@ -43,6 +66,7 @@ class FichaDelClienteShow2 extends Component
         $notas_de_credito  = $this->cliente->notasDeCredito;
         $notas_de_debito   = $this->cliente->facturasVenta->where('EsNotaDeDebito', 1);
         $minutas           = $this->cliente->minutas;
+        $facturas_pendientes = FacturaVenta::where('IdCliente', $this->cliente->id)->where('Estado', 'PENDIENTE')->get();
 
         return view('livewire.ficha-del-cliente-show2', [
             'ordenes_trabajo'  => $ordenes_trabajo,
@@ -52,6 +76,7 @@ class FichaDelClienteShow2 extends Component
             'notas_de_credito' => $notas_de_credito,
             'notas_de_debito'  => $notas_de_debito,
             'minutas'          => $minutas,
+            'facturas_pendientes' => $facturas_pendientes,
         ]);
     }
 }

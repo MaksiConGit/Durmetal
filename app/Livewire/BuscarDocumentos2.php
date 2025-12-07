@@ -138,7 +138,7 @@ class BuscarDocumentos2 extends Component
             case 'NotaDebito':
                 return route('ventas.ficha-del-cliente-factura-venta.create', $id);
             case 'NotaCreditoVenta':
-                return route('ventas.ficha-del-cliente-nota-credito.create', $id);
+                return route('ventas.ficha-del-cliente-factura-venta.create', $id);
             case 'ReciboVenta':
                 return route('ventas.ficha-del-cliente-recibo-venta.create', $id);
             default:

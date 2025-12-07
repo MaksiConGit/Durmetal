@@ -18,6 +18,7 @@ use App\Models\ConfiguracionGlobal;
 use App\Models\DestinoCheque;
 use App\Models\FacturaVenta;
 use App\Models\ItemFacturaVenta;
+use App\Models\ItemNotaCreditoVenta;
 use App\Models\ItemNotaEnvio;
 use App\Models\ItemOrdenTrabajo;
 use App\Models\ItemReciboVenta;
@@ -70,8 +71,10 @@ class VentasController extends Controller
         session()->forget('nota_envio_state');
 
         $filtro = $request->filtro;
+
+        $facturas_venta = FacturaVenta::where('IdCliente', $cliente->id)->get();
         
-        return view('ventas.ficha-del-cliente.show', compact('cliente', 'filtro'));
+        return view('ventas.ficha-del-cliente.show', compact('cliente', 'filtro', 'facturas_venta'));
     }
 
     public function listadoDeCheques()
@@ -637,11 +640,125 @@ class VentasController extends Controller
         return $pdf->stream('recibo_venta.pdf');
     }
 
-    public function fichaDelClienteNotaCreditoCreate(Client $cliente)
+    public function fichaDelClienteNotaCreditoCreate(Client $cliente, FacturaVenta $factura_venta)
     {
-        $ordenes_trabajo = OrdenTrabajo::where('');
+        return view('ventas.ficha-del-cliente.nota-credito', compact('cliente', 'factura_venta'));
+    }
 
-        return view('ventas.ficha-del-cliente.nota-envio', compact('ordenes_trabajo'));
+    public function fichaDelClienteNotaCreditoStore(Request $request)
+    {
+        // dd($request->all());
+        if (!$request->has('items') || empty($request->items)) {
+            return redirect()->back()
+                ->withErrors(['items' => 'Debe seleccionar al menos un ítem para crear la factura de venta.'])
+                ->withInput();
+        }
+
+        $user_id = Auth::id();
+
+        $cliente = Client::find($request->IdCliente);
+
+        $data['IdFacturaVenta'] = $request->IdFacturaVenta;
+        $data['Letra'] = 'A';
+        $data['PuntoVenta'] = $request->PuntoVenta;
+        $data['Numero'] = $request->Numero;
+        $data['NumeroCompleto'] = "NC A 0001-0000$request->Numero";
+        $data['FechaEmision'] = $request->FechaEmision;
+        $data['FechaVencimiento'] = $request->FechaEmision;
+        $data['FechaEstadisticas'] = $request->FechaEmision; // REVISAR
+        $data['TipoOperacion'] = null;
+        $data['CondicionPrecios'] = 'A';
+        $data['IdCliente'] = $cliente->id;
+        $data['RazonSocial'] = $cliente->Nombre;
+        $data['IdCondicionIva'] = $cliente->IdCondicionIVA;
+        $data['TipoDocumentoCliente'] = $cliente->TipoDocumento;
+        $data['NumeroDocumentoCliente'] = $cliente->NroDocumento;
+        $data['Direccion'] = $cliente->Domicilio;
+        $data['Localidad'] = $cliente->localidad->Nombre;
+        $data['Neto'] = $request->Neto;
+        $data['NetoNoGravado'] = 0;
+        $data['IVA'] = $request->IVA;
+        $data['Exento'] = 0;
+        $data['ImpuestoInterno'] = 0;
+        $data['Total'] = $request->Total;
+        $data['AjusteCtaCtePlanillaTurno'] = 0;
+        $data['Estado'] = 'PENDIENTE';
+        $data['CAE'] = '¡¡REVISAR!!';
+        $data['FechaVencimientoCAE'] = $request->FechaEmision;
+        $data['IdSolicitudCAE'] = 0;
+        $data['Observaciones'] = $request->Observaciones;
+        $data['NumeroTurno'] = 0;
+        $data['ReferenciaTurno'] = 2020;
+        $data['AfectarPlanillaTurno'] = 1;
+        $data['FechaCreacion'] = now()->toDateString();
+        $data['CreadoPor'] = $user_id;
+        $data['FechaActualizacion'] = now()->toDateString();
+        $data['ActualizadoPor'] = $user_id;
+        $data['Activo'] = 1;
+        $data['CantidadImpresiones'] = 0;
+        $data['CantidadEnviosPorCorreo'] = 0;
+
+        $nota_credito_venta = NotaCreditoVenta::create($data);
+
+        $factura_venta = FacturaVenta::find($request->IdFacturaVenta);
+
+        foreach ($request->items as $index => $itemData) {
+            
+            $total = round(floatval($itemData['Total']), 2);
+
+            // Cálculo inverso del IVA
+            $neto = round($total / 1.21, 2);
+            $iva  = round($neto * 0.21, 2);
+
+            // Ajuste por redondeo
+            $reconstruido = round($neto + $iva, 2);
+            $ajuste = round($total - $reconstruido, 2);
+            $iva += $ajuste; // asegura que neto + iva = total
+
+            ItemNotaCreditoVenta::create([
+                'IdNotaCreditoVenta' => $nota_credito_venta->id,
+                'ItemNumero' => $index + 1,
+                'IdArticulo' => 2,
+                'Descripcion' => $itemData['Descripcion'],
+                'NroDeposito' => 0,
+                'Cantidad' => 1,
+
+                // ✅ PRECIOS CORRECTOS
+                'PrecioCosto' => 0,
+                'PrecioUnitarioNeto' => $neto,
+                'PrecioUnitario' => $neto,
+
+                'AlicuotaIVA' => 21,
+                'ImpuestosInternos' => 0,
+                'ImpuestoCombustible' => 0,
+                'ImpuestoTV' => 0,
+                'ImpuestoInterno' => 0,
+
+                // ✅ VALORES CONTABLES CORRECTOS
+                'Neto' => $neto,
+                'IdImpuestoIva' => 1,
+                'IVA' => $iva,
+                'Total' => $total,
+
+                'AfectarPlanillaTurno' => 0,
+                'ControlarStock' => 0,
+                'FechaCreacion' => now(),
+                'CreadoPor' => $user_id,
+                'FechaActualizacion' => now(),
+                'ActualizadoPor' => $user_id,
+                'Activo' => 0,
+            ]);
+
+        }
+
+        return redirect()->route('ventas.ficha-del-cliente-nota-credito.show', $nota_credito_venta);
+    }
+
+    public function fichaDelClienteNotaCreditoShow(NotaCreditoVenta $nota_credito_venta)
+    {
+        $pto_ventas = PuntoDeVenta::all();
+
+        return view('ventas.ficha-del-cliente.nota-credito-show', compact('nota_credito_venta', 'pto_ventas'));
     }
 
     public function fichaDelClienteNotaDebitoCreate(Client $cliente)

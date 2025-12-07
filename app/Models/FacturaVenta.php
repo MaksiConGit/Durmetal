@@ -68,4 +68,9 @@ class FacturaVenta extends Model
     {
         return $this->belongsTo(IvaCondition::class, 'IdCondicionIva');
     }
+
+    public function itemsReciboVenta()
+    {
+        return $this->hasMany(ItemReciboVenta::class, 'IdFacturaVenta');
+    }
 }

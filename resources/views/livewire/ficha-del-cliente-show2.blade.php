@@ -33,7 +33,7 @@
                             
                             @break
                         @case('custom-tabs-5')
-                            <a href="{{ route('ventas.ficha-del-cliente-nota-credito.create', $cliente->id) }}" class="btn btn-app bg-primary disabled">
+                            <a data-toggle="modal" data-target="#modal-create-nc" class="btn btn-app bg-primary">
                                 <i class="fas fa-plus"></i> Nuevo
                             </a>
                             
@@ -978,7 +978,7 @@
                                 <tr>
                                     <td>{{ \Carbon\Carbon::parse($minuta->FechaEmision)->format('d/m/Y') }}</td>
                                     <td>{{ $minuta->NumeroCompleto }}</td>
-                                    <td>{{  number_format($minuta->Total, 2, '.', '') }}</td>
+                                    <td>{{ number_format($minuta->Total, 2, '.', '') }}</td>
                                     <td>{{ $minuta->Estado }}</td>
                                 </tr>
 
@@ -1006,6 +1006,106 @@
             </x-slot>
 
         </x-panel-horizontal2>
+
+    <!-- .modal -->
+    <div class="modal fade" id="modal-create-nc" wire:ignore.self>
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">
+                    PARAMETROS NOTA DE CREDITO
+                </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                <div class="row">
+
+                    <x-simple-table2>
+
+                        <x-slot name="filtros">
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="form-group mb-0">
+                                        <label for="filtro1" class="font-weight-normal">Desde fecha</label>
+                                        <input type="date" id="filtro1" name="filtro1" value="{{ \Carbon\Carbon::now()->subMonth()->format('Y-m-d') }}" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group mb-0">
+                                        <label for="filtro2" class="font-weight-normal">Hasta fecha</label>
+                                        <input type="date" id="filtro2" name="filtro1" value="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <div class="form-group mb-0">
+                                        <label for="filtro2" class="font-weight-normal">Número de comprobante</label>
+                                        <input type="text" id="filtro2" name="filtro1" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </x-slot>
+
+                        <x-slot name="thead">
+                            <tr>
+                                <th>FECHA</th>
+                                <th>NUMERO</th>
+                                <th>ESTADO</th>
+                                <th>IMPORTE</th>
+                                <th>PENDIENTE</th>
+                            </tr>
+                        </x-slot>
+                        <x-slot name="tbody">
+                            
+                            @forelse ($facturas_pendientes as $factura_pendiente)
+                                <tr wire:click.prevent="seleccionarCliente({{ $factura_pendiente->id }})"
+                                    style="cursor:pointer;"
+                                    class="{{ $factura_venta_id == $factura_pendiente->id ? 'table-primary' : '' }}">
+                                    <td>{{ \Carbon\Carbon::parse($factura_pendiente->FechaEmision)->format('d/m/Y') }}</td>
+                                    <td style="width: 200px;">
+                                        {{ $factura_pendiente->NumeroCompleto }}
+                                    </td>
+                                    <td>{{ $factura_pendiente->Estado }}</td>
+                                    <td>{{ number_format($factura_pendiente->Total, 2, '.', '') }}</td>
+                                    @php
+                                        $totalRemitos = $factura_pendiente->itemsReciboVenta()->sum('Total');
+
+                                        $pendiente = $factura_pendiente->Total - $totalRemitos;
+                                    @endphp
+                                    <td>{{ number_format($pendiente, 2, '.', '') }}</td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="8">No se encontraron resultados.</td></tr>
+                            @endforelse
+                        </x-slot>
+                    </x-simple-table2>
+
+                </div>
+
+                </div>
+
+                <div class="modal-footer justify-content-end">
+
+                    <a href="{{ route('ventas.ficha-del-cliente-nota-credito.create', [$cliente, $factura_venta_id]) }}" class="btn btn-sidebar btn-sm bg-orange">
+                        <span class="text-white">Aceptar</span>
+                        <i class="fas fa-check fa-fw text-white ml-2"></i>
+                    </a>
+
+                    <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal" wire:click="cancelarCliente">
+                        <span class="text-white">Cancelar</span>
+                        <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
     
     </x-layout2-sidebar>
 

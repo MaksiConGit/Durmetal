@@ -535,6 +535,7 @@ class VentasSeeder extends Seeder
         ItemNotaCreditoVenta::create([
             'IdNotaCreditoVenta' => 1,
             'ItemNumero' => 1,
+            'IdArticulo' => 1,
             'Descripcion' => 'Devolución por servicio no realizado',
             'NroDeposito' => 1,
             'Cantidad' => 1,
