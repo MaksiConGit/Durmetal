@@ -761,11 +761,9 @@ class VentasController extends Controller
         return view('ventas.ficha-del-cliente.nota-credito-show', compact('nota_credito_venta', 'pto_ventas'));
     }
 
-    public function fichaDelClienteNotaDebitoCreate(Client $cliente)
+    public function fichaDelClienteNotaDebitoCreate(Client $cliente, FacturaVenta $factura_venta)
     {
-        $ordenes_trabajo = OrdenTrabajo::where('');
-
-        return view('ventas.ficha-del-cliente.nota-envio', compact('ordenes_trabajo'));
+        return view('ventas.ficha-del-cliente.nota-debito', compact('cliente', 'factura_venta'));
     }
 
     public function fichaDelClienteMinutaCreate(Client $cliente)

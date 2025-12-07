@@ -67,6 +67,7 @@ class FichaDelClienteShow2 extends Component
         $notas_de_debito   = $this->cliente->facturasVenta->where('EsNotaDeDebito', 1);
         $minutas           = $this->cliente->minutas;
         $facturas_pendientes = FacturaVenta::where('IdCliente', $this->cliente->id)->where('Estado', 'PENDIENTE')->get();
+        $facturas_pendientes_completas = FacturaVenta::where('IdCliente', $this->cliente->id)->get();
 
         return view('livewire.ficha-del-cliente-show2', [
             'ordenes_trabajo'  => $ordenes_trabajo,
@@ -77,6 +78,7 @@ class FichaDelClienteShow2 extends Component
             'notas_de_debito'  => $notas_de_debito,
             'minutas'          => $minutas,
             'facturas_pendientes' => $facturas_pendientes,
+            'facturas_pendientes_completas' => $facturas_pendientes_completas,
         ]);
     }
 }
