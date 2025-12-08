@@ -112,12 +112,35 @@ class OrdenTrabajoController extends Controller
                 $item->update($data);
 
                 $certificado = Certificado::where('IdItemOrdenTrabajo', $item->id)->first();
+                $nro_plano = $request->items[$id]['NroPlano'] ?? null;
 
-                if ($certificado) {
-                    $certificado->update([
-                        'Nombre' => $request->items[$id]['NroPlano'],
-                        'NroPlano' => $request->items[$id]['NroPlano'],
-                    ]);
+                if (empty($nro_plano)) {
+
+                    if ($certificado) {
+                        $certificado->delete();
+                    }
+
+                } else {
+
+                    if ($certificado) {
+                        $certificado->update([
+                            'Nombre' => $nro_plano,
+                            'NroPlano' => $nro_plano,
+                        ]);
+
+                    } else {
+                        Certificado::create([
+                            'IdItemOrdenTrabajo' => $item->id,
+                            'Nombre' => $nro_plano,
+                            'NroPlano' => $nro_plano,
+                            'Observaciones' => '',
+                            'CantidadImpresiones' => 0,
+                            'CantidadEnviosPorCorreo' => 0,
+                            'Cantidad' => $item->Cantidad,
+                            'IdUsuario' => Auth::id(),
+                            'Predeterminado' => 1,
+                        ]);
+                    }
                 }
 
             } else {
@@ -149,17 +172,19 @@ class OrdenTrabajoController extends Controller
 
                 $item = $orden_trabajo->itemsOrdenTrabajo()->create($data);
 
-                Certificado::create([
-                    'IdItemOrdenTrabajo' => $item->id,
-                    'Nombre' => $data['NroPlano'],
-                    'NroPlano' => $data['NroPlano'],
-                    'Observaciones' => '',
-                    'CantidadImpresiones' => 0,
-                    'CantidadEnviosPorCorreo' => 0,
-                    'Cantidad' => $item->Cantidad,
-                    'IdUsuario' => Auth::id(),
-                    'Predeterminado' => 1,
-                ]);
+                if (!empty($data['NroPlano'])) {
+                    Certificado::create([
+                        'IdItemOrdenTrabajo' => $item->id,
+                        'Nombre' => $data['NroPlano'],
+                        'NroPlano' => $data['NroPlano'],
+                        'Observaciones' => '',
+                        'CantidadImpresiones' => 0,
+                        'CantidadEnviosPorCorreo' => 0,
+                        'Cantidad' => $item->Cantidad,
+                        'IdUsuario' => Auth::id(),
+                        'Predeterminado' => 1,
+                    ]);
+                }
 
             }
         }
