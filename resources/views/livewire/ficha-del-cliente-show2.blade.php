@@ -198,32 +198,37 @@
                             </a>
                             @break
                         @case('custom-tabs-3')
-                            <a href="{{ route('ventas.ficha-del-cliente-factura-venta.create', $cliente->id) }}" class="btn btn-app bg-primary">
-                                <i class="fas fa-plus"></i> Nuevo
+                            <a 
+                            class="btn btn-app bg-primary {{ !$selectedId ? 'disabled' : '' }}" href="{{ route('ventas.ficha-del-cliente-factura-venta.edit', $selectedId) }}">
+                                <i class="fas fa-pen"></i> Modificar
                             </a>
                             
                             @break
                         @case('custom-tabs-4')
-                            <a href="{{ route('ventas.ficha-del-cliente-recibo-venta.create', $cliente->id) }}" class="btn btn-app bg-primary">
-                                <i class="fas fa-plus"></i> Nuevo
+                            <a 
+                            class="btn btn-app bg-primary disabled">
+                                <i class="fas fa-pen"></i> Modificar
                             </a>
                             
                             @break
                         @case('custom-tabs-5')
-                            <a data-toggle="modal" data-target="#modal-create-nc" class="btn btn-app bg-primary">
-                                <i class="fas fa-plus"></i> Nuevo
+                            <a 
+                            class="btn btn-app bg-primary disabled">
+                                <i class="fas fa-pen"></i> Modificar
                             </a>
                             
                             @break
                         @case('custom-tabs-6')
-                            <a data-toggle="modal" data-target="#modal-create-nd" class="btn btn-app bg-primary">
-                                <i class="fas fa-plus"></i> Nuevo
+                            <a 
+                            class="btn btn-app bg-primary disabled">
+                                <i class="fas fa-pen"></i> Modificar
                             </a>
                             
                             @break
                         @case('custom-tabs-7')
-                            <a href="{{ route('ventas.ficha-del-cliente-minuta.create', $cliente->id) }}" class="btn btn-app bg-primary disabled">
-                                <i class="fas fa-plus"></i> Nuevo
+                            <a 
+                            class="btn btn-app bg-primary disabled">
+                                <i class="fas fa-pen"></i> Modificar
                             </a>
                             
                             @break

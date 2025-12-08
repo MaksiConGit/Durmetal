@@ -559,6 +559,26 @@ class VentasController extends Controller
         return $pdf->stream('factura_venta.pdf');
     }
 
+    public function fichaDelClienteFacturaVentaEdit(FacturaVenta $factura_venta)
+    {
+        $pto_ventas = PuntoDeVenta::all();
+        $cliente = $factura_venta->cliente;
+
+        return view('ventas.ficha-del-cliente.factura-venta-edit', compact('factura_venta', 'cliente'));
+    }
+
+    public function fichaDelClienteFacturaVentaUpdate(Request $request, FacturaVenta $factura_venta)
+    {
+        $user_id = Auth::id();
+
+        $data['CondicionVenta'] = $request->CondicionVenta;
+        $data['Observaciones'] = $request->Observaciones;
+
+        $factura_venta->update($data);
+
+        return redirect()->route('ventas.ficha-del-cliente-factura-venta.show', $factura_venta);
+    }
+
     public function fichaDelClienteReciboVentaCreate(Client $cliente)
     {
         $facturas_venta = FacturaVenta::where('Estado', 'PENDIENTE')->where('IdCliente', $cliente->id)->get();

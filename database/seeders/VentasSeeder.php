@@ -505,35 +505,6 @@ class VentasSeeder extends Seeder
             'Observaciones' => null
         ]);
 
-        ItemFacturaVenta::create([
-            'IdFacturaVenta' => 1,
-            'ItemNumero' => 1,
-            // 'IdArticulo' => null,
-            'Descripcion' => 'Servicio de mantenimiento',
-            'NroDeposito' => 1,
-            'Cantidad' => 2,
-            'PrecioCosto' => 4000.00,
-            'PrecioUnitarioNeto' => 5000.00,
-            'PrecioUnitario' => 6050.00,
-            'IdImpuestoIva' => 1,
-            'AlicuotaIVA' => 21.00,
-            'ImpuestoInterno' => 0,
-            'ImpuestoCombustible' => 0,
-            'ImpuestoTV' => 0,
-            'ImpuestosInternos' => 0,
-            'Neto' => 10000.00,
-            'IVA' => 2100.00,
-            'Total' => 12100.00,
-            'AfectarPlanillaTurno' => 1,
-            'ControlarStock' => 1,
-            'Estado' => 'Activo',
-            'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
-            'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
-            'Activo' => 1
-        ]);
-
         NotaCreditoVenta::create([
             'IdFacturaVenta' => 1,
             'Letra' => 'A',
@@ -1083,6 +1054,35 @@ class VentasSeeder extends Seeder
             'AfectarPlanillaTurno' => false,
             'ControlarStock' => false,
             'FechaActualizacionPrecioA' => null,
+        ]);
+
+ ItemFacturaVenta::create([
+            'IdFacturaVenta' => 1,
+            'ItemNumero' => 1,
+            'IdArticulo' => 1,
+            'Descripcion' => 'Servicio de mantenimiento',
+            'NroDeposito' => 1,
+            'Cantidad' => 2,
+            'PrecioCosto' => 4000.00,
+            'PrecioUnitarioNeto' => 5000.00,
+            'PrecioUnitario' => 6050.00,
+            'IdImpuestoIva' => 1,
+            'AlicuotaIVA' => 21.00,
+            'ImpuestoInterno' => 0,
+            'ImpuestoCombustible' => 0,
+            'ImpuestoTV' => 0,
+            'ImpuestosInternos' => 0,
+            'Neto' => 10000.00,
+            'IVA' => 2100.00,
+            'Total' => 12100.00,
+            'AfectarPlanillaTurno' => 1,
+            'ControlarStock' => 1,
+            'Estado' => 'Activo',
+            'FechaCreacion' => Carbon::now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => Carbon::now(),
+            'ActualizadoPor' => 1,
+            'Activo' => 1
         ]);
 
         $periodos = [

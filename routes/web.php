@@ -160,6 +160,8 @@ Route::middleware('auth')->group(function () {
     Route::post('ficha-del-cliente/factura-venta/{cliente}', [VentasController::class, 'fichaDelClienteFacturaVentaStore'])->name('ventas.ficha-del-cliente-factura-venta.store');
     Route::get('ficha-del-cliente/factura-venta/show/{factura_venta}', [VentasController::class, 'fichaDelClienteFacturaVentaShow'])->name('ventas.ficha-del-cliente-factura-venta.show');
     Route::get('ficha-del-cliente/factura-venta/pdf/{factura_venta}', [VentasController::class, 'fichaDelClienteFacturaVentaPDF'])->name('ventas.ficha-del-cliente-factura-venta.pdf');
+    Route::get('ficha-del-cliente/factura-venta/{factura_venta}/edit', [VentasController::class, 'fichaDelClienteFacturaVentaEdit'])->name('ventas.ficha-del-cliente-factura-venta.edit');
+    Route::put('ficha-del-cliente/factura-venta/{factura_venta}', [VentasController::class, 'fichaDelClienteFacturaVentaUpdate'])->name('ventas.ficha-del-cliente-factura-venta.update');
 
     Route::get('ficha-del-cliente/recibo-venta/create/{cliente}', [VentasController::class, 'fichaDelClienteReciboVentaCreate'])->name('ventas.ficha-del-cliente-recibo-venta.create');
     Route::post('ficha-del-cliente/recibo-venta/{cliente}', [VentasController::class, 'fichaDelClienteReciboVentaStore'])->name('ventas.ficha-del-cliente-recibo-venta.store');
