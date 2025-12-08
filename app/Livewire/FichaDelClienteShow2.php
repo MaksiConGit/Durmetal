@@ -10,7 +10,7 @@ class FichaDelClienteShow2 extends Component
 {
     public $activeTabParametros = 'custom-tabs-1';
     public $cliente;
-    public $selectedId = null;
+    public $selectedId = 1;
     public $expanded = [];
     public $factura_venta_id = null;
     public $factura_venta = null;

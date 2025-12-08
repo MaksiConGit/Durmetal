@@ -119,6 +119,21 @@ class VentasController extends Controller
         ]);
     }
 
+    public function divisasUpdateEdit(StoreUSDARSRequest $request, ConfiguracionGlobal $configuracion_global, NotaEnvio $nota_envio)
+    {
+        $data = $request->all();
+        $data['FechaActualizacionUSD_ARS'] = now();
+
+        $configuracion_global->update($data);
+
+        $pendientes = $request->Pendientes;
+
+        return redirect()->route('ventas.ficha-del-cliente-nota-envio.edit', [
+            'nota_envio' => $nota_envio,
+            'pendientes' => $pendientes,
+        ]);
+    }
+
     public function fichaDelClienteNotaEnvioCreate(Client $cliente, Request $request)
     {
         $pendientes = $request->pendientes;
@@ -313,6 +328,100 @@ class VentasController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function fichaDelClienteNotaEnvioEdit(NotaEnvio $nota_envio)
+    {
+        $pto_ventas = PuntoDeVenta::all();
+        $cliente = $nota_envio->cliente;
+
+        return view('ventas.ficha-del-cliente.nota-envio-edit', compact('nota_envio', 'cliente'));
+    }
+
+    public function fichaDelClienteNotaEnvioUpdate(Request $request, NotaEnvio $nota_envio)
+    {
+        if (!$request->has('items') || empty($request->items)) {
+            return redirect()->back()
+                ->withErrors(['items' => 'Debe seleccionar al menos un ítem para crear la nota de envío.'])
+                ->withInput();
+        }
+
+        $user_id = Auth::id();
+
+        // $data['Estado'] = 'PENDIENTE';
+        $data['PorcentajeDescuento'] = $request->PorcentajeDescuento;
+        $data['Neto'] = $request->Neto;
+        $data['IVA'] = $request->IVA;
+        $data['Total'] = $request->Total;
+        $data['Observaciones'] = $request->Observaciones;
+        $data['FechaActualizacion'] = now();
+        $data['ActualizadoPor'] = $user_id;
+
+        $nota_envio->update($data);
+
+        foreach ($request->items as $index => $itemData) {
+
+            if (isset($itemData['IdItemNotaEnvio']) && $itemData['IdItemNotaEnvio']) {
+
+                $item_nota_envio = ItemNotaEnvio::find($itemData['IdItemNotaEnvio']);
+
+                if ($item_nota_envio) {
+                    $item_nota_envio->update([
+                        'CodigoComplejidad'      => $itemData['CodigoComplejidad'],
+                        'Coeficiente'            => $itemData['Coeficiente'],
+                        'PorcentajeDescuento'    => $itemData['PorcentajeDescuento'],
+                        'PrecioUnitario'         => $itemData['PrecioUnitario'],
+                        'Total'                  => $itemData['Total'],
+                        'Descripcion'            => $itemData['Descripcion'],
+                        'FechaActualizacion'     => now(),
+                        'ActualizadoPor'         => $user_id,
+                    ]);
+                }
+            }
+
+            else {
+
+                $item_orden_trabajo = ItemOrdenTrabajo::find($itemData['IdItemOrdenTrabajo']);
+
+                if (!$item_orden_trabajo) continue;
+
+                ItemNotaEnvio::create([
+                    'IdNotaEnvio'          => $nota_envio->id,
+                    'IdItemOrdenTrabajo'   => $item_orden_trabajo->id,
+                    'ItemNumero'           => $index + 1,
+                    'Descripcion'          => $itemData['Descripcion'],
+                    'Cantidad'             => $item_orden_trabajo->Cantidad,
+                    'Peso'                 => $item_orden_trabajo->Peso,
+                    'CodigoComplejidad'    => $itemData['CodigoComplejidad'],
+                    'Coeficiente'          => $itemData['Coeficiente'],
+                    'PrecioUnitario'       => $itemData['PrecioUnitario'],
+                    'PorcentajeDescuento'  => $itemData['PorcentajeDescuento'],
+                    'Total'                => $itemData['Total'],
+                    'Estado'               => 'PENDIENTE',
+                    'FechaCreacion'        => now(),
+                    'CreadoPor'            => $user_id,
+                    'FechaActualizacion'   => now(),
+                    'ActualizadoPor'       => $user_id,
+                    'Activo'               => 1,
+                ]);
+
+                $item_orden_trabajo->update(['ConNotaEnvio' => 1]);
+            }
+        }
+
+
+        session()->forget('nota_envio_state');
+
+        return redirect()->route('ventas.ficha-del-cliente-nota-envio.show', $nota_envio);
+    }
+
+    public function fichaDelClienteNotaEnvioDestroy(NotaEnvio $nota_envio)
+    {
+        $nota_envio->update([
+            'Estado' => 'ANULADO'
+        ]);
+
+        return redirect()->route('ventas.ficha-del-cliente.show', $nota_envio->IdCliente);
     }
 
     public function fichaDelClienteFacturaVentaCreate(Client $cliente)
