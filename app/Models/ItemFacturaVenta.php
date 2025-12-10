@@ -36,4 +36,9 @@ class ItemFacturaVenta extends Model
         'ActualizadoPor',
         'Activo',
     ];
+
+    public function facturaVenta()
+    {
+        return $this->belongsTo(FacturaVenta::class, 'IdFacturaVenta');
+    }
 }

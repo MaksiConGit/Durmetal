@@ -29,8 +29,8 @@ class NotaEnvio extends Model
         return $this->hasMany(ItemNotaEnvio::class, 'IdNotaEnvio');
     }
 
-    // public function facturaVenta()
-    // {
-    //     return $this->hasOne(FacturaVenta::class, 'IdNotaEnvio');
-    // }
+    public function itemFacturaVentaNotaEnvio()
+    {
+        return $this->hasOne(ItemFacturaVentaNotaEnvio::class, 'IdNotaEnvio');
+    }
 }

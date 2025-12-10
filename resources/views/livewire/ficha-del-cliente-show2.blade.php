@@ -497,7 +497,7 @@
                                     wire:click="toggleExpand('{{ $nota_de_envio->id }}')">
                                     <td>{{ \Carbon\Carbon::parse($nota_de_envio->FechaEmision)->format('d/m/Y') }}</td>
                                     <td>{{ $nota_de_envio->NumeroCompleto }}</td>
-                                    <td>{{ $nota_de_envio->facturaVenta->NumeroCompleto ?? '' }}</td>
+                                    <td>{{ $nota_de_envio->itemFacturaVentaNotaEnvio->itemFacturaVenta->facturaVenta->NumeroCompleto ?? '' }}</td>
                                     <td>{{ $nota_de_envio->cliente->Nombre ?? 'Sin razón social' }}</td>
                                     <td>{{  number_format($nota_de_envio->PorcentajeDescuento, 2, '.', '') }}</td>
                                     <td>{{  number_format($nota_de_envio->Neto, 2, '.', '') }}</td>

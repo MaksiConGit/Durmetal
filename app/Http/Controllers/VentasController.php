@@ -19,6 +19,7 @@ use App\Models\DestinoCheque;
 use App\Models\FacturaVenta;
 use App\Models\ImpuestoIva;
 use App\Models\ItemFacturaVenta;
+use App\Models\ItemFacturaVentaNotaEnvio;
 use App\Models\ItemNotaCreditoVenta;
 use App\Models\ItemNotaEnvio;
 use App\Models\ItemOrdenTrabajo;
@@ -504,8 +505,7 @@ class VentasController extends Controller
         $factura_venta = FacturaVenta::create($data);
 
         foreach ($request->items as $index => $itemData) {
-            
-            ItemFacturaVenta::create([
+            $item_factura_venta = ItemFacturaVenta::create([
                 'IdFacturaVenta' => $factura_venta->id,
                 'ItemNumero' => $index + 1,
                 'Descripcion' => $itemData['Descripcion'],
@@ -535,8 +535,12 @@ class VentasController extends Controller
 
             $nota_envio = NotaEnvio::find($itemData['IdNotaEnvio']);
 
+            $item_factura_venta_nota_envio = ItemFacturaVentaNotaEnvio::create([
+                'IdItemFacturaVenta' => $item_factura_venta->id,
+                'IdNotaEnvio' => $nota_envio->id,
+            ]);
+
             $nota_envio->update(['Estado' => 'COMPLETO']);
-            
         }
 
         return redirect()->route('ventas.ficha-del-cliente-factura-venta.show', $factura_venta);
