@@ -341,6 +341,18 @@
                             @endif
                         @endforeach
 
+                        @php
+                            $totalFilas = count($items_nota_envio) + count($items_orden_trabajo);
+                            $filasFaltantes = max(0, 3 - $totalFilas);
+                        @endphp
+                        @for ($i = 0; $i < $filasFaltantes; $i++)
+                            <tr>
+                                @for ($j = 0; $j < 16; $j++)
+                                    <td>&nbsp;</td>
+                                @endfor
+                            </tr>
+                        @endfor
+
                     @else
                         @foreach ($items_nota_envio as $item_nota)
                             @php
@@ -362,6 +374,18 @@
                                 <td>{{ number_format($item_nota->Total, 2, '.', '') }}</td>
                             </tr>
                         @endforeach
+                        @php
+                            $cantidadItems = count($items_nota_envio);
+                            $filasFaltantes = max(0, 3 - $cantidadItems);
+                        @endphp
+
+                        @for ($i = 0; $i < $filasFaltantes; $i++)
+                            <tr>
+                                @for ($j = 0; $j < 16; $j++)
+                                    <td>&nbsp;</td>
+                                @endfor
+                            </tr>
+                        @endfor
                     @endif
 
                 </x-slot>

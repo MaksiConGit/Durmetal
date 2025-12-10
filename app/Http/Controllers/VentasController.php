@@ -595,6 +595,24 @@ class VentasController extends Controller
         return redirect()->route('ventas.ficha-del-cliente-factura-venta.show', $factura_venta);
     }
 
+    public function fichaDelClienteFacturaVentaDestroyPendiente(FacturaVenta $factura_venta)
+    {
+        $factura_venta->update([
+            'Estado' => 'COMPLETO'
+        ]);
+
+        return redirect()->route('ventas.ficha-del-cliente.show', $factura_venta->IdCliente);
+    }
+
+    public function fichaDelClienteFacturaVentaDestroyCompleto(FacturaVenta $factura_venta)
+    {
+        $factura_venta->update([
+            'Estado' => 'PENDIENTE'
+        ]);
+
+        return redirect()->route('ventas.ficha-del-cliente.show', $factura_venta->IdCliente);
+    }
+
     public function fichaDelClienteReciboVentaCreate(Client $cliente)
     {
         $facturas_venta = FacturaVenta::where('Estado', 'PENDIENTE')->where('IdCliente', $cliente->id)->get();

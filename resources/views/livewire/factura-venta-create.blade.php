@@ -5,7 +5,7 @@
         <form action="{{ route('ventas.ficha-del-cliente-factura-venta.store', $cliente)}}" method="POST">
             @csrf
 
-            <x-simple-table2>
+            <x-simple-table2-limited>
 
                 <x-slot name="filtros">
 
@@ -163,35 +163,48 @@
                     </tr>
                 </x-slot>
                 <x-slot name="tbody">
-                @foreach ($notas_envio as $nota_envio)
-                    @php $id = $nota_envio->id; @endphp
+                    @foreach ($notas_envio as $nota_envio)
+                        @php $id = $nota_envio->id; @endphp
 
-                    <tr>
-                        <td>
-                            <input 
-                                type="checkbox" 
-                                wire:model.live="seleccionados.{{ $id }}"
-                            >
-                        </td>
-                        <td>{{ \Carbon\Carbon::parse($nota_envio->FechaEmision)->format('d/m/Y') }}</td>
-                        <td>{{ $nota_envio->NumeroCompleto }}</td>
-                        <td style="min-width: 300px; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            {{ $descripcion[$id] ?? $nota_envio->Descripcion }}
-                        </td>
-                        <td>{{ number_format($nota_envio->Neto, 2, ',', '.') }}</td>
-                    </tr>
+                        <tr>
+                            <td>
+                                <input 
+                                    type="checkbox" 
+                                    wire:model.live="seleccionados.{{ $id }}"
+                                >
+                            </td>
+                            <td>{{ \Carbon\Carbon::parse($nota_envio->FechaEmision)->format('d/m/Y') }}</td>
+                            <td>{{ $nota_envio->NumeroCompleto }}</td>
+                            <td style="min-width: 300px; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                {{ $descripcion[$id] ?? $nota_envio->Descripcion }}
+                            </td>
+                            <td>{{ number_format($nota_envio->Neto, 2, ',', '.') }}</td>
+                        </tr>
 
-                    @if (!empty($seleccionados[$id]) && $seleccionados[$id])
-                        <input type="hidden" name="items[{{ $id }}][IdNotaEnvio]" value="{{ $id }}">
-                        <input type="hidden" name="items[{{ $id }}][Descripcion]" value="{{ $descripcion[$id] ?? '' }}">
-                        <input type="hidden" name="items[{{ $id }}][Neto]" value="{{ $total[$id] ?? 0 }}">
-                        <input type="hidden" name="items[{{ $id }}][IVA]" value="{{ $IVA[$id] ?? 0 }}">
-                    @endif
-                @endforeach
+                        @if (!empty($seleccionados[$id]) && $seleccionados[$id])
+                            <input type="hidden" name="items[{{ $id }}][IdNotaEnvio]" value="{{ $id }}">
+                            <input type="hidden" name="items[{{ $id }}][Descripcion]" value="{{ $descripcion[$id] ?? '' }}">
+                            <input type="hidden" name="items[{{ $id }}][Neto]" value="{{ $total[$id] ?? 0 }}">
+                            <input type="hidden" name="items[{{ $id }}][IVA]" value="{{ $IVA[$id] ?? 0 }}">
+                        @endif
+                    @endforeach
+
+                    @php
+                        $cantidadItems = count($notas_envio);
+                        $filasFaltantes = max(0, 3 - $cantidadItems);
+                    @endphp
+
+                    @for ($i = 0; $i < $filasFaltantes; $i++)
+                        <tr>
+                            @for ($j = 0; $j < 5; $j++)
+                                <td>&nbsp;</td>
+                            @endfor
+                        </tr>
+                    @endfor
 
                 </x-slot>
 
-            </x-simple-table2>
+            </x-simple-table2-limited>
 
             <div class="container-fluid px-4 py-3">
 

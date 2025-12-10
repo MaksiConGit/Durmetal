@@ -90,9 +90,6 @@
                     </tr>
                 </x-slot>
                 <x-slot name="tbody">
-                    <tr>
-                        
-                    </tr>
                     @foreach ($facturas_venta as $factura_venta)
                         @php $id = $factura_venta->id; @endphp
 
@@ -126,6 +123,19 @@
                             <input type="hidden" name="items[{{ $id }}][Total]" value="{{ $a_cobrar[$id] ?? 0 }}">
                         @endif
                     @endforeach
+
+                    @php
+                        $cantidadItems = count($facturas_venta);
+                        $filasFaltantes = max(0, 3 - $cantidadItems);
+                    @endphp
+
+                    @for ($i = 0; $i < $filasFaltantes; $i++)
+                        <tr>
+                            @for ($j = 0; $j < 7; $j++)
+                                <td>&nbsp;</td>
+                            @endfor
+                        </tr>
+                    @endfor
 
                     <tr>
                         <td colspan="6" class="fw-bold text-end">TOTAL IMPUTADO</td>

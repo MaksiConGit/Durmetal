@@ -5,7 +5,7 @@
         <form action="{{ route('ventas.ficha-del-cliente-nota-envio.store', $cliente)}}" method="POST">
             @csrf
 
-            <x-simple-table2>
+            <x-simple-table2-limited>
 
                 <x-slot name="filtros">
 
@@ -111,106 +111,119 @@
                     </tr>
                 </x-slot>
                 <x-slot name="tbody">
-                @foreach ($items_orden_trabajo as $item_orden_trabajo)
-                    @php $id = $item_orden_trabajo->id; @endphp
+                    @foreach ($items_orden_trabajo as $item_orden_trabajo)
+                        @php $id = $item_orden_trabajo->id; @endphp
 
-                    <tr>
-                        <td>
-                            <input 
-                                type="checkbox" 
-                                wire:model.live="seleccionados.{{ $id }}"
-                            >
-                        </td>
+                        <tr>
+                            <td>
+                                <input 
+                                    type="checkbox" 
+                                    wire:model.live="seleccionados.{{ $id }}"
+                                >
+                            </td>
 
-                        <td></td>
-                        <td class="text-center align-middle">
-                            <input 
-                                type="text"
-                                class="form-control form-control-sm p-1 text-center mx-auto 
-                                    {{ $codigo_invalido[$id] ? 'text-danger border-danger' : '' }}"
-                                style="width: 30px;"
-                                value="{{ $item_orden_trabajo->CodigoComplejidad }}"
-                                        wire:model.live="codigo_complejidad.{{ $id }}"
+                            <td></td>
+                            <td class="text-center align-middle">
+                                <input 
+                                    type="text"
+                                    class="form-control form-control-sm p-1 text-center mx-auto 
+                                        {{ $codigo_invalido[$id] ? 'text-danger border-danger' : '' }}"
+                                    style="width: 30px;"
+                                    value="{{ $item_orden_trabajo->CodigoComplejidad }}"
+                                            wire:model.live="codigo_complejidad.{{ $id }}"
 
-                                wire:input="onCodigoComplejidadChange({{ $id }}, $event.target.value)"
-                            />
-                        </td>
+                                    wire:input="onCodigoComplejidadChange({{ $id }}, $event.target.value)"
+                                />
+                            </td>
 
-                        <td>
-                            <input 
-                                class="form-control form-control-sm p-1 text-center mx-auto"
-                                style="width: 40px;"
-                                wire:model.live="descuento.{{ $id }}"
-                            />
-                        </td>
+                            <td>
+                                <input 
+                                    class="form-control form-control-sm p-1 text-center mx-auto"
+                                    style="width: 40px;"
+                                    wire:model.live="descuento.{{ $id }}"
+                                />
+                            </td>
 
-                        <td>{{ \Carbon\Carbon::parse($item_orden_trabajo->ordenTrabajo->FechaEmision)->format('d/m/Y') }}</td>
-                        <td>{{ $item_orden_trabajo->ordenTrabajo->NumeroCompleto }} {{ $item_orden_trabajo->ItemNumero }}</td>
-                        <td class="text-center align-middle">
-                            <button 
-                                class="btn btn-sm toggle-row"
-                                type="button"
-                                style="background-color: #fd7e14; color: white;"
-                                data-toggle="modal"
-                                data-target="#modal-ot-{{ $item_orden_trabajo->id }}"
-                            >
-                                <i class="fa-solid fa-pencil"></i>
-                            </button>
-                        </td>
-                        <td>{{ $item_orden_trabajo->material->Nombre }}</td>
-                        <td style="min-width: 300px; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            {{ $descripcion[$id] ?? $item_orden_trabajo->Descripcion }}
-                        </td>
-                        <td>{{ $item_orden_trabajo->Estado }}</td>
-                        <td>{{ $item_orden_trabajo->Cantidad }}</td>
-                        <td>{{ $item_orden_trabajo->Peso }}</td>
-                        <td>{{ $item_orden_trabajo->tratamiento->Nombre }}</td>
-                        <td class="text-center align-middle">
-                            <input 
-                                step="0.01"
-                                class="form-control form-control-sm p-1 text-center mx-auto"
-                                style="width: 70px;"
-                                wire:model.live="precio_unitario.{{ $id }}"
-                                wire:input="onPrecioChange({{ $id }}, $event.target.value)"
-                            />
-                        </td>
-                        <td class="text-center align-middle">
-                            <button 
-                                class="btn btn-sm toggle-row" 
-                                type="button" 
-                                style="background-color: #fd7e14; color: white;"
-                                data-toggle="modal" 
-                                data-target="#modal-cliente-{{ $item_orden_trabajo->id }}"
-                            >
-                                <i class="fa-solid fa-list"></i>
-                            </button>
+                            <td>{{ \Carbon\Carbon::parse($item_orden_trabajo->ordenTrabajo->FechaEmision)->format('d/m/Y') }}</td>
+                            <td>{{ $item_orden_trabajo->ordenTrabajo->NumeroCompleto }} {{ $item_orden_trabajo->ItemNumero }}</td>
+                            <td class="text-center align-middle">
+                                <button 
+                                    class="btn btn-sm toggle-row"
+                                    type="button"
+                                    style="background-color: #fd7e14; color: white;"
+                                    data-toggle="modal"
+                                    data-target="#modal-ot-{{ $item_orden_trabajo->id }}"
+                                >
+                                    <i class="fa-solid fa-pencil"></i>
+                                </button>
+                            </td>
+                            <td>{{ $item_orden_trabajo->material->Nombre }}</td>
+                            <td style="min-width: 300px; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                {{ $descripcion[$id] ?? $item_orden_trabajo->Descripcion }}
+                            </td>
+                            <td>{{ $item_orden_trabajo->Estado }}</td>
+                            <td>{{ $item_orden_trabajo->Cantidad }}</td>
+                            <td>{{ $item_orden_trabajo->Peso }}</td>
+                            <td>{{ $item_orden_trabajo->tratamiento->Nombre }}</td>
+                            <td class="text-center align-middle">
+                                <input 
+                                    step="0.01"
+                                    class="form-control form-control-sm p-1 text-center mx-auto"
+                                    style="width: 70px;"
+                                    wire:model.live="precio_unitario.{{ $id }}"
+                                    wire:input="onPrecioChange({{ $id }}, $event.target.value)"
+                                />
+                            </td>
+                            <td class="text-center align-middle">
+                                <button 
+                                    class="btn btn-sm toggle-row" 
+                                    type="button" 
+                                    style="background-color: #fd7e14; color: white;"
+                                    data-toggle="modal" 
+                                    data-target="#modal-cliente-{{ $item_orden_trabajo->id }}"
+                                >
+                                    <i class="fa-solid fa-list"></i>
+                                </button>
 
-                        </td>
-                        <td class="text-center align-middle">
-                            <input 
-                                type="text"
-                                class="form-control form-control-sm p-1 text-center mx-auto bg-light"
-                                style="width: 90px;"
-                                value="{{ number_format($total[$id] ?? 0, 2) }}"
-                                readonly
-                            />
-                        </td>
-                    </tr>
+                            </td>
+                            <td class="text-center align-middle">
+                                <input 
+                                    type="text"
+                                    class="form-control form-control-sm p-1 text-center mx-auto bg-light"
+                                    style="width: 90px;"
+                                    value="{{ number_format($total[$id] ?? 0, 2) }}"
+                                    readonly
+                                />
+                            </td>
+                        </tr>
 
-                    @if (!empty($seleccionados[$id]) && $seleccionados[$id])
-                        <input type="hidden" name="items[{{ $id }}][IdItemOrdenTrabajo]" value="{{ $id }}">
-                        <input type="hidden" name="items[{{ $id }}][Descripcion]" value="{{ $descripcion[$id] ?? $item_orden_trabajo->Descripcion }}">
-                        <input type="hidden" name="items[{{ $id }}][CodigoComplejidad]" value="{{ $codigo_complejidad[$id] ?? '' }}">
-                        <input type="hidden" name="items[{{ $id }}][Coeficiente]" value="{{ $coeficiente[$id] ?? 1 }}">
-                        <input type="hidden" name="items[{{ $id }}][PorcentajeDescuento]" value="{{ $descuento[$id] ?? 0 }}">
-                        <input type="hidden" name="items[{{ $id }}][PrecioUnitario]" value="{{ $precio_unitario[$id] ?? 0 }}">
-                        <input type="hidden" name="items[{{ $id }}][Total]" value="{{ $total[$id] ?? 0 }}">
-                    @endif
-                @endforeach
-                
+                        @if (!empty($seleccionados[$id]) && $seleccionados[$id])
+                            <input type="hidden" name="items[{{ $id }}][IdItemOrdenTrabajo]" value="{{ $id }}">
+                            <input type="hidden" name="items[{{ $id }}][Descripcion]" value="{{ $descripcion[$id] ?? $item_orden_trabajo->Descripcion }}">
+                            <input type="hidden" name="items[{{ $id }}][CodigoComplejidad]" value="{{ $codigo_complejidad[$id] ?? '' }}">
+                            <input type="hidden" name="items[{{ $id }}][Coeficiente]" value="{{ $coeficiente[$id] ?? 1 }}">
+                            <input type="hidden" name="items[{{ $id }}][PorcentajeDescuento]" value="{{ $descuento[$id] ?? 0 }}">
+                            <input type="hidden" name="items[{{ $id }}][PrecioUnitario]" value="{{ $precio_unitario[$id] ?? 0 }}">
+                            <input type="hidden" name="items[{{ $id }}][Total]" value="{{ $total[$id] ?? 0 }}">
+                        @endif
+                    @endforeach
+
+                    @php
+                        $cantidadItems = count($items_orden_trabajo);
+                        $filasFaltantes = max(0, 3 - $cantidadItems);
+                    @endphp
+
+                    @for ($i = 0; $i < $filasFaltantes; $i++)
+                        <tr>
+                            @for ($j = 0; $j < 16; $j++)
+                                <td>&nbsp;</td>
+                            @endfor
+                        </tr>
+                    @endfor
+
                 </x-slot>
 
-            </x-simple-table2>
+            </x-simple-table2-limited>
 
             <div class="container-fluid px-4 py-3">
 

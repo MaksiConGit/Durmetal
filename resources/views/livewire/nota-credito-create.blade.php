@@ -1,4 +1,5 @@
 <div>
+<div>
     <x-layout2-sidebar>
         <x-slot name="title">Crear Nota de Crédito Venta</x-slot>
         <x-slot name="filtros">
@@ -32,7 +33,7 @@
         <form action="{{ route('ventas.ficha-del-cliente-nota-credito.store', $cliente)}}" method="POST">
             @csrf
 
-            <x-simple-table2>
+            <x-simple-table2-limited>
 
                 <x-slot name="filtros">
 
@@ -161,7 +162,7 @@
 
                 </x-slot>
 
-            </x-simple-table2>
+            </x-simple-table2-limited>
 
             <div class="container-fluid px-4 py-3">
 
