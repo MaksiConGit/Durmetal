@@ -14,6 +14,7 @@ class FichaDelClienteShow2 extends Component
     public $expanded = [];
     public $factura_venta_id = null;
     public $factura_venta = null;
+    public $pendientes = 0;
 
     public function cancelarCliente()
     {

@@ -5,7 +5,7 @@
         @method('PUT')
 
         <!-- .modal -->
-        <div class="modal fade" id="modal-edit">
+        <div class="modal fade" id="modal-edit" wire:ignore.self>
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -20,15 +20,16 @@
 
                         <div class="row">
 
-                            <input type="hidden" name="Pendientes" value="0">
+                            <input type="hidden" name="Pendientes" value="0" wire:model.live="pendientes">
 
                             <div class="col-6">
                                 <div class="form-check">
-                                    <input id="Pendientes" type="checkbox" name="Pendientes" value="1" class="form-check-input">
+                                    <input id="Pendientes" name="Pendientes" type="checkbox" value="1"
+                                        wire:model.live="pendientes"
+                                        class="form-check-input">                                    
                                     <div>
                                         <label for="Pendientes" class="form-check-label">FACTURAR TRABAJOS SIN APROBACION</label>
                                     </div>
-
                                 </div>
                             </div>
 
@@ -95,12 +96,12 @@
                         <i class="fas fa-floppy-disk fa-fw text-white ml-2"></i>
                     </button>
 
-                    <a href="#" 
-                    id="cancelar-btn-edit"
-                    class="btn btn-sidebar btn-sm bg-orange">
-                    <span class="text-white">Cancelar</span>
-                    <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                    <a href="{{ route('ventas.ficha-del-cliente-nota-envio.edit', ['nota_envio' => $selectedId, 'pendientes' => $pendientes]) }}" 
+                        class="btn btn-sidebar btn-sm bg-orange">
+                        <span class="text-white">Cancelar</span>
+                        <i class="fas fa-xmark fa-fw text-white ml-2"></i>
                     </a>
+
                 </div>
 
                 </div>
@@ -108,23 +109,6 @@
         </div>
         <!-- /.modal -->
     </form>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const cancelarBtn = document.getElementById('cancelar-btn-edit');
-            const pendientesInput = document.getElementById('Pendientes');
-
-            const notaEnvioId = "{{ $selectedId }}";
-
-            cancelarBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                const pendientes = pendientesInput.checked ? 1 : 0;
-
-                window.location.href = `/ficha-del-cliente/nota-envio/${notaEnvioId}/edit?pendientes=${pendientes}`;
-            });
-        });
-    </script>
 
     <x-layout2-sidebar>
         <x-slot name="title">Ficha del cliente</x-slot>
@@ -186,8 +170,8 @@
 
                     @switch($activeTabParametros)
                         @case('custom-tabs-1')
-                            <a href="{{ $selectedId ? route('programacion.edit', $selectedId) : '#' }}" 
-                            class="btn btn-app bg-primary {{ !$selectedId ? 'disabled' : '' }}">
+                            <a 
+                            class="btn btn-app bg-primary disabled">
                                 <i class="fas fa-pen"></i> Modificar
                             </a>
                             @break

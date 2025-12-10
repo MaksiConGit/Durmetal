@@ -236,6 +236,11 @@ class NotaEnvioEdit extends Component
         $this->actualizarSubtotal();
     }
 
+    public function setActiveTab($tabId)
+    {
+        $this->activeTab = $tabId;
+    }
+
     // ---------- HELPERS ----------
 
     /**

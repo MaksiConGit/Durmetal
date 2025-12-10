@@ -270,7 +270,6 @@ class VentasController extends Controller
     public function fichaDelClienteNotaEnvioOrdenTrabajo(Request $request)
     {
         $data = $request->all();
-
         if (!isset($data['items'])) {
             return back()->with('error', 'No se enviaron ítems.');
         }
@@ -340,15 +339,8 @@ class VentasController extends Controller
 
     public function fichaDelClienteNotaEnvioUpdate(Request $request, NotaEnvio $nota_envio)
     {
-        if (!$request->has('items') || empty($request->items)) {
-            return redirect()->back()
-                ->withErrors(['items' => 'Debe seleccionar al menos un ítem para crear la nota de envío.'])
-                ->withInput();
-        }
-
         $user_id = Auth::id();
 
-        // $data['Estado'] = 'PENDIENTE';
         $data['PorcentajeDescuento'] = $request->PorcentajeDescuento;
         $data['Neto'] = $request->Neto;
         $data['IVA'] = $request->IVA;
@@ -359,9 +351,12 @@ class VentasController extends Controller
 
         $nota_envio->update($data);
 
-        foreach ($request->items as $index => $itemData) {
+        $items = $request->items ?? [];
+        $ids_en_request = [];
 
-            if (isset($itemData['IdItemNotaEnvio']) && $itemData['IdItemNotaEnvio']) {
+        foreach ($items as $index => $itemData) {
+
+            if (!empty($itemData['IdItemNotaEnvio'])) {
 
                 $item_nota_envio = ItemNotaEnvio::find($itemData['IdItemNotaEnvio']);
 
@@ -376,16 +371,18 @@ class VentasController extends Controller
                         'FechaActualizacion'     => now(),
                         'ActualizadoPor'         => $user_id,
                     ]);
-                }
-            }
 
-            else {
+                    $ids_en_request[] = $item_nota_envio->id;
+                }
+
+            } else {
+
+                if (!isset($itemData['IdItemOrdenTrabajo'])) continue;
 
                 $item_orden_trabajo = ItemOrdenTrabajo::find($itemData['IdItemOrdenTrabajo']);
-
                 if (!$item_orden_trabajo) continue;
 
-                ItemNotaEnvio::create([
+                $item_nota_envio = ItemNotaEnvio::create([
                     'IdNotaEnvio'          => $nota_envio->id,
                     'IdItemOrdenTrabajo'   => $item_orden_trabajo->id,
                     'ItemNumero'           => $index + 1,
@@ -405,10 +402,25 @@ class VentasController extends Controller
                     'Activo'               => 1,
                 ]);
 
+                $ids_en_request[] = $item_nota_envio->id;
+
                 $item_orden_trabajo->update(['ConNotaEnvio' => 1]);
             }
         }
 
+        $items_a_borrar = $nota_envio->itemsNotaEnvio()
+            ->whereNotIn('id', $ids_en_request)
+            ->get();
+
+        foreach ($items_a_borrar as $item) {
+            if ($item->itemOrdenTrabajo) {
+                $item->itemOrdenTrabajo->update(['ConNotaEnvio' => 0]);
+            }
+        }
+
+        $nota_envio->itemsNotaEnvio()
+            ->whereNotIn('id', $ids_en_request)
+            ->delete();
 
         session()->forget('nota_envio_state');
 
