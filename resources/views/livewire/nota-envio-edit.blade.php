@@ -46,9 +46,10 @@
                         <div class="col-2">
                             <div class="form-group mb-1">
                                 <label for="FechaEmision" class="form-label mb-1" style="font-size: 0.8rem;">FECHA DE EMISION</label>
-                                <input type="date" id="FechaEmision" name="FechaEmision"
+                                <input type="date"
                                     value="{{old('FechaEmision', $nota_envio->FechaEmision)}}"
-                                    class="form-control form-control-sm py-0">
+                                    class="form-control form-control-sm py-0"
+                                    disabled>
                             </div>
                         </div>
 
@@ -79,250 +80,289 @@
 
 
                 <x-slot name="thead">
-                    <div class="mb-2">
-                        <div class="icheck-primary d-inline">
-                            <input type="checkbox" id="checkAll" wire:click="seleccionarTodo" checked onclick="return false;">
-                            <label for="checkAll" title="Seleccionar todos"></label>
-                        </div>
+                    @if ($nota_envio->Estado == 'PENDIENTE')
+                        <div class="mb-2">
+                            <div class="icheck-primary d-inline">
+                                <input type="checkbox" id="checkAll" wire:click="seleccionarTodo" checked onclick="return false;">
+                                <label for="checkAll" title="Seleccionar todos"></label>
+                            </div>
 
-                        <div class="icheck-primary d-inline">
-                            <input type="checkbox" id="uncheckAll" wire:click="deseleccionarTodo" onclick="return false;">
-                            <label for="uncheckAll" title="Deseleccionar todos"></label>
+                            <div class="icheck-primary d-inline">
+                                <input type="checkbox" id="uncheckAll" wire:click="deseleccionarTodo" onclick="return false;">
+                                <label for="uncheckAll" title="Deseleccionar todos"></label>
+                            </div>
                         </div>
-                    </div>
+                    @endif
 
                     <tr>
-                        <th></th>
-                        <th>N°</th>
-                        <th>CC</th>
-                        <th>% DESC.</th>
-                        <th>FECHA</th>
-                        <th>OTI</th>
-                        <th></th>
-                        <th>MATERIAL</th>
-                        <th>DESCRIPCION</th>
-                        <th>ESTADO</th>
-                        <th>CANT.</th>
-                        <th>PESO</th>
-                        <th>TRAT.</th>
-                        <th>PRECIO U.</th>
-                        <th></th>
-                        <th>TOTAL</th>
+                        @if ($nota_envio->Estado == 'PENDIENTE')
+                            <th></th>
+                            <th>N°</th>
+                            <th>CC</th>
+                            <th>% DESC.</th>
+                            <th>FECHA</th>
+                            <th>OTI</th>
+                            <th></th>
+                            <th>MATERIAL</th>
+                            <th>DESCRIPCION</th>
+                            <th>ESTADO</th>
+                            <th>CANT.</th>
+                            <th>PESO</th>
+                            <th>TRAT.</th>
+                            <th>PRECIO U.</th>
+                            <th></th>
+                            <th>TOTAL</th>
+                        @else
+                            <th>N°</th>
+                            <th>OTI</th>
+                            <th>DESCRIPCION</th>
+                            <th>CANT.</th>
+                            <th>PESO</th>
+                            <th>CC</th>
+                            <th>COEFIC.</th>
+                            <th>PRECIO U.</th>
+                            <th>% DESC</th>
+                            <th>TOTAL</th>
+                        @endif
+
                     </tr>
                 </x-slot>
                 <x-slot name="tbody">
+                    @if ($nota_envio->Estado == 'PENDIENTE')
+                        @foreach ($items_nota_envio as $item_nota)
+                            @php
+                                $item = $item_nota->itemOrdenTrabajo;
+                                $id = $item_nota->id;
+                                $key = 'nota_' . $id;
+                            @endphp
 
-                    @foreach ($items_nota_envio as $item_nota)
-                        @php
-                            $item = $item_nota->itemOrdenTrabajo;
-                            $id = $item_nota->id;
-                            $key = 'nota_' . $id;
-                        @endphp
+                            <tr class="table-warning">
+                                <td>
+                                    <input
+                                        type="checkbox"
+                                        wire:model.live="seleccionados.{{ $key }}"
+                                    >
+                                </td>
 
-                        <tr class="table-warning">
-                            <td>
-                                <input
-                                    type="checkbox"
-                                    wire:model.live="seleccionados.{{ $key }}"
-                                >
-                            </td>
+                                <td></td>
 
-                            <td></td>
+                                <td class="text-center align-middle">
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-sm p-1 text-center mx-auto
+                                            {{ $codigo_invalido[$key] ?? false ? 'text-danger border-danger' : '' }}"
+                                        style="width: 30px;"
+                                        wire:model.live="codigo_complejidad.{{ $key }}"
+                                        wire:input="onCodigoComplejidadChange('{{ $key }}', $event.target.value)"
+                                    />
+                                </td>
 
-                            <td class="text-center align-middle">
-                                <input
-                                    type="text"
-                                    class="form-control form-control-sm p-1 text-center mx-auto
-                                        {{ $codigo_invalido[$key] ?? false ? 'text-danger border-danger' : '' }}"
-                                    style="width: 30px;"
-                                    wire:model.live="codigo_complejidad.{{ $key }}"
-                                    wire:input="onCodigoComplejidadChange('{{ $key }}', $event.target.value)"
-                                />
-                            </td>
+                                <td>
+                                    <input
+                                        class="form-control form-control-sm p-1 text-center mx-auto"
+                                        style="width: 40px;"
+                                        wire:model.live="descuento.{{ $key }}"
+                                    />
+                                </td>
 
-                            <td>
-                                <input
-                                    class="form-control form-control-sm p-1 text-center mx-auto"
-                                    style="width: 40px;"
-                                    wire:model.live="descuento.{{ $key }}"
-                                />
-                            </td>
+                                <td>{{ \Carbon\Carbon::parse($item->ordenTrabajo->FechaEmision)->format('d/m/Y') }}</td>
+                                <td>{{ $item->ordenTrabajo->NumeroCompleto }} {{ $item->ItemNumero }}</td>
 
-                            <td>{{ \Carbon\Carbon::parse($item->ordenTrabajo->FechaEmision)->format('d/m/Y') }}</td>
-                            <td>{{ $item->ordenTrabajo->NumeroCompleto }} {{ $item->ItemNumero }}</td>
+                                <td class="text-center align-middle">
+                                    <button
+                                        class="btn btn-sm toggle-row"
+                                        type="button"
+                                        style="background-color: #fd7e14; color: white;"
+                                        data-toggle="modal"
+                                        data-target="#modal-ne-{{ $item_nota->id }}"
+                                    >
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </button>
+                                </td>
 
-                            <td class="text-center align-middle">
-                                <button
-                                    class="btn btn-sm toggle-row"
-                                    type="button"
-                                    style="background-color: #fd7e14; color: white;"
-                                    data-toggle="modal"
-                                    data-target="#modal-ne-{{ $item_nota->id }}"
-                                >
-                                    <i class="fa-solid fa-pencil"></i>
-                                </button>
-                            </td>
+                                <td>{{ $item->material->Nombre }}</td>
 
-                            <td>{{ $item->material->Nombre }}</td>
+                                <td style="min-width: 300px; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    {{ $descripcion[$key] ?? $item_nota->Descripcion }}
+                                </td>
 
-                            <td style="min-width: 300px; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                {{ $descripcion[$key] ?? $item_nota->Descripcion }}
-                            </td>
+                                <td>{{ $item->Estado }}</td>
+                                <td>{{ $item_nota->Cantidad }}</td>
+                                <td>{{ $item_nota->Peso }}</td>
+                                <td>{{ $item->tratamiento->Nombre }}</td>
 
-                            <td>{{ $item->Estado }}</td>
-                            <td>{{ $item_nota->Cantidad }}</td>
-                            <td>{{ $item_nota->Peso }}</td>
-                            <td>{{ $item->tratamiento->Nombre }}</td>
+                                <td class="text-center align-middle">
+                                    <input
+                                        step="0.01"
+                                        class="form-control form-control-sm p-1 text-center mx-auto"
+                                        style="width: 70px;"
+                                        wire:model.live="precio_unitario.{{ $key }}"
+                                        wire:input="onPrecioChange('{{ $key }}', $event.target.value)"
+                                    />
+                                </td>
 
-                            <td class="text-center align-middle">
-                                <input
-                                    step="0.01"
-                                    class="form-control form-control-sm p-1 text-center mx-auto"
-                                    style="width: 70px;"
-                                    wire:model.live="precio_unitario.{{ $key }}"
-                                    wire:input="onPrecioChange('{{ $key }}', $event.target.value)"
-                                />
-                            </td>
+                                <td class="text-center align-middle">
+                                    <button
+                                        class="btn btn-sm toggle-row"
+                                        type="button"
+                                        style="background-color: #fd7e14; color: white;"
+                                        data-toggle="modal"
+                                        data-target="#modal-cliente-ne-{{ $item_nota->id }}"
+                                    >
+                                        <i class="fa-solid fa-list"></i>
+                                    </button>
+                                </td>
 
-                            <td class="text-center align-middle">
-                                <button
-                                    class="btn btn-sm toggle-row"
-                                    type="button"
-                                    style="background-color: #fd7e14; color: white;"
-                                    data-toggle="modal"
-                                    data-target="#modal-cliente-ne-{{ $item_nota->id }}"
-                                >
-                                    <i class="fa-solid fa-list"></i>
-                                </button>
-                            </td>
+                                <td class="text-center align-middle">
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-sm p-1 text-center mx-auto bg-light"
+                                        style="width: 90px;"
+                                        value="{{ number_format($total[$key] ?? 0, 2) }}"
+                                        readonly
+                                    />
+                                </td>
+                            </tr>
 
-                            <td class="text-center align-middle">
-                                <input
-                                    type="text"
-                                    class="form-control form-control-sm p-1 text-center mx-auto bg-light"
-                                    style="width: 90px;"
-                                    value="{{ number_format($total[$key] ?? 0, 2) }}"
-                                    readonly
-                                />
-                            </td>
-                        </tr>
+                            @if (!empty($seleccionados[$key]))
+                                <input type="hidden" name="items[{{ $id }}][IdItemNotaEnvio]" value="{{ $item_nota->id }}">
+                                <input type="hidden" name="items[{{ $id }}][IdItemOrdenTrabajo]" value="{{ $id }}">
+                                <input type="hidden" name="items[{{ $id }}][Descripcion]" value="{{ $descripcion[$key] ?? $item_nota->Descripcion }}">
+                                <input type="hidden" name="items[{{ $id }}][CodigoComplejidad]" value="{{ $codigo_complejidad[$key] ?? '' }}">
+                                <input type="hidden" name="items[{{ $id }}][Coeficiente]" value="{{ $coeficiente[$key] ?? 1 }}">
+                                <input type="hidden" name="items[{{ $id }}][PorcentajeDescuento]" value="{{ $descuento[$key] ?? 0 }}">
+                                <input type="hidden" name="items[{{ $id }}][PrecioUnitario]" value="{{ $precio_unitario[$key] ?? 0 }}">
+                                <input type="hidden" name="items[{{ $id }}][Total]" value="{{ $total[$key] ?? 0 }}">
+                            @endif
+                        @endforeach
 
-                        @if (!empty($seleccionados[$key]))
-                            <input type="hidden" name="items[{{ $id }}][IdItemNotaEnvio]" value="{{ $item_nota->id }}">
-                            <input type="hidden" name="items[{{ $id }}][IdItemOrdenTrabajo]" value="{{ $id }}">
-                            <input type="hidden" name="items[{{ $id }}][Descripcion]" value="{{ $descripcion[$key] ?? $item_nota->Descripcion }}">
-                            <input type="hidden" name="items[{{ $id }}][CodigoComplejidad]" value="{{ $codigo_complejidad[$key] ?? '' }}">
-                            <input type="hidden" name="items[{{ $id }}][Coeficiente]" value="{{ $coeficiente[$key] ?? 1 }}">
-                            <input type="hidden" name="items[{{ $id }}][PorcentajeDescuento]" value="{{ $descuento[$key] ?? 0 }}">
-                            <input type="hidden" name="items[{{ $id }}][PrecioUnitario]" value="{{ $precio_unitario[$key] ?? 0 }}">
-                            <input type="hidden" name="items[{{ $id }}][Total]" value="{{ $total[$key] ?? 0 }}">
-                        @endif
-                    @endforeach
+                        @foreach ($items_orden_trabajo as $item)
+                            @php
+                                $id = $item->id;
+                                $key = 'ot_' . $id;
+                            @endphp
 
-                    @foreach ($items_orden_trabajo as $item)
-                        @php
-                            $id = $item->id;
-                            $key = 'ot_' . $id;
-                        @endphp
+                            <tr>
+                                <td>
+                                    <input
+                                        type="checkbox"
+                                        wire:model.live="seleccionados.{{ $key }}"
+                                    >
+                                </td>
 
-                        <tr>
-                            <td>
-                                <input
-                                    type="checkbox"
-                                    wire:model.live="seleccionados.{{ $key }}"
-                                >
-                            </td>
+                                <td></td>
 
-                            <td></td>
+                                <td class="text-center align-middle">
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-sm p-1 text-center mx-auto
+                                            {{ $codigo_invalido[$key] ?? false ? 'text-danger border-danger' : '' }}"
+                                        style="width: 30px;"
+                                        wire:model.live="codigo_complejidad.{{ $key }}"
+                                        wire:input="onCodigoComplejidadChange('{{ $key }}', $event.target.value)"
+                                    />
+                                </td>
 
-                            <td class="text-center align-middle">
-                                <input
-                                    type="text"
-                                    class="form-control form-control-sm p-1 text-center mx-auto
-                                        {{ $codigo_invalido[$key] ?? false ? 'text-danger border-danger' : '' }}"
-                                    style="width: 30px;"
-                                    wire:model.live="codigo_complejidad.{{ $key }}"
-                                    wire:input="onCodigoComplejidadChange('{{ $key }}', $event.target.value)"
-                                />
-                            </td>
+                                <td>
+                                    <input
+                                        class="form-control form-control-sm p-1 text-center mx-auto"
+                                        style="width: 40px;"
+                                        wire:model.live="descuento.{{ $key }}"
+                                    />
+                                </td>
 
-                            <td>
-                                <input
-                                    class="form-control form-control-sm p-1 text-center mx-auto"
-                                    style="width: 40px;"
-                                    wire:model.live="descuento.{{ $key }}"
-                                />
-                            </td>
+                                <td>{{ \Carbon\Carbon::parse($item->ordenTrabajo->FechaEmision)->format('d/m/Y') }}</td>
+                                <td>{{ $item->ordenTrabajo->NumeroCompleto }} {{ $item->ItemNumero }}</td>
 
-                            <td>{{ \Carbon\Carbon::parse($item->ordenTrabajo->FechaEmision)->format('d/m/Y') }}</td>
-                            <td>{{ $item->ordenTrabajo->NumeroCompleto }} {{ $item->ItemNumero }}</td>
+                                <td class="text-center align-middle">
+                                    <button
+                                        class="btn btn-sm toggle-row"
+                                        type="button"
+                                        style="background-color: #fd7e14; color: white;"
+                                        data-toggle="modal"
+                                        data-target="#modal-ot-{{ $item->id }}"
+                                    >
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </button>
+                                </td>
 
-                            <td class="text-center align-middle">
-                                <button
-                                    class="btn btn-sm toggle-row"
-                                    type="button"
-                                    style="background-color: #fd7e14; color: white;"
-                                    data-toggle="modal"
-                                    data-target="#modal-ot-{{ $item->id }}"
-                                >
-                                    <i class="fa-solid fa-pencil"></i>
-                                </button>
-                            </td>
+                                <td>{{ $item->material->Nombre }}</td>
 
-                            <td>{{ $item->material->Nombre }}</td>
+                                <td style="min-width: 300px; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    {{ $descripcion[$key] ?? $item->Descripcion }}
+                                </td>
 
-                            <td style="min-width: 300px; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                {{ $descripcion[$key] ?? $item->Descripcion }}
-                            </td>
+                                <td>{{ $item->Estado }}</td>
+                                <td>{{ $item->Cantidad }}</td>
+                                <td>{{ $item->Peso }}</td>
+                                <td>{{ $item->tratamiento->Nombre }}</td>
 
-                            <td>{{ $item->Estado }}</td>
-                            <td>{{ $item->Cantidad }}</td>
-                            <td>{{ $item->Peso }}</td>
-                            <td>{{ $item->tratamiento->Nombre }}</td>
+                                <td class="text-center align-middle">
+                                    <input
+                                        step="0.01"
+                                        class="form-control form-control-sm p-1 text-center mx-auto"
+                                        style="width: 70px;"
+                                        wire:model.live="precio_unitario.{{ $key }}"
+                                        wire:input="onPrecioChange('{{ $key }}', $event.target.value)"
+                                    />
+                                </td>
 
-                            <td class="text-center align-middle">
-                                <input
-                                    step="0.01"
-                                    class="form-control form-control-sm p-1 text-center mx-auto"
-                                    style="width: 70px;"
-                                    wire:model.live="precio_unitario.{{ $key }}"
-                                    wire:input="onPrecioChange('{{ $key }}', $event.target.value)"
-                                />
-                            </td>
+                                <td class="text-center align-middle">
+                                    <button
+                                        class="btn btn-sm toggle-row"
+                                        type="button"
+                                        style="background-color: #fd7e14; color: white;"
+                                        data-toggle="modal"
+                                        data-target="#modal-cliente-{{ $item->id }}"
+                                    >
+                                        <i class="fa-solid fa-list"></i>
+                                    </button>
+                                </td>
 
-                            <td class="text-center align-middle">
-                                <button
-                                    class="btn btn-sm toggle-row"
-                                    type="button"
-                                    style="background-color: #fd7e14; color: white;"
-                                    data-toggle="modal"
-                                    data-target="#modal-cliente-{{ $item->id }}"
-                                >
-                                    <i class="fa-solid fa-list"></i>
-                                </button>
-                            </td>
+                                <td class="text-center align-middle">
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-sm p-1 text-center mx-auto bg-light"
+                                        style="width: 90px;"
+                                        value="{{ number_format($total[$key] ?? 0, 2) }}"
+                                        readonly
+                                    />
+                                </td>
+                            </tr>
 
-                            <td class="text-center align-middle">
-                                <input
-                                    type="text"
-                                    class="form-control form-control-sm p-1 text-center mx-auto bg-light"
-                                    style="width: 90px;"
-                                    value="{{ number_format($total[$key] ?? 0, 2) }}"
-                                    readonly
-                                />
-                            </td>
-                        </tr>
+                            @if (!empty($seleccionados[$key]))
+                                <input type="hidden" name="items[{{ $id }}][IdItemOrdenTrabajo]" value="{{ $id }}">
+                                <input type="hidden" name="items[{{ $id }}][Descripcion]" value="{{ $descripcion[$key] ?? $item->Descripcion }}">
+                                <input type="hidden" name="items[{{ $id }}][CodigoComplejidad]" value="{{ $codigo_complejidad[$key] ?? '' }}">
+                                <input type="hidden" name="items[{{ $id }}][Coeficiente]" value="{{ $coeficiente[$key] ?? 1 }}">
+                                <input type="hidden" name="items[{{ $id }}][PorcentajeDescuento]" value="{{ $descuento[$key] ?? 0 }}">
+                                <input type="hidden" name="items[{{ $id }}][PrecioUnitario]" value="{{ $precio_unitario[$key] ?? 0 }}">
+                                <input type="hidden" name="items[{{ $id }}][Total]" value="{{ $total[$key] ?? 0 }}">
+                            @endif
+                        @endforeach
 
-                        @if (!empty($seleccionados[$key]))
-                            <input type="hidden" name="items[{{ $id }}][IdItemOrdenTrabajo]" value="{{ $id }}">
-                            <input type="hidden" name="items[{{ $id }}][Descripcion]" value="{{ $descripcion[$key] ?? $item->Descripcion }}">
-                            <input type="hidden" name="items[{{ $id }}][CodigoComplejidad]" value="{{ $codigo_complejidad[$key] ?? '' }}">
-                            <input type="hidden" name="items[{{ $id }}][Coeficiente]" value="{{ $coeficiente[$key] ?? 1 }}">
-                            <input type="hidden" name="items[{{ $id }}][PorcentajeDescuento]" value="{{ $descuento[$key] ?? 0 }}">
-                            <input type="hidden" name="items[{{ $id }}][PrecioUnitario]" value="{{ $precio_unitario[$key] ?? 0 }}">
-                            <input type="hidden" name="items[{{ $id }}][Total]" value="{{ $total[$key] ?? 0 }}">
-                        @endif
-                    @endforeach
+                    @else
+                        @foreach ($items_nota_envio as $item_nota)
+                            @php
+                                $item = $item_nota->itemOrdenTrabajo;
+                                $id = $item_nota->id;
+                                $key = 'nota_' . $id;
+                            @endphp
+
+                            <tr>
+                                <td>{{ $item_nota->ItemNumero }}</td>
+                                <td>{{ $item->ordenTrabajo->NumeroCompleto }} {{ $item->ItemNumero }}</td>
+                                <td>{{ $item_nota->Descripcion }}</td>
+                                <td>{{ number_format($item_nota->Cantidad, 2, '.', '') }}</td>
+                                <td>{{ number_format($item_nota->Peso, 2, '.', '') }}</td>
+                                <td>{{ $item_nota->CodigoComplejidad }}</td>
+                                <td>{{ $item_nota->Coeficiente }}</td>
+                                <td>{{ number_format($item_nota->PrecioUnitario, 2, '.', '') }}</td>
+                                <td>{{ number_format($item_nota->PorcentajeDescuento, 2, '.', '') }}</td>
+                                <td>{{ number_format($item_nota->Total, 2, '.', '') }}</td>
+                            </tr>
+                        @endforeach
+                    @endif
 
                 </x-slot>
 
@@ -341,7 +381,7 @@
                                 rows="5" 
                                 name="Observaciones"
                                 style="font-size: 0.8rem; line-height: 1.2; width: 100%; min-height: 110px;"
-                            ></textarea>
+                            >{{ $nota_envio->Observaciones }}</textarea>
                         </div>
 
                         <div class="mb-3 d-flex align-items-center">
@@ -350,10 +390,12 @@
                             <input type="text" class="form-control form-control-sm text-dark w-auto"
                                 value="{{ $nota_envio->Estado }}" disabled>
 
-                            <span class="mx-2"></span>
-                            <a data-toggle="modal" data-target="#nota-envio" class="btn btn-danger btn-sm">
-                                ANULAR
-                            </a>
+                            @if ($nota_envio->Estado != 'COMPLETO')
+                                <span class="mx-2"></span>
+                                <a data-toggle="modal" data-target="#nota-envio" class="btn btn-danger btn-sm">
+                                    ANULAR
+                                </a>
+                            @endif
                         </div>
 
 
@@ -503,6 +545,10 @@
                         </div>
 
                         <div class="d-flex justify-content-end mt-3">
+
+                            <a class="btn btn-app bg-primary" href="{{ route('ventas.ficha-del-cliente-nota-envio.show', $nota_envio) }}">
+                                <i class="fas fa-share"></i> Enviar
+                            </a>
 
                             <button class="btn btn-app bg-primary">
                                 <i class="fas fa-floppy-disk"></i> Guardar
@@ -1006,6 +1052,7 @@
                                     </div>
 
                                     <div class="modal-footer justify-content-end">
+                                        
                                         <button type="submit" class="btn btn-sidebar btn-sm bg-orange">
                                             <span class="text-white">Guardar</span>
                                             <i class="fas fa-floppy-disk fa-fw text-white ml-2"></i>

@@ -176,10 +176,19 @@
                             </a>
                             @break
                         @case('custom-tabs-2')
-                            <a 
-                            class="btn btn-app bg-primary {{ !$selectedId ? 'disabled' : '' }}" data-toggle="modal" data-target="#modal-edit">
-                                <i class="fas fa-pen"></i> Modificar
-                            </a>
+                        
+                            @if ($this->notaEnvio->Estado == 'PENDIENTE')
+                                <a 
+                                class="btn btn-app bg-primary {{ !$selectedId ? 'disabled' : '' }}" data-toggle="modal" data-target="#modal-edit">
+                                    <i class="fas fa-pen"></i> Modificar
+                                </a>
+                            @else
+                                <a 
+                                class="btn btn-app bg-primary {{ !$selectedId ? 'disabled' : '' }}" href="{{ route('ventas.ficha-del-cliente-nota-envio.edit', $selectedId) }}">
+                                    <i class="fas fa-pen"></i> Modificar
+                                </a>
+                            @endif
+
                             @break
                         @case('custom-tabs-3')
                             <a 
@@ -488,7 +497,7 @@
                                     wire:click="toggleExpand('{{ $nota_de_envio->id }}')">
                                     <td>{{ \Carbon\Carbon::parse($nota_de_envio->FechaEmision)->format('d/m/Y') }}</td>
                                     <td>{{ $nota_de_envio->NumeroCompleto }}</td>
-                                    <td></td>
+                                    <td>{{ $nota_de_envio->facturaVenta->NumeroCompleto ?? '' }}</td>
                                     <td>{{ $nota_de_envio->cliente->Nombre ?? 'Sin razón social' }}</td>
                                     <td>{{  number_format($nota_de_envio->PorcentajeDescuento, 2, '.', '') }}</td>
                                     <td>{{  number_format($nota_de_envio->Neto, 2, '.', '') }}</td>

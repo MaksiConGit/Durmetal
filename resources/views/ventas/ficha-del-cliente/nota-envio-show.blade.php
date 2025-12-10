@@ -42,7 +42,7 @@
                 <div class="col-2">
                     <div class="form-group mb-1">
                         <label for="FechaEmision" class="form-label mb-1" style="font-size: 0.8rem;">FECHA DE EMISION</label>
-                        <input type="date" id="FechaEmision" name="FechaEmision"
+                        <input type="date" id="FechaEmision" disabled
                             value="{{ $nota_envio->FechaEmision }}"
                             class="form-control form-control-sm py-0">
                     </div>

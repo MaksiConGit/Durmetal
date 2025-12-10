@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Client;
 use App\Models\FacturaVenta;
+use App\Models\NotaEnvio;
 use Livewire\Component;
 
 class FichaDelClienteShow2 extends Component
@@ -15,6 +16,7 @@ class FichaDelClienteShow2 extends Component
     public $factura_venta_id = null;
     public $factura_venta = null;
     public $pendientes = 0;
+    public $notaEnvio;
 
     public function cancelarCliente()
     {
@@ -44,13 +46,14 @@ class FichaDelClienteShow2 extends Component
         }
         
         $this->selectedId = $id;
-
+        $this->notaEnvio = NotaEnvio::find($this->selectedId);
     }
 
     public function mount(Client $cliente)
     {
         $this->cliente = $cliente;
         $this->factura_venta_id = 1;
+        $this->notaEnvio = NotaEnvio::find($this->selectedId);
     }
 
     public function setActiveTabParametros($tabId)
