@@ -16,6 +16,7 @@ use App\Models\Cobro;
 use App\Models\CondicionVenta;
 use App\Models\ConfiguracionGlobal;
 use App\Models\DestinoCheque;
+use App\Models\Email;
 use App\Models\FacturaVenta;
 use App\Models\ImpuestoIva;
 use App\Models\ItemFacturaVenta;
@@ -33,6 +34,7 @@ use App\Models\Tratamiento;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -612,6 +614,84 @@ class VentasController extends Controller
 
         return redirect()->route('ventas.ficha-del-cliente.show', $factura_venta->IdCliente);
     }
+
+    public function fichaDelClienteFacturaVentaMail(FacturaVenta $factura_venta, Request $request)
+    {
+        $adjuntar_notas = $request->ConNotas == 1;
+
+        $ids = explode(',', $request->Emails);
+
+        if (!$ids || count($ids) == 0) {
+            $emails = $factura_venta->cliente->emails->pluck('Email')->toArray();
+        } else {
+            $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
+        }
+
+        $factura_venta->CantidadEnviosPorCorreo = ($factura_venta->CantidadEnviosPorCorreo ?? 0) + 1;
+        $factura_venta->save();
+
+        $items_factura_venta = $factura_venta->itemsFacturaVenta;
+
+        $numero_completo_factura = $factura_venta->NumeroCompleto;
+
+        $pdf_factura = Pdf::loadView('ventas.ficha-del-cliente.factura-venta-pdf', [
+            'factura_venta' => $factura_venta,
+            'items_factura_venta' => $items_factura_venta,
+            'numero' => $numero_completo_factura,
+            'configuracion_global' => ConfiguracionGlobal::first(),
+        ])->setPaper('A4');
+
+        $pdfs_notas = [];
+
+        foreach ($items_factura_venta as $item) {
+
+            if (!$item->itemFacturaVentaNotaEnvio) continue;
+            if (!$item->itemFacturaVentaNotaEnvio->notaEnvio) continue;
+
+            $nota_envio = $item->itemFacturaVentaNotaEnvio->notaEnvio;
+
+            $numero_completo_nota = $nota_envio->NumeroCompleto;
+
+            $pdf_nota = Pdf::loadView('ventas.ficha-del-cliente.nota-envio-pdf', [
+                'nota_envio' => $nota_envio,
+                'items_nota_envio' => $nota_envio->itemsNotaEnvio,
+                'numero' => $numero_completo_nota,
+            ])->setPaper('A4');
+
+            $pdfs_notas[] = [
+                'numero_completo' => $numero_completo_nota,
+                'pdf' => $pdf_nota,
+            ];
+        }
+
+        Mail::send('emails.factura-venta', [
+            'factura' => $factura_venta,
+            'numero' => $numero_completo_factura,
+        ], function ($message) use ($emails, $pdf_factura, $numero_completo_factura, $pdfs_notas, $adjuntar_notas) {
+
+            $message->to($emails)
+                    ->subject('Factura ' . $numero_completo_factura)
+                    ->attachData(
+                        $pdf_factura->output(),
+                        "{$numero_completo_factura}.pdf",
+                        ['mime' => 'application/pdf']
+                    );
+
+            if ($adjuntar_notas) {
+                foreach ($pdfs_notas as $nota) {
+                    $message->attachData(
+                        $nota['pdf']->output(),
+                        "{$nota['numero_completo']}.pdf",
+                        ['mime' => 'application/pdf']
+                    );
+                }
+            }
+
+        });
+
+        return back()->with('success', 'Factura enviada por correo correctamente.');
+    }
+
 
     public function fichaDelClienteReciboVentaCreate(Client $cliente)
     {

@@ -41,4 +41,9 @@ class ItemFacturaVenta extends Model
     {
         return $this->belongsTo(FacturaVenta::class, 'IdFacturaVenta');
     }
+
+    public function itemFacturaVentaNotaEnvio()
+    {
+        return $this->hasOne(ItemFacturaVentaNotaEnvio::class, 'IdItemFacturaVenta');
+    }
 }

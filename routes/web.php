@@ -42,6 +42,8 @@ use App\Http\Controllers\TratamientoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentasController;
 use App\Models\ConfiguracionGlobal;
+use App\Models\FacturaVenta;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', function () {
@@ -164,6 +166,8 @@ Route::middleware('auth')->group(function () {
     Route::put('ficha-del-cliente/factura-venta/{factura_venta}', [VentasController::class, 'fichaDelClienteFacturaVentaUpdate'])->name('ventas.ficha-del-cliente-factura-venta.update');
     Route::get('ficha-del-cliente/factura-venta/{factura_venta}/pendiente', [VentasController::class, 'fichaDelClienteFacturaVentaDestroyPendiente'])->name('ventas.ficha-del-cliente-factura-venta.destroy-pendiente');
     Route::get('ficha-del-cliente/factura-venta/{factura_venta}/completo', [VentasController::class, 'fichaDelClienteFacturaVentaDestroyCompleto'])->name('ventas.ficha-del-cliente-factura-venta.destroy-completo');
+
+    Route::get('ventas/factura/{factura_venta}/enviar-email', [VentasController::class, 'fichaDelClienteFacturaVentaMail'])->name('ventas.ficha-del-cliente-factura-venta.email');
 
     Route::get('ficha-del-cliente/recibo-venta/create/{cliente}', [VentasController::class, 'fichaDelClienteReciboVentaCreate'])->name('ventas.ficha-del-cliente-recibo-venta.create');
     Route::post('ficha-del-cliente/recibo-venta/{cliente}', [VentasController::class, 'fichaDelClienteReciboVentaStore'])->name('ventas.ficha-del-cliente-recibo-venta.store');
