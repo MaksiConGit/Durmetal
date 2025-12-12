@@ -236,10 +236,10 @@
 
                                                     <td>
                                                         <select wire:model="filas.{{ $index }}.banco_id"
-                                                                    name="Transferencias[{{ $index }}][Descripcion]">
+                                                                    name="Transferencias[{{ $index }}][IdBanco]">
                                                             <option value="">Seleccionar un banco</option>
                                                             @foreach ($bancos as $banco)
-                                                                <option value="{{ $banco->Nombre }}">{{ $banco->Nombre }}</option>
+                                                                <option value="{{ $banco->id }}">{{ $banco->Nombre }}</option>
                                                             @endforeach
                                                         </select>
                                                     </td>

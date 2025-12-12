@@ -27,6 +27,7 @@ use App\Models\NotaCreditoVenta;
 use App\Models\NotaEnvio;
 use App\Models\Periodo;
 use App\Models\ReciboVenta;
+use App\Models\TransferenciaCobro;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -649,19 +650,7 @@ class VentasSeeder extends Seeder
             'Activo' => true,
         ]);
 
-        Cobro::create([
-            'IdReciboVenta' => 1,
-            'FormaPago' => 'Transferencia',
-            'Descripcion' => 'Pago parcial',
-            'Total' => 1500.00,
-            'FechaCreacion' => now(),
-            'CreadoPor' => 1,
-            'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
-            'Activo' => true,
-        ]);
-
-        Banco::create([
+        $banco = Banco::create([
             'Nombre' => 'Banco Nación',
             'FechaCreacion' => now(),
             'CreadoPor' => 1,
@@ -670,6 +659,23 @@ class VentasSeeder extends Seeder
             'Predeterminado' => 1,
             'Activo' => true,
             'Archivado' => false,
+        ]);
+
+        $cobro = Cobro::create([
+            'IdReciboVenta' => 1,
+            'FormaPago' => 'TRANSFERENCIA',
+            'Descripcion' => 'Banco Nación',
+            'Total' => 1500.00,
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Activo' => true,
+        ]);
+
+        TransferenciaCobro::create([
+            'IdCobro' => $cobro->id,
+            'IdBanco' => $banco->id,
         ]);
 
         DestinoCheque::create([

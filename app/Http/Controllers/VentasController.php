@@ -30,6 +30,7 @@ use App\Models\NotaEnvio;
 use App\Models\OrdenTrabajo;
 use App\Models\PuntoDeVenta;
 use App\Models\ReciboVenta;
+use App\Models\TransferenciaCobro;
 use App\Models\Tratamiento;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -768,17 +769,25 @@ class VentasController extends Controller
         }
 
         foreach ($request->Transferencias as $transferencia) {
-            if ($transferencia['Descripcion']) {
-                Cobro::create([
+            if ($transferencia['IdBanco']) {
+
+                $banco = Banco::find($transferencia['IdBanco']);
+
+                $cobro = Cobro::create([
                     'IdReciboVenta' => $recibo_venta->id,
                     'FormaPago' => 'TRANSFERENCIA',
-                    'Descripcion' => $transferencia['Descripcion'] ?? 'REVISAR!!',
+                    'Descripcion' => $banco->Nombre ?? 'REVISAR!!',
                     'Total' => $transferencia['Total'] ?? 0,
                     'FechaCreacion' => now(),
                     'CreadoPor' => $user_id,
                     'FechaActualizacion' => now(),
                     'ActualizadoPor' => $user_id,
                     'Activo' => 1,
+                ]);
+
+                TransferenciaCobro::create([
+                    'IdCobro' => $cobro->id,
+                    'IdBanco' => $banco->id,
                 ]);
             }
         }
@@ -816,7 +825,7 @@ class VentasController extends Controller
         }
 
         foreach ($request->Tarjetas as $tarjeta) {
-            if ($transferencia['Descripcion']) {
+            if ($tarjeta['Descripcion']) {
                 Cobro::create([
                     'IdReciboVenta' => $recibo_venta->id,
                     'FormaPago' => 'TARJETA',
