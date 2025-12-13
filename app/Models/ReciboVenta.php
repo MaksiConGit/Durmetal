@@ -55,4 +55,29 @@ class ReciboVenta extends Model
     {
         return $this->hasMany(ItemReciboVenta::class, 'IdReciboVenta');
     }
+
+    public function cobros()
+    {
+        return $this->hasMany(Cobro::class, 'IdReciboVenta');
+    }
+
+    public function cobroEfectivo()
+    {
+        return $this->hasOne(Cobro::class, 'IdReciboVenta')->where('FormaPago', 'EFECTIVO');
+    }
+
+    public function cobrosTransferencia()
+    {
+        return $this->hasMany(Cobro::class, 'IdReciboVenta')->where('FormaPago', 'TRANSFERENCIA');
+    }
+
+    public function cobrosCheque()
+    {
+        return $this->hasMany(Cobro::class, 'IdReciboVenta')->where('FormaPago', 'CHEQUE');
+    }
+
+    public function cobrosTarjeta()
+    {
+        return $this->hasMany(Cobro::class, 'IdReciboVenta')->where('FormaPago', 'TARJETA');
+    }
 }

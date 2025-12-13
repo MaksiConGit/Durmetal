@@ -13,4 +13,10 @@ class TransferenciaCobro extends Model
         'IdCobro',
         'IdBanco',
     ];
+
+    public function banco()
+    {
+        return $this->belongsTo(Banco::class, 'IdBanco');
+    }
+
 }

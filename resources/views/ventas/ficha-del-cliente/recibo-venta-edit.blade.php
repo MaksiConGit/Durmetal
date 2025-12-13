@@ -1,0 +1,1 @@
+@livewire('recibo-venta-edit', ['recibo_venta' =>$recibo_venta, 'cliente' => $cliente])

@@ -25,4 +25,14 @@ class Cobro extends Model
     {
         return $this->belongsTo(ReciboVenta::class, 'IdReciboVenta');
     }
+
+    public function cheque()
+    {
+        return $this->hasOne(Chequecobro::class, 'IdCobro');
+    }
+
+    public function transferenciaCobro()
+    {
+        return $this->hasOne(TransferenciaCobro::class, 'IdCobro');
+    }
 }

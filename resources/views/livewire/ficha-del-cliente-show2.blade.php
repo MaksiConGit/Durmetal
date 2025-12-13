@@ -199,7 +199,7 @@
                             @break
                         @case('custom-tabs-4')
                             <a 
-                            class="btn btn-app bg-primary disabled">
+                            class="btn btn-app bg-primary {{ !$selectedId ? 'disabled' : '' }}" href="{{ route('ventas.ficha-del-cliente-recibo-venta.edit', $selectedId) }}">
                                 <i class="fas fa-pen"></i> Modificar
                             </a>
                             

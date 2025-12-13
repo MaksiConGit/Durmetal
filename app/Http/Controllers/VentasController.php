@@ -825,7 +825,7 @@ class VentasController extends Controller
         }
 
         foreach ($request->Tarjetas as $tarjeta) {
-            if ($tarjeta['Descripcion']) {
+            if ($tarjeta['Descripcion'] && $tarjeta['Total'] > 0) {
                 Cobro::create([
                     'IdReciboVenta' => $recibo_venta->id,
                     'FormaPago' => 'TARJETA',
@@ -891,6 +891,358 @@ class VentasController extends Controller
         ])->setPaper('A4');
 
         return $pdf->stream('recibo_venta.pdf');
+    }
+
+    public function fichaDelClienteReciboVentaEdit(ReciboVenta $recibo_venta)
+    {
+        $pto_ventas = PuntoDeVenta::all();
+        $cliente = $recibo_venta->cliente;
+
+        return view('ventas.ficha-del-cliente.recibo-venta-edit', compact('recibo_venta', 'cliente'));
+    }
+
+    public function fichaDelClienteReciboVentaUpdate(ReciboVenta $recibo_venta, Request $request)
+    {
+        if (!$request->has('items') || empty($request->items)) {
+            return redirect()->back()
+                ->withErrors(['items' => 'Debe seleccionar al menos un ítem para editar el recibo de venta.'])
+                ->withInput();
+        }
+
+        $user_id = Auth::id();
+
+        $itemsExistentes = $recibo_venta->itemsReciboVenta;
+        $idsExistentes = $itemsExistentes->pluck('id')->toArray();
+
+        $idsQueLlegaron = [];
+
+        foreach ($request->items as $key => $item) {
+
+            if (!empty($item['IdItemReciboVenta'])) {
+
+                $idItem = (int) $item['IdItemReciboVenta'];
+                $idsQueLlegaron[] = $idItem;
+
+                $itemBD = $itemsExistentes->firstWhere('id', $idItem);
+
+                if ($itemBD) {
+                    if ((float)$itemBD->Total !== (float)$item['Total']) {
+                        $itemBD->FechaActualizacion = now()->toDateString();
+                        $itemBD->ActualizadoPor = $user_id;
+                        $itemBD->save();
+                    }
+                }
+
+                continue;
+            }
+
+            if (!empty($item['IdFacturaVenta'])) {
+
+                $recibo_venta->itemsReciboVenta()->create([
+                    'IdReciboVenta' => $recibo_venta->id,
+                    'IdFacturaVenta' => $item['IdFacturaVenta'],
+                    'IdSuvida' => 0,
+                    'Descripcion' => FacturaVenta::find($item['IdFacturaVenta'])->NumeroCompleto,
+                    'Total' => $item['Total'],
+                    'FechaCreacion' => now(),
+                    'CreadoPor' => $user_id,
+                    'FechaActualizacion' => now(),
+                    'ActualizadoPor' => $user_id,
+                    'Activo' => 1,
+                ]);
+
+                $factura_venta = FacturaVenta::find($item['IdFacturaVenta']);
+
+                $factura_venta->update(['Estado' => 'COMPLETO']);
+
+                continue;
+            }
+        }
+
+        $idsParaEliminar = array_diff($idsExistentes, $idsQueLlegaron);
+
+        if (count($idsParaEliminar) > 0) {
+
+            $itemsAEliminar = $recibo_venta->itemsReciboVenta()
+                ->whereIn('id', $idsParaEliminar)
+                ->get();
+
+            foreach ($itemsAEliminar as $item) {
+
+                if ($item->facturaVenta) {
+                    $item->facturaVenta->update([
+                        'Estado' => 'PENDIENTE'
+                    ]);
+                }
+
+                $item->delete();
+            }
+        }
+
+        $data['RetencionDREI'] = $request->RetencionDREI;
+        $data['RetencionIIBB'] = $request->RetencionIIBB;
+        $data['RetencionIVA'] = $request->RetencionIVA;
+        $data['RetencionGanancias'] = $request->RetencionGanancias;
+        $data['RetencionSUSS'] = $request->RetencionSUSS;
+        $data['Total'] = $request->Total;
+        $data['FechaActualizacion'] = now()->toDateString();
+        $data['ActualizadoPor'] = $user_id;
+
+
+        $recibo_venta->update($data);
+
+
+        // EFECTIVO
+        $nuevoTotal = floatval($request->Efectivo['Total'] ?? 0);
+
+        $cobro = Cobro::find($request->Efectivo['IdCobro'] ?? null);
+
+        if ($cobro) {
+
+            if ($nuevoTotal <= 0) {
+                $cobro->delete();
+            }
+
+            elseif ($cobro->Total != $nuevoTotal) {
+                $cobro->update([
+                    'Total'              => $nuevoTotal,
+                    'FechaActualizacion' => now(),
+                    'ActualizadoPor'     => $user_id,
+                ]);
+            }
+
+        }
+
+        else {
+
+            if ($nuevoTotal > 0) {
+
+                $cobro = Cobro::create([
+                    'IdReciboVenta' => $recibo_venta->id,
+                    'FormaPago' => 'EFECTIVO',
+                    'Descripcion' => 'EFECTIVO',
+                    'Total' => $nuevoTotal,
+                    'FechaCreacion' => now(),
+                    'CreadoPor' => $user_id,
+                    'FechaActualizacion' => now(),
+                    'ActualizadoPor' => $user_id,
+                    'Activo' => 1,
+                ]);
+            }
+
+        }
+
+        // TRANSFERENCIAS
+        foreach ($request->Transferencias as $transferencia) {
+
+            if (!empty($transferencia['IdCobro'])) {
+            
+                $cobro = Cobro::find($transferencia['IdCobro'] ?? null);
+
+                if ($cobro) {
+
+                    if (($transferencia['Total']) <= 0 && $transferencia['IdBanco'] == null) {
+                        $cobro->transferenciaCobro->delete();
+                        $cobro->delete();
+                    }
+
+                    elseif ($cobro->Total != $transferencia['Total'] || $cobro->transferenciaCobro->banco->id != $transferencia['IdBanco']) {
+
+                        $banco = Banco::find($transferencia['IdBanco']);
+
+                        $cobro->update([
+                            'Descripcion'        => $banco->Nombre,
+                            'Total'              => $transferencia['Total'] ?? 0,
+                            'FechaActualizacion' => now(),
+                            'ActualizadoPor'     => $user_id,
+                        ]);
+
+                        $cobro->transferenciaCobro->update([
+                            'IdBanco' => $banco->id,
+                        ]);
+                    }
+
+                }
+            }
+
+            else {
+
+                if (($transferencia['Total']) > 0 && $transferencia['IdBanco'] <> null) {
+
+                    $banco = Banco::find($transferencia['IdBanco']);
+
+                    $cobro = Cobro::create([
+                        'IdReciboVenta' => $recibo_venta->id,
+                        'FormaPago' => 'TRANSFERENCIA',
+                        'Descripcion' => $banco->Nombre,
+                        'Total' => $transferencia['Total'],
+                        'FechaCreacion' => now(),
+                        'CreadoPor' => $user_id,
+                        'FechaActualizacion' => now(),
+                        'ActualizadoPor' => $user_id,
+                        'Activo' => 1,
+                    ]);
+
+                    TransferenciaCobro::create([
+                        'IdCobro' => $cobro->id,
+                        'IdBanco' => $banco->id,
+                    ]);
+                    
+                }
+            
+            }
+
+        }
+
+        // CHEQUES
+        foreach ($request->Cheques as $cheque) {
+
+            if (!empty($cheque['IdCobro'])) {
+                
+                $cobro = Cobro::find($cheque['IdCobro'] ?? null);
+
+                $chequeCobro = $cobro->cheque ?? null;
+
+                if ($cobro) {
+                    if ($cheque['IdBanco'] == null && $cheque['Numero'] == null && $cheque['FechaEmision'] == null && $cheque['Plaza'] == null && $cheque['eCheck'] == 0 && $cheque['Total'] <= 0) {
+                        $chequeCobro->delete();
+
+                        $cobro->delete();
+
+                    }
+
+                    elseif (
+                        !is_null($cheque['IdBanco']) &&
+                        !is_null($cheque['Numero']) &&
+                        !is_null($cheque['Plaza']) &&
+                        !is_null($cheque['eCheck']) &&
+                        (
+                            $cheque['IdBanco'] != $chequeCobro->IdBanco ||
+                            $cheque['Numero']  != $chequeCobro->Numero ||
+                            $cheque['Plaza']   != $chequeCobro->Plaza ||
+                            $cheque['eCheck']  != $chequeCobro->eCheck
+                        )
+                    ) {
+
+                        $chequeCobro->update([
+                            'IdBanco'              => $cheque['IdBanco'],
+                            'Numero'               => $cheque['Numero'],
+                            'Plaza'                => $cheque['Plaza'],
+                            'eCheck'               => $cheque['eCheck'],
+                            'FechaActualizacion'   => now(),
+                            'ActualizadoPor'       => $user_id,
+                        ]);
+
+                    }
+
+                    if ($cheque['Total'] != $cobro->Total) {
+
+                        $cobro->update([
+                            'Total' => $cheque['Total'],
+                            'FechaActualizacion' => now(),
+                            'ActualizadoPor' => $user_id,
+                        ]);
+
+                    }
+
+                }
+            }
+
+            else {
+
+                if (($cheque['IdBanco'] != null && $cheque['Numero'] != null && $cheque['FechaEmision'] != null && $cheque['Plaza'] != null && $cheque['Total'] <= 0)) {
+
+                    $cobro = Cobro::create([
+                        'IdReciboVenta' => $recibo_venta->id,
+                        'FormaPago' => 'CHEQUE',
+                        'Descripcion' => Banco::find($cheque['IdBanco'])->Nombre ?? 'REVISAR!!',
+                        'Total' => $cheque['Total'] ?? 0,
+                        'FechaCreacion' => now(),
+                        'CreadoPor' => $user_id,
+                        'FechaActualizacion' => now(),
+                        'ActualizadoPor' => $user_id,
+                        'Activo' => 1,
+                    ]);
+
+                    Chequecobro::create([
+                        'IdCobro' =>  $cobro->id,
+                        'FechaEmision' => $cheque['FechaEmision'],
+                        'FechaAcreditacion' => $cheque['FechaAcreditacion'],
+                        'IdBanco' => $cheque['IdBanco'],
+                        'Numero' => $cheque['Numero'],
+                        'IdDestinoCheque' => $cheque['IdDestinoCheque'] ?? null,
+                        'Plaza' => $cheque['Plaza'],
+                        'eCheck' => $cheque['eCheck'],
+                        'FechaCreacion' => now(),
+                        'CreadoPor' => $user_id,
+                        'FechaActualizacion' => now(),
+                        'ActualizadoPor' => $user_id,
+                        'Activo' => 1,
+                    ]);
+                    
+                }
+            
+            }
+
+        }
+
+        // TARJETAS
+        foreach ($request->Tarjetas as $tarjeta) {
+
+            if (!empty($tarjeta['IdCobro'])) {
+                
+                $cobro = Cobro::find($tarjeta['IdCobro'] ?? null);
+
+                if ($cobro) {
+
+                    if ($tarjeta['Descripcion'] == null && $tarjeta['Total'] <= 0) {
+                        $cobro->delete();
+                    }
+
+                    elseif (
+                        !is_null($tarjeta['Descripcion']) &&
+                        !is_null($tarjeta['Total']) &&
+                        (
+                            $tarjeta['Descripcion'] != $cobro->Descripcion ||
+                            $tarjeta['Total']  != $cobro->Total
+                        )
+                    ) {
+
+                        $cobro->update([
+                            'Descripcion' => $tarjeta['Descripcion'],
+                            'Total' => $tarjeta['Total'],
+                            'FechaActualizacion' => now(),
+                            'ActualizadoPor' => $user_id,
+                        ]);
+                    }
+
+                }
+
+            }
+
+            else {
+
+                if ($tarjeta['Descripcion'] != null && $tarjeta['Total'] > 0) {
+
+                    Cobro::create([
+                        'IdReciboVenta' => $recibo_venta->id,
+                        'FormaPago' => 'TARJETA',
+                        'Descripcion' => $tarjeta['Descripcion'] ?? 'REVISAR!!',
+                        'Total' => $tarjeta['Total'] ?? 0,
+                        'FechaCreacion' => now(),
+                        'CreadoPor' => $user_id,
+                        'FechaActualizacion' => now(),
+                        'ActualizadoPor' => $user_id,
+                        'Activo' => 1,
+                    ]);
+                    
+                }
+            
+            }
+
+        }
+
+        return redirect()->route('ventas.ficha-del-cliente-recibo-venta.show', $recibo_venta);
     }
 
     public function fichaDelClienteNotaCreditoCreate(Client $cliente, FacturaVenta $factura_venta)
