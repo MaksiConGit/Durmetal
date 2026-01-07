@@ -159,23 +159,44 @@
                             <td>{{ $item->Estado }}</td>
                             @if ($item->Estado == 'APROBADO')
                                 <td class="text-start align-middle">
-                                    <div class="d-flex justify-content-start align-items-center gap-3 ms-2">
-                                        <a
-                                            {{-- href="{{ route('programacion.print', $programacion->id) }}" --}}
-                                            class="btn btn-link btn-secondary p-0"
-                                            data-bs-toggle="tooltip"
-                                            title="Imprimir programación"
-                                        >
-                                            <i class="fa fa-print fa-lg"></i>
-                                        </a>
-                                        <a
-                                            {{-- href="{{ route('programacion.sendEmail', $programacion->id) }}" --}}
-                                            class="btn btn-link btn-info p-0"
-                                            data-bs-toggle="tooltip"
-                                            title="Enviar por correo"
-                                        >
-                                            <i class="fa fa-envelope fa-lg text-orange"></i>
-                                        </a>
+                                    <div class="d-flex align-items-center ms-2">
+                                        <div style="margin-right:12px;">
+                                            <a
+                                                class="d-flex align-items-center justify-content-center"
+                                                style="
+                                                    width:52px;
+                                                    height:26px;
+                                                    background-color:#f28c00;
+                                                    color:white;
+                                                    text-decoration:none;
+                                                    border-radius:3px;
+                                                "
+                                                data-toggle="modal" 
+                                                data-target="#modal-certificado-{{$item->id}}"
+                                                title="Imprimir programación"
+                                            >
+                                                <i class="fa fa-print"></i>
+                                            </a>
+                                        </div>
+
+                                        <div>
+                                            <a
+                                                class="d-flex align-items-center justify-content-center"
+                                                style="
+                                                    width:52px;
+                                                    height:26px;
+                                                    background-color:#f28c00;
+                                                    color:white;
+                                                    text-decoration:none;
+                                                    border-radius:3px;
+                                                "
+                                                data-toggle="modal" 
+                                                data-target="#modal-correo-{{$item->id}}"
+                                                title="Enviar por correo"
+                                            >
+                                                <i class="fa fa-envelope"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </td>
                             @else
@@ -481,63 +502,63 @@
                 </div>
                 <div class="modal-body">
 
-                <div class="row">
+                    <div class="row">
 
-                    <x-simple-table2>
+                        <x-simple-table3>
 
-                        <x-slot name="filtros">
+                            <x-slot name="filtros">
 
-                            <div class="row">
-                                <div class="col-3">
-                                    <div class="form-group mb-0">
-                                        <label for="filtro1" class="font-weight-normal">NOMBRE</label>
-                                        <input type="text" id="filtro1" name="filtro1" class="form-control form-control-sm">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="form-group mb-0">
+                                            <label for="filtro1" class="font-weight-normal">NOMBRE</label>
+                                            <input type="text" id="filtro1" name="filtro1" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group mb-0">
+                                            <label for="filtro2" class="font-weight-normal">NUMERO DE DOCUMENTO</label>
+                                            <input type="text" id="filtro2" name="filtro1" class="form-control form-control-sm">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
-                                    <div class="form-group mb-0">
-                                        <label for="filtro2" class="font-weight-normal">NUMERO DE DOCUMENTO</label>
-                                        <input type="text" id="filtro2" name="filtro1" class="form-control form-control-sm">
-                                    </div>
-                                </div>
-                            </div>
 
-                        </x-slot>
+                            </x-slot>
 
-                        <x-slot name="thead">
-                            <tr>
-                                <th>CODIGO</th>
-                                <th>NOMBRE</th>
-                                <th>TIPO DE DOCUMENTO</th>
-                                <th>NUMERO</th>
-                                <th>DOMICILIO</th>
-                                <th>LOCALIDAD</th>
-                                <th>PROVINCIA</th>
-                                <th>ACTIVO</th>
-                            </tr>
-                        </x-slot>
-                        <x-slot name="tbody">
-                            
-                            @forelse ($clientes as $cliente)
-                                <tr wire:click.prevent="seleccionarCliente({{ $cliente->id }})"
-                                    style="cursor:pointer;"
-                                    class="{{ $cliente_id == $cliente->id ? 'table-primary' : '' }}">
-                                    <td>{{ $cliente->id }}</td>
-                                    <td>{{ $cliente->Nombre }}</td>
-                                    <td>{{ $cliente->TipoDocumento }}</td>
-                                    <td>{{ $cliente->NroDocumento }}</td>
-                                    <td>{{ $cliente->Domicilio }}</td>
-                                    <td>{{ $cliente->localidad->Nombre ?? 'Ciudad no asignada' }}</td>
-                                    <td>{{ $cliente->localidad->provincia->Nombre ?? 'Provincia no asignada' }}</td>
-                                    <td><input type="checkbox" name="" id="" disabled {{ $cliente->Activo == 1 ? 'checked' : '' }}></td>
+                            <x-slot name="thead">
+                                <tr>
+                                    <th>CODIGO</th>
+                                    <th>NOMBRE</th>
+                                    <th>TIPO DE DOCUMENTO</th>
+                                    <th>NUMERO</th>
+                                    <th>DOMICILIO</th>
+                                    <th>LOCALIDAD</th>
+                                    <th>PROVINCIA</th>
+                                    <th>ACTIVO</th>
                                 </tr>
-                            @empty
-                                <tr><td colspan="8">No se encontraron resultados.</td></tr>
-                            @endforelse
-                        </x-slot>
-                    </x-simple-table2>
+                            </x-slot>
+                            <x-slot name="tbody">
+                                
+                                @forelse ($clientes as $cliente)
+                                    <tr wire:click.prevent="seleccionarCliente({{ $cliente->id }})"
+                                        style="cursor:pointer;"
+                                        class="{{ $cliente_id == $cliente->id ? 'table-primary' : '' }}">
+                                        <td>{{ $cliente->id }}</td>
+                                        <td>{{ $cliente->Nombre }}</td>
+                                        <td>{{ $cliente->TipoDocumento }}</td>
+                                        <td>{{ $cliente->NroDocumento }}</td>
+                                        <td>{{ $cliente->Domicilio }}</td>
+                                        <td>{{ $cliente->localidad->Nombre ?? 'Ciudad no asignada' }}</td>
+                                        <td>{{ $cliente->localidad->provincia->Nombre ?? 'Provincia no asignada' }}</td>
+                                        <td><input type="checkbox" name="" id="" disabled {{ $cliente->Activo == 1 ? 'checked' : '' }}></td>
+                                    </tr>
+                                @empty
+                                    <tr><td colspan="8">No se encontraron resultados.</td></tr>
+                                @endforelse
+                            </x-slot>
+                        </x-simple-table3>
 
-                </div>
+                    </div>
 
                 </div>
 
@@ -559,6 +580,294 @@
         </div>
     </div>
     <!-- /.modal -->
+
+    @foreach ($items_orden_trabajo as $item)
+
+        <div
+            class="modal fade"
+            id="modal-certificado-{{ $item->id }}"
+            wire:ignore.self
+        >
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">IMPRIMIR CERTIFICADO</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-3">
+                                <label>&nbsp;</label>
+                                <select
+                                    class="form-control form-control-sm"
+                                    wire:model.live="certificadoSeleccionado.{{ $item->id }}"
+                                >
+                                    <option value="">Nuevo</option>
+                                    @foreach ($item->certificados as $certificado)
+                                        <option value="{{ $certificado->id }}">
+                                            {{ $certificado->Nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-3">
+                                <label>NUMERO DE PLANO</label>
+                                <input
+                                    type="text"
+                                    class="form-control form-control-sm"
+                                    wire:model.live="numeroPlano.{{ $item->id }}"
+                                >
+                            </div>
+
+                            <div class="col-3">
+                                <label>CANTIDAD</label>
+                                <input
+                                    type="text"
+                                    class="form-control form-control-sm"
+                                    wire:model.live="cantidad.{{ $item->id }}"
+                                >
+                            </div>
+
+                            <div class="col-3">
+                                <label>RESPONSABLE TECNICO</label>
+                                <select
+                                    class="form-control form-control-sm"
+                                    wire:model.live="responsableId.{{ $item->id }}"
+                                >
+                                    <option value="">Seleccione</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">
+                                            {{ $user->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label>OBSERVACIONES</label>
+                            <textarea
+                                class="form-control form-control-sm"
+                                rows="4"
+                                wire:model.live="observaciones.{{ $item->id }}"
+                            ></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary btn-sm" data-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        {{-- <a
+                            href="{{ route('ingreso-datos.pdf', $certificado->id) }}"
+                            target="_blank"
+                            class="btn btn-sm btn-primary"
+                        >
+                            Imprimir certificado
+                        </a> --}}
+                        <button
+                            wire:click="imprimirCertificado({{ $item->id }})"
+                            class="btn btn-sm btn-primary"
+                        >
+                            Imprimir certificado
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="modal fade"
+            id="modal-correo-{{ $item->id }}"
+            wire:ignore.self
+        >
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">ENVIAR CERTIFICADO POR CORREO</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-3">
+                                <label>&nbsp;</label>
+                                <select
+                                    class="form-control form-control-sm"
+                                    wire:model.live="certificadoSeleccionado.{{ $item->id }}"
+                                >
+                                    {{-- <option value="">Nuevo</option> --}}
+                                    @foreach ($item->certificados as $certificado)
+                                        <option value="{{ $certificado->id }}">
+                                            {{ $certificado->Nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-3">
+                                <label>NUMERO DE PLANO</label>
+                                <input
+                                    type="text"
+                                    class="form-control form-control-sm"
+                                    wire:model.live="numeroPlano.{{ $item->id }}"
+                                >
+                            </div>
+
+                            <div class="col-3">
+                                <label>CANTIDAD</label>
+                                <input
+                                    type="text"
+                                    class="form-control form-control-sm"
+                                    wire:model.live="cantidad.{{ $item->id }}"
+                                >
+                            </div>
+
+                            <div class="col-3">
+                                <label>RESPONSABLE TECNICO</label>
+                                <select
+                                    class="form-control form-control-sm"
+                                    wire:model.live="responsableId.{{ $item->id }}"
+                                >
+                                    <option value="">Seleccione</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">
+                                            {{ $user->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label>OBSERVACIONES</label>
+                            <textarea
+                                class="form-control form-control-sm"
+                                rows="4"
+                                wire:model.live="observaciones.{{ $item->id }}"
+                            ></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary btn-sm" data-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        <a
+                            data-toggle="modal" 
+                            data-target="#modal-email-{{$item->id}}"
+                            class="btn btn-sm btn-primary"
+                        >
+                            Enviar
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    <!-- .modal -->
+    <div class="modal fade" id="modal-email-{{$item->id}}" wire:ignore.self>
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title text-bold">
+                    ENVIAR POR EMAIL
+                </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                <div class="row">
+
+                    <x-simple-table2>
+
+                        <x-slot name="thead">
+                            <tr>
+                                <th></th>
+                                <th>EMAIL</th>
+                            </tr>
+                        </x-slot>
+                        <x-slot name="tbody">
+                            @forelse ($item->ordenTrabajo->cliente->emails as $email)
+                                <tr>
+                                    <td>
+                                    <input type="checkbox"
+                                        name="emails[]"
+                                        value="{{ $email->id }}"
+                                        checked>
+                                    </td>
+                                    <td>{{ $email->Email }}</td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="2">No se encontraron resultados.</td></tr>
+                            @endforelse
+
+                        </x-slot>
+                    </x-simple-table2>
+                    </div>
+                    </div>
+
+                </div>
+
+                </div>
+
+                <div class="modal-footer justify-content-end">
+
+                    <a class="btn btn-sidebar btn-sm bg-orange"
+                    href="#"
+                    onclick="
+                            setTimeout(() => location.reload(), 500);
+
+                            const ids = Array.from(
+                                document.querySelectorAll(
+                                    '#modal-email-{{ $item->id }} input[name=&quot;emails[]&quot;]:checked'
+                                )
+                            ).map(e => e.value);
+
+                            const qs = new URLSearchParams({
+                                Emails: ids.join(',')
+                            });
+
+this.href = '{{ route('ingreso-datos.email', $certificadoSeleccionado[$item->id] ?? 0) }}?' + qs.toString();
+                    ">
+                        <span class="text-white">Aceptar</span>
+                        <i class="fas fa-check fa-fw text-white ml-2"></i>
+                    </a>
+
+
+                    <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                        <span class="text-white">Cerrar</span>
+                        <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                    </button>
+
+                </div>
+                </div>
+                </div>
+
+    </div>
+    <!-- /.modal -->
+
+    @endforeach
+
 
     <script>
         function confirmDelete(id) {

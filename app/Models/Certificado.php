@@ -19,4 +19,9 @@ class Certificado extends Model
         'IdUsuario',
         'Predeterminado',
     ];
+
+    public function itemOrdenTrabajo()
+    {
+        return $this->belongsTo(ItemOrdenTrabajo::class, 'IdItemOrdenTrabajo');
+    }
 }
