@@ -190,8 +190,8 @@
                                                     text-decoration:none;
                                                     border-radius:3px;
                                                 "
-                                                data-toggle="modal" 
-                                                data-target="#modal-correo-{{$item->id}}"
+                                                {{-- data-toggle="modal"  --}}
+                                                {{-- data-target="#modal-correo-{{$item->id}}" --}}
                                                 title="Enviar por correo"
                                             >
                                                 <i class="fa fa-envelope"></i>
