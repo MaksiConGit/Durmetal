@@ -184,6 +184,9 @@ Route::get(
     Route::get('ficha-del-cliente/nota-credito/create/{cliente}/{factura_venta}', [VentasController::class, 'fichaDelClienteNotaCreditoCreate'])->name('ventas.ficha-del-cliente-nota-credito.create');
     Route::post('ficha-del-cliente/nota-credito/{cliente}', [VentasController::class, 'fichaDelClienteNotaCreditoStore'])->name('ventas.ficha-del-cliente-nota-credito.store');
     Route::get('ficha-del-cliente/nota-credito/show/{nota_credito_venta}', [VentasController::class, 'fichaDelClienteNotaCreditoShow'])->name('ventas.ficha-del-cliente-nota-credito.show');
+    Route::get('ficha-del-cliente/nota-credito/{nota_credito}/edit', [VentasController::class, 'fichaDelClienteNotaCreditoEdit'])->name('ventas.ficha-del-cliente-nota-credito.edit');
+    Route::put('ficha-del-cliente/nota-credito/{nota_credito}', [VentasController::class, 'fichaDelClienteNotaCreditoUpdate'])->name('ventas.ficha-del-cliente-nota-credito.update');
+    Route::get('ficha-del-cliente/nota_credito/pdf/{nota_credito}', [VentasController::class, 'fichaDelClienteNotaCreditoPDF'])->name('ventas.ficha-del-cliente-nota-credito.pdf');
 
     Route::get('ficha-del-cliente/nota-debito/create/{cliente}/{factura_venta}', [VentasController::class, 'fichaDelClienteNotaDebitoCreate'])->name('ventas.ficha-del-cliente-nota-debito.create');
     Route::post('ficha-del-cliente/nota-debito/{cliente}', [VentasController::class, 'fichaDelClienteNotaDebitoStore'])->name('ventas.ficha-del-cliente-nota-debito.store');

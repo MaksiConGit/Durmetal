@@ -97,7 +97,7 @@
         <x-slot name="tbody">
             <div class="d-flex justify-content-center py-5">
 
-                <a target="_blank" rel="noopener noreferrer" onclick="setTimeout(() => location.reload(), 500);" href="{{ route('ventas.ficha-del-cliente-factura-venta.pdf', $nota_credito_venta) }}" class="position-relative text-center mx-5" style="cursor: pointer; text-decoration: none; color: inherit;">
+                <a target="_blank" rel="noopener noreferrer" onclick="setTimeout(() => location.reload(), 500);" href="{{ route('ventas.ficha-del-cliente-nota-credito.pdf', $nota_credito_venta) }}" class="position-relative text-center mx-5" style="cursor: pointer; text-decoration: none; color: inherit;">
 
                     <div style="
                         position: absolute;

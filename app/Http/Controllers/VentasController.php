@@ -1361,6 +1361,45 @@ class VentasController extends Controller
         return view('ventas.ficha-del-cliente.nota-credito-show', compact('nota_credito_venta', 'pto_ventas'));
     }
 
+    public function fichaDelClienteNotaCreditoEdit(NotaCreditoVenta $nota_credito)
+    {
+        $pto_ventas = PuntoDeVenta::all();
+        $cliente = $nota_credito->cliente;
+
+        return view('ventas.ficha-del-cliente.nota-credito-edit', compact('nota_credito', 'cliente'));
+    }
+
+    public function fichaDelClienteNotaCreditoUpdate(NotaCreditoVenta $nota_credito, Request $request)
+    {        
+        $nota_credito->update([
+            "Observaciones" => $request->Observaciones,
+        ]);
+
+        return redirect()->route('ventas.ficha-del-cliente.show', $nota_credito->IdCliente);
+    }
+
+    public function fichaDelClienteNotaCreditoPDF(NotaCreditoVenta $nota_credito)
+    {
+        $nuevo_cantidad_impresiones = $nota_credito->CantidadImpresiones + 1;
+
+        $nota_credito->update(['CantidadImpresiones' => $nuevo_cantidad_impresiones]);
+
+        $items_nota_credito = $nota_credito->itemsNotaCredito;
+
+        preg_match('/' . $nota_credito->Letra . '\s*([0-9]+-[0-9]+)/', $nota_credito->NumeroCompleto, $m);
+
+        $numero = $m[1] ?? null;
+
+        $pdf = Pdf::loadView('ventas.ficha-del-cliente.nota-credito-pdf', [
+            'nota_credito' => $nota_credito,
+            'items_nota_credito' => $items_nota_credito,
+            'numero' => $numero,
+            'configuracion_global' => ConfiguracionGlobal::first(),
+        ])->setPaper('A4');
+
+        return $pdf->stream('nota_credito.pdf');
+    }
+
     public function fichaDelClienteNotaDebitoCreate(Client $cliente, FacturaVenta $factura_venta)
     {
         return view('ventas.ficha-del-cliente.nota-debito', compact('cliente', 'factura_venta'));
