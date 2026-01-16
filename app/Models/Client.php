@@ -70,7 +70,7 @@ class Client extends Model
 
     public function facturasVenta()
     {
-        return $this->hasMany(FacturaVenta::class, 'IdCliente');
+        return $this->hasMany(FacturaVenta::class, 'IdCliente')->where('EsNotaDeDebito', 0);
     }
 
     public function recibosVenta()

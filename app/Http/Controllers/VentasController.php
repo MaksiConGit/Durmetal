@@ -271,6 +271,50 @@ class VentasController extends Controller
         return $pdf->stream('nota_envio.pdf');
     }
 
+    public function fichaDelClienteNotaEnvioMail(NotaEnvio $nota_envio, Request $request)
+    {
+        $adjuntar_notas = $request->ConNotas == 1;
+
+        $ids = explode(',', $request->Emails);
+
+        if (!$ids || count($ids) == 0) {
+            $emails = $nota_envio->cliente->emails->pluck('Email')->toArray();
+        } else {
+            $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
+        }
+
+        $nota_envio->CantidadEnviosPorCorreo = ($nota_envio->CantidadEnviosPorCorreo ?? 0) + 1;
+        $nota_envio->save();
+
+        $items_nota_envio = $nota_envio->itemsNotaEnvio;
+
+        $numero_completo_nota = $nota_envio->NumeroCompleto;
+
+        $pdf_nota = Pdf::loadView('ventas.ficha-del-cliente.nota-envio-pdf', [
+            'nota_envio' => $nota_envio,
+            'items_nota_envio' => $items_nota_envio,
+            'numero' => $numero_completo_nota,
+            'configuracion_global' => ConfiguracionGlobal::first(),
+        ])->setPaper('A4');
+
+        Mail::send('emails.nota-envio', [
+            'factura' => $nota_envio,
+            'numero' => $numero_completo_nota,
+        ], function ($message) use ($emails, $pdf_nota, $numero_completo_nota) {
+
+            $message->to($emails)
+                    ->subject('NOTA DE ENVIO ' . $numero_completo_nota)
+                    ->attachData(
+                        $pdf_nota->output(),
+                        "{$numero_completo_nota}.pdf",
+                        ['mime' => 'application/pdf']
+                    );
+
+        });
+
+        return back()->with('success', 'Factura enviada por correo correctamente.');
+    }
+
     public function fichaDelClienteNotaEnvioOrdenTrabajo(Request $request)
     {
         $data = $request->all();

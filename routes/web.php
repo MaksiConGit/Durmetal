@@ -162,6 +162,7 @@ Route::get(
     Route::put('ficha-del-cliente/nota-envio/{nota_envio}', [VentasController::class, 'fichaDelClienteNotaEnvioUpdate'])->name('ventas.ficha-del-cliente-nota-envio.update');
     Route::put('ficha-del-cliente/nota-envio/divisas/{configuracion_global}/{nota_envio}/edit', [VentasController::class, 'divisasUpdateEdit'])->name('ventas.divisas.update.edit');
     Route::get('ficha-del-cliente/nota-envio/{nota_envio}', [VentasController::class, 'fichaDelClienteNotaEnvioDestroy'])->name('ventas.ficha-del-cliente-nota-envio.destroy');
+    Route::get('ficha-del-cliente/nota-envio/{nota_envio}/enviar-email', [VentasController::class, 'fichaDelClienteNotaEnvioMail'])->name('ventas.ficha-del-cliente-nota-envio.email');
 
     Route::get('ficha-del-cliente/factura-venta/create/{cliente}', [VentasController::class, 'fichaDelClienteFacturaVentaCreate'])->name('ventas.ficha-del-cliente-factura-venta.create');
     Route::post('ficha-del-cliente/factura-venta/{cliente}', [VentasController::class, 'fichaDelClienteFacturaVentaStore'])->name('ventas.ficha-del-cliente-factura-venta.store');
@@ -171,7 +172,6 @@ Route::get(
     Route::put('ficha-del-cliente/factura-venta/{factura_venta}', [VentasController::class, 'fichaDelClienteFacturaVentaUpdate'])->name('ventas.ficha-del-cliente-factura-venta.update');
     Route::get('ficha-del-cliente/factura-venta/{factura_venta}/pendiente', [VentasController::class, 'fichaDelClienteFacturaVentaDestroyPendiente'])->name('ventas.ficha-del-cliente-factura-venta.destroy-pendiente');
     Route::get('ficha-del-cliente/factura-venta/{factura_venta}/completo', [VentasController::class, 'fichaDelClienteFacturaVentaDestroyCompleto'])->name('ventas.ficha-del-cliente-factura-venta.destroy-completo');
-
     Route::get('ventas/factura/{factura_venta}/enviar-email', [VentasController::class, 'fichaDelClienteFacturaVentaMail'])->name('ventas.ficha-del-cliente-factura-venta.email');
 
     Route::get('ficha-del-cliente/recibo-venta/create/{cliente}', [VentasController::class, 'fichaDelClienteReciboVentaCreate'])->name('ventas.ficha-del-cliente-recibo-venta.create');
@@ -289,6 +289,15 @@ Route::get(
     Route::delete('otros-egresos/{movimiento_cuenta_gastos}', [OtrosEgresosController::class, 'otrosEgresosDestroy'])->name('otros-egresos.otros-egresos.destroy');
 
 
+    Route::get('/test-mail', function () {
+        Mail::raw('Correo de prueba', function ($message) {
+            $message->to('maksiconpruebas@gmail.com')
+                    ->subject('Test Ferozo');
+        });
+
+        return 'Mail enviado';
+    });
+    
     Route::get('compras/buscar-comprobantes', [ComprasController::class, 'buscarComprobantes'])->name('compras.buscar-comprobantes.index');
 
     // Sistema

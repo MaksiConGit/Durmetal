@@ -68,7 +68,7 @@ class FichaDelClienteShow2 extends Component
         $facturas          = $this->cliente->facturasVenta;
         $recibos           = $this->cliente->recibosVenta;
         $notas_de_credito  = $this->cliente->notasDeCredito;
-        $notas_de_debito   = $this->cliente->facturasVenta->where('EsNotaDeDebito', 1);
+        $notas_de_debito   = $this->cliente->notasDeDebito;
         $minutas           = $this->cliente->minutas;
         $facturas_pendientes = FacturaVenta::where('IdCliente', $this->cliente->id)->where('Estado', 'PENDIENTE')->get();
         $facturas_pendientes_completas = FacturaVenta::where('IdCliente', $this->cliente->id)->get();

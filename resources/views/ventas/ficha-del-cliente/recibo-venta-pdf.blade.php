@@ -100,18 +100,16 @@
                         alt="logo"
                         style="width: 300px; display:block; margin: 0;">
 
-                    <div style="
-                        font-size:11px;
-                        position: relative;
-                        top: -55px;             /* Sube el texto sobre el logo */
-                        left: 50%;              /* Punto de referencia */
-                        transform: translateX(-50%);  /* Lo centra respecto al logo */
-                        font-weight: bold;
-                        width: max-content;
-                        text-align: center;
-                    ">
-                        Ing. Miguel A. Caruana
-                    </div>
+<div style="
+    font-size:11px;
+    margin-top: 5px;
+    width: 300px;          /* mismo ancho que el logo */
+    text-align: center;
+    font-weight: bold;
+">
+    Ing. Miguel A. Caruana
+</div>
+
                 </td>
 
                 <td class="header-right"
