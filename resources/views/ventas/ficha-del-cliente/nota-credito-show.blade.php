@@ -119,7 +119,11 @@
                     <div class="mt-2" style="font-size: 1rem;">Enviar a impresora</div>
                 </a>
 
-                <div class="position-relative text-center mx-5" style="cursor: pointer;" onclick="alert('Enviar por correo')">
+                <a 
+                class="position-relative text-center mx-5"
+                data-toggle="modal" 
+                data-target="#modal-email"
+                style="cursor: pointer; text-decoration: none; color: inherit;">
 
                     <div style="
                         position: absolute;
@@ -139,13 +143,95 @@
 
                     <img src="{{ asset('AdminLTE-3.2.0/dist/img/correo.png') }}" style="width: 90px;">
                     <div class="mt-2" style="font-size: 1rem;">Enviar por correo</div>
-                </div>
+
+                </a>
 
             </div>
 
         </x-slot>
 
     </x-simple-table2>
+
+    <!-- .modal -->
+    <div class="modal fade" id="modal-email" wire:ignore.self>
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title text-bold">
+                    ENVIAR POR EMAIL
+                </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                <div class="row">
+
+                    <x-simple-table2>
+
+                        <x-slot name="thead">
+                            <tr>
+                                <th></th>
+                                <th>EMAIL</th>
+                            </tr>
+                        </x-slot>
+                        <x-slot name="tbody">
+                            @forelse ($nota_credito_venta->cliente->emails as $email)
+                                <tr>
+                                    <td>
+                                    <input type="checkbox"
+                                        name="emails[]"
+                                        value="{{ $email->id }}"
+                                        checked>
+                                    </td>
+                                    <td>{{ $email->Email }}</td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="2">No se encontraron resultados.</td></tr>
+                            @endforelse
+
+                        </x-slot>
+                    </x-simple-table2>
+                    </div>
+                    </div>
+
+                </div>
+
+                </div>
+
+                <div class="modal-footer justify-content-end">
+
+                    <a class="btn btn-sidebar btn-sm bg-orange"
+                    href="#"
+                    onclick="
+                            setTimeout(() => location.reload(), 500);
+
+                            const ids = Array.from(
+                                document.querySelectorAll('#modal-email input[name=&quot;emails[]&quot;]:checked')
+                            ).map(e => e.value);
+
+                            const qs = new URLSearchParams({
+                                Emails: ids.join(',')
+                            });
+
+                            this.href = '{{ route('ventas.ficha-del-cliente-nota-credito.email', $nota_credito_venta) }}?' + qs.toString();
+                    ">
+                        <span class="text-white">Aceptar</span>
+                        <i class="fas fa-check fa-fw text-white ml-2"></i>
+                    </a>
+
+                    <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                        <span class="text-white">Cerrar</span>
+                        <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                    </button>
+
+                </div>
+                </div>
+                </div>
+
+    </div>
+    <!-- /.modal -->
 
     <div class="container-fluid px-4 py-3">
         <div class="row">
