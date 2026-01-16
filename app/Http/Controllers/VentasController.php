@@ -1289,6 +1289,48 @@ class VentasController extends Controller
         return redirect()->route('ventas.ficha-del-cliente-recibo-venta.show', $recibo_venta);
     }
 
+    public function fichaDelClienteReciboVentaMail(ReciboVenta $recibo_venta, Request $request)
+    {
+        $ids = explode(',', $request->Emails);
+
+        if (!$ids || count($ids) == 0) {
+            $emails = $recibo_venta->cliente->emails->pluck('Email')->toArray();
+        } else {
+            $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
+        }
+
+        $recibo_venta->CantidadEnviosPorCorreo = ($recibo_venta->CantidadEnviosPorCorreo ?? 0) + 1;
+        $recibo_venta->save();
+
+        $items_recibo_venta = $recibo_venta->itemsReciboVenta;
+
+        $numero_completo_recibo = $recibo_venta->NumeroCompleto;
+
+        $pdf_nota = Pdf::loadView('ventas.ficha-del-cliente.recibo-venta-pdf', [
+            'recibo_venta' => $recibo_venta,
+            'items_recibo_venta' => $items_recibo_venta,
+            'numero' => $numero_completo_recibo,
+            'configuracion_global' => ConfiguracionGlobal::first(),
+        ])->setPaper('A4');
+
+        Mail::send('emails.recibo-venta', [
+            'recibo' => $recibo_venta,
+            'numero' => $numero_completo_recibo,
+        ], function ($message) use ($emails, $pdf_nota, $numero_completo_recibo) {
+
+            $message->to($emails)
+                    ->subject('RECIBO ' . $numero_completo_recibo)
+                    ->attachData(
+                        $pdf_nota->output(),
+                        "{$numero_completo_recibo}.pdf",
+                        ['mime' => 'application/pdf']
+                    );
+
+        });
+
+        return back()->with('success', 'Recibo enviada por correo correctamente.');
+    }
+
     public function fichaDelClienteNotaCreditoCreate(Client $cliente, FacturaVenta $factura_venta)
     {
         return view('ventas.ficha-del-cliente.nota-credito', compact('cliente', 'factura_venta'));

@@ -613,6 +613,10 @@
 
                         <div class="d-flex justify-content-end mt-3">
 
+                            <a class="btn btn-app bg-primary" href="{{ route('ventas.ficha-del-cliente-recibo-venta.show', $recibo_venta) }}">
+                                <i class="fas fa-share"></i> Enviar
+                            </a>
+
                             <button class="btn btn-app bg-primary">
                                 <i class="fas fa-floppy-disk"></i> Guardar
                             </button>

@@ -180,6 +180,7 @@ Route::get(
     Route::get('ficha-del-cliente/recibo-venta/pdf/{recibo_venta}', [VentasController::class, 'fichaDelClienteReciboVentaPDF'])->name('ventas.ficha-del-cliente-recibo-venta.pdf');
     Route::get('ficha-del-cliente/recibo-venta/{recibo_venta}/edit', [VentasController::class, 'fichaDelClienteReciboVentaEdit'])->name('ventas.ficha-del-cliente-recibo-venta.edit');
     Route::put('ficha-del-cliente/recibo-venta/{recibo_venta}', [VentasController::class, 'fichaDelClienteReciboVentaUpdate'])->name('ventas.ficha-del-cliente-recibo-venta.update');
+    Route::get('ficha-del-cliente/recibo-venta/{recibo_venta}/enviar-email', [VentasController::class, 'fichaDelClienteReciboVentaMail'])->name('ventas.ficha-del-cliente-recibo-venta.email');
 
     Route::get('ficha-del-cliente/nota-credito/create/{cliente}/{factura_venta}', [VentasController::class, 'fichaDelClienteNotaCreditoCreate'])->name('ventas.ficha-del-cliente-nota-credito.create');
     Route::post('ficha-del-cliente/nota-credito/{cliente}', [VentasController::class, 'fichaDelClienteNotaCreditoStore'])->name('ventas.ficha-del-cliente-nota-credito.store');
@@ -297,7 +298,7 @@ Route::get(
 
         return 'Mail enviado';
     });
-    
+
     Route::get('compras/buscar-comprobantes', [ComprasController::class, 'buscarComprobantes'])->name('compras.buscar-comprobantes.index');
 
     // Sistema
