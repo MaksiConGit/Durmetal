@@ -127,19 +127,6 @@
 
 
                 <x-slot name="thead">
-
-                    <div class="mb-2">
-                        <div class="icheck-primary d-inline">
-                            <input type="checkbox" id="checkAll" wire:click="seleccionarTodo" checked onclick="return false;">
-                            <label for="checkAll" title="Seleccionar todos"></label>
-                        </div>
-
-                        <div class="icheck-primary d-inline">
-                            <input type="checkbox" id="uncheckAll" wire:click="deseleccionarTodo" onclick="return false;">
-                            <label for="uncheckAll" title="Deseleccionar todos"></label>
-                        </div>
-                    </div>
-
                     <tr>
                         <th>DESCRIPCION</th>
                         <th>A ACREDITAR</th>
