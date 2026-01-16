@@ -300,6 +300,7 @@ class VentasController extends Controller
         Mail::send('emails.nota-envio', [
             'factura' => $nota_envio,
             'numero' => $numero_completo_nota,
+            'nombre' => $nota_envio->cliente->Nombre,
         ], function ($message) use ($emails, $pdf_nota, $numero_completo_nota) {
 
             $message->to($emails)
@@ -712,6 +713,7 @@ class VentasController extends Controller
         Mail::send('emails.factura-venta', [
             'factura' => $factura_venta,
             'numero' => $numero_completo_factura,
+            'nombre' => $factura_venta->cliente->Nombre,
         ], function ($message) use ($emails, $pdf_factura, $numero_completo_factura, $pdfs_notas, $adjuntar_notas) {
 
             $message->to($emails)
@@ -1316,6 +1318,7 @@ class VentasController extends Controller
         Mail::send('emails.recibo-venta', [
             'recibo' => $recibo_venta,
             'numero' => $numero_completo_recibo,
+            'nombre' => $recibo_venta->cliente->Nombre,
         ], function ($message) use ($emails, $pdf_nota, $numero_completo_recibo) {
 
             $message->to($emails)
@@ -1513,6 +1516,7 @@ class VentasController extends Controller
         Mail::send('emails.nota-credito', [
             'nota' => $nota_credito,
             'numero' => $numero_completo_nota,
+            'nombre' => $nota_credito->cliente->Nombre,
         ], function ($message) use ($emails, $pdf_nota, $numero_completo_nota) {
 
             $message->to($emails)
@@ -1706,6 +1710,49 @@ class VentasController extends Controller
         ])->setPaper('A4');
 
         return $pdf->stream('nota_debito.pdf');
+    }
+
+    public function fichaDelClienteNotaDebitoMail(FacturaVenta $nota_debito, Request $request)
+    {
+        $ids = explode(',', $request->Emails);
+
+        if (!$ids || count($ids) == 0) {
+            $emails = $nota_debito->cliente->emails->pluck('Email')->toArray();
+        } else {
+            $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
+        }
+
+        $nota_debito->CantidadEnviosPorCorreo = ($nota_debito->CantidadEnviosPorCorreo ?? 0) + 1;
+        $nota_debito->save();
+
+        $items_nota_debito = $nota_debito->itemsFacturaVenta;
+
+        $numero_completo_nota = $nota_debito->NumeroCompleto;
+
+        $pdf_nota = Pdf::loadView('ventas.ficha-del-cliente.nota-debito-pdf', [
+            'nota_debito' => $nota_debito,
+            'items_nota_debito' => $items_nota_debito,
+            'numero' => $numero_completo_nota,
+            'configuracion_global' => ConfiguracionGlobal::first(),
+        ])->setPaper('A4');
+
+        Mail::send('emails.nota-debito', [
+            'nota' => $nota_debito,
+            'numero' => $numero_completo_nota,
+            'nombre' => $nota_debito->cliente->Nombre,
+        ], function ($message) use ($emails, $pdf_nota, $numero_completo_nota) {
+
+            $message->to($emails)
+                    ->subject('NOTA DE DEBITO ' . $numero_completo_nota)
+                    ->attachData(
+                        $pdf_nota->output(),
+                        "{$numero_completo_nota}.pdf",
+                        ['mime' => 'application/pdf']
+                    );
+
+        });
+
+        return back()->with('success', 'Recibo enviada por correo correctamente.');
     }
 
     public function fichaDelClienteMinutaCreate(Client $cliente)

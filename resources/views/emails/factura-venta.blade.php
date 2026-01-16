@@ -15,7 +15,7 @@
     <p>Estimado cliente</p>
 
     <p style="font-weight: bold; font-size: 17px;">
-        {{ $factura->cliente->Nombre ?? 'Cliente' }},
+        {{ $nombre }},
     </p>
 
     <p>

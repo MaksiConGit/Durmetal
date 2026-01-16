@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Nota de Envío</title>
+    <title>Nota de Débito</title>
 </head>
 <body style="margin:0; padding:0; background-color:#ffffff; font-family: Arial, Helvetica, sans-serif; color:#000000;">
     <table width="100%" cellpadding="0" cellspacing="0">
@@ -18,7 +18,16 @@
                 </p>
 
                 <p style="margin:0 0 30px 0; font-size:22px; line-height:1.7;">
-                    Enviamos en archivo adjunto la <strong>Nota de Crédito {{ $numero }}</strong>
+                    Enviamos en archivo adjunto la <strong>Nota de Débito {{ $numero }}</strong>
+                </p>
+
+                <p style="margin:0 0 30px 0; font-size:22px; line-height:1.7;">
+                    <strong>Los pagos deberás efectuarse mediante transferencia, eCheck y cheques entregados en Durmetal</strong>
+                </p>
+
+                <p style="margin:0 0 30px 0; font-size:22px; line-height:1.7;">
+                    <strong>Correo electrónico:</strong> 
+                    <a href="mailto:durmetal@durmetal.com.ar">durmetal@durmetal.com.ar</a>
                 </p>
 
                 <p style="margin:0 0 30px 0; font-size:20px; line-height:1.6;">

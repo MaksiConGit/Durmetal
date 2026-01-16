@@ -14,7 +14,7 @@
                 </p>
 
                 <p style="margin:0 0 24px 0; font-size:20px; line-height:1.6;">
-                    Testo
+                    {{ $nombre }}
                 </p>
 
                 <p style="margin:0 0 30px 0; font-size:22px; line-height:1.7;">
