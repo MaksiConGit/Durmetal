@@ -100,15 +100,15 @@
                         alt="logo"
                     style="width: 300px; display:block; margin-top: 60px;">
 
-<div style="
-    font-size:11px;
-    margin-top: 5px;
-    width: 300px;          /* mismo ancho que el logo */
-    text-align: center;
-    font-weight: bold;
-">
-    Ing. Miguel A. Caruana
-</div>
+                    <div style="
+                        font-size:11px;
+                        margin-top: 5px;
+                        width: 300px;          /* mismo ancho que el logo */
+                        text-align: center;
+                        font-weight: bold;
+                    ">
+                        Ing. Miguel A. Caruana
+                    </div>
 
                 </td>
 
