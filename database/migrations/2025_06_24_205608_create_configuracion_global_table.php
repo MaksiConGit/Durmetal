@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('CodigoSucursal');
             $table->float('ImporteMinimoRetencionIIBB');
             $table->integer('CodigoPostalEmpresa');
-            $table->integer('NroAgenteEmpresa');
+            $table->integer('NroAgenteEmpresa')->nullable();
             $table->boolean('EsAgenteRetencionGanancias');
             $table->boolean('EsAgenteRetencionIIBB');
             $table->string('CuentaEmailMembretes');
@@ -37,8 +37,8 @@ return new class extends Migration
             $table->integer('OpcionSMTP');
             $table->string('CuentaEmailCCO')->nullable();
             $table->boolean('RemitenteCCO');
-            $table->string('XMLLoginTicketRequest');
-            $table->string('MofoOperacionFE');
+            $table->longText('XMLLoginTicketRequest');
+            $table->string('ModoOperacionFE');
             $table->string('RutaCertificadoFE');
             $table->string('ClaveCertificadoFE');
             $table->string('ClaveForzarValidacionCtaCteCliente');
