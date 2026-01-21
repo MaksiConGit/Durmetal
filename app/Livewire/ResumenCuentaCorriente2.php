@@ -78,6 +78,11 @@ class ResumenCuentaCorriente2 extends Component
                 ->get()
                 ->map(fn($doc) => ['tipo' => 'factura', 'documento' => $doc, 'FechaEmision' => $doc->FechaEmision]);
 
+            $debitos = $this->cliente->notasDeDebito()
+                ->whereBetween('FechaEmision', [$this->cliente_desde, $this->cliente_hasta])
+                ->get()
+                ->map(fn($doc) => ['tipo' => 'debito', 'documento' => $doc, 'FechaEmision' => $doc->FechaEmision]);
+
             $recibos = $this->cliente->recibosVenta()
                 ->whereBetween('FechaEmision', [$this->cliente_desde, $this->cliente_hasta])
                 ->get()
@@ -90,6 +95,7 @@ class ResumenCuentaCorriente2 extends Component
 
             $todosDocumentos = collect()
                 ->merge($facturas)
+                ->merge($debitos)
                 ->merge($recibos)
                 ->merge($notas);
 
@@ -97,9 +103,9 @@ class ResumenCuentaCorriente2 extends Component
 
             $this->saldo = $this->cliente->SaldoSistemaAnterior;
             foreach ($this->documentos as $item) {
-                if ($item['tipo'] === 'factura') {
+                if (in_array($item['tipo'], ['factura', 'debito'])) {
                     $this->saldo += $item['documento']->Total;
-                } elseif ($item['tipo'] === 'recibo' || $item['tipo'] === 'nota') {
+                } elseif (in_array($item['tipo'], ['recibo', 'nota'])) {
                     $this->saldo -= $item['documento']->Total;
                 }
             }

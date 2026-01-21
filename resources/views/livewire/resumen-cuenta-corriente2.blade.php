@@ -48,6 +48,11 @@
                 </div>
 
             </div>
+            @if ($cliente)
+                <div class="mt-2">
+                    <strong>{{ $cliente->Nombre ?? $cliente->nombre }}</strong>
+                </div>
+            @endif
             </div>
         </x-slot>
         <x-slot name="thead">
@@ -81,7 +86,8 @@
                 @foreach ($documentos as $item)
                     @php
                         $doc = $item['documento'];
-                        if ($item['tipo'] === 'factura') {
+
+                        if (in_array($item['tipo'], ['factura', 'debito'])) {
                             $saldo += $doc->Total;
                             $debe = number_format($doc->Total, 2, '.', '');
                             $haber = '';
@@ -104,6 +110,7 @@
                     <td colspan="5"><strong>Total Saldo</strong></td>
                     <td><strong>{{ number_format($saldo, 2, '.', '') }}</strong></td>
                 </tr>
+
                 @php
                     $filasActuales = count($documentos) + 1;
                     $filasFaltantes = max(0, $minFilas - $filasActuales);
