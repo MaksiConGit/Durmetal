@@ -709,7 +709,7 @@ class ProductionSeeder extends Seeder
         ItemOrdenTrabajo::create([
             'IdOrdenTrabajo' => '1',
             'IdMaterial' => '1',
-            'IdTratamiento' => '1',
+            'IdTratamiento' => '2',
             'IdDureza' => '1',
             'ItemNumero' => '1',
             'Descripcion' => 'CUBETA OT:7835',
@@ -744,7 +744,7 @@ class ProductionSeeder extends Seeder
         ItemOrdenTrabajo::create([
             'IdOrdenTrabajo' => '1',
             'IdMaterial' => '1',
-            'IdTratamiento' => '1',
+            'IdTratamiento' => '2',
             'IdDureza' => '1',
             'ItemNumero' => '1',
             'Descripcion' => 'CUBETA OT:634634',
@@ -779,7 +779,7 @@ class ProductionSeeder extends Seeder
         ItemOrdenTrabajo::create([
             'IdOrdenTrabajo' => '1',
             'IdMaterial' => '1',
-            'IdTratamiento' => '1',
+            'IdTratamiento' => '2',
             'IdDureza' => '1',
             'ItemNumero' => '1',
             'Descripcion' => 'CUBETA OT:12144',
