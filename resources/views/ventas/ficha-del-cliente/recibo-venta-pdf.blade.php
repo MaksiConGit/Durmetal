@@ -184,10 +184,10 @@
                         <td>{{ number_format($item_recibo_venta->Total, 2, ',', '.') }}</td>
                     </tr>
                 @endforeach
-                <tr>
+                {{-- <tr>
                     <td class="descripcion">Importe a favor del cliente</td>
                     <td>{{ number_format(($recibo_venta->Total - $items_recibo_venta->sum('Total')), 2, ',', '.') }}</td>
-                </tr>
+                </tr> --}}
             </tbody>
         </table>
 
@@ -203,16 +203,22 @@
                 </tr>
             </thead>
             <tbody>
-                
+                @foreach($recibo_venta->cobros as $cobro)
+                    <tr>
+                        <td class="descripcion">{{ $cobro->FormaPago }}</td>
+                        <td class="descripcion">{{ $cobro->Descripcion }}</td>
+                        <td>{{ number_format($cobro->Total, 2, ',', '.') }}</td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
 
         <div id="footer">
             <div class="footer-separator"></div>
 
-            <div class="pagina">
+            {{-- <div class="pagina">
                 PÁGINA 1/1
-            </div>
+            </div> --}}
 
             <table class="totales" style="float:right;">
                 <tr><td>Retenciones:</td><td>{{ number_format(($recibo_venta->RetencionDREI + $recibo_venta->RetencionIIBB + $recibo_venta->RetencionIVA + $recibo_venta->RetencionGanancias + $recibo_venta->RetencionSUSS), 2, ',', '.') }}</td></tr>
