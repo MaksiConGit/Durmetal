@@ -156,15 +156,102 @@
 
     </x-simple-table2>
 
-    <div class="d-flex justify-content-end mt-3">
-        <a class="btn btn-app bg-info disabled">
-            <i class="fas fa-print"></i> Imprimir
-        </a>
+    @if (!is_null($cliente))
+        <div class="d-flex justify-content-end mt-3">
+            <a class="btn btn-app bg-primary"
+            href="{{ route('ventas.resumen-cuenta-corriente.pdf', [
+                    'cliente' => $cliente->id,
+                    'desde'   => $cliente_desde,
+                    'hasta'   => $cliente_hasta,
+            ]) }}">
+                <i class="fas fa-print"></i> Imprimir
+            </a>
 
-        <a class="btn btn-app bg-info disabled">
-            <i class="fas fa-share"></i> Enviar
-        </a>
-    </div>
+            <a class="btn btn-app bg-primary" data-toggle="modal" data-target="#modal-email">
+                <i class="fas fa-share"></i> Enviar
+            </a>
+        </div>
+
+        <!-- .modal -->
+        <div class="modal fade" id="modal-email" wire:ignore.self>
+            <div class="modal-dialog modal-dialog-centered modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title text-bold">
+                        ENVIAR POR EMAIL
+                    </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                    <div class="row">
+
+                        <x-simple-table2>
+
+                            <x-slot name="thead">
+                                <tr>
+                                    <th></th>
+                                    <th>EMAIL</th>
+                                </tr>
+                            </x-slot>
+                            <x-slot name="tbody">
+                                @forelse ($cliente->emails as $email)
+                                    <tr>
+                                        <td>
+                                        <input type="checkbox"
+                                            name="emails[]"
+                                            value="{{ $email->id }}"
+                                            checked>
+                                        </td>
+                                        <td>{{ $email->Email }}</td>
+                                    </tr>
+                                @empty
+                                    <tr><td colspan="2">No se encontraron resultados.</td></tr>
+                                @endforelse
+
+                            </x-slot>
+                        </x-simple-table2>
+                        </div>
+                        </div>
+
+                    </div>
+
+                    </div>
+
+                    <div class="modal-footer justify-content-end">
+
+                        <a class="btn btn-sidebar btn-sm bg-orange"
+                        href="#"
+                        onclick="
+
+                                const ids = Array.from(
+                                    document.querySelectorAll('#modal-email input[name=&quot;emails[]&quot;]:checked')
+                                ).map(e => e.value);
+
+                                const qs = new URLSearchParams({
+                                    Emails: ids.join(',')
+                                });
+
+                                this.href = '{{ route('ventas.resumen-cuenta-corriente.email', $cliente) }}?' + qs.toString();
+                        ">
+                            <span class="text-white">Aceptar</span>
+                            <i class="fas fa-check fa-fw text-white ml-2"></i>
+                        </a>
+
+                        <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                            <span class="text-white">Cerrar</span>
+                            <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                        </button>
+
+                    </div>
+                    </div>
+                    </div>
+
+        </div>
+        <!-- /.modal -->
+    @endif
 
     <!-- .modal -->
     <div class="modal fade" id="modal-cliente" wire:ignore.self>

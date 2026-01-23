@@ -207,6 +207,8 @@ Route::get(
     Route::get('listado-de-saldos', [VentasController::class, 'listadoDeSaldos'])->name('ventas.listado-de-saldos');
 
     Route::get('resumen-cuenta-corriente', [VentasController::class, 'resumenCuentaCorriente'])->name('ventas.resumen-cuenta-corriente');
+    Route::get('resumen-cuenta-corriente/pdf/{cliente}', [VentasController::class, 'resumenCuentaCorrientePDF'])->name('ventas.resumen-cuenta-corriente.pdf');
+    Route::get('resumen-cuenta-corriente/{cliente}/enviar-email', [VentasController::class, 'resumenCuentaCorrienteMail'])->name('ventas.resumen-cuenta-corriente.email');
 
     Route::get('listado-de-iva', [VentasController::class, 'listadoDeIVA'])->name('ventas.listado-de-iva');
 

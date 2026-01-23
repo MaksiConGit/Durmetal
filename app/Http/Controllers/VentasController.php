@@ -1782,6 +1782,182 @@ class VentasController extends Controller
 
         return view('ventas.resumen-cuenta-corriente.index', compact('cliente_id'));
     }
+
+    public function resumenCuentaCorrientePDF(Client $cliente, Request $request)
+    {
+        $desde = $request->get('desde', now()->subMonth(3)->toDateString());
+        $hasta = $request->get('hasta', now()->toDateString());
+
+        $facturas = $cliente->facturasVenta()
+            ->whereBetween('FechaEmision', [$desde, $hasta])
+            ->get()
+            ->map(fn ($doc) => [
+                'tipo' => 'factura',
+                'documento' => $doc,
+                'FechaEmision' => $doc->FechaEmision
+            ]);
+
+        $debitos = $cliente->notasDeDebito()
+            ->whereBetween('FechaEmision', [$desde, $hasta])
+            ->get()
+            ->map(fn ($doc) => [
+                'tipo' => 'debito',
+                'documento' => $doc,
+                'FechaEmision' => $doc->FechaEmision
+            ]);
+
+        $recibos = $cliente->recibosVenta()
+            ->whereBetween('FechaEmision', [$desde, $hasta])
+            ->get()
+            ->map(fn ($doc) => [
+                'tipo' => 'recibo',
+                'documento' => $doc,
+                'FechaEmision' => $doc->FechaEmision
+            ]);
+
+        $notas = $cliente->notasDeCredito()
+            ->whereBetween('FechaEmision', [$desde, $hasta])
+            ->get()
+            ->map(fn ($doc) => [
+                'tipo' => 'nota',
+                'documento' => $doc,
+                'FechaEmision' => $doc->FechaEmision
+            ]);
+
+        $documentos = collect()
+            ->merge($facturas)
+            ->merge($debitos)
+            ->merge($recibos)
+            ->merge($notas)
+            ->sortBy('FechaEmision')
+            ->values();
+
+        $saldo = $cliente->SaldoSistemaAnterior;
+
+        foreach ($documentos as $item) {
+            if (in_array($item['tipo'], ['factura', 'debito'])) {
+                $saldo += $item['documento']->Total;
+            } elseif (in_array($item['tipo'], ['recibo', 'nota'])) {
+                $saldo -= $item['documento']->Total;
+            }
+        }
+
+        $pdf = Pdf::loadView('ventas.resumen-cuenta-corriente.pdf', [
+            'cliente'    => $cliente,
+            'documentos' => $documentos,
+            'saldo'      => $saldo,
+            'desde'      => $desde,
+            'hasta'      => $hasta,
+        ])->setPaper('A4');
+
+        return $pdf->stream('resumen_cuenta_corriente.pdf');
+    }
+
+    public function resumenCuentaCorrienteMail(Client $cliente, Request $request)
+    {
+        $desde = $request->get('desde', now()->subMonth(3)->toDateString());
+        $hasta = $request->get('hasta', now()->toDateString());
+
+        /*
+        |--------------------------------------------------------------------------
+        | Emails desde el modal
+        |--------------------------------------------------------------------------
+        */
+        $emails = collect(explode(',', $request->get('Emails')))
+            ->filter()
+            ->map(fn ($id) => (int) $id)
+            ->pipe(function ($ids) {
+                return Email::whereIn('id', $ids)
+                    ->pluck('Email')
+                    ->filter()
+                    ->toArray();
+            });
+
+        if (empty($emails)) {
+            return back()->with('error', 'No se seleccionaron direcciones de correo válidas.');
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Obtener documentos
+        |--------------------------------------------------------------------------
+        */
+        $facturas = $cliente->facturasVenta()
+            ->whereBetween('FechaEmision', [$desde, $hasta])
+            ->get()
+            ->map(fn ($doc) => ['tipo' => 'factura', 'documento' => $doc, 'FechaEmision' => $doc->FechaEmision]);
+
+        $debitos = $cliente->notasDeDebito()
+            ->whereBetween('FechaEmision', [$desde, $hasta])
+            ->get()
+            ->map(fn ($doc) => ['tipo' => 'debito', 'documento' => $doc, 'FechaEmision' => $doc->FechaEmision]);
+
+        $recibos = $cliente->recibosVenta()
+            ->whereBetween('FechaEmision', [$desde, $hasta])
+            ->get()
+            ->map(fn ($doc) => ['tipo' => 'recibo', 'documento' => $doc, 'FechaEmision' => $doc->FechaEmision]);
+
+        $notas = $cliente->notasDeCredito()
+            ->whereBetween('FechaEmision', [$desde, $hasta])
+            ->get()
+            ->map(fn ($doc) => ['tipo' => 'nota', 'documento' => $doc, 'FechaEmision' => $doc->FechaEmision]);
+
+        $documentos = collect()
+            ->merge($facturas)
+            ->merge($debitos)
+            ->merge($recibos)
+            ->merge($notas)
+            ->sortBy('FechaEmision')
+            ->values();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Calcular saldo
+        |--------------------------------------------------------------------------
+        */
+        $saldo = $cliente->SaldoSistemaAnterior;
+
+        foreach ($documentos as $item) {
+            if (in_array($item['tipo'], ['factura', 'debito'])) {
+                $saldo += $item['documento']->Total;
+            } else {
+                $saldo -= $item['documento']->Total;
+            }
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Generar PDF
+        |--------------------------------------------------------------------------
+        */
+        $pdf = Pdf::loadView('ventas.resumen-cuenta-corriente.pdf', [
+            'cliente'    => $cliente,
+            'documentos' => $documentos,
+            'saldo'      => $saldo,
+            'desde'      => $desde,
+            'hasta'      => $hasta,
+        ])->setPaper('A4');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Enviar mail
+        |--------------------------------------------------------------------------
+        */
+        Mail::send('emails.resumen-cuenta-corriente', [
+            'cliente' => $cliente,
+        ], function ($message) use ($emails, $pdf, $cliente) {
+
+            $message->to($emails)
+                    ->subject('Resumen de Cuenta Corriente')
+                    ->attachData(
+                        $pdf->output(),
+                        "Resumen_Cuenta_Corriente_{$cliente->id}.pdf",
+                        ['mime' => 'application/pdf']
+                    );
+        });
+
+        return back()->with('success', 'Resumen de cuenta corriente enviado por mail correctamente.');
+    }
     
     public function listadoDeIVA()
     {
