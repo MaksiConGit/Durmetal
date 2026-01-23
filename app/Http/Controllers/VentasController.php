@@ -683,7 +683,10 @@ class VentasController extends Controller
 
         $numero_completo_factura = $factura_venta->NumeroCompleto;
 
+        $cliente = $factura_venta->cliente;
+
         $pdf_factura = Pdf::loadView('ventas.ficha-del-cliente.factura-venta-pdf', [
+            'cliente' => $cliente,
             'factura_venta' => $factura_venta,
             'items_factura_venta' => $items_factura_venta,
             'numero' => $numero_completo_factura,
@@ -1512,7 +1515,10 @@ class VentasController extends Controller
 
         $numero_completo_nota = $nota_credito->NumeroCompleto;
 
+        $cliente = $nota_credito->cliente;
+
         $pdf_nota = Pdf::loadView('ventas.ficha-del-cliente.nota-credito-pdf', [
+            'cliente' => $cliente,
             'nota_credito' => $nota_credito,
             'items_nota_credito' => $items_nota_credito,
             'numero' => $numero_completo_nota,
@@ -1738,7 +1744,10 @@ class VentasController extends Controller
 
         $numero_completo_nota = $nota_debito->NumeroCompleto;
 
+        $cliente = $nota_debito->cliente;
+
         $pdf_nota = Pdf::loadView('ventas.ficha-del-cliente.nota-debito-pdf', [
+            'cliente' => $cliente,
             'nota_debito' => $nota_debito,
             'items_nota_debito' => $items_nota_debito,
             'numero' => $numero_completo_nota,

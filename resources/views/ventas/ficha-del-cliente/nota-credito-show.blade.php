@@ -205,7 +205,7 @@
                     <a class="btn btn-sidebar btn-sm bg-orange"
                     href="#"
                     onclick="
-                            setTimeout(() => location.reload(), 500);
+                            // setTimeout(() => location.reload(), 500);
 
                             const ids = Array.from(
                                 document.querySelectorAll('#modal-email input[name=&quot;emails[]&quot;]:checked')

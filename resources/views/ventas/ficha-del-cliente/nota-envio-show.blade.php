@@ -183,25 +183,24 @@
 
                 <div class="modal-footer justify-content-end">
 
-<a class="btn btn-sidebar btn-sm bg-orange"
-   href="#"
-   onclick="
-        setTimeout(() => location.reload(), 500);
+                    <a class="btn btn-sidebar btn-sm bg-orange"
+                    href="#"
+                    onclick="
+                            // setTimeout(() => location.reload(), 500);
 
-        const ids = Array.from(
-            document.querySelectorAll('#modal-email input[name=&quot;emails[]&quot;]:checked')
-        ).map(e => e.value);
+                            const ids = Array.from(
+                                document.querySelectorAll('#modal-email input[name=&quot;emails[]&quot;]:checked')
+                            ).map(e => e.value);
 
-        const qs = new URLSearchParams({
-            Emails: ids.join(',')
-        });
+                            const qs = new URLSearchParams({
+                                Emails: ids.join(',')
+                            });
 
-        this.href = '{{ route('ventas.ficha-del-cliente-nota-envio.email', $nota_envio) }}?' + qs.toString();
-   ">
-    <span class="text-white">Aceptar</span>
-    <i class="fas fa-check fa-fw text-white ml-2"></i>
-</a>
-
+                            this.href = '{{ route('ventas.ficha-del-cliente-nota-envio.email', $nota_envio) }}?' + qs.toString();
+                    ">
+                        <span class="text-white">Aceptar</span>
+                        <i class="fas fa-check fa-fw text-white ml-2"></i>
+                    </a>
 
                     <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
                         <span class="text-white">Cerrar</span>

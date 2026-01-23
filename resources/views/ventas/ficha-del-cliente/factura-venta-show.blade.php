@@ -256,7 +256,7 @@
                     <a class="btn btn-sidebar btn-sm bg-orange"
                     href="#"
                     onclick="
-                            setTimeout(() => location.reload(), 500);
+                            // setTimeout(() => location.reload(), 500);
 
                             const notas = document.getElementById('ConNotas').checked ? 1 : 0;
 
