@@ -609,11 +609,14 @@ class VentasController extends Controller
 
         $items_factura_venta = $factura_venta->itemsFacturaVenta;
 
+        $cliente = $factura_venta->cliente;
+
         preg_match('/' . $factura_venta->Letra . '\s*([0-9]+-[0-9]+)/', $factura_venta->NumeroCompleto, $m);
 
         $numero = $m[1] ?? null;
 
         $pdf = Pdf::loadView('ventas.ficha-del-cliente.factura-venta-pdf', [
+            'cliente' => $cliente,
             'factura_venta' => $factura_venta,
             'items_factura_venta' => $items_factura_venta,
             'numero' => $numero,
@@ -1473,6 +1476,8 @@ class VentasController extends Controller
 
         $nota_credito->update(['CantidadImpresiones' => $nuevo_cantidad_impresiones]);
 
+        $cliente = $nota_credito->cliente;
+
         $items_nota_credito = $nota_credito->itemsNotaCredito;
 
         preg_match('/' . $nota_credito->Letra . '\s*([0-9]+-[0-9]+)/', $nota_credito->NumeroCompleto, $m);
@@ -1480,6 +1485,7 @@ class VentasController extends Controller
         $numero = $m[1] ?? null;
 
         $pdf = Pdf::loadView('ventas.ficha-del-cliente.nota-credito-pdf', [
+            'cliente' => $cliente,
             'nota_credito' => $nota_credito,
             'items_nota_credito' => $items_nota_credito,
             'numero' => $numero,
@@ -1698,11 +1704,14 @@ class VentasController extends Controller
 
         $items_nota_debito = $nota_debito->itemsFacturaVenta;
 
+        $cliente = $nota_debito->cliente;
+
         preg_match('/' . $nota_debito->Letra . '\s*([0-9]+-[0-9]+)/', $nota_debito->NumeroCompleto, $m);
 
         $numero = $m[1] ?? null;
 
         $pdf = Pdf::loadView('ventas.ficha-del-cliente.nota-debito-pdf', [
+            'cliente' => $cliente,
             'nota_debito' => $nota_debito,
             'items_nota_debito' => $items_nota_debito,
             'numero' => $numero,
