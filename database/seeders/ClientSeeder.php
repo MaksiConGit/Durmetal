@@ -132,6 +132,17 @@ class ClientSeeder extends Seeder
         ]);
 
         Email::create([
+            'Email' => 'macaruana@durmetal.com.ar',
+            'IdCliente' => '1',
+            'FechaCreacion' => null,
+            'CreadoPor' => '1',
+            'FechaActualizacion' => null,
+            'ActualizadoPor' => '1',
+            'Activo' => '1',
+            'IdClienteEmail' => '1,macaruana@durmetal.com.ar',
+        ]);
+        
+        Email::create([
             'Email' => 'cliente@cliente',
             'IdCliente' => '1',
             'FechaCreacion' => null,
