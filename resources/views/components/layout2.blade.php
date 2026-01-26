@@ -40,6 +40,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           <li class="nav-item dropdown">
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
+              <i class="fas fa-th-large mr-1"></i>TABLEROS
+            </a>
+            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+              <li><a href="{{ route('tableros.hornos.index') }}" class="dropdown-item">HORNOS</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
               <i class="fas fa-cart-plus mr-1"></i> COMPRAS
             </a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">

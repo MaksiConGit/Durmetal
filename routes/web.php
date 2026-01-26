@@ -35,6 +35,8 @@ use App\Http\Controllers\ReglaController;
 use App\Http\Controllers\RepartirPremioController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\SistemaController;
+use App\Http\Controllers\TableroController;
+use App\Http\Controllers\TablerosController;
 use App\Http\Controllers\TarjetasController;
 use App\Http\Controllers\TerminalController;
 use App\Http\Controllers\TipoMensajeController;
@@ -435,6 +437,11 @@ Route::get(
             'destroy' => 'sistema.mensajes-de-usuario.destroy',
         ])->except(['show']);
     });
+
+    // TABLEROS
+
+    Route::get('tableros/hornos', [TablerosController::class, 'hornos'])->name('tableros.hornos.index');
+
 });
 
 require __DIR__.'/auth.php';
