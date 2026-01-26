@@ -210,24 +210,11 @@
         <div id="footer">
             <div class="footer-separator"></div>
             
-            @php
-                $subtotal = $nota_debito->Total;
-
-                $esExento = $cliente->condicionIVA->Nombre === 'Exento';
-
-                $ivaPorcentaje = $esExento ? 0 : 0.21;
-                $ivaTotal = $subtotal * $ivaPorcentaje;
-                $totalFinal = $subtotal + $ivaTotal;
-            @endphp
-
             <table class="totales" style="float:right;">
-                <tr><td>Exento:</td><td>{{ number_format($nota_debito->Exento, 2, ',', '.') }}</td></tr>
-                <tr><td>No Gravado:</td><td>{{ number_format($nota_debito->NetoNoGravado, 2, ',', '.') }}</td></tr>
-                <tr><td>Neto:</td><td>{{ number_format($subtotal, 2, ',', '.') }}</td></tr>
-                <tr><td>IVA {{ $esExento ? '0%' : '21%' }}:</td><td>{{ number_format($ivaTotal, 2, ',', '.') }}</td></tr>
-                <tr><td>Otros Tributos:</td><td>{{ number_format(0, 2, ',', '.') }}</td></tr>
+                <tr><td>Subtotal:</td><td>{{ number_format($nota_debito->Neto, 2, ',', '.') }}</td></tr>
+                <tr><td>IVA:</td><td>{{ number_format($nota_debito->IVA, 2, ',', '.') }}</td></tr>
                 <tr><td><strong>Total:</strong></td>
-                    <td><strong>{{ number_format($totalFinal, 2, ',', '.') }}</strong></td>
+                    <td><strong>{{ number_format($nota_debito->Total, 2, ',', '.') }}</strong></td>
                 </tr>
             </table>
         </div>

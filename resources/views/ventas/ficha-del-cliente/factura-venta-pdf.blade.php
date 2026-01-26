@@ -207,11 +207,8 @@
             @endphp
             
             <table class="totales" style="float:right;">
-                <tr><td>Exento:</td><td>{{ number_format($factura_venta->Exento, 2, ',', '.') }}</td></tr>
-                <tr><td>No Gravado:</td><td>{{ number_format($factura_venta->NetoNoGravado, 2, ',', '.') }}</td></tr>
-                <tr><td>Neto:</td><td>{{ number_format($factura_venta->Neto, 2, ',', '.') }}</td></tr>
-                <tr><td>IVA {{ $esExento ? '0%' : '21%' }}:</td><td>{{ number_format($factura_venta->IVA, 2, ',', '.') }}</td></tr>
-                <tr><td>Otros Tributos:</td><td>{{ number_format(0, 2, ',', '.') }}</td></tr>
+                <tr><td>Subtotal:</td><td>{{ number_format($factura_venta->Neto, 2, ',', '.') }}</td></tr>
+                <tr><td>IVA:</td><td>{{ number_format($factura_venta->IVA, 2, ',', '.') }}</td></tr>
                 <tr><td><strong>Total:</strong></td>
                     <td><strong>{{ number_format($factura_venta->Total, 2, ',', '.') }}</strong></td>
                 </tr>
