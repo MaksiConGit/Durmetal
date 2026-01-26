@@ -937,7 +937,7 @@ class ProductionSeeder extends Seeder
             'Reproceso' => '0',
             'FechaCreacion' => '2025-05-27 20:16:17',
             'FechaCarga' => now(),
-            'FechaDescarga' => now(),
+            'FechaDescarga'=> now()->addMinutes(3),
             'Temperatura' => '150',
             'IdMedioEnfriamiento' => '1',
             'NumeroHorno' => '1',

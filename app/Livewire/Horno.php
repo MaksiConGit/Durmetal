@@ -16,7 +16,7 @@ class Horno extends Component
     {
         $this->horaActual = now();
 
-        $programaciones = Programacion::whereDate('FechaCarga', '>=', Carbon::today())
+        $programaciones = Programacion::where('FechaDescarga', '>', now())
             ->orderBy('FechaCarga')
             ->get()
             ->groupBy('NumeroHorno');
@@ -55,16 +55,34 @@ class Horno extends Component
         $programacionesPorHorno = [];
 
         foreach ($this->programacionesIdsPorHorno as $horno => $ids) {
-            $programacionesPorHorno[$horno] = Programacion::with([
+
+            $programaciones = Programacion::with([
                 'medioEnfriamiento',
                 'tipoProgramacion',
                 'itemOrdenTrabajo.ordenTrabajo.cliente',
                 'itemOrdenTrabajo.material',
-            ])->whereIn('id', $ids)->get();
+            ])
+            ->whereIn('id', $ids)
+            ->where('FechaDescarga', '>', now())
+            ->orderBy('FechaCarga')
+            ->get();
+
+            if ($programaciones->isEmpty()) {
+                unset($this->programacionesIdsPorHorno[$horno]);
+                unset($this->indiceActivo[$horno]);
+                continue;
+            }
+
+            if ($this->indiceActivo[$horno] >= $programaciones->count()) {
+                $this->indiceActivo[$horno] = 0;
+            }
+
+            $programacionesPorHorno[$horno] = $programaciones;
         }
 
         return view('livewire.horno', [
             'programacionesPorHorno' => $programacionesPorHorno,
         ]);
     }
+
 }
