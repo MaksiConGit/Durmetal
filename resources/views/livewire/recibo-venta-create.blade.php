@@ -193,6 +193,7 @@
                                                 <td>
                                                     <input 
                                                         type="number"
+                                                        step="0.01"
                                                         name="Efectivo[Total]"
                                                         wire:model.live="efectivo">
                                                 </td>
@@ -247,6 +248,7 @@
                                                     <td>
                                                         <input
                                                             type="number"
+                                                            step="0.01"
                                                             name="Transferencias[{{ $index }}][Total]"
                                                             wire:model.live="filas.{{ $index }}.monto"
                                                         >
@@ -328,6 +330,7 @@
                                                             type="number"
                                                             name="Cheques[{{ $index }}][Total]"
                                                             min="0"
+                                                            step="0.01"
                                                             wire:model.live="cheques.{{ $index }}.monto"
                                                         >
                                                     </td>
@@ -381,6 +384,7 @@
                                                             type="number"
                                                             name="Tarjetas[{{ $index }}][Total]"
                                                             min="0"
+                                                            step="0.01"
                                                             wire:model.live="tarjetas.{{ $index }}.monto"
                                                         >
                                                     </td>
@@ -415,6 +419,7 @@
                                                         type="number"
                                                         name="RetencionDREI"
                                                         min="0"
+                                                        step="0.01"
                                                         wire:model.live="retenciones.drei"
                                                     >
                                                 </td>
@@ -427,6 +432,7 @@
                                                         type="number"
                                                         name="RetencionGanancias" 
                                                         min="0"
+                                                        step="0.01"
                                                         wire:model.live="retenciones.ganancias"
                                                     >
                                                 </td>
@@ -439,6 +445,7 @@
                                                         type="number"
                                                         name="RetencionIIBB"
                                                         min="0"
+                                                        step="0.01"
                                                         wire:model.live="retenciones.iibb"
                                                     >
                                                 </td>
@@ -451,6 +458,7 @@
                                                         type="number"
                                                         name="RetencionIVA"
                                                         min="0"
+                                                        step="0.01"
                                                         wire:model.live="retenciones.iva"
                                                     >
                                                 </td>
@@ -463,6 +471,7 @@
                                                         type="number"
                                                         name="RetencionSUSS"
                                                         min="0"
+                                                        step="0.01"
                                                         wire:model.live="retenciones.suss"
                                                     >
                                                 </td>
