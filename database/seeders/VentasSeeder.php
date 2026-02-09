@@ -537,12 +537,353 @@ class VentasSeeder extends Seeder
         ]);
 
         $banco = Banco::create([
-            'Nombre' => 'Banco Nación',
+            'Nombre' => '014 PCIA BUENOS AIRES',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'HCBC',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => '19 CREDICOOP',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => '28 MACRO BANSUD',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => '011 NACIÓN EMPRESA',
             'FechaCreacion' => now(),
             'CreadoPor' => 1,
             'FechaActualizacion' => now(),
             'ActualizadoPor' => 1,
             'Predeterminado' => 1,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => '33 NUEVO BCO DE SANTA FE',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => '007 GALICIA',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => '017 BBVA FRANCES',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => '072 SANTANDER RIO',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'CITIBANK',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => '034 PATAGONIA',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => '027 SUPERVILLE',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'COMAFI',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => '015 ICBC',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => '020 BANCOR',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'NACION JUB',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'MACRO JUB',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'RIO TARJ DEB',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'BANCO DE LA PAMPA',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'BANCO DE ENTRE RIOS',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'BPN BANCO PROVINCIA DE NEUQUEN',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'COINAG',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => '15 HSBC BANK ARGENTINA SA',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'DEBITO AUTOMATICO',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'BANELCO',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'LINK',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'NO REG',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => '14 BRUBANK',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => '065 MUNICP ROSARIO',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => '25 BCO BMA ( EX ITAU)',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'PAGO ELECTRONICO',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
+            'Activo' => true,
+            'Archivado' => false,
+        ]);
+
+        Banco::create([
+            'Nombre' => 'NUEVO BCO CHACO',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
         ]);
