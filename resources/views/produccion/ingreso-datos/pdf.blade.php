@@ -1,149 +1,166 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Certificado de Tratamiento Térmico</title>
+<meta charset="UTF-8">
 
-    <style>
-        @page {
-            size: A4;
-            margin: 25mm;
-        }
+<style>
+@page {
+    size: A5 landscape;
+    margin: 20mm;
+}
 
-        body {
-            font-family: "Courier New", Courier, monospace;
-            font-size: 13px;
-            color: #000;
-        }
+body {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 13px;
+    color: #000;
+}
 
-        .certificado {
-            width: 100%;
-        }
+.titulo {
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
 
-        .titulo {
-            text-align: center;
-            font-size: 18px;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
-        }
+.espacio {
+    margin-top: 15px;
+}
 
-        .fila {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-        }
+.subtitulo {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
 
-        .bloque {
-            margin-bottom: 18px;
-        }
+.tabla-100 {
+    width: 100%;
+}
 
-        .subtitulo {
-            font-weight: bold;
-            margin-bottom: 6px;
-        }
+.derecha {
+    text-align: right;
+}
 
-        .col {
-            width: 48%;
-        }
+.observaciones {
+    height: 50px;
+}
 
-        .observaciones {
-            height: 80px;
-            border-bottom: 1px solid #000;
-            margin-top: 20px;
-        }
+.linea-firma {
+    border-top: 1px dotted #000;
+    width: 300px;
+    margin-top: 5px;
+}
 
-        .firmas {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 60px;
-        }
+.firma-contenedor {
+    position: fixed;
+    bottom: 20mm; /* distancia desde abajo */
+    left: 20mm;
+    right: 20mm;
+}
 
-        .firma {
-            width: 45%;
-            text-align: center;
-        }
-
-        .linea {
-            border-top: 1px dotted #000;
-            margin-bottom: 6px;
-        }
-
-        @media print {
-            button {
-                display: none;
-            }
-        }
-    </style>
+</style>
 </head>
+
 <body>
 
-<div class="certificado">
-
-    <div class="titulo">
-        CERTIFICADO DE TRATAMIENTO TERMICO
-    </div>
-
-    <div class="fila">
-        <div>Registro de trazabilidad: {{ $certificado->itemOrdenTrabajo->ordenTrabajo->NumeroCompleto }}</div>
-        <div>19/11/2025</div>
-    </div>
-
-    <div class="bloque">
-        CLIENTE: {{ $certificado->itemOrdenTrabajo->ordenTrabajo->cliente->Nombre }}
-    </div>
-
-    <div class="bloque">
-        <div class="subtitulo">DATOS IDENTIFICATORIOS DE LA PIEZA</div>
-        <div>Descripción: {{ $certificado->itemOrdenTrabajo->Descripcion }}</div>
-    </div>
-
-    <div class="fila">
-        <div class="col">Cantidad: {{ $certificado->Cantidad }}</div>
-        <div class="col">Material: {{ $certificado->itemOrdenTrabajo->material->Nombre }}</div>
-    </div>
-
-    <div class="fila">
-        <div class="col">Rto/OC del cliente N°:</div>
-        <div class="col">Plano N°: {{ $certificado->NroPlano}}</div>
-    </div>
-
-    <div class="bloque">
-        TRAT. EFECTUADO: {{ $certificado->itemOrdenTrabajo->tratamiento->Descripcion }}
-    </div>
-
-    <div class="fila">
-        <div class="col">
-            <div class="subtitulo">PROP. MECANICAS SOLICITADAS</div>
-            <div>Mínimo: 0.00</div>
-            <div>Máximo: 0.00</div>
-            <div>Dureza Tipo: HRF</div>
-        </div>
-
-        <div class="col">
-            <div class="subtitulo">RESULTADOS OBTENIDOS</div>
-            <div>Mínimo: 0.00</div>
-            <div>Máximo: 0.00</div>
-            <div>Promedio: 0.00</div>
-        </div>
-    </div>
-
-    <div class="bloque">
-        <div class="subtitulo">OBSERVACIONES</div>
-        <div class="observaciones"></div>
-    </div>
-
-    <div class="firmas">
-        <div class="firma">
-            Responsable técnico: Caruana Miguel Angel
-        </div>
-
-        <div class="firma">
-            <div class="linea"></div>
-            Firma responsable técnico
-        </div>
-    </div>
-
+<div class="titulo">
+    CERTIFICADO DE TRATAMIENTO TERMICO
 </div>
+
+<!-- Registro + Fecha -->
+<table class="tabla-100">
+    <tr>
+        <td>
+            Registro de trazabilidad:
+            {{ $certificado->itemOrdenTrabajo->ordenTrabajo->NumeroCompleto }}
+        </td>
+        <td class="derecha">
+            {{ \Carbon\Carbon::parse($certificado->Fecha)->format('d/m/Y') }}
+        </td>
+    </tr>
+</table>
+
+<div class="espacio">
+    CLIENTE: {{ $certificado->itemOrdenTrabajo->ordenTrabajo->cliente->Nombre }}
+</div>
+
+<div class="espacio">
+    <div class="subtitulo">DATOS IDENTIFICATORIOS DE LA PIEZA</div>
+    Descripción: {{ $certificado->itemOrdenTrabajo->Descripcion }}
+</div>
+
+
+<table class="tabla-100">
+    <tr>
+        <td width="50%">
+            Cantidad: {{ number_format($certificado->Cantidad, 2) }}
+        </td>
+        <td width="50%">
+            Material: {{ $certificado->itemOrdenTrabajo->material->Nombre }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Rto/OC del cliente N°:
+        </td>
+        <td>
+            Plano N°: {{ $certificado->NroPlano }}
+        </td>
+    </tr>
+</table>
+
+
+TRAT. EFECTUADO:
+{{ $certificado->itemOrdenTrabajo->tratamiento->Descripcion }}
+
+<br><br>
+
+<!-- PROPIEDADES + RESULTADOS -->
+<table class="tabla-100">
+    <tr>
+        <td width="60%" valign="top">
+            <div class="subtitulo">PROP.MECANICAS SOLICITADAS</div>
+            Mínimo: 432.00<br>
+            Máximo: 4243.00<br>
+            Dureza Tipo: HRF
+        </td>
+
+        <td width="40%" valign="top">
+            <div class="subtitulo derecha">RESULTADOS OBTENIDOS</div>
+            <div class="derecha">
+                Mínimo: 0.00<br>
+                Máximo: 0.00<br>
+                Promedio: 0.00
+            </div>
+        </td>
+    </tr>
+</table>
+
+<br>
+
+<div class="subtitulo">OBSERVACIONES</div>
+<div class="observaciones"></div>
+
+<!-- Firmas -->
+<table class="tabla-100">
+    <tr>
+        <td width="50%">
+            Responsable técnico:
+            {{ $certificado->responsableTecnico->Nombre ?? 'Caruana Miguel Angel' }}
+        </td>
+
+<td width="40%" style="text-align:center;">
+    
+    <div style="
+        border-top:1px dotted #000;
+        width:250px;
+        margin:0 auto 5px auto;
+    "></div>
+
+    Firma responsable técnico
+
+</td>
+
+    </tr>
+</table>
 
 </body>
 </html>
