@@ -296,7 +296,7 @@
                                                     </td>
 
                                                     <td>
-                                                        <select wire:model="cheques.{{ $index }}.banco_id" name="Cheques[{{ $index }}][IdBanco]">
+                                                        <select wire:model="cheques.{{ $index }}.banco_id" style="max-width: 180px;" name="Cheques[{{ $index }}][IdBanco]">
                                                             <option value="">Seleccionar un banco</option>
                                                             @foreach ($bancos as $banco)
                                                                 <option value="{{ $banco->id }}">{{ $banco->Nombre }}</option>
@@ -305,19 +305,19 @@
                                                     </td>
 
                                                     <td>
-                                                        <input type="number" wire:model.live="cheques.{{ $index }}.numero" name="Cheques[{{ $index }}][Numero]">
+                                                        <input type="number" wire:model.live="cheques.{{ $index }}.numero" style="max-width: 80px;" name="Cheques[{{ $index }}][Numero]">
                                                     </td>
 
                                                     <td>
-                                                        <input type="date" wire:model.live="cheques.{{ $index }}.fecha_emision" name="Cheques[{{ $index }}][FechaEmision]">
+                                                        <input type="date" wire:model.live="cheques.{{ $index }}.fecha_emision" style="max-width: 120px;" name="Cheques[{{ $index }}][FechaEmision]">
                                                     </td>
 
                                                     <td>
-                                                        <input type="date" wire:model.live="cheques.{{ $index }}.fecha_vencimiento" name="Cheques[{{ $index }}][FechaAcreditacion]">
+                                                        <input type="date" wire:model.live="cheques.{{ $index }}.fecha_vencimiento" style="max-width: 120px;" name="Cheques[{{ $index }}][FechaAcreditacion]">
                                                     </td>
 
                                                     <td>
-                                                        <input type="number" wire:model.live="cheques.{{ $index }}.plaza" name="Cheques[{{ $index }}][Plaza]">
+                                                        <input type="number" wire:model.live="cheques.{{ $index }}.plaza" style="max-width: 80px;" name="Cheques[{{ $index }}][Plaza]">
                                                     </td>
 
                                                     <td class="text-center">
