@@ -131,6 +131,8 @@ class IngresoDatosController extends Controller
             $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
         }
 
+        // dd($emails);
+
         // 🔹 Contador de envíos por mail
         $certificado->CantidadEnviosPorCorreo =
             ($certificado->CantidadEnviosPorCorreo ?? 0) + 1;
@@ -147,15 +149,16 @@ class IngresoDatosController extends Controller
             'certificado' => $certificado,
         ], function ($message) use ($emails, $pdf, $certificado) {
 
+            $message->from('controldecalidad@durmetal.com.ar', 'controldecalidad');
+
             $message->to($emails)
-                ->subject('Certificado Nº ' . $certificado->id)
+                ->subject('CERTIFICADO DE TRATAMIENTO TERMICO')
                 ->attachData(
                     $pdf->output(),
                     'certificado-' . $certificado->id . '.pdf',
                     ['mime' => 'application/pdf']
                 );
         });
-
 
         return back()->with('success', 'Certificado enviado por correo correctamente.');
     }

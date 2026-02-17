@@ -83,52 +83,51 @@ class FiltrarItemsOrdenTrabajoIngresoDatos2 extends Component
         return redirect()->route('ingreso-datos.pdf', $certificado->id);
     }
 
-public function enviarCertificadoPorCorreo($itemId)
-{
-    // 🔹 Validar emails
-    if (
-        !isset($this->emailsSeleccionados[$itemId]) ||
-        count($this->emailsSeleccionados[$itemId]) === 0
-    ) {
-        $this->addError("emails.$itemId", 'Debe seleccionar al menos un email.');
-        return;
-    }
+    public function enviarCertificadoPorCorreo($itemId)
+    {
+        // 🔹 Validar emails
+        if (
+            !isset($this->emailsSeleccionados[$itemId]) ||
+            count($this->emailsSeleccionados[$itemId]) === 0
+        ) {
+            $this->addError("emails.$itemId", 'Debe seleccionar al menos un email.');
+            return;
+        }
 
-    // 🔹 Si existe certificado → usarlo
-    if (!empty($this->certificadoSeleccionado[$itemId])) {
+        // 🔹 Si existe certificado → usarlo
+        if (!empty($this->certificadoSeleccionado[$itemId])) {
+
+            return redirect()->to(
+                route('ingreso-datos.email', $this->certificadoSeleccionado[$itemId])
+                . '?Emails=' . implode(',', $this->emailsSeleccionados[$itemId])
+            );
+        }
+
+        // 🔹 Validaciones SOLO si es nuevo
+        $this->validate([
+            "numeroPlano.$itemId"   => 'required|string|max:255',
+            "cantidad.$itemId"      => 'required|numeric|min:1',
+            "responsableId.$itemId" => 'required|exists:users,id',
+        ]);
+
+        // 🔹 Crear certificado
+        $certificado = Certificado::create([
+            'IdItemOrdenTrabajo'       => $itemId,
+            'Nombre'                   => $this->numeroPlano[$itemId],
+            'NroPlano'                 => $this->numeroPlano[$itemId],
+            'Observaciones'            => $this->observaciones[$itemId] ?? null,
+            'Cantidad'                 => $this->cantidad[$itemId],
+            'ResponsableId'            => $this->responsableId[$itemId],
+            'CantidadImpresiones'      => 0,
+            'CantidadEnviosPorCorreo'  => 0,
+            'Predeterminado'           => 1,
+        ]);
 
         return redirect()->to(
-            route('ingreso-datos.email', $this->certificadoSeleccionado[$itemId])
+            route('ingreso-datos.email', $certificado->id)
             . '?Emails=' . implode(',', $this->emailsSeleccionados[$itemId])
         );
     }
-
-    // 🔹 Validaciones SOLO si es nuevo
-    $this->validate([
-        "numeroPlano.$itemId"   => 'required|string|max:255',
-        "cantidad.$itemId"      => 'required|numeric|min:1',
-        "responsableId.$itemId" => 'required|exists:users,id',
-    ]);
-
-    // 🔹 Crear certificado
-    $certificado = Certificado::create([
-        'IdItemOrdenTrabajo'       => $itemId,
-        'Nombre'                   => $this->numeroPlano[$itemId],
-        'NroPlano'                 => $this->numeroPlano[$itemId],
-        'Observaciones'            => $this->observaciones[$itemId] ?? null,
-        'Cantidad'                 => $this->cantidad[$itemId],
-        'ResponsableId'            => $this->responsableId[$itemId],
-        'CantidadImpresiones'      => 0,
-        'CantidadEnviosPorCorreo'  => 0,
-        'Predeterminado'           => 1,
-    ]);
-
-    return redirect()->to(
-        route('ingreso-datos.email', $certificado->id)
-        . '?Emails=' . implode(',', $this->emailsSeleccionados[$itemId])
-    );
-}
-
 
     public function cancelarCliente()
     {

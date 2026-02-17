@@ -190,8 +190,8 @@
                                                     text-decoration:none;
                                                     border-radius:3px;
                                                 "
-                                                {{-- data-toggle="modal"  --}}
-                                                {{-- data-target="#modal-correo-{{$item->id}}" --}}
+                                                data-toggle="modal"
+                                                data-target="#modal-correo-{{$item->id}}"
                                                 title="Enviar por correo"
                                             >
                                                 <i class="fa fa-envelope"></i>
@@ -710,7 +710,7 @@
                                     class="form-control form-control-sm"
                                     wire:model.live="certificadoSeleccionado.{{ $item->id }}"
                                 >
-                                    {{-- <option value="">Nuevo</option> --}}
+                                    <option value="">Nuevo</option>
                                     @foreach ($item->certificados as $certificado)
                                         <option value="{{ $certificado->id }}">
                                             {{ $certificado->Nombre }}

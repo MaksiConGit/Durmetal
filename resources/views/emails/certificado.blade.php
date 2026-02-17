@@ -17,34 +17,27 @@
         <td align="center">
             <table width="600" cellpadding="0" cellspacing="0">
 
-                <!-- TÍTULO -->
-                <tr>
-                    <td style="padding: 20px 0 10px 0;">
-                        <h2 style="margin: 0; font-weight: normal;">
-                            CERTIFICADO DE TRATAMIENTO TERMICO
-                        </h2>
-                    </td>
-                </tr>
-
                 <!-- CUERPO -->
                 <tr>
                     <td style="padding: 10px 0;">
                         <p style="margin: 0 0 15px 0;">Sr/res</p>
+
+                        <p style="margin: 0 0 15px 0;">{{ $certificado->itemOrdenTrabajo->ordenTrabajo->cliente->Nombre }}</p>
 
                         <p style="margin: 0 0 15px 0;">
                             Enviamos en archivo adjunto el certificado de tratamiento térmico correspondiente a:
                         </p>
 
                         <p style="margin: 0 0 15px 0;">
-                            OT {{ $certificado->OrdenTrabajo ?? '---' }}
+                            OT {{ $certificado->itemOrdenTrabajo->ordenTrabajo->Numero }}/{{ $certificado->itemOrdenTrabajo->ItemNumero }}
                         </p>
 
                         <p style="margin: 0 0 20px 0;">
                             {{ number_format($certificado->Cantidad ?? 0, 2, ',', '.') }}
                             &nbsp;
-                            {{ $certificado->Descripcion ?? '' }}
+                            {{ $certificado->itemOrdenTrabajo->Descripcion ?? '' }}
                             &nbsp;
-                            {{ $certificado->Material ?? '' }}
+                            {{ $certificado->itemOrdenTrabajo->material->Nombre ?? '' }}
                         </p>
 
                         <p style="color: red; font-weight: bold; margin: 0 0 20px 0;">
