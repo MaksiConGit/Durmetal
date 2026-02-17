@@ -89,6 +89,16 @@
 
                             <div class="horno-separador"></div>
                         </div>
+                        <div class="horno-overlay d-none">
+                            <div class="horno-spinner"></div>
+                        </div>
+
+                        {{-- BOTÓN REFRESH --}}
+                        <button type="button"
+                                class="btn btn-sm btn-light horno-refresh"
+                                onclick="recargarHorno(this)">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
 
                     </div>
 
@@ -102,7 +112,15 @@
                         <div class="horno-placeholder">
                             <div class="horno-square"></div>
                         </div>
-
+                        <div class="horno-overlay d-none">
+                            <div class="horno-spinner"></div>
+                        </div>
+                        {{-- BOTÓN REFRESH --}}
+                        <button type="button"
+                                class="btn btn-sm btn-light horno-refresh"
+                                onclick="recargarHorno(this)">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
                     </div>
                 @endif
 

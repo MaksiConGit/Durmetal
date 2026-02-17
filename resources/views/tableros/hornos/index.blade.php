@@ -82,6 +82,30 @@
     color: #fff;
 }
 
+.horno-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.horno-spinner {
+    width: 45px;
+    height: 45px;
+    border: 5px solid #ddd;
+    border-top: 5px solid #ff7f00; /* naranja horno */
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+
 </style>
 
 <x-layout2>
@@ -89,3 +113,22 @@
     @livewire('horno')
 
 </x-layout2>
+
+<script>
+    function recargarHorno(btn) {
+
+        // Buscar la card padre
+        let card = btn.closest('.horno-card');
+
+        // Buscar overlay dentro de esa card
+        let overlay = card.querySelector('.horno-overlay');
+
+        // Mostrar overlay
+        overlay.classList.remove('d-none');
+
+        // Pequeño delay visual antes de recargar
+        setTimeout(() => {
+            location.reload();
+        }, 300);
+    }
+</script>
