@@ -101,8 +101,8 @@
 
                 <a 
                 class="position-relative text-center mx-5"
-                data-toggle="modal" 
-                data-target="#modal-email"
+                {{-- data-toggle="modal"  --}}
+                {{-- data-target="#modal-email" --}}
                 style="cursor: pointer; text-decoration: none; color: inherit;">
 
                     <div style="
