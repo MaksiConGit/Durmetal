@@ -70,6 +70,7 @@ Route::middleware('auth')->group(function () {
 
     // Producción
     Route::resource('orden-trabajo', OrdenTrabajoController::class)->names('orden-trabajo');
+    Route::get('orden-trabajo/pdf/{orden_trabajo}', [OrdenTrabajoController::class, 'pdf'])->name('orden-trabajo.pdf');
     Route::get('enviar-mail', [OrdenTrabajoController::class, 'mail'])->name('enviar.mail');
 
     Route::get('/item-orden-trabajo/create/{orden_trabajo}', [ItemOrdenTrabajoController::class, 'create'])->name('item-orden-trabajo.create');

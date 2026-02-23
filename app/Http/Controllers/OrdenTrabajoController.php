@@ -10,6 +10,7 @@ use App\Models\ItemOrdenTrabajo;
 use App\Models\OrdenTrabajo;
 use App\Models\PuntoDeVenta;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -53,9 +54,24 @@ class OrdenTrabajoController extends Controller
 
     public function show(OrdenTrabajo $orden_trabajo)
     {    
+        $pto_ventas = PuntoDeVenta::all();
+
         $items_orden_trabajo = $orden_trabajo->itemsOrdenTrabajo;
 
-        return view('produccion.orden-trabajo.show', compact('orden_trabajo', 'items_orden_trabajo'));
+        return view('produccion.orden-trabajo.show', compact('orden_trabajo', 'items_orden_trabajo', 'pto_ventas'));
+    }
+
+    public function pdf(OrdenTrabajo $orden_trabajo)
+    {
+        $orden_trabajo->update([
+            'CantidadImpresiones' => $orden_trabajo->CantidadImpresiones + 1
+        ]);
+
+        $pdf = Pdf::loadView('produccion.orden-trabajo.pdf', [
+            'orden_trabajo' => $orden_trabajo,
+        ])->setPaper('A5', 'landscape');
+
+        return $pdf->stream('produccion.orden-trabajos.pdf');
     }
 
     public function edit(OrdenTrabajo $orden_trabajo, Request $request)
