@@ -77,54 +77,56 @@
         <x-slot name="tbody">
             <div class="d-flex justify-content-center py-5">
 
-                <a target="_blank" rel="noopener noreferrer" onclick="setTimeout(() => location.reload(), 500);" href="{{ route('orden-trabajo.pdf', $orden_trabajo) }}" class="position-relative text-center mx-5" style="cursor: pointer; text-decoration: none; color: inherit;">
+<a href="#"
+   onclick="mostrarMenuImpresion(event, {{ $orden_trabajo->id }})"
+   class="position-relative text-center mx-5"
+   style="cursor: pointer; text-decoration: none; color: inherit;">
 
-                    <div style="
-                        position: absolute;
-                        top: -10px;
-                        left: -10px;
-                        background: #007bff;
-                        color: white;
-                        padding: 6px 10px;
-                        border-radius: 50%;
-                        font-size: 1.2rem;
-                        font-weight: bold;
-                        min-width: 40px;
-                        text-align: center;
-                    ">
-                        {{ $orden_trabajo->CantidadImpresiones }}
-                    </div>
+    <div style="
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        background: #007bff;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        font-weight: bold;
+        min-width: 40px;
+        text-align: center;
+    ">
+        {{ $orden_trabajo->CantidadImpresiones }}
+    </div>
 
-                    <img src="{{ asset('AdminLTE-3.2.0/dist/img/impresora.png') }}" style="width: 90px;">
-                    <div class="mt-2" style="font-size: 1rem;">Enviar a impresora</div>
-                </a>
+    <img src="{{ asset('AdminLTE-3.2.0/dist/img/impresora.png') }}" style="width: 90px;">
+    <div class="mt-2" style="font-size: 1rem;">Enviar a impresora</div>
+</a>
 
-                <a 
-                class="position-relative text-center mx-5"
-                {{-- data-toggle="modal"  --}}
-                {{-- data-target="#modal-email" --}}
-                style="cursor: pointer; text-decoration: none; color: inherit;">
+<a href="#"
+   onclick="mostrarMenuCorreo(event)"
+   class="position-relative text-center mx-5"
+   style="cursor: pointer; text-decoration: none; color: inherit;">
 
-                    <div style="
-                        position: absolute;
-                        top: -10px;
-                        left: -10px;
-                        background: #dc3545;
-                        color: white;
-                        padding: 6px 10px;
-                        border-radius: 50%;
-                        font-size: 1.2rem;
-                        font-weight: bold;
-                        min-width: 40px;
-                        text-align: center;
-                    ">
-                        {{ $orden_trabajo->CantidadEnviosPorCorreo }}
-                    </div>
+    <div style="
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        background: #dc3545;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        font-weight: bold;
+        min-width: 40px;
+        text-align: center;
+    ">
+        {{ $orden_trabajo->CantidadEnviosPorCorreo }}
+    </div>
 
-                    <img src="{{ asset('AdminLTE-3.2.0/dist/img/correo.png') }}" style="width: 90px;">
-                    <div class="mt-2" style="font-size: 1rem;">Enviar por correo</div>
+    <img src="{{ asset('AdminLTE-3.2.0/dist/img/correo.png') }}" style="width: 90px;">
+    <div class="mt-2" style="font-size: 1rem;">Enviar por correo</div>
 
-                </a>
+</a>
 
             </div>
 
@@ -182,24 +184,32 @@
 
                 <div class="modal-footer justify-content-end">
 
-                    <a class="btn btn-sidebar btn-sm bg-orange"
-                    href="#"
-                    onclick="
-                            // setTimeout(() => location.reload(), 500);
+<a class="btn btn-sidebar btn-sm bg-orange"
+href="#"
+onclick="
 
-                            const ids = Array.from(
-                                document.querySelectorAll('#modal-email input[name=&quot;emails[]&quot;]:checked')
-                            ).map(e => e.value);
+const ids = Array.from(
+    document.querySelectorAll('#modal-email input[name=&quot;emails[]&quot;]:checked')
+).map(e => e.value);
 
-                            const qs = new URLSearchParams({
-                                Emails: ids.join(',')
-                            });
+const qs = new URLSearchParams({
+    Emails: ids.join(',')
+});
 
-                            this.href = '{{ route('ventas.ficha-del-cliente-recibo-venta.email', $orden_trabajo) }}?' + qs.toString();
-                    ">
-                        <span class="text-white">Aceptar</span>
-                        <i class="fas fa-check fa-fw text-white ml-2"></i>
-                    </a>
+const baseUrl = rutasCorreo[tipoCorreoSeleccionado];
+const separator = baseUrl.includes('?') ? '&' : '?';
+const url = baseUrl + separator + qs.toString();
+
+window.location.href = url;
+
+$('#modal-email').modal('hide');
+
+setTimeout(() => location.reload(), 500);
+
+">
+    <span class="text-white">Aceptar</span>
+    <i class="fas fa-check fa-fw text-white ml-2"></i>
+</a>
 
                     <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
                         <span class="text-white">Cerrar</span>
@@ -222,5 +232,143 @@
             </div>
         </div>
     </div>
+<div id="menu-impresion" class="menu-desplegable" style="
+    display:none;
+    position:fixed;   /* 🔥 CAMBIO ACÁ */
+    background:white;
+    border:1px solid #ccc;
+    border-radius:8px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+    padding:8px;
+    z-index:9999;
+    min-width:180px;
+">
 
+    <div class="opcion" onclick="seleccionarOpcion('orden')">Orden de trabajo</div>
+    <div class="opcion" onclick="seleccionarOpcion('historial')">Historial de trabajos</div>
+    <div class="opcion" onclick="seleccionarOpcion('tarjetas')">Tarjetas de materiales</div>
+
+</div>
+
+<div id="menu-correo" class="menu-desplegable" style="
+    display:none;
+    position:fixed;
+    background:white;
+    border:1px solid #ccc;
+    border-radius:8px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+    padding:8px;
+    z-index:9999;
+    min-width:180px;
+">
+
+    <div class="opcion" onclick="seleccionarCorreo('orden')">Orden de trabajo</div>
+    <div class="opcion" onclick="seleccionarCorreo('historial')">Historial de trabajos</div>
+
+</div>
+
+<style>
+.menu-desplegable {
+    display:none;
+    position:fixed;
+    background:white;
+    border:1px solid #ccc;
+    border-radius:8px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+    padding:8px;
+    z-index:9999;
+    min-width:180px;
+}
+
+.menu-desplegable .opcion{
+    padding:8px 15px;
+    cursor:pointer;
+    border-radius:6px;
+}
+
+.menu-desplegable .opcion:hover{
+    background:#f2f2f2;
+}
+</style>
+
+<script>
+
+const rutasImpresion = {
+    orden: "{{ route('orden-trabajo.ordenPDF', $orden_trabajo) }}",
+    historial: "{{ route('orden-trabajo.historialPDF', $orden_trabajo) }}",
+    tarjetas: "{{ route('orden-trabajo.tarjetasPDF', $orden_trabajo) }}"
+};
+
+const rutasCorreo = {
+    orden: "{{ route('orden-trabajo.ordenMail', $orden_trabajo) }}",
+    historial: "{{ route('orden-trabajo.historialMail', $orden_trabajo) }}",
+};
+
+</script>
+
+<script>
+let tipoCorreoSeleccionado = null;
+const menuImpresion = document.getElementById("menu-impresion");
+const menuCorreo = document.getElementById("menu-correo");
+
+function cerrarTodos() {
+    menuImpresion.style.display = "none";
+    menuCorreo.style.display = "none";
+}
+
+// 🔵 ABRIR IMPRESIÓN
+function mostrarMenuImpresion(event) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    cerrarTodos(); // 🔥 cierra el otro
+
+    menuImpresion.style.display = "block";
+    menuImpresion.style.left = event.pageX + "px";
+    menuImpresion.style.top = event.pageY + "px";
+}
+
+// 🔵 ABRIR CORREO
+function mostrarMenuCorreo(event) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    cerrarTodos(); // 🔥 cierra el otro
+
+    menuCorreo.style.display = "block";
+    menuCorreo.style.left = event.pageX + "px";
+    menuCorreo.style.top = event.pageY + "px";
+}
+
+// 🟢 SELECCIONAR IMPRESIÓN
+function seleccionarOpcion(tipo) {
+
+    cerrarTodos();
+
+    const url = rutasImpresion[tipo];
+    window.open(url, "_blank");
+
+    setTimeout(() => location.reload(), 500);
+}
+
+// 🟢 SELECCIONAR CORREO
+function seleccionarCorreo(tipo) {
+
+    cerrarTodos();
+
+    tipoCorreoSeleccionado = tipo; // 🔥 orden o historial
+
+    $('#modal-email').modal('show'); // 🔥 SIEMPRE abre modal
+}
+
+// 🔴 NO cerrar si clic dentro
+menuImpresion.addEventListener("click", e => e.stopPropagation());
+menuCorreo.addEventListener("click", e => e.stopPropagation());
+
+// ⚫ Cerrar si clic afuera
+document.addEventListener("click", cerrarTodos);
+
+</script>
 </x-layout2>

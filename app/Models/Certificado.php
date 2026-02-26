@@ -24,4 +24,9 @@ class Certificado extends Model
     {
         return $this->belongsTo(ItemOrdenTrabajo::class, 'IdItemOrdenTrabajo');
     }
+
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'IdUsuario');
+    }
 }

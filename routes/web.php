@@ -70,8 +70,11 @@ Route::middleware('auth')->group(function () {
 
     // Producción
     Route::resource('orden-trabajo', OrdenTrabajoController::class)->names('orden-trabajo');
-    Route::get('orden-trabajo/pdf/{orden_trabajo}', [OrdenTrabajoController::class, 'pdf'])->name('orden-trabajo.pdf');
-    Route::get('enviar-mail', [OrdenTrabajoController::class, 'mail'])->name('enviar.mail');
+    Route::get('orden-trabajo/ordenPDF/{orden_trabajo}', [OrdenTrabajoController::class, 'ordenPDF'])->name('orden-trabajo.ordenPDF');
+    Route::get('orden-trabajo/historialPDF/{orden_trabajo}', [OrdenTrabajoController::class, 'historialPDF'])->name('orden-trabajo.historialPDF');
+    Route::get('orden-trabajo/tarjetasPDF/{orden_trabajo}', [OrdenTrabajoController::class, 'tarjetasPDF'])->name('orden-trabajo.tarjetasPDF');
+    Route::get('orden-trabajo/ordenMail/{orden_trabajo}', [OrdenTrabajoController::class, 'ordenMail'])->name('orden-trabajo.ordenMail');
+    Route::get('orden-trabajo/historialMail/{orden_trabajo}', [OrdenTrabajoController::class, 'historialMail'])->name('orden-trabajo.historialMail');
 
     Route::get('/item-orden-trabajo/create/{orden_trabajo}', [ItemOrdenTrabajoController::class, 'create'])->name('item-orden-trabajo.create');
     Route::post('/item-orden-trabajo/{orden_trabajo}', [ItemOrdenTrabajoController::class, 'store'])->name('item-orden-trabajo.store');

@@ -6,6 +6,8 @@ use App\Http\Requests\StoreOrdenTrabajoRequest;
 use App\Mail\OrdenCreadaMail;
 use App\Models\Certificado;
 use App\Models\Client;
+use App\Models\ConfiguracionGlobal;
+use App\Models\Email;
 use App\Models\ItemOrdenTrabajo;
 use App\Models\OrdenTrabajo;
 use App\Models\PuntoDeVenta;
@@ -61,17 +63,150 @@ class OrdenTrabajoController extends Controller
         return view('produccion.orden-trabajo.show', compact('orden_trabajo', 'items_orden_trabajo', 'pto_ventas'));
     }
 
-    public function pdf(OrdenTrabajo $orden_trabajo)
+    public function ordenPDF(OrdenTrabajo $orden_trabajo)
     {
         $orden_trabajo->update([
             'CantidadImpresiones' => $orden_trabajo->CantidadImpresiones + 1
         ]);
 
-        $pdf = Pdf::loadView('produccion.orden-trabajo.pdf', [
+        $pdf = Pdf::loadView('produccion.orden-trabajo.orden-pdf', [
+            'orden_trabajo' => $orden_trabajo,
+        ])->setPaper('A4');
+
+        return $pdf->stream('produccion.orden-trabajo.orden-pdf');
+    }
+
+    public function historialPDF(OrdenTrabajo $orden_trabajo)
+    {
+        $orden_trabajo->update([
+            'CantidadImpresiones' => $orden_trabajo->CantidadImpresiones + 1
+        ]);
+
+        $configuracion_global = ConfiguracionGlobal::first();
+
+        $pdf = Pdf::loadView('produccion.orden-trabajo.historial-pdf', [
+            'orden_trabajo' => $orden_trabajo,
+            'configuracion_global' => $configuracion_global,
+        ])->setPaper('A4');
+
+        return $pdf->stream('produccion.orden-trabajo.historial-pdf');
+    }
+
+    public function tarjetasPDF(OrdenTrabajo $orden_trabajo)
+    {
+        $orden_trabajo->update([
+            'CantidadImpresiones' => $orden_trabajo->CantidadImpresiones + 1
+        ]);
+
+        $pdf = Pdf::loadView('produccion.orden-trabajo.tarjetas-pdf', [
             'orden_trabajo' => $orden_trabajo,
         ])->setPaper('A5', 'landscape');
 
-        return $pdf->stream('produccion.orden-trabajos.pdf');
+        return $pdf->stream('produccion.orden-trabajos.tarjetas-pdf');
+    }
+
+    public function ordenMail(OrdenTrabajo $orden_trabajo, Request $request)
+    {
+        // 🔹 Obtener emails
+        $ids = explode(',', $request->Emails ?? '');
+
+        if (!$ids || count($ids) === 0 || $ids[0] === '') {
+            // Emails del cliente (ajustá la relación si cambia)
+            $emails = $orden_trabajo
+                ->cliente
+                ->emails
+                ->pluck('Email')
+                ->toArray();
+        } else {
+            $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
+        }
+
+        // dd($emails);
+
+        // 🔹 Contador de envíos por mail
+        $orden_trabajo->CantidadEnviosPorCorreo =
+            ($orden_trabajo->CantidadEnviosPorCorreo ?? 0) + 1;
+        $orden_trabajo->save();
+
+        // 🔹 Generar el MISMO PDF que el método pdf()
+        $pdf = Pdf::loadView('produccion.orden-trabajo.orden-pdf', [
+            'orden_trabajo' => $orden_trabajo,
+        ])->setPaper('A4');
+
+        // 🔹 Enviar mail
+
+        Mail::send('emails.orden', [
+            'orden_trabajo' => $orden_trabajo,
+        ], function ($message) use ($emails, $pdf, $orden_trabajo) {
+
+            $message->from('durmetal@durmetal.com.ar', 'durmetal');
+
+            $message->to($emails)
+                ->subject('ORDEN DE TRABAJO ' . $orden_trabajo->NumeroCompleto)
+                ->attachData(
+                    $pdf->output(),
+                    'orden_trabajo' . $orden_trabajo->id . '.pdf',
+                    ['mime' => 'application/pdf']
+                );
+        });
+
+        return back()->with('success', 'Certificado enviado por correo correctamente.');
+    }
+
+    public function historialMail(OrdenTrabajo $orden_trabajo, Request $request)
+    {
+        // 🔹 Obtener la PRIMER configuración global
+        $configuracion_global = ConfiguracionGlobal::first();
+
+        // 🔹 Obtener emails
+        $ids = explode(',', $request->Emails ?? '');
+
+        if (!$ids || count($ids) === 0 || $ids[0] === '') {
+
+            $emails = $orden_trabajo
+                ->cliente
+                ->emails
+                ->pluck('Email')
+                ->toArray();
+
+        } else {
+
+            $emails = Email::whereIn('Id', $ids)
+                ->pluck('Email')
+                ->toArray();
+        }
+
+        // 🔹 Contador
+        $orden_trabajo->CantidadEnviosPorCorreo =
+            ($orden_trabajo->CantidadEnviosPorCorreo ?? 0) + 1;
+        $orden_trabajo->save();
+
+        // 🔹 PDF
+        $configuracion_global = ConfiguracionGlobal::first();
+
+        $pdf = Pdf::loadView('produccion.orden-trabajo.historial-pdf', [
+            'orden_trabajo' => $orden_trabajo,
+            'configuracion_global' => $configuracion_global,
+        ])->setPaper('A4');
+
+        // 🔹 Mail
+        Mail::send('emails.historial', [
+            'orden_trabajo' => $orden_trabajo,
+            'configuracion_global' => $configuracion_global   // 🔥 ESTO ES LO IMPORTANTE
+        ], function ($message) use ($emails, $pdf, $orden_trabajo) {
+
+            $message->from('durmetal@durmetal.com.ar', 'durmetal');
+
+            $message->to($emails)
+                ->subject('HISTORIAL DE TRABAJOS EN ' . $orden_trabajo->NumeroCompleto)
+                ->attachData(
+                    $pdf->output(),
+                    'orden_trabajo' . $orden_trabajo->id . '.pdf',
+                    ['mime' => 'application/pdf']
+                );
+        });
+
+        return back()->with('success', 'Certificado enviado por correo correctamente.');
     }
 
     public function edit(OrdenTrabajo $orden_trabajo, Request $request)
@@ -138,8 +273,8 @@ class OrdenTrabajoController extends Controller
 
                 } else {
 
-                    if ($certificado) {
-                        $certificado->update([
+                    if ($orden_trabajo) {
+                        $orden_trabajo->update([
                             'Nombre' => $nro_plano,
                             'NroPlano' => $nro_plano,
                         ]);
@@ -251,16 +386,6 @@ class OrdenTrabajoController extends Controller
         $orden_trabajo->update($data);
     
         return redirect()->route('orden-trabajo.edit', $orden_trabajo);
-    }
-
-
-    public function mail()
-    {
-        // $user_id = Auth::id();
-        Mail::to('asd@asd.com')->send(new OrdenCreadaMail);
-        // $items_orden_trabajo = $orden_trabajo->itemsOrdenTrabajo;
-
-        return redirect()->route('orden-trabajo.show', 1);
     }
 
     public function destroy(OrdenTrabajo $orden_trabajo)
