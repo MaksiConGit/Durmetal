@@ -78,6 +78,14 @@
                             </div>
                         </div>
 
+                        <div class="row d-flex justify-content-end ml-5">
+                            <div>
+                                <button class="btn btn-app bg-primary">
+                                    <i class="fas fa-floppy-disk"></i> Guardar
+                                </button>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="row mb-3">
@@ -122,9 +130,9 @@
                         
                         <div class="row d-flex justify-content-end ml-5">
                             <div>
-                                <button class="btn btn-app bg-primary">
-                                    <i class="fas fa-floppy-disk"></i> Guardar
-                                </button>
+                                <a class="btn btn-app bg-primary" href="{{ route('orden-trabajo.show', $orden_trabajo) }}">
+                                    <i class="fas fa-share"></i> Enviar
+                                </a>
                             </div>
                         </div>
 

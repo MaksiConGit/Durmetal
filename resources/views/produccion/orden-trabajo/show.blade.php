@@ -216,7 +216,7 @@
     <div class="container-fluid px-4 py-3">
         <div class="row">
             <div class="col-12 d-flex justify-content-end">
-                <a class="btn btn-sm btn-primary" href="{{ route('ventas.ficha-del-cliente.show', $orden_trabajo->IdCliente) }}">
+                <a class="btn btn-sm btn-primary" href="{{ route('orden-trabajo.edit', $orden_trabajo) }}">
                     <i class="bi bi-x-circle"></i> Salir
                 </a>
             </div>
