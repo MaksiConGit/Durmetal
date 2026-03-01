@@ -308,7 +308,7 @@
                                                                                 <label for="DurezaMinima[{{ $programacion->id }}]" class="font-weight-normal">DMIN ({{ $programacion->DurezaMinima }}/0)</label>
                                                                                 <input type="number" id="DurezaMinima[{{ $programacion->id }}]" name="DurezaMinima[{{ $programacion->id }}]"
                                                                                 class="form-control form-control-sm"
-                                                                                value="{{ $programacion->DurezaMinima }}" wire:model.live="dureza_minima.{{ $programacion->id }}">
+                                                                                wire:model.live="dureza_minima.{{ $programacion->id }}">
                                                                             </div>
                                                                         </div>
 
@@ -317,7 +317,7 @@
                                                                                 <label for="DurezaMaxima[{{ $programacion->id }}]" class="font-weight-normal">DMAX ({{ $programacion->DurezaMaxima }}/0)</label>
                                                                                 <input type="number" id="DurezaMaxima[{{ $programacion->id }}]" name="DurezaMaxima[{{ $programacion->id }}]"
                                                                                 class="form-control form-control-sm"
-                                                                                value="{{ $programacion->DurezaMaxima }}" wire:model.live="dureza_maxima.{{ $programacion->id }}">
+                                                                                wire:model.live="dureza_maxima.{{ $programacion->id }}">
                                                                             </div>
                                                                         </div>
 
