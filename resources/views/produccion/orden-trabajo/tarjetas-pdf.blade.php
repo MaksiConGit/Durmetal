@@ -4,137 +4,146 @@
 <meta charset="UTF-8">
 
 <style>
-@page {
-    size: A5 landscape;
-    margin: 20mm;
+
+@page{
+    size:10cm 6cm;
+    margin:0.25cm 0.35cm;
 }
 
-body {
-    font-family: "Courier New", Courier, monospace;
-    font-size: 16px;
-    font-weight: bold;
+body{
+    margin:0;
+    font-family:"Courier New", monospace;
 }
 
-.tabla {
-    width: 65%;
-    border-collapse: collapse;
+.ticket{
+    width:9.3cm;
 }
 
-.tabla td {
-    border: 1px solid #000;
-    padding: 6px 8px;
-    height: 45px;
-    vertical-align: middle;
-    font-weight: bold;
+table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
 }
 
-.label {
-    font-weight: 400 !important;
-    font-size: 12px;
-    display: block;
+td{
+    border:1px solid black;
+    padding:4px;
+    font-size:15px;
+    vertical-align:middle;
 }
 
-.fila-chica td {
-    height: 22px;
+.label{
+    font-size:9px;
 }
 
-.checkbox {
-    width: 14px;
-    height: 14px;
-    border: 2px solid #000;
-    display: inline-block;
-    float: right;
-    margin-top: 2px;
+.valor{
+    font-weight:bold;
 }
 
-.page-break {
-    page-break-after: always;
+.checkbox{
+    width:12px;
+    height:12px;
+    border:2px solid black;
+    float:right;
 }
 
-.page-break:last-child {
-    page-break-after: avoid;
+.page-break{
+    page-break-after:always;
+}
+
+.page-break:last-child{
+    page-break-after:avoid;
 }
 
 </style>
+
 </head>
 
 <body>
 
 @foreach ($orden_trabajo->itemsOrdenTrabajo as $item)
 
-<table class="tabla">
+<div class="ticket">
+
+<table>
 
 <tr>
-    <td width="25%">
-        <span class="label">CLIENTE</span>
-        {{ $orden_trabajo->cliente->id }}
-    </td>
+<td>
+<div class="label">CLIENTE</div>
+<div class="valor">{{ $orden_trabajo->cliente->id }}</div>
+</td>
 
-    <td width="25%"></td>
+<td></td>
 
-    <td width="50%" colspan="2">
-        <span class="label">OTI</span>
-        {{ trim(explode('X', $orden_trabajo->NumeroCompleto)[1] ?? '') }}/{{ $item->ItemNumero }}
-    </td>
-</tr>
-
-<tr class="fila-chica">
-    <td colspan="4">
-        {{ $item->Cantidad ?? '' }} {{ $item->Descripcion ?? '' }}
-    </td>
+<td colspan="2">
+<div class="label">OTI</div>
+<div class="valor">
+{{ trim(explode('X', $orden_trabajo->NumeroCompleto)[1] ?? '') }}/{{ $item->ItemNumero }}
+</div>
+</td>
 </tr>
 
 <tr>
-    <td>
-        {{ $item->tratamiento->Nombre ?? '' }}<br>
-        {{ $item->material->Nombre ?? '' }}
-    </td>
-
-    <td>
-        <span class="label">DMIN</span>
-        {{ $item->DurezaSolicitadaMinima ?? 0 }}
-    </td>
-
-    <td>
-        <span class="label">DMAX</span>
-        {{ $item->DurezaSolicitadaMaxima ?? 0 }}
-    </td>
-
-    <td>
-        <span class="label">DTIPO</span>
-        {{ $item->Dureza->Nombre ?? '' }}
-    </td>
+<td colspan="4">
+<b>{{ $item->Cantidad ?? '' }} {{ $item->Descripcion ?? '' }}</b>
+</td>
 </tr>
 
-<tr class="fila-chica">
-    <td>DT</td>
-    <td></td>
-    <td></td>
-    <td></td>
+<tr>
+<td>
+<b>
+{{ $item->tratamiento->Nombre ?? '' }}<br>
+{{ $item->material->Nombre ?? '' }}
+</b>
+</td>
+
+<td>
+<div class="label">DMIN</div>
+<b>{{ $item->DurezaSolicitadaMinima ?? 0 }}</b>
+</td>
+
+<td>
+<div class="label">DMAX</div>
+<b>{{ $item->DurezaSolicitadaMaxima ?? 0 }}</b>
+</td>
+
+<td>
+<div class="label">DTIPO</div>
+<b>{{ $item->Dureza->Nombre ?? '' }}</b>
+</td>
 </tr>
 
-<tr class="fila-chica">
-    <td>R1 <span class="checkbox"></span></td>
-    <td></td>
-    <td></td>
-    <td></td>
+<tr>
+<td><b>DT</b></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 
-<tr class="fila-chica">
-    <td>R2 <span class="checkbox"></span></td>
-    <td></td>
-    <td></td>
-    <td></td>
+<tr>
+<td>R1 <span class="checkbox"></span></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 
-<tr class="fila-chica">
-    <td>R3 <span class="checkbox"></span></td>
-    <td></td>
-    <td></td>
-    <td></td>
+<tr>
+<td>R2 <span class="checkbox"></span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>R3 <span class="checkbox"></span></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 
 </table>
+
+</div>
 
 <div class="page-break"></div>
 
