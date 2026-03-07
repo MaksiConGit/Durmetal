@@ -6,7 +6,7 @@
 <style>
 
 @page{
-    size:10cm 6cm;
+    size:10cm 6.2cm;
     margin:0.25cm 0.35cm;
 }
 
