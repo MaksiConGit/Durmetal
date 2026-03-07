@@ -30,10 +30,12 @@ td{
     padding:4px;
     font-size:15px;
     vertical-align:middle;
+    font-weight:bold;
 }
 
 .label{
     font-size:9px;
+    font-weight:bold;
 }
 
 .valor{
