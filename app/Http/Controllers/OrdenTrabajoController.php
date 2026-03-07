@@ -264,6 +264,7 @@ class OrdenTrabajoController extends Controller
 
                 $certificado = Certificado::where('IdItemOrdenTrabajo', $item->id)->first();
                 $nro_plano = $request->items[$id]['NroPlano'] ?? null;
+                // dd($nro_plano);
 
                 if (empty($nro_plano)) {
 
@@ -273,8 +274,8 @@ class OrdenTrabajoController extends Controller
 
                 } else {
 
-                    if ($orden_trabajo) {
-                        $orden_trabajo->update([
+                    if ($certificado) {
+                        $certificado->update([
                             'Nombre' => $nro_plano,
                             'NroPlano' => $nro_plano,
                         ]);
