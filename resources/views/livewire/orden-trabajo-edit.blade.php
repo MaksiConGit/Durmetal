@@ -514,7 +514,8 @@
                                                             </div>
 
                                                             <div class="d-flex justify-content-end mt-2">
-                                                                <button class="btn btn-sidebar btn-xs bg-orange px-2 py-1">
+                                                                <button class="btn btn-sidebar btn-xs bg-orange px-2 py-1"
+                                                                onclick="this.disabled=true; this.form.submit();">
                                                                     <span class="text-white">Aceptar</span>
                                                                     <i class="fas fa-check fa-xs text-white ml-1"></i>
                                                                 </button>
@@ -882,7 +883,8 @@
                                                             </div>
 
                                                             <div class="d-flex justify-content-end mt-2">
-                                                                <button class="btn btn-sidebar btn-xs bg-orange px-2 py-1">
+                                                                <button class="btn btn-sidebar btn-xs bg-orange px-2 py-1"
+                                                                onclick="this.disabled=true; this.form.submit();">
                                                                     <span class="text-white">Aceptar</span>
                                                                     <i class="fas fa-check fa-xs text-white ml-1"></i>
                                                                 </button>

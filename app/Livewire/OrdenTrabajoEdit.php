@@ -130,6 +130,7 @@ class OrdenTrabajoEdit extends Component
         } else {
             $item = $this->items_orden_trabajo->find($id);
             if ($item) {
+                $item->certificados()->delete();
                 $item->delete();
                 $this->items_orden_trabajo = $this->items_orden_trabajo->except($id);
             }
