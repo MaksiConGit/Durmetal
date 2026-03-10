@@ -879,6 +879,14 @@ this.href = '{{ route('ingreso-datos.email', $certificadoSeleccionado[$item->id]
         }
     </script>
 
+    <script>
+document.addEventListener('livewire:init', () => {
+    Livewire.on('abrirPdf', (event) => {
+        window.open(event.url, '_blank');
+    });
+});
+</script>
+
 </div>
 
 

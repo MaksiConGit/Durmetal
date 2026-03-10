@@ -40,48 +40,40 @@ class FiltrarItemsOrdenTrabajoIngresoDatos2 extends Component
         $this->users = User::all();
     }
 
-    public function imprimirCertificado($itemId)
-    {
-        // Si eligió uno existente
-        if (!empty($this->certificadoSeleccionado[$itemId])) {
+public function imprimirCertificado($itemId)
+{
+    if (!empty($this->certificadoSeleccionado[$itemId])) {
 
-            return redirect()->route(
-                'ingreso-datos.pdf',
-                $this->certificadoSeleccionado[$itemId]
-            );
-        }
+        $url = route('ingreso-datos.pdf', $this->certificadoSeleccionado[$itemId]);
 
-        // 🔹 Validaciones SOLO si es nuevo
-        $this->validate([
-            "numeroPlano.$itemId"   => 'required|string|max:255',
-            "cantidad.$itemId"      => 'required|numeric|min:1',
-            "responsableId.$itemId" => 'required|exists:users,id',
-            "observaciones.$itemId" => 'nullable|string|max:1000',
-        ], [
-            "numeroPlano.$itemId.required"   => 'Debe ingresar el número de plano.',
-            "cantidad.$itemId.required"      => 'Debe ingresar la cantidad.',
-            "cantidad.$itemId.numeric"       => 'La cantidad debe ser numérica.',
-            "cantidad.$itemId.min"           => 'La cantidad debe ser mayor a 0.',
-            "responsableId.$itemId.required" => 'Debe seleccionar un responsable técnico.',
-            "responsableId.$itemId.exists"   => 'El responsable seleccionado no es válido.',
-        ]);
+        $this->dispatch('abrirPdf', url: $url);
 
-        // 🔹 Crear certificado
-        $certificado = Certificado::create([
-            'IdItemOrdenTrabajo'       => $itemId,
-            'Nombre'                   => $this->numeroPlano[$itemId],
-            'NroPlano'                 => $this->numeroPlano[$itemId],
-            'Observaciones'            => $this->observaciones[$itemId] ?? null,
-            'Cantidad'                 => $this->cantidad[$itemId],
-            'ResponsableId'            => $this->responsableId[$itemId],
-            'CantidadImpresiones'      => 0,
-            'CantidadEnviosPorCorreo'  => 0,
-            'Predeterminado'           => 1,
-        ]);
-
-        // Abrir PDF
-        return redirect()->route('ingreso-datos.pdf', $certificado->id);
+        return;
     }
+
+    $this->validate([
+        "numeroPlano.$itemId"   => 'required|string|max:255',
+        "cantidad.$itemId"      => 'required|numeric|min:1',
+        "responsableId.$itemId" => 'required|exists:users,id',
+        "observaciones.$itemId" => 'nullable|string|max:1000',
+    ]);
+
+    $certificado = Certificado::create([
+        'IdItemOrdenTrabajo'       => $itemId,
+        'Nombre'                   => $this->numeroPlano[$itemId],
+        'NroPlano'                 => $this->numeroPlano[$itemId],
+        'Observaciones'            => $this->observaciones[$itemId] ?? null,
+        'Cantidad'                 => $this->cantidad[$itemId],
+        'ResponsableId'            => $this->responsableId[$itemId],
+        'CantidadImpresiones'      => 0,
+        'CantidadEnviosPorCorreo'  => 0,
+        'Predeterminado'           => 1,
+    ]);
+
+    $url = route('ingreso-datos.pdf', $certificado->id);
+
+    $this->dispatch('abrirPdf', url: $url);
+}
 
     public function enviarCertificadoPorCorreo($itemId)
     {
