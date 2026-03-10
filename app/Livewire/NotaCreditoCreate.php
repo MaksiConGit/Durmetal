@@ -17,6 +17,8 @@ class NotaCreditoCreate extends Component
     public $next_nota_credito_numero;
     public $cliente;
     public $factura_venta;
+    public $total_pendiente;
+    public $notas_credito_venta;
     public $pto_ventas;
     public $condiciones_venta;
     public $fechaEmision;
@@ -41,7 +43,8 @@ class NotaCreditoCreate extends Component
         $this->fechaVencimiento = Carbon::today()->addDays(7)->format('Y-m-d');
         $this->pto_ventas = PuntoDeVenta::all();
         $this->condiciones_venta = CondicionVenta::all();
-
+        $this->notas_credito_venta = NotaCreditoVenta::where('IdFacturaVenta', $this->factura_venta->id)->get();
+        $this->total_pendiente = $this->factura_venta->Total - $this->notas_credito_venta->sum('Total');
         // $this->condicionesSeleccionadas = 
         //     collect($this->condiciones_venta)
         //         ->where('Seleccionado', 1)
@@ -89,15 +92,17 @@ class NotaCreditoCreate extends Component
     public function addNewItem()
     {
         $newItemId = $this->tempId;
-
         $this->newItems[$newItemId] = [
             'Descripcion' => 'CREDITO',
-            'Total' => $this->factura_venta->Total,
+            'Total' => $this->total_pendiente,
         ];
 
         $this->selectedIdItem = $newItemId;
 
         $this->tempId--;
+
+    $this->updatedNewItems();
+
     }
 
 public function updatedNewItems()

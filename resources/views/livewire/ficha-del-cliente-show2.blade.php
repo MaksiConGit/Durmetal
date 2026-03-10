@@ -1334,9 +1334,8 @@
                                     <td>{{ $factura_pendiente->Estado }}</td>
                                     <td>{{ number_format($factura_pendiente->Total, 2, '.', '') }}</td>
                                     @php
-                                        $totalRemitos = $factura_pendiente->itemsReciboVenta()->sum('Total');
-
-                                        $pendiente = $factura_pendiente->Total - $totalRemitos;
+                                        $notas_credito_venta = \App\Models\NotaCreditoVenta::where('IdFacturaVenta', $factura_pendiente->id)->get();
+                                        $pendiente = $factura_pendiente->Total - $notas_credito_venta->sum('Total');
                                     @endphp
                                     <td>{{ number_format($pendiente, 2, '.', '') }}</td>
                                 </tr>

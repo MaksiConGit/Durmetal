@@ -142,7 +142,12 @@
                                 <input type="text" name="items[{{ $id }}][Descripcion]" id="" value="{{ $newItem['Descripcion'] }}">
                             </td>
                             <td>
-                                <input type="number" name="items[{{ $id }}][Total]" id="" wire:model.live="newItems.{{ $id }}.Total">
+                                <input 
+                                    type="number"
+                                    step="0.01"
+                                    name="items[{{ $id }}][Total]"
+                                    wire:model.live="newItems.{{ $id }}.Total"
+                                >
                             </td>
                         </tr>
                     @endforeach

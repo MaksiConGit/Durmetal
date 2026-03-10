@@ -1446,6 +1446,14 @@ class VentasController extends Controller
 
         }
 
+        $notas_credito_venta = NotaCreditoVenta::where('IdFacturaVenta', $factura_venta->id)->get();
+
+        if ($notas_credito_venta->sum('Total') >= $factura_venta->Total) {
+            $factura_venta->update([
+                'Estado' => 'COMPLETO'
+            ]);
+        }
+
         return redirect()->route('ventas.ficha-del-cliente-nota-credito.show', $nota_credito_venta);
     }
 
