@@ -1402,47 +1402,43 @@ class VentasController extends Controller
         $factura_venta = FacturaVenta::find($request->IdFacturaVenta);
 
         foreach ($request->items as $index => $itemData) {
+
             
-            $total = round(floatval($itemData['Total']), 2);
+$neto = round(floatval($itemData['Total']), 2);
+$iva  = round($neto * 0.21, 2);
+$total = round($neto + $iva, 2);
 
-            $neto = round($total / 1.21, 2);
-            $iva  = round($neto * 0.21, 2);
+ItemNotaCreditoVenta::create([
+    'IdNotaCreditoVenta' => $nota_credito_venta->id,
+    'ItemNumero' => $index + 1,
+    'IdArticulo' => 2,
+    'Descripcion' => $itemData['Descripcion'],
+    'NroDeposito' => 0,
+    'Cantidad' => 1,
 
-            $reconstruido = round($neto + $iva, 2);
-            $ajuste = round($total - $reconstruido, 2);
-            $iva += $ajuste;
+    'PrecioCosto' => 0,
+    'PrecioUnitarioNeto' => $neto,
+    'PrecioUnitario' => $neto,
 
-            ItemNotaCreditoVenta::create([
-                'IdNotaCreditoVenta' => $nota_credito_venta->id,
-                'ItemNumero' => $index + 1,
-                'IdArticulo' => 2,
-                'Descripcion' => $itemData['Descripcion'],
-                'NroDeposito' => 0,
-                'Cantidad' => 1,
+    'AlicuotaIVA' => 21,
+    'ImpuestosInternos' => 0,
+    'ImpuestoCombustible' => 0,
+    'ImpuestoTV' => 0,
+    'ImpuestoInterno' => 0,
 
-                'PrecioCosto' => 0,
-                'PrecioUnitarioNeto' => $neto,
-                'PrecioUnitario' => $neto,
+    'Neto' => $neto,
+    'IdImpuestoIva' => 1,
+    'IVA' => $iva,
+    'Total' => $total,
 
-                'AlicuotaIVA' => 21,
-                'ImpuestosInternos' => 0,
-                'ImpuestoCombustible' => 0,
-                'ImpuestoTV' => 0,
-                'ImpuestoInterno' => 0,
-
-                'Neto' => $neto,
-                'IdImpuestoIva' => 1,
-                'IVA' => $iva,
-                'Total' => $total,
-
-                'AfectarPlanillaTurno' => 0,
-                'ControlarStock' => 0,
-                'FechaCreacion' => now(),
-                'CreadoPor' => $user_id,
-                'FechaActualizacion' => now(),
-                'ActualizadoPor' => $user_id,
-                'Activo' => 0,
-            ]);
+    'AfectarPlanillaTurno' => 0,
+    'ControlarStock' => 0,
+    'FechaCreacion' => now(),
+    'CreadoPor' => $user_id,
+    'FechaActualizacion' => now(),
+    'ActualizadoPor' => $user_id,
+    'Activo' => 0,
+]);
 
         }
 
