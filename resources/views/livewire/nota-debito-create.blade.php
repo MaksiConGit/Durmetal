@@ -205,6 +205,7 @@
 
                             <td>
                                 <input type="number"
+                                    step="0.01"
                                     wire:model.live="newItems.{{ $id }}.Subtotal"
                                     name="items[{{ $id }}][Neto]">
                             </td>

@@ -101,29 +101,26 @@ class NotaCreditoCreate extends Component
 
         $this->tempId--;
 
-    $this->updatedNewItems();
+        $this->updatedNewItems();
 
     }
 
-public function updatedNewItems()
-{
-    $totalFinal = 0;
+    public function updatedNewItems()
+    {
+        $subtotal = 0;
 
-    foreach ($this->newItems as $item) {
-        $totalFinal += round(floatval($item['Total'] ?? 0), 2);
+        foreach ($this->newItems as $item) {
+            $subtotal += round(floatval($item['Total'] ?? 0), 2);
+        }
+
+        $iva = round($subtotal * 0.21, 2);
+        $totalFinal = round($subtotal + $iva, 2);
+
+        $this->subtotal = $subtotal;
+        $this->iva = $iva;
+        $this->total_final = $totalFinal;
+        $this->ajuste = 0;
     }
-
-    $subtotal = round($totalFinal / 1.21, 2);
-    $iva = round($subtotal * 0.21, 2);
-
-    $reconstruido = round($subtotal + $iva, 2);
-    $ajuste = round($totalFinal - $reconstruido, 2);
-
-    $this->subtotal = $subtotal;
-    $this->iva = $iva;
-    $this->ajuste = $ajuste;
-    $this->total_final = $totalFinal;
-}
 
 
 
