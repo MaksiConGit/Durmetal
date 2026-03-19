@@ -16,6 +16,7 @@ class NotaCreditoCreate extends Component
     public $notas_envio;
     public $next_nota_credito_numero;
     public $cliente;
+    public $alicuota;
     public $factura_venta;
     public $total_pendiente;
     public $notas_credito_venta;
@@ -39,6 +40,7 @@ class NotaCreditoCreate extends Component
 
     public function mount()
     {
+        $this->alicuota = 21;
         $this->fechaEmision = Carbon::today()->format('Y-m-d');
         $this->fechaVencimiento = Carbon::today()->addDays(7)->format('Y-m-d');
         $this->pto_ventas = PuntoDeVenta::all();
@@ -113,7 +115,7 @@ class NotaCreditoCreate extends Component
             $subtotal += round(floatval($item['Total'] ?? 0), 2);
         }
 
-        $iva = round($subtotal * 0.21, 2);
+        $iva = round($subtotal * ($this->alicuota / 100), 2);
         $totalFinal = round($subtotal + $iva, 2);
 
         $this->subtotal = $subtotal;
@@ -122,7 +124,10 @@ class NotaCreditoCreate extends Component
         $this->ajuste = 0;
     }
 
-
+    public function updatedAlicuota()
+    {
+        $this->updatedNewItems();
+    }
 
     // public function updatedCondicionesSeleccionadas()
     // {

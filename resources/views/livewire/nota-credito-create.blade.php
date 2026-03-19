@@ -206,26 +206,52 @@
                                 <input type="hidden" name="Neto" value="{{ $subtotal }}">
                             </div>
 
-                            <div class="w-100 mb-2 d-flex justify-content-between">
+                            <div class="w-100 mb-2 d-flex justify-content-between align-items-end">
+                                
+                                <!-- TEXTO IVA -->
                                 <span class="fw-semibold" style="font-size: 1.1rem;">IVA</span>
 
-                                <input 
-                                    type="text"
-                                    readonly
-                                    value="{{ number_format($iva, 2, ',', '.') }}"
+                                <!-- SELECT + MONTO -->
+                                <div class="d-flex align-items-end gap-2">
+                                    
+                                    <!-- SELECT -->
+                                    <select wire:model.live="alicuota"
+                                        style="
+                                            height: 24px;
+                                            border: none;
+                                            border-bottom: 1px solid black;
+                                            background: transparent;
+                                            outline: none;
+                                            font-size: 0.9rem;
+                                            color: #6c757d;
+                                            padding: 0;
+                                        "
+                                    >
+                                        <option value="21">21%</option>
+                                        <option value="10.5">10.5%</option>
+                                        <option value="27">27%</option>
+                                    </select>
 
-                                    style="
-                                        width: 160px;
-                                        text-align: right;
-                                        border: none;
-                                        border-bottom: 1px solid black;
-                                        background: transparent;
-                                        padding: 2px 0;
-                                        outline: none;
-                                        font-size: 0.9rem;
-                                        color: #6c757d;
-                                    "
-                                />
+                                    <!-- MONTO IVA -->
+                                    <input 
+                                        type="text"
+                                        readonly
+                                        value="{{ number_format($iva, 2, ',', '.') }}"
+                                        style="
+                                            height: 24px;
+                                            width: 105px;
+                                            text-align: right;
+                                            border: none;
+                                            border-bottom: 1px solid black;
+                                            background: transparent;
+                                            padding: 0;
+                                            outline: none;
+                                            font-size: 0.9rem;
+                                            color: #6c757d;
+                                        "
+                                    />
+                                </div>
+
                                 <input type="hidden" name="IVA" value="{{ $iva }}">
                             </div>
 
