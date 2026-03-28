@@ -1357,11 +1357,13 @@ class VentasController extends Controller
 
         $cliente = Client::find($request->IdCliente);
 
+        $factura_venta = FacturaVenta::find($request->IdFacturaVenta);
+
         $data['IdFacturaVenta'] = $request->IdFacturaVenta;
-        $data['Letra'] = 'A';
+        $data['Letra'] = $factura_venta->Letra;
         $data['PuntoVenta'] = $request->PuntoVenta;
         $data['Numero'] = $request->Numero;
-        $data['NumeroCompleto'] = "NC A 0001-0000$request->Numero";
+        $data['NumeroCompleto'] = "NC $factura_venta->Letra 0001-0000$request->Numero";
         $data['FechaEmision'] = $request->FechaEmision;
         $data['FechaVencimiento'] = $request->FechaEmision;
         $data['FechaEstadisticas'] = $request->FechaEmision; // REVISAR
@@ -1399,46 +1401,45 @@ class VentasController extends Controller
 
         $nota_credito_venta = NotaCreditoVenta::create($data);
 
-        $factura_venta = FacturaVenta::find($request->IdFacturaVenta);
+        $alicuota = floatval($request->alicuota ?? 21);
 
         foreach ($request->items as $index => $itemData) {
 
-            
-$neto = round(floatval($itemData['Total']), 2);
-$iva  = round($neto * 0.21, 2);
-$total = round($neto + $iva, 2);
+            $neto = round(floatval($itemData['Total']), 2);
+            $iva  = round($neto * 0.21, 2);
+            $total = round($neto + $iva, 2);
 
-ItemNotaCreditoVenta::create([
-    'IdNotaCreditoVenta' => $nota_credito_venta->id,
-    'ItemNumero' => $index + 1,
-    'IdArticulo' => 2,
-    'Descripcion' => $itemData['Descripcion'],
-    'NroDeposito' => 0,
-    'Cantidad' => 1,
+            ItemNotaCreditoVenta::create([
+                'IdNotaCreditoVenta' => $nota_credito_venta->id,
+                'ItemNumero' => $index + 1,
+                'IdArticulo' => 2,
+                'Descripcion' => $itemData['Descripcion'],
+                'NroDeposito' => 0,
+                'Cantidad' => 1,
 
-    'PrecioCosto' => 0,
-    'PrecioUnitarioNeto' => $neto,
-    'PrecioUnitario' => $neto,
+                'PrecioCosto' => 0,
+                'PrecioUnitarioNeto' => $neto,
+                'PrecioUnitario' => $neto,
 
-    'AlicuotaIVA' => 21,
-    'ImpuestosInternos' => 0,
-    'ImpuestoCombustible' => 0,
-    'ImpuestoTV' => 0,
-    'ImpuestoInterno' => 0,
+                'AlicuotaIVA' => $alicuota,
+                'ImpuestosInternos' => 0,
+                'ImpuestoCombustible' => 0,
+                'ImpuestoTV' => 0,
+                'ImpuestoInterno' => 0,
 
-    'Neto' => $neto,
-    'IdImpuestoIva' => 1,
-    'IVA' => $iva,
-    'Total' => $total,
+                'Neto' => $neto,
+                'IdImpuestoIva' => 1,
+                'IVA' => $iva,
+                'Total' => $total,
 
-    'AfectarPlanillaTurno' => 0,
-    'ControlarStock' => 0,
-    'FechaCreacion' => now(),
-    'CreadoPor' => $user_id,
-    'FechaActualizacion' => now(),
-    'ActualizadoPor' => $user_id,
-    'Activo' => 0,
-]);
+                'AfectarPlanillaTurno' => 0,
+                'ControlarStock' => 0,
+                'FechaCreacion' => now(),
+                'CreadoPor' => $user_id,
+                'FechaActualizacion' => now(),
+                'ActualizadoPor' => $user_id,
+                'Activo' => 0,
+            ]);
 
         }
 

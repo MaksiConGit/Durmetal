@@ -35,9 +35,22 @@
                         </div>
 
                         <div class="col-2 d-flex flex-column justify-content-end">
+                            @php
+                                $mapa = [
+                                    1 => 'B',
+                                    2 => 'A',
+                                    3 => 'A',
+                                    4 => 'B',
+                                    5 => 'A',
+                                    6 => 'B',
+                                ];
+
+                                $letra = $mapa[$cliente->condicionIVA->id] ?? 'B';
+                            @endphp
+
                             <div class="bg-info text-white d-flex justify-content-center align-items-center mx-auto" 
                                 style="width: 3rem; height: 3rem; font-weight: bold;">
-                                A
+                                {{ $letra }}
                             </div>
                         </div>
 
