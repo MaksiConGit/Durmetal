@@ -506,11 +506,22 @@ class VentasController extends Controller
         $user_id = Auth::id();
 
         $cliente = Client::find($request->IdCliente);
+
+        $mapa = [
+            1 => 'B',
+            2 => 'A',
+            3 => 'A',
+            4 => 'B',
+            5 => 'A',
+            6 => 'B',
+        ];
+
+        $letra = $mapa[$cliente->condicionIVA->id] ?? 'B';
     
         $data['Letra'] = 'A';
         $data['PuntoVenta'] = $request->PuntoVenta;
         $data['Numero'] = $request->Numero;
-        $data['NumeroCompleto'] = "FC A 0001-0000$request->Numero";
+        $data['NumeroCompleto'] = "FC $letra 0001-0000$request->Numero";
         $data['FechaEmision'] = $request->FechaEmision;
         $data['FechaVencimiento'] = $request->FechaVencimiento;
         $data['FechaEstadisticas'] = $request->FechaEmision;
