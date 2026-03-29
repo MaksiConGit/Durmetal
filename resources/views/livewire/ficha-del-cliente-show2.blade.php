@@ -255,18 +255,19 @@
 
         </x-slot>
 
-        <div class="row">
-            <div class="col-6">
-                
-                <h3><i class="fa-solid fa-image-portrait"></i> ({{ $cliente->id }}) {{ $cliente->Nombre }}</h3>
-            </div>
-            <div class="col-4"></div>
-            <div class="col-2">
-                
-                <h3>${{ $cliente->Saldo }} <i class="fa-solid fa-money-bills"></i></h3>
-            </div>
-        </div>
+        <div class="d-flex justify-content-between align-items-center flex-nowrap mb-3">
+            
+            <h3 class="mb-0 text-truncate">
+                <i class="fa-solid fa-image-portrait"></i> 
+                ({{ $cliente->id }}) {{ $cliente->Nombre }}
+            </h3>
 
+            <h3 class="mb-0 text-nowrap">
+                ${{ number_format($saldo, 2, ',', '.') }} 
+                <i class="fa-solid fa-money-bills"></i>
+            </h3>
+
+        </div>
     
         <x-panel-horizontal2>
 

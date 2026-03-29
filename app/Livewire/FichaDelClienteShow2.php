@@ -10,6 +10,7 @@ use Livewire\Component;
 class FichaDelClienteShow2 extends Component
 {
     public $activeTabParametros = 'custom-tabs-1';
+    public $saldo = 0;
     public $cliente;
     public $selectedId = 1;
     public $expanded = [];
@@ -54,11 +55,34 @@ class FichaDelClienteShow2 extends Component
         $this->cliente = $cliente;
         $this->factura_venta_id = 1;
         $this->notaEnvio = NotaEnvio::find($this->selectedId);
+
+        $this->calcularSaldo();
     }
 
     public function setActiveTabParametros($tabId)
     {
         $this->activeTabParametros = $tabId;
+    }
+
+    private function calcularSaldo()
+    {
+        if (!$this->cliente) {
+            $this->saldo = 0;
+            return;
+        }
+
+        $id = $this->cliente->id;
+
+        $totalFacturas = $this->cliente->facturasVenta()->sum('Total');
+        $totalDebitos  = $this->cliente->notasDeDebito()->sum('Total');
+        $totalRecibos  = $this->cliente->recibosVenta()->sum('Total');
+        $totalCreditos = $this->cliente->notasDeCredito()->sum('Total');
+
+        $this->saldo = $this->cliente->SaldoSistemaAnterior
+            + $totalFacturas
+            + $totalDebitos
+            - $totalRecibos
+            - $totalCreditos;
     }
 
     public function render()
@@ -110,6 +134,7 @@ class FichaDelClienteShow2 extends Component
             'minutas'          => $minutas,
             'facturas_pendientes' => $facturas_pendientes,
             'facturas_pendientes_completas' => $facturas_pendientes_completas,
+            'saldo' => $this->saldo,
         ]);
     }
 }
