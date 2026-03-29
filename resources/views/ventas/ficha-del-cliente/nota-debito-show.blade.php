@@ -34,7 +34,7 @@
                 <div class="col-2 d-flex flex-column justify-content-end">
                     <div class="bg-info text-white d-flex justify-content-center align-items-center mx-auto" 
                         style="width: 3rem; height: 3rem; font-weight: bold;">
-                        A
+                        {{ $nota_debito->Letra }}
                     </div>
                 </div>
 
@@ -134,7 +134,12 @@
         <x-slot name="tbody">
             <div class="d-flex justify-content-center py-5">
 
-                <a target="_blank" rel="noopener noreferrer" onclick="setTimeout(() => location.reload(), 500);" href="{{ route('ventas.ficha-del-cliente-nota-debito.pdf', $nota_debito) }}" class="position-relative text-center mx-5" style="cursor: pointer; text-decoration: none; color: inherit;">
+                <a target="_blank" rel="noopener noreferrer" onclick="setTimeout(() => location.reload(), 500);" href="{{ route(
+                    $nota_debito->Letra === 'A' 
+                        ? 'ventas.ficha-del-cliente-nota-debito-a.pdf' 
+                        : 'ventas.ficha-del-cliente-nota-debito-b.pdf', 
+                    $nota_debito
+                ) }}" class="position-relative text-center mx-5" style="cursor: pointer; text-decoration: none; color: inherit;">
 
                     <div style="
                         position: absolute;

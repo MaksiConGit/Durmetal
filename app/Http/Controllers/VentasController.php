@@ -1630,10 +1630,10 @@ class VentasController extends Controller
         $cliente = Client::find($request->IdCliente);
         $factura_venta = FacturaVenta::find($request->IdFacturaVenta);
     
-        $data['Letra'] = 'A';
+        $data['Letra'] = $factura_venta->Letra;
         $data['PuntoVenta'] = $request->PuntoVenta;
         $data['Numero'] = $request->Numero;
-        $data['NumeroCompleto'] = "ND A 0001-0000$request->Numero";
+        $data['NumeroCompleto'] = "ND $factura_venta->Letra 0001-0000$request->Numero";
         $data['FechaEmision'] = $request->FechaEmision;
         $data['FechaVencimiento'] = $request->FechaEmision;
         $data['FechaEstadisticas'] = $request->FechaEmision;
@@ -1769,7 +1769,7 @@ class VentasController extends Controller
         return redirect()->route('ventas.ficha-del-cliente.show', $nota_debito->IdCliente);
     }
 
-    public function fichaDelClienteNotaDebitoPDF(FacturaVenta $nota_debito)
+    public function fichaDelClienteNotaDebitoAPDF(FacturaVenta $nota_debito)
     {
         $nuevo_cantidad_impresiones = $nota_debito->CantidadImpresiones + 1;
 
@@ -1783,7 +1783,32 @@ class VentasController extends Controller
 
         $numero = $m[1] ?? null;
 
-        $pdf = Pdf::loadView('ventas.ficha-del-cliente.nota-debito-pdf', [
+        $pdf = Pdf::loadView('ventas.ficha-del-cliente.nota-debito-a-pdf', [
+            'cliente' => $cliente,
+            'nota_debito' => $nota_debito,
+            'items_nota_debito' => $items_nota_debito,
+            'numero' => $numero,
+            'configuracion_global' => ConfiguracionGlobal::first(),
+        ])->setPaper('A4');
+
+        return $pdf->stream('nota_debito.pdf');
+    }
+
+    public function fichaDelClienteNotaDebitoBPDF(FacturaVenta $nota_debito)
+    {
+        $nuevo_cantidad_impresiones = $nota_debito->CantidadImpresiones + 1;
+
+        $nota_debito->update(['CantidadImpresiones' => $nuevo_cantidad_impresiones]);
+
+        $items_nota_debito = $nota_debito->itemsFacturaVenta;
+
+        $cliente = $nota_debito->cliente;
+
+        preg_match('/' . $nota_debito->Letra . '\s*([0-9]+-[0-9]+)/', $nota_debito->NumeroCompleto, $m);
+
+        $numero = $m[1] ?? null;
+
+        $pdf = Pdf::loadView('ventas.ficha-del-cliente.nota-debito-b-pdf', [
             'cliente' => $cliente,
             'nota_debito' => $nota_debito,
             'items_nota_debito' => $items_nota_debito,

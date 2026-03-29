@@ -64,7 +64,7 @@
                         <div class="col-2 d-flex flex-column justify-content-end">
                             <div class="bg-info text-white d-flex justify-content-center align-items-center mx-auto" 
                                 style="width: 3rem; height: 3rem; font-weight: bold;">
-                                A
+                                {{ $nota_debito->Letra }}
                             </div>
                         </div>
 
