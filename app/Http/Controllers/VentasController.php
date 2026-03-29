@@ -601,7 +601,7 @@ class VentasController extends Controller
         return view('ventas.ficha-del-cliente.factura-venta-show', compact('factura_venta', 'pto_ventas'));
     }
 
-    public function fichaDelClienteFacturaVentaPDF(FacturaVenta $factura_venta)
+    public function fichaDelClienteFacturaVentaAPDF(FacturaVenta $factura_venta)
     {
         $nuevo_cantidad_impresiones = $factura_venta->CantidadImpresiones + 1;
 
@@ -615,7 +615,32 @@ class VentasController extends Controller
 
         $numero = $m[1] ?? null;
 
-        $pdf = Pdf::loadView('ventas.ficha-del-cliente.factura-venta-pdf', [
+        $pdf = Pdf::loadView('ventas.ficha-del-cliente.factura-venta-a-pdf', [
+            'cliente' => $cliente,
+            'factura_venta' => $factura_venta,
+            'items_factura_venta' => $items_factura_venta,
+            'numero' => $numero,
+            'configuracion_global' => ConfiguracionGlobal::first(),
+        ])->setPaper('A4');
+
+        return $pdf->stream('factura_venta.pdf');
+    }
+
+    public function fichaDelClienteFacturaVentaBPDF(FacturaVenta $factura_venta)
+    {
+        $nuevo_cantidad_impresiones = $factura_venta->CantidadImpresiones + 1;
+
+        $factura_venta->update(['CantidadImpresiones' => $nuevo_cantidad_impresiones]);
+
+        $items_factura_venta = $factura_venta->itemsFacturaVenta;
+
+        $cliente = $factura_venta->cliente;
+
+        preg_match('/' . $factura_venta->Letra . '\s*([0-9]+-[0-9]+)/', $factura_venta->NumeroCompleto, $m);
+
+        $numero = $m[1] ?? null;
+
+        $pdf = Pdf::loadView('ventas.ficha-del-cliente.factura-venta-b-pdf', [
             'cliente' => $cliente,
             'factura_venta' => $factura_venta,
             'items_factura_venta' => $items_factura_venta,

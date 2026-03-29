@@ -32,9 +32,23 @@
                 </div>
 
                 <div class="col-2 d-flex flex-column justify-content-end">
+
+                    @php
+                        $mapa = [
+                            1 => 'B',
+                            2 => 'A',
+                            3 => 'A',
+                            4 => 'B',
+                            5 => 'A',
+                            6 => 'B',
+                        ];
+
+                        $letra = $mapa[$factura_venta->cliente->condicionIVA->id] ?? 'B';
+                    @endphp
+
                     <div class="bg-info text-white d-flex justify-content-center align-items-center mx-auto" 
                         style="width: 3rem; height: 3rem; font-weight: bold;">
-                        A
+                        {{ $letra }}
                     </div>
                 </div>
 
@@ -148,7 +162,12 @@
 
             <div class="d-flex justify-content-center py-5">
 
-                <a target="_blank" rel="noopener noreferrer" onclick="setTimeout(() => location.reload(), 500);" href="{{ route('ventas.ficha-del-cliente-factura-venta.pdf', $factura_venta) }}" class="position-relative text-center mx-5" style="cursor: pointer; text-decoration: none; color: inherit;">
+                <a target="_blank" rel="noopener noreferrer" onclick="setTimeout(() => location.reload(), 500);" href="{{ route(
+                    $letra === 'A' 
+                        ? 'ventas.ficha-del-cliente-factura-venta-a.pdf' 
+                        : 'ventas.ficha-del-cliente-factura-venta-b.pdf', 
+                    $factura_venta
+                ) }}" class="position-relative text-center mx-5" style="cursor: pointer; text-decoration: none; color: inherit;">
 
                     <div style="
                         position: absolute;
