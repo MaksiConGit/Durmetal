@@ -518,7 +518,7 @@ class VentasController extends Controller
 
         $letra = $mapa[$cliente->condicionIVA->id] ?? 'B';
     
-        $data['Letra'] = 'A';
+        $data['Letra'] = $letra;
         $data['PuntoVenta'] = $request->PuntoVenta;
         $data['Numero'] = $request->Numero;
         $data['NumeroCompleto'] = "FC $letra 0001-0000$request->Numero";
@@ -1389,6 +1389,7 @@ class VentasController extends Controller
                 ->withInput();
         }
 
+        
         $user_id = Auth::id();
 
         $cliente = Client::find($request->IdCliente);
@@ -1514,7 +1515,7 @@ class VentasController extends Controller
         return redirect()->route('ventas.ficha-del-cliente.show', $nota_credito->IdCliente);
     }
 
-    public function fichaDelClienteNotaCreditoPDF(NotaCreditoVenta $nota_credito)
+    public function fichaDelClienteNotaCreditoAPDF(NotaCreditoVenta $nota_credito)
     {
         $nuevo_cantidad_impresiones = $nota_credito->CantidadImpresiones + 1;
 
@@ -1528,7 +1529,32 @@ class VentasController extends Controller
 
         $numero = $m[1] ?? null;
 
-        $pdf = Pdf::loadView('ventas.ficha-del-cliente.nota-credito-pdf', [
+        $pdf = Pdf::loadView('ventas.ficha-del-cliente.nota-credito-a-pdf', [
+            'cliente' => $cliente,
+            'nota_credito' => $nota_credito,
+            'items_nota_credito' => $items_nota_credito,
+            'numero' => $numero,
+            'configuracion_global' => ConfiguracionGlobal::first(),
+        ])->setPaper('A4');
+
+        return $pdf->stream('nota_credito.pdf');
+    }
+
+    public function fichaDelClienteNotaCreditoBPDF(NotaCreditoVenta $nota_credito)
+    {
+        $nuevo_cantidad_impresiones = $nota_credito->CantidadImpresiones + 1;
+
+        $nota_credito->update(['CantidadImpresiones' => $nuevo_cantidad_impresiones]);
+
+        $cliente = $nota_credito->cliente;
+
+        $items_nota_credito = $nota_credito->itemsNotaCredito;
+
+        preg_match('/' . $nota_credito->Letra . '\s*([0-9]+-[0-9]+)/', $nota_credito->NumeroCompleto, $m);
+
+        $numero = $m[1] ?? null;
+
+        $pdf = Pdf::loadView('ventas.ficha-del-cliente.nota-credito-b-pdf', [
             'cliente' => $cliente,
             'nota_credito' => $nota_credito,
             'items_nota_credito' => $items_nota_credito,

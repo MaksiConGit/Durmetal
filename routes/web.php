@@ -194,7 +194,8 @@ Route::middleware('auth')->group(function () {
     Route::get('ficha-del-cliente/nota-credito/show/{nota_credito_venta}', [VentasController::class, 'fichaDelClienteNotaCreditoShow'])->name('ventas.ficha-del-cliente-nota-credito.show');
     Route::get('ficha-del-cliente/nota-credito/{nota_credito}/edit', [VentasController::class, 'fichaDelClienteNotaCreditoEdit'])->name('ventas.ficha-del-cliente-nota-credito.edit');
     Route::put('ficha-del-cliente/nota-credito/{nota_credito}', [VentasController::class, 'fichaDelClienteNotaCreditoUpdate'])->name('ventas.ficha-del-cliente-nota-credito.update');
-    Route::get('ficha-del-cliente/nota-credito/pdf/{nota_credito}', [VentasController::class, 'fichaDelClienteNotaCreditoPDF'])->name('ventas.ficha-del-cliente-nota-credito.pdf');
+    Route::get('ficha-del-cliente/nota-credito/pdf/a/{nota_credito}', [VentasController::class, 'fichaDelClienteNotaCreditoAPDF'])->name('ventas.ficha-del-cliente-nota-credito-a.pdf');
+    Route::get('ficha-del-cliente/nota-credito/pdf/b/{nota_credito}', [VentasController::class, 'fichaDelClienteNotaCreditoBPDF'])->name('ventas.ficha-del-cliente-nota-credito-b.pdf');
     Route::get('ficha-del-cliente/nota-credito/{nota_credito}/enviar-email', [VentasController::class, 'fichaDelClienteNotaCreditoMail'])->name('ventas.ficha-del-cliente-nota-credito.email');
 
     Route::get('ficha-del-cliente/nota-debito/create/{cliente}/{factura_venta}', [VentasController::class, 'fichaDelClienteNotaDebitoCreate'])->name('ventas.ficha-del-cliente-nota-debito.create');
