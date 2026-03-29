@@ -63,15 +63,42 @@ class FichaDelClienteShow2 extends Component
 
     public function render()
     {
-        $ordenes_trabajo   = $this->cliente->ordenesTrabajo;
-        $notas_de_envio    = $this->cliente->notasDeEnvio;
-        $facturas          = $this->cliente->facturasVenta;
-        $recibos           = $this->cliente->recibosVenta;
-        $notas_de_credito  = $this->cliente->notasDeCredito;
-        $notas_de_debito   = $this->cliente->notasDeDebito;
-        $minutas           = $this->cliente->minutas;
-        $facturas_pendientes = FacturaVenta::where('IdCliente', $this->cliente->id)->where('Estado', 'PENDIENTE')->get();
-        $facturas_pendientes_completas = FacturaVenta::where('IdCliente', $this->cliente->id)->get();
+        $ordenes_trabajo = $this->cliente->ordenesTrabajo()
+            ->orderBy('FechaEmision', 'desc')
+            ->get();
+
+        $notas_de_envio = $this->cliente->notasDeEnvio()
+            ->orderBy('FechaEmision', 'desc')
+            ->get();
+
+        $facturas = $this->cliente->facturasVenta()
+            ->orderBy('FechaEmision', 'desc')
+            ->get();
+
+        $recibos = $this->cliente->recibosVenta()
+            ->orderBy('FechaEmision', 'desc')
+            ->get();
+
+        $notas_de_credito = $this->cliente->notasDeCredito()
+            ->orderBy('FechaEmision', 'desc')
+            ->get();
+
+        $notas_de_debito = $this->cliente->notasDeDebito()
+            ->orderBy('FechaEmision', 'desc')
+            ->get();
+
+        $minutas = $this->cliente->minutas()
+            ->orderBy('FechaEmision', 'desc')
+            ->get();
+
+        $facturas_pendientes = FacturaVenta::where('IdCliente', $this->cliente->id)
+            ->where('Estado', 'PENDIENTE')
+            ->orderBy('FechaEmision', 'desc')
+            ->get();
+
+        $facturas_pendientes_completas = FacturaVenta::where('IdCliente', $this->cliente->id)
+            ->orderBy('FechaEmision', 'desc')
+            ->get();
 
         return view('livewire.ficha-del-cliente-show2', [
             'ordenes_trabajo'  => $ordenes_trabajo,
