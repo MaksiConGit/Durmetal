@@ -319,14 +319,14 @@
                         <div class="col-2">
                             <div class="form-group mb-0">
                                 <label for="filtro1" class="font-weight-normal">Desde fecha</label>
-                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fecha_desde" class="form-control form-control-sm" value="{">
+                                <input type="date" id="filtro1" name="filtro1" wire:model.live="ot_desde" class="form-control form-control-sm" value="{">
                             </div>
                         </div>
 
                         <div class="col-2">
                             <div class="form-group mb-0">
                                 <label for="filtro1" class="font-weight-normal">Hasta fecha</label>
-                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fecha_hasta" class="form-control form-control-sm" value="">
+                                <input type="date" id="filtro1" name="filtro1" wire:model.live="ot_hasta" class="form-control form-control-sm" value="">
                             </div>
                         </div>
 
@@ -458,14 +458,14 @@
                         <div class="col-2">
                             <div class="form-group mb-0">
                                 <label for="filtro1" class="font-weight-normal">Desde fecha</label>
-                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fecha_desde" class="form-control form-control-sm" value="{">
+                                <input type="date" id="filtro1" name="filtro1" wire:model.live="ne_desde" class="form-control form-control-sm" value="{">
                             </div>
                         </div>
 
                         <div class="col-2">
                             <div class="form-group mb-0">
                                 <label for="filtro1" class="font-weight-normal">Hasta fecha</label>
-                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fecha_hasta" class="form-control form-control-sm" value="">
+                                <input type="date" id="filtro1" name="filtro1" wire:model.live="ne_hasta" class="form-control form-control-sm" value="">
                             </div>
                         </div>
 
@@ -605,14 +605,14 @@
                         <div class="col-2">
                             <div class="form-group mb-0">
                                 <label for="filtro1" class="font-weight-normal">Desde fecha</label>
-                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fecha_desde" class="form-control form-control-sm" value="{">
+                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fact_desde" class="form-control form-control-sm" value="{">
                             </div>
                         </div>
 
                         <div class="col-2">
                             <div class="form-group mb-0">
                                 <label for="filtro1" class="font-weight-normal">Hasta fecha</label>
-                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fecha_hasta" class="form-control form-control-sm" value="">
+                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fact_hasta" class="form-control form-control-sm" value="">
                             </div>
                         </div>
 
@@ -734,14 +734,14 @@
                         <div class="col-2">
                             <div class="form-group mb-0">
                                 <label for="filtro1" class="font-weight-normal">Desde fecha</label>
-                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fecha_desde" class="form-control form-control-sm" value="{">
+                                <input type="date" id="filtro1" name="filtro1" wire:model.live="rec_desde" class="form-control form-control-sm" value="{">
                             </div>
                         </div>
 
                         <div class="col-2">
                             <div class="form-group mb-0">
                                 <label for="filtro1" class="font-weight-normal">Hasta fecha</label>
-                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fecha_hasta" class="form-control form-control-sm" value="">
+                                <input type="date" id="filtro1" name="filtro1" wire:model.live="rec_hasta" class="form-control form-control-sm" value="">
                             </div>
                         </div>
 
@@ -849,14 +849,14 @@
                         <div class="col-2">
                             <div class="form-group mb-0">
                                 <label for="filtro1" class="font-weight-normal">Desde fecha</label>
-                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fecha_desde" class="form-control form-control-sm" value="{">
+                                <input type="date" id="filtro1" name="filtro1" wire:model.live="nc_desde" class="form-control form-control-sm" value="{">
                             </div>
                         </div>
 
                         <div class="col-2">
                             <div class="form-group mb-0">
                                 <label for="filtro1" class="font-weight-normal">Hasta fecha</label>
-                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fecha_hasta" class="form-control form-control-sm" value="">
+                                <input type="date" id="filtro1" name="filtro1" wire:model.live="nc_hasta" class="form-control form-control-sm" value="">
                             </div>
                         </div>
 
@@ -982,14 +982,14 @@
                         <div class="col-2">
                             <div class="form-group mb-0">
                                 <label for="filtro1" class="font-weight-normal">Desde fecha</label>
-                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fecha_desde" class="form-control form-control-sm" value="{">
+                                <input type="date" id="filtro1" name="filtro1" wire:model.live="nd_desde" class="form-control form-control-sm" value="{">
                             </div>
                         </div>
 
                         <div class="col-2">
                             <div class="form-group mb-0">
                                 <label for="filtro1" class="font-weight-normal">Hasta fecha</label>
-                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fecha_hasta" class="form-control form-control-sm" value="">
+                                <input type="date" id="filtro1" name="filtro1" wire:model.live="nd_hasta" class="form-control form-control-sm" value="">
                             </div>
                         </div>
 
@@ -1115,14 +1115,14 @@
                         <div class="col-2">
                             <div class="form-group mb-0">
                                 <label for="filtro1" class="font-weight-normal">Desde fecha</label>
-                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fecha_desde" class="form-control form-control-sm" value="{">
+                                <input type="date" id="filtro1" name="filtro1" wire:model.live="min_desde" class="form-control form-control-sm" value="{">
                             </div>
                         </div>
 
                         <div class="col-2">
                             <div class="form-group mb-0">
                                 <label for="filtro1" class="font-weight-normal">Hasta fecha</label>
-                                <input type="date" id="filtro1" name="filtro1" wire:model.live="fecha_hasta" class="form-control form-control-sm" value="">
+                                <input type="date" id="filtro1" name="filtro1" wire:model.live="min_hasta" class="form-control form-control-sm" value="">
                             </div>
                         </div>
 

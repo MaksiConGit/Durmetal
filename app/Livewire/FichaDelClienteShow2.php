@@ -19,6 +19,61 @@ class FichaDelClienteShow2 extends Component
     public $pendientes = 0;
     public $notaEnvio;
 
+    // Órdenes de trabajo
+    public $ot_desde, $ot_hasta;
+
+    // Notas de envío
+    public $ne_desde, $ne_hasta;
+
+    // Facturas
+    public $fact_desde, $fact_hasta;
+
+    // Recibos
+    public $rec_desde, $rec_hasta;
+
+    // Notas de crédito
+    public $nc_desde, $nc_hasta;
+
+    // Notas de débito
+    public $nd_desde, $nd_hasta;
+
+    // Minutas
+    public $min_desde, $min_hasta;
+
+
+    public function mount(Client $cliente)
+    {
+        $desde = now()->subMonths(3)->toDateString();
+        $hasta = now()->toDateString();
+
+        $this->ot_desde = $desde;
+        $this->ot_hasta = $hasta;
+
+        $this->ne_desde = $desde;
+        $this->ne_hasta = $hasta;
+
+        $this->fact_desde = $desde;
+        $this->fact_hasta = $hasta;
+
+        $this->rec_desde = $desde;
+        $this->rec_hasta = $hasta;
+
+        $this->nc_desde = $desde;
+        $this->nc_hasta = $hasta;
+
+        $this->nd_desde = $desde;
+        $this->nd_hasta = $hasta;
+
+        $this->min_desde = $desde;
+        $this->min_hasta = $hasta;
+
+        $this->cliente = $cliente;
+        $this->factura_venta_id = 1;
+        $this->notaEnvio = NotaEnvio::find($this->selectedId);
+
+        $this->calcularSaldo();
+    }
+
     public function cancelarCliente()
     {
         $this->factura_venta_id = null;
@@ -50,15 +105,6 @@ class FichaDelClienteShow2 extends Component
         $this->notaEnvio = NotaEnvio::find($this->selectedId);
     }
 
-    public function mount(Client $cliente)
-    {
-        $this->cliente = $cliente;
-        $this->factura_venta_id = 1;
-        $this->notaEnvio = NotaEnvio::find($this->selectedId);
-
-        $this->calcularSaldo();
-    }
-
     public function setActiveTabParametros($tabId)
     {
         $this->activeTabParametros = $tabId;
@@ -85,56 +131,79 @@ class FichaDelClienteShow2 extends Component
             - $totalCreditos;
     }
 
-    public function render()
+    private function filtrar($query, $desde, $hasta)
     {
-        $ordenes_trabajo = $this->cliente->ordenesTrabajo()
-            ->orderBy('FechaEmision', 'desc')
-            ->get();
-
-        $notas_de_envio = $this->cliente->notasDeEnvio()
-            ->orderBy('FechaEmision', 'desc')
-            ->get();
-
-        $facturas = $this->cliente->facturasVenta()
-            ->orderBy('FechaEmision', 'desc')
-            ->get();
-
-        $recibos = $this->cliente->recibosVenta()
-            ->orderBy('FechaEmision', 'desc')
-            ->get();
-
-        $notas_de_credito = $this->cliente->notasDeCredito()
-            ->orderBy('FechaEmision', 'desc')
-            ->get();
-
-        $notas_de_debito = $this->cliente->notasDeDebito()
-            ->orderBy('FechaEmision', 'desc')
-            ->get();
-
-        $minutas = $this->cliente->minutas()
-            ->orderBy('FechaEmision', 'desc')
-            ->get();
-
-        $facturas_pendientes = FacturaVenta::where('IdCliente', $this->cliente->id)
-            ->where('Estado', 'PENDIENTE')
-            ->orderBy('FechaEmision', 'desc')
-            ->get();
-
-        $facturas_pendientes_completas = FacturaVenta::where('IdCliente', $this->cliente->id)
-            ->orderBy('FechaEmision', 'desc')
-            ->get();
-
-        return view('livewire.ficha-del-cliente-show2', [
-            'ordenes_trabajo'  => $ordenes_trabajo,
-            'notas_de_envio'   => $notas_de_envio,
-            'facturas'         => $facturas,
-            'recibos'          => $recibos,
-            'notas_de_credito' => $notas_de_credito,
-            'notas_de_debito'  => $notas_de_debito,
-            'minutas'          => $minutas,
-            'facturas_pendientes' => $facturas_pendientes,
-            'facturas_pendientes_completas' => $facturas_pendientes_completas,
-            'saldo' => $this->saldo,
-        ]);
+        return $query->whereBetween('FechaEmision', [$desde, $hasta]);
     }
+
+public function render()
+{
+    $ordenes_trabajo = $this->filtrar(
+        $this->cliente->ordenesTrabajo(),
+        $this->ot_desde,
+        $this->ot_hasta
+    )->orderBy('FechaEmision', 'desc')->get();
+
+    $notas_de_envio = $this->filtrar(
+        $this->cliente->notasDeEnvio(),
+        $this->ne_desde,
+        $this->ne_hasta
+    )->orderBy('FechaEmision', 'desc')->get();
+
+    $facturas = $this->filtrar(
+        $this->cliente->facturasVenta(),
+        $this->fact_desde,
+        $this->fact_hasta
+    )->orderBy('FechaEmision', 'desc')->get();
+
+    $recibos = $this->filtrar(
+        $this->cliente->recibosVenta(),
+        $this->rec_desde,
+        $this->rec_hasta
+    )->orderBy('FechaEmision', 'desc')->get();
+
+    $notas_de_credito = $this->filtrar(
+        $this->cliente->notasDeCredito(),
+        $this->nc_desde,
+        $this->nc_hasta
+    )->orderBy('FechaEmision', 'desc')->get();
+
+    $notas_de_debito = $this->filtrar(
+        $this->cliente->notasDeDebito(),
+        $this->nd_desde,
+        $this->nd_hasta
+    )->orderBy('FechaEmision', 'desc')->get();
+
+    $minutas = $this->filtrar(
+        $this->cliente->minutas(),
+        $this->min_desde,
+        $this->min_hasta
+    )->orderBy('FechaEmision', 'desc')->get();
+
+    $facturas_pendientes = $this->filtrar(
+        FacturaVenta::where('IdCliente', $this->cliente->id)
+            ->where('Estado', 'PENDIENTE'),
+        $this->fact_desde,
+        $this->fact_hasta
+    )->orderBy('FechaEmision', 'desc')->get();
+
+    $facturas_pendientes_completas = $this->filtrar(
+        FacturaVenta::where('IdCliente', $this->cliente->id),
+        $this->fact_desde,
+        $this->fact_hasta
+    )->orderBy('FechaEmision', 'desc')->get();
+
+    return view('livewire.ficha-del-cliente-show2', [
+        'ordenes_trabajo'  => $ordenes_trabajo,
+        'notas_de_envio'   => $notas_de_envio,
+        'facturas'         => $facturas,
+        'recibos'          => $recibos,
+        'notas_de_credito' => $notas_de_credito,
+        'notas_de_debito'  => $notas_de_debito,
+        'minutas'          => $minutas,
+        'facturas_pendientes' => $facturas_pendientes,
+        'facturas_pendientes_completas' => $facturas_pendientes_completas,
+        'saldo' => $this->saldo,
+    ]);
+}
 }
