@@ -1784,7 +1784,7 @@ class VentasController extends Controller
         return view('ventas.ficha-del-cliente.nota-debito', compact('cliente', 'factura_venta'));
     }
 
-    public function fichaDelClienteNotaDebitoStore(Request $request)
+    public function fichaDelClienteNotaDebitoStore(Request $request, AfipService $afipService)
     {
         // dd($request->all());
          if (!$request->has('items') || empty($request->items)) {
@@ -1907,6 +1907,107 @@ class VentasController extends Controller
                 'ActualizadoPor' => $user_id,
                 'Activo' => 1,
             ]);
+        }
+
+        if ((int)$data['PuntoVenta'] === 5) {
+
+            try {
+
+                function mapearTipoDocumentoAfip($tipo)
+                {
+                    return match (strtoupper($tipo)) {
+                        'CUIT' => 80,
+                        'DNI' => 96,
+                        default => 99,
+                    };
+                }
+
+                function mapearCondicionIvaAfip($id)
+                {
+                    return match ($id) {
+                        1 => 4, // Exento
+                        2 => 1, // Responsable Inscripto
+                        3 => 7, // No categorizado
+                        4 => 5, // Consumidor Final
+                        5 => 6, // Monotributo
+                        6 => 7, // No identificado
+                        default => 5,
+                    };
+                }
+
+                $condicion_iva_afip = mapearCondicionIvaAfip($cliente->IdCondicionIVA);
+
+                // 🔥 IMPORTANTE: items para AFIP (con IVA)
+                $itemsParaAfip = [];
+
+                foreach ($request->items as $itemData) {
+
+                    $neto = (float) $itemData['Neto'];
+                    $tasa = (float) $itemData['IvaTipo'];
+                    $iva = round($neto * ($tasa / 100), 2);
+
+                    $itemsParaAfip[] = [
+                        'description' => $itemData['Descripcion'],
+                        'quantity' => 1,
+                        'unit_price' => $neto,
+                        'total' => $neto + $iva,
+                        'vat_rate' => $tasa,
+                    ];
+                }
+
+                $payloadAfip = [
+                    'numero_de_documento' => $cliente->NroDocumento ?? 0,
+                    'tipo_de_documento' => mapearTipoDocumentoAfip($cliente->TipoDocumento),
+                    'razon_social' => $cliente->Nombre,
+                    'domicilio' => $cliente->Domicilio,
+
+                    'importe_gravado' => $data['Neto'],
+                    'importe_iva' => $data['IVA'],
+                    'importe_exento_iva' => 0,
+
+                    'punto_de_venta' => $data['PuntoVenta'],
+                    'concepto' => 1,
+
+                    'condicion_iva_receptor' => $condicion_iva_afip,
+                    'condicion_venta' => $request->CondicionVenta,
+
+                    'tipo_factura_asociada' => $factura_venta->Letra === 'A' ? 1 : 6,
+                    'punto_factura_asociada' => $factura_venta->PuntoVenta,
+                    'numero_factura_asociada' => $factura_venta->Numero,
+
+                    'items' => $itemsParaAfip,
+                    'motivo' => $request->Observaciones ?? 'Nota de Débito',
+                ];
+
+                // 🚀 SEGÚN LETRA
+                $afipResponse = $data['Letra'] === 'A'
+                    ? $afipService->crearNotaDebitoA($payloadAfip)
+                    : $afipService->crearNotaDebitoB($payloadAfip);
+
+                // ✅ ACTUALIZAR ND
+                $nota_debito->update([
+                    'CAE' => $afipResponse['cae'],
+                    'FechaVencimientoCAE' => $afipResponse['cae_vencimiento'],
+                    'Numero' => $afipResponse['numero'],
+                    'NumeroCompleto' => "ND {$data['Letra']} "
+                        . str_pad($data['PuntoVenta'], 4, '0', STR_PAD_LEFT)
+                        . '-' . str_pad($afipResponse['numero'], 8, '0', STR_PAD_LEFT),
+                ]);
+
+                return redirect()
+                    ->route('ventas.ficha-del-cliente-nota-debito.show', $nota_debito)
+                    ->with('pdf_url', $afipResponse['file']);
+
+            } catch (\Throwable $e) {
+
+                $nota_debito->update([
+                    'Observaciones' => $e->getMessage(),
+                ]);
+
+                return redirect()->back()->withErrors([
+                    'afip' => $e->getMessage()
+                ]);
+            }
         }
 
         return redirect()->route('ventas.ficha-del-cliente-nota-debito.show', $nota_debito);

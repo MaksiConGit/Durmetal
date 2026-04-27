@@ -13,7 +13,7 @@
                         <label for="PuntoVenta" class="form-label mb-1" style="font-size: 0.8rem;">PUNTO DE VENTA</label>
                         <select name="PuntoVenta" id="PuntoVenta" class="form-control form-control-sm py-0" disabled>
                             @foreach ($pto_ventas as $pto_venta)
-                                <option value="{{ $pto_venta->id }}" {{$pto_venta->id == session('PuntoVenta') ? 'selected' : ''}}>
+                                <option value="{{ $pto_venta->Numero }}" {{$pto_venta->Numero == $nota_debito->PuntoVenta ? 'selected' : ''}}>
                                     {{ $pto_venta->Nombre }}
                                 </option>
                             @endforeach
@@ -278,9 +278,18 @@
     <div class="container-fluid px-4 py-3">
         <div class="row">
             <div class="col-12 d-flex justify-content-end">
-                <a class="btn btn-sm btn-primary" href="{{ route('ventas.ficha-del-cliente.show', $nota_debito->IdCliente) }}">
+
+                <a href="{{ session('pdf_url') ?? '#' }}" 
+                target="_blank" 
+                class="btn btn-sm btn-success mr-2 {{ !session('pdf_url') ? 'disabled' : '' }}">
+                    <i class="bi bi-file-earmark-pdf"></i> Ver PDF
+                </a>
+
+                <a class="btn btn-sm btn-primary" 
+                href="{{ route('ventas.ficha-del-cliente.show', $nota_debito->IdCliente) }}">
                     <i class="bi bi-x-circle"></i> Salir
                 </a>
+
             </div>
         </div>
     </div>
