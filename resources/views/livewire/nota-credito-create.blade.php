@@ -44,7 +44,7 @@
                                 <label for="PuntoVenta" class="form-label mb-1" style="font-size: 0.8rem;">PUNTO DE VENTA</label>
                                 <select name="PuntoVenta" id="PuntoVenta" class="form-control form-control-sm py-0">
                                     @foreach ($pto_ventas as $pto_venta)
-                                        <option value="{{ $pto_venta->id }}" {{$pto_venta->id == session('PuntoVenta') ? 'selected' : ''}}>
+                                        <option value="{{ $pto_venta->Numero }}" {{$pto_venta->id == session('PuntoVenta') ? 'selected' : ''}}>
                                             {{ $pto_venta->Nombre }}
                                         </option>
                                     @endforeach
