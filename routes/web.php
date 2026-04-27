@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AfipController;
 use App\Http\Controllers\AsignarFactorController;
 use App\Http\Controllers\BancosController;
 use App\Http\Controllers\CargaController;
@@ -449,6 +450,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('tableros/hornos', [TablerosController::class, 'hornos'])->name('tableros.hornos.index');
 
+    Route::get('/ultima-factura/a', [AfipController::class, 'ultimaFacturaA']);
+    Route::get('/ultima-factura/b', [AfipController::class, 'ultimaFacturaB']);
 });
 
 require __DIR__.'/auth.php';
