@@ -50,7 +50,7 @@ return new class extends Migration
             $table->string('Estado');
             $table->integer('CAE');
             $table->date('FechaVencimientoCAE')->nullable();
-            $table->string('Observaciones')->nullable();
+            $table->text('Observaciones')->nullable();
             $table->integer('NumeroTurno');
             $table->integer('ReferenciaTurno');
             $table->date('FechaCreacion')->nullable();

@@ -45,7 +45,7 @@ return new class extends Migration
             $table->string('CAE');
             $table->date('FechaVencimientoCAE');
             $table->integer('IdSolicitudCAE');
-            $table->string('Observaciones')->nullable();
+            $table->text('Observaciones')->nullable();
             $table->integer('NumeroTurno');
             $table->integer('ReferenciaTurno');
             $table->boolean('AfectarPlanillaTurno');

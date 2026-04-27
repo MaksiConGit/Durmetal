@@ -36,7 +36,7 @@ return new class extends Migration
             $table->float('RetencionSUSS');
             $table->string('Estado');
             $table->float('Total');
-            $table->string('Observaciones')->nullable();
+            $table->text('Observaciones')->nullable();
             $table->integer('NumeroTurno');
             $table->integer('ReferenciaTurno');
             $table->integer('IdEntorno')->default(1);
