@@ -393,6 +393,420 @@ class AfipService
         ];
     }
 
+    public function crearNotaCreditoA($body)
+    {
+        $afip = $this->afip;
+
+        // =========================
+        // 🔹 DATOS BASE
+        // =========================
+        $numero_de_documento = (int) ($body['numero_de_documento'] ?? 0);
+        $tipo_de_documento = (int) ($body['tipo_de_documento'] ?? 80);
+
+        $importe_gravado = (float) ($body['importe_gravado'] ?? 100);
+        $importe_exento_iva = (float) ($body['importe_exento_iva'] ?? 0);
+        $importe_iva = (float) ($body['importe_iva'] ?? 21);
+
+        $punto_de_venta = (int) ($body['punto_de_venta'] ?? 1);
+        $concepto = (int) ($body['concepto'] ?? 1);
+        $condicion_iva_receptor = (int) ($body['condicion_iva_receptor'] ?? 1);
+
+        // 🔥 FACTURA ASOCIADA (OBLIGATORIO)
+        $tipo_factura_asociada = (int) ($body['tipo_factura_asociada'] ?? 1); // Factura A
+        $punto_factura_asociada = (int) ($body['punto_factura_asociada'] ?? $punto_de_venta);
+        $numero_factura_asociada = (int) ($body['numero_factura_asociada'] ?? 0);
+
+        if ($numero_factura_asociada <= 0) {
+            throw new \Exception('La Nota de Crédito requiere una factura asociada válida');
+        }
+
+        if ($importe_gravado <= 0) {
+            throw new \Exception('El importe gravado debe ser mayor a 0');
+        }
+
+        // 🔥 NOTA DE CRÉDITO A
+        $tipo_de_nota = 3;
+
+        $lastVoucher = $afip->ElectronicBilling->GetLastVoucher($punto_de_venta, $tipo_de_nota);
+        $numero_de_nota = $lastVoucher + 1;
+
+        $importe_total = $importe_gravado + $importe_iva + $importe_exento_iva;
+
+        // =========================
+        // 🧾 AFIP
+        // =========================
+        $data = [
+            'CantReg' => 1,
+            'PtoVta' => $punto_de_venta,
+            'CbteTipo' => $tipo_de_nota,
+            'Concepto' => $concepto,
+            'DocTipo' => $tipo_de_documento,
+            'DocNro' => $numero_de_documento,
+            'CbteDesde' => $numero_de_nota,
+            'CbteHasta' => $numero_de_nota,
+            'CbteFch' => date('Ymd'),
+
+            'ImpTotal' => $this->formatearNumero($importe_total),
+            'ImpTotConc' => 0,
+            'ImpNeto' => $this->formatearNumero($importe_gravado),
+            'ImpOpEx' => $this->formatearNumero($importe_exento_iva),
+            'ImpIVA' => $this->formatearNumero($importe_iva),
+            'ImpTrib' => 0,
+
+            'MonId' => 'PES',
+            'MonCotiz' => 1,
+            'CondicionIVAReceptorId' => $condicion_iva_receptor,
+
+            // 🔥 FACTURA ASOCIADA
+            'CbtesAsoc' => [
+                [
+                    'Tipo' => $tipo_factura_asociada,
+                    'PtoVta' => $punto_factura_asociada,
+                    'Nro' => $numero_factura_asociada,
+                ]
+            ],
+
+            'Iva' => [
+                [
+                    'Id' => 5,
+                    'BaseImp' => $importe_gravado,
+                    'Importe' => $importe_iva,
+                ]
+            ],
+        ];
+        
+        $billResponse = $afip->ElectronicBilling->CreateVoucher($data);
+
+        if (!isset($billResponse['CAE'])) {
+            throw new \Exception('AFIP no devolvió CAE');
+        }
+
+        // =========================
+        // 📅 FORMATEO
+        // =========================
+        $caeDue = $billResponse['CAEFchVto'] ?? '';
+        if (str_contains($caeDue, '-')) {
+            [$year, $month, $day] = explode('-', $caeDue);
+            $caeDue = "$day/$month/$year";
+        }
+
+        $config = ConfiguracionGlobal::first();
+
+        // =========================
+        // 📄 TEMPLATE (NOTA DE CRÉDITO)
+        // =========================
+        $templateParams = [
+            "file_name" => 'nc-a-' . str_pad((string) $numero_de_nota, 8, '0', STR_PAD_LEFT) . '.pdf',
+            "send_to" => $body['email'] ?? null,
+            "template" => [
+                "name" => "credit-note-a",
+                "params" => [
+
+                    // Comprobante
+                    "voucher_number" => $numero_de_nota,
+                    "sales_point" => $punto_de_venta,
+                    "issue_date" => date('d/m/Y'),
+                    "cae_due_date" => $caeDue,
+                    "cae" => (string) $billResponse['CAE'],
+
+                    // Emisor
+                    "issuer_cuit" => (int) env('AFIP_CUIT'),
+                    "issuer_business_name" => $config->RazonSocialEmpresa,
+                    "issuer_address" => $config->DomicilioEmpresa,
+                    "issuer_iva_condition" => "Responsable Inscripto",
+                    "issuer_gross_income" => $config->IIBBEmpresa,
+                    "issuer_activity_start_date" => $this->formatearFecha(
+                        $config->FechaInicioActividadesEmpresa
+                    ),
+
+                    // Receptor
+                    "receiver_name" => $body['razon_social'] ?? 'Cliente',
+                    "receiver_address" => $body['domicilio'] ?? '-',
+                    "receiver_document_type" => $tipo_de_documento,
+                    "receiver_document_number" => $numero_de_documento,
+                    "receiver_iva_condition" => $body['condicion_iva'] ?? 'Responsable Inscripto',
+
+                    // Factura
+                    "sale_condition" => $body['condicion_venta'] ?? 'Contado',
+                    "currency_id" => "ARS",
+                    "currency_rate" => 1,
+                    "concept" => $concepto,
+
+                    // Items
+                    "items" => !empty($body['items'])
+                        ? array_map(function ($item, $index) {
+                            return [
+                                "code" => str_pad($index + 1, 3, '0', STR_PAD_LEFT),
+                                "description" => $item['description'] ?? 'Item',
+                                "quantity" => $item['quantity'] ?? 1,
+                                "unit_price" => $item['unit_price'] ?? 0,
+                                "subtotal" => $item['total'] ?? 0,
+                                "vat_rate" => $item['vat_rate'] ?? 21
+                            ];
+                        }, $body['items'], array_keys($body['items']))
+                        : [
+                            [
+                                "code" => "001",
+                                "description" => "Nota de crédito",
+                                "quantity" => 1,
+                                "unit_price" => $importe_total,
+                                "subtotal" => $importe_total,
+                                "vat_rate" => 21
+                            ]
+                        ],
+
+                    // Totales
+                    "vat_amount" => $importe_iva,
+                    "tributes_amount" => 0,
+                    "total_amount" => $importe_total,
+
+                    "net_amount_taxed" => $importe_gravado,
+                    "net_amount_untaxed" => 0,
+                    "exempt_amount" => $importe_exento_iva,
+
+                    "vat_breakdown" => [
+                        [
+                            "vat_rate_id" => 21,
+                            "taxable_base" => $importe_gravado,
+                            "vat_subtotal" => $importe_iva
+                        ]
+                    ],
+
+                    // 🔥 FACTURA ASOCIADA EN PDF
+                    "associated_vouchers" => [
+                        [
+                            "voucher_type" => $tipo_factura_asociada,
+                            "point_of_sale" => $punto_factura_asociada,
+                            "voucher_number" => $numero_factura_asociada,
+                            "issue_date" => date('d/m/Y')
+                        ]
+                    ],
+
+                    // 🔥 MOTIVO
+                    "credit_note_reason" => $body['motivo'] ?? 'Anulación',
+
+                    // Fechas
+                    "billing_from" => date('01/m/Y'),
+                    "billing_to" => date('t/m/Y'),
+                    "payment_due_date" => date('d/m/Y', strtotime('+10 days')),
+                ]
+            ]
+        ];
+
+        // =========================
+        // 📄 PDF
+        // =========================
+        $pdfResponse = $afip->ElectronicBilling->CreatePDF($templateParams);
+
+        if (!$pdfResponse || !isset($pdfResponse['file'])) {
+            throw new \Exception('Error al generar el PDF');
+        }
+
+        return [
+            'file' => $pdfResponse['file'],
+            'cae' => $billResponse['CAE'],
+            'cae_vencimiento' => $billResponse['CAEFchVto'],
+            'numero' => $numero_de_nota
+        ];
+    }
+
+    public function crearNotaCreditoB($body)
+    {
+        $afip = $this->afip;
+
+        // =========================
+        // 🔹 DATOS BASE
+        // =========================
+        $numero_de_documento = (int) ($body['numero_de_documento'] ?? 0);
+        $tipo_de_documento = (int) ($body['tipo_de_documento'] ?? 99);
+
+        $importe_gravado = (float) ($body['importe_gravado'] ?? 100);
+        $importe_exento_iva = (float) ($body['importe_exento_iva'] ?? 0);
+        $importe_iva = (float) ($body['importe_iva'] ?? 21);
+
+        $punto_de_venta = (int) ($body['punto_de_venta'] ?? 1);
+        $concepto = (int) ($body['concepto'] ?? 1);
+        $condicion_iva_receptor = (int) ($body['condicion_iva_receptor'] ?? 5);
+
+        // 🔥 FACTURA ASOCIADA (B)
+        $tipo_factura_asociada = 6;
+        $punto_factura_asociada = (int) ($body['punto_factura_asociada'] ?? $punto_de_venta);
+        $numero_factura_asociada = (int) ($body['numero_factura_asociada'] ?? 0);
+
+        if ($numero_factura_asociada <= 0) {
+            throw new \Exception('La Nota de Crédito B requiere una factura asociada válida');
+        }
+
+        // 🔥 TIPO NOTA B
+        $tipo_de_nota = 8;
+
+        $lastVoucher = $afip->ElectronicBilling->GetLastVoucher($punto_de_venta, $tipo_de_nota);
+        $numero_de_nota = $lastVoucher + 1;
+
+        $importe_total = $importe_gravado + $importe_iva + $importe_exento_iva;
+
+        // =========================
+        // 🧾 AFIP
+        // =========================
+        $data = [
+            'CantReg' => 1,
+            'PtoVta' => $punto_de_venta,
+            'CbteTipo' => $tipo_de_nota,
+            'Concepto' => $concepto,
+            'DocTipo' => $tipo_de_documento,
+            'DocNro' => $numero_de_documento,
+            'CbteDesde' => $numero_de_nota,
+            'CbteHasta' => $numero_de_nota,
+            'CbteFch' => date('Ymd'),
+
+            'ImpTotal' => $this->formatearNumero($importe_total),
+            'ImpTotConc' => 0,
+            'ImpNeto' => $this->formatearNumero($importe_gravado),
+            'ImpOpEx' => $this->formatearNumero($importe_exento_iva),
+            'ImpIVA' => $this->formatearNumero($importe_iva),
+            'ImpTrib' => 0,
+
+            'MonId' => 'PES',
+            'MonCotiz' => 1,
+            'CondicionIVAReceptorId' => $condicion_iva_receptor,
+
+            'CbtesAsoc' => [
+                [
+                    'Tipo' => $tipo_factura_asociada,
+                    'PtoVta' => $punto_factura_asociada,
+                    'Nro' => $numero_factura_asociada,
+                ]
+            ],
+
+            'Iva' => [
+                [
+                    'Id' => 5,
+                    'BaseImp' => $this->formatearNumero($importe_gravado),
+                    'Importe' => $this->formatearNumero($importe_iva),
+                ]
+            ],
+        ];
+
+        $billResponse = $afip->ElectronicBilling->CreateVoucher($data);
+
+        if (!isset($billResponse['CAE'])) {
+            throw new \Exception('AFIP no devolvió CAE');
+        }
+
+        // =========================
+        // 📅 FORMATEO
+        // =========================
+        $caeDue = $billResponse['CAEFchVto'] ?? '';
+        if (str_contains($caeDue, '-')) {
+            [$year, $month, $day] = explode('-', $caeDue);
+            $caeDue = "$day/$month/$year";
+        }
+
+        $config = ConfiguracionGlobal::first();
+
+        // =========================
+        // 📄 TEMPLATE B
+        // =========================
+        $templateParams = [
+            "file_name" => 'nc-b-' . str_pad((string) $numero_de_nota, 8, '0', STR_PAD_LEFT) . '.pdf',
+            "send_to" => $body['email'] ?? null,
+            "template" => [
+                "name" => "credit-note-b",
+                "params" => [
+
+                    // Comprobante
+                    "voucher_number" => $numero_de_nota,
+                    "sales_point" => $punto_de_venta,
+                    "issue_date" => date('d/m/Y'),
+                    "cae_due_date" => $caeDue,
+                    "cae" => (string) $billResponse['CAE'],
+
+                    // Emisor
+                    "issuer_cuit" => (int) env('AFIP_CUIT'),
+                    "issuer_business_name" => $config->RazonSocialEmpresa,
+                    "issuer_address" => $config->DomicilioEmpresa,
+                    "issuer_iva_condition" => "Responsable Inscripto",
+                    "issuer_gross_income" => $config->IIBBEmpresa,
+                    "issuer_activity_start_date" => $this->formatearFecha(
+                        $config->FechaInicioActividadesEmpresa
+                    ),
+
+                    // Receptor
+                    "receiver_name" => $body['razon_social'] ?? 'Consumidor Final',
+                    "receiver_address" => $body['domicilio'] ?? '-',
+                    "receiver_document_type" => $tipo_de_documento,
+                    "receiver_document_number" => $numero_de_documento,
+                    "receiver_iva_condition" => $body['condicion_iva'] ?? 'Consumidor Final',
+
+                    // Factura
+                    "sale_condition" => $body['condicion_venta'] ?? 'Contado',
+                    "currency_id" => "ARS",
+                    "currency_rate" => 1,
+                    "concept" => $concepto,
+
+                    // 🔥 ITEMS (CON IVA INCLUIDO)
+                    "items" => !empty($body['items'])
+                        ? array_map(function ($item, $index) {
+                            $total = (float) ($item['total'] ?? 0);
+
+                            return [
+                                "code" => str_pad($index + 1, 3, '0', STR_PAD_LEFT),
+                                "description" => $item['description'] ?? 'Item',
+                                "quantity" => $item['quantity'] ?? 1,
+                                "unit_price" => $this->formatearNumero($total),
+                                "subtotal" => $this->formatearNumero($total),
+                            ];
+                        }, $body['items'], array_keys($body['items']))
+                        : [
+                            [
+                                "code" => "001",
+                                "description" => "Nota de crédito",
+                                "quantity" => 1,
+                                "unit_price" => $this->formatearNumero($importe_total),
+                                "subtotal" => $this->formatearNumero($importe_total),
+                            ]
+                        ],
+
+                    // Totales
+                    "vat_amount" => $this->formatearNumero($importe_iva),
+                    "tributes_amount" => 0,
+                    "total_amount" => $this->formatearNumero($importe_total),
+
+                    // Factura asociada
+                    "associated_vouchers" => [
+                        [
+                            "voucher_type" => $tipo_factura_asociada,
+                            "point_of_sale" => $punto_factura_asociada,
+                            "voucher_number" => $numero_factura_asociada,
+                            "issue_date" => date('d/m/Y')
+                        ]
+                    ],
+
+                    // Motivo
+                    "credit_note_reason" => $body['motivo'] ?? 'Anulación',
+
+                    // Fechas
+                    "billing_from" => date('01/m/Y'),
+                    "billing_to" => date('t/m/Y'),
+                    "payment_due_date" => date('d/m/Y', strtotime('+10 days')),
+                ]
+            ]
+        ];
+
+        $pdfResponse = $afip->ElectronicBilling->CreatePDF($templateParams);
+
+        if (!$pdfResponse || !isset($pdfResponse['file'])) {
+            throw new \Exception('Error al generar el PDF');
+        }
+
+        return [
+            'file' => $pdfResponse['file'],
+            'cae' => $billResponse['CAE'],
+            'cae_vencimiento' => $billResponse['CAEFchVto'],
+            'numero' => $numero_de_nota
+        ];
+    }
+
     public function obtenerUltimaFactura($puntoVenta, $tipoFactura)
     {
         $afip = $this->afip;
@@ -419,5 +833,10 @@ class AfipService
         }
 
         return date('d/m/Y', strtotime(str_replace('/', '-', $fecha)));
+    }
+
+    private function formatearNumero($value)
+    {
+        return number_format((float)$value, 2, '.', '');
     }
 }
