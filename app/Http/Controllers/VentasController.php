@@ -32,6 +32,7 @@ use App\Models\PuntoDeVenta;
 use App\Models\ReciboVenta;
 use App\Models\TransferenciaCobro;
 use App\Models\Tratamiento;
+use App\Services\AfipService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -495,7 +496,7 @@ class VentasController extends Controller
         return view('ventas.ficha-del-cliente.factura-venta', compact('notas_de_envio', 'pto_ventas', 'next_numero', 'cliente', 'condiciones_venta'));
     }
 
-    public function fichaDelClienteFacturaVentaStore(Request $request)
+    public function fichaDelClienteFacturaVentaStore(Request $request, AfipService $afipService)
     {
         if (!$request->has('items') || empty($request->items)) {
             return redirect()->back()
@@ -517,7 +518,22 @@ class VentasController extends Controller
         ];
 
         $letra = $mapa[$cliente->condicionIVA->id] ?? 'B';
-    
+
+        function mapearCondicionIvaAfip($id)
+        {
+            return match ($id) {
+                1 => 4, // Exento
+                2 => 1, // Responsable Inscripto
+                3 => 7, // No categorizado
+                4 => 5, // Consumidor Final
+                5 => 6, // Monotributo
+                6 => 7, // No identificado
+                default => 5, // fallback: consumidor final
+            };
+        }
+
+        $condicion_iva_afip = mapearCondicionIvaAfip($cliente->IdCondicionIVA);
+
         $data['Letra'] = $letra;
         $data['PuntoVenta'] = $request->PuntoVenta;
         $data['Numero'] = $request->Numero;
@@ -563,6 +579,8 @@ class VentasController extends Controller
 
         $factura_venta = FacturaVenta::create($data);
 
+        $itemsParaAfip = [];
+
         foreach ($request->items as $index => $itemData) {
             $item_factura_venta = ItemFacturaVenta::create([
                 'IdFacturaVenta' => $factura_venta->id,
@@ -592,6 +610,13 @@ class VentasController extends Controller
                 'Activo' => 1,
             ]);
 
+            $itemsParaAfip[] = [
+                'description' => $itemData['Descripcion'],
+                'quantity' => 1,
+                'unit_price' => $itemData['Neto'],
+                'total' => $itemData['Neto'] + $itemData['IVA'],
+            ];
+
             $nota_envio = NotaEnvio::find($itemData['IdNotaEnvio']);
 
             $item_factura_venta_nota_envio = ItemFacturaVentaNotaEnvio::create([
@@ -600,6 +625,62 @@ class VentasController extends Controller
             ]);
 
             $nota_envio->update(['Estado' => 'COMPLETO']);
+        }
+
+        if ((int)$data['PuntoVenta'] === 5) {
+
+            try {
+                function mapearTipoDocumentoAfip($tipo)
+                {
+                    return match (strtoupper($tipo)) {
+                        'CUIT' => 80,
+                        'DNI' => 96,
+                        default => 99,
+                    };
+                }
+
+                $payloadAfip = [
+                    'numero_de_documento' => $cliente->NroDocumento ?? 0,
+                    'tipo_de_documento' => mapearTipoDocumentoAfip($cliente->TipoDocumento),
+                    'razon_social' => $cliente->Nombre,
+                    'domicilio' => $cliente->Domicilio,
+                    'importe_gravado' => $data['Neto'],
+                    'importe_iva' => $data['IVA'],
+                    'importe_exento_iva' => 0,
+                    'punto_de_venta' => $data['PuntoVenta'],
+                    'concepto' => 1,
+                    'condicion_iva_receptor' => $condicion_iva_afip,
+                    'condicion_venta' => $request->CondicionVenta,
+                    'items' => $itemsParaAfip,
+                ];
+
+                $afipResponse = $letra === 'A'
+                    ? $afipService->crearFacturaA($payloadAfip)
+                    : $afipService->crearFacturaB($payloadAfip);
+
+                $factura_venta->update([
+                    'CAE' => $afipResponse['cae'],
+                    'FechaVencimientoCAE' => $afipResponse['cae_vencimiento'],
+                    'Numero' => $afipResponse['numero'],
+                    'NumeroCompleto' => "FC {$data['Letra']} " . str_pad($data['PuntoVenta'], 4, '0', STR_PAD_LEFT)
+                        . '-' . str_pad($afipResponse['numero'], 8, '0', STR_PAD_LEFT),
+                ]);
+
+                return redirect()
+                    ->route('ventas.ficha-del-cliente-factura-venta.show', $factura_venta)
+                    ->with('pdf_url', $afipResponse['file']);
+                    
+            } catch (\Throwable $e) {
+
+                $factura_venta->update([
+                    'Observaciones' => $e->getMessage(),
+                ]);
+
+                return redirect()->back()->withErrors([
+                    'afip' => $e->getMessage()
+                ]);
+            }
+
         }
 
         return redirect()->route('ventas.ficha-del-cliente-factura-venta.show', $factura_venta);
