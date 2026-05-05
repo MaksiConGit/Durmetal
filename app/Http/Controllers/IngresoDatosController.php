@@ -108,7 +108,7 @@ class IngresoDatosController extends Controller
             // 'cliente' => $cliente,
             // 'fecha' => $fecha,
             // 'registro_trazabilidad' => $registro_trazabilidad,
-        ])->setPaper('A5', 'landscape');
+        ])->setPaper('A4', 'portrait');
 
         return $pdf->stream('produccion.ingreso-datos.pdf');
     }

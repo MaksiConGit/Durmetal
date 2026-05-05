@@ -5,7 +5,7 @@
 
 <style>
 @page {
-    size: A5 landscape;
+    size: A4 portrait;
     margin: 20mm;
 }
 
