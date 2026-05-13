@@ -5,6 +5,61 @@
         @method('PUT')
 
         <!-- .modal -->
+        <div class="modal fade" id="modal-recibo" wire:ignore.self>
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                        Recibos pendientes
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <input type="hidden" name="Pendientes" value="0" wire:model.live="pendientes">
+
+                            <div class="col-12">
+                                <div class="form-check">
+
+                                    <p>El cliente tiene recibos pendientes. Confirme si quiere imputar el saldo con las facturas adeudadas.</p>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer justify-content-end">
+
+                        @if ($recibo_pendiente_mas_antiguo)
+                            <a href="{{ route('ventas.ficha-del-cliente-recibo-venta.edit', $recibo_pendiente_mas_antiguo)}}" 
+                                class="btn btn-sidebar btn-sm bg-orange">
+                                <span class="text-white">Imputar saldo</span>
+                            </a>
+                        @endif
+
+                        <a href="{{ route('ventas.ficha-del-cliente-recibo-venta.create', $cliente->id) }}"
+                            class="btn btn-sidebar btn-sm bg-orange">
+                            <span class="text-white">Crear RC</span>
+                        </a>
+
+
+                        <a class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                            <span class="text-white">Salir</span>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal -->
+
+        <!-- .modal -->
         <div class="modal fade" id="modal-edit" wire:ignore.self>
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
@@ -137,9 +192,17 @@
                             
                             @break
                         @case('custom-tabs-4')
-                            <a href="{{ route('ventas.ficha-del-cliente-recibo-venta.create', $cliente->id) }}" class="btn btn-app bg-primary">
-                                <i class="fas fa-plus"></i> Nuevo
-                            </a>
+
+                            @if ($recibos->contains('Estado', 'PENDIENTE'))
+                                <a class="btn btn-app bg-primary" data-toggle="modal" data-target="#modal-recibo">
+                                {{-- <a href="{{ route('ventas.ficha-del-cliente-recibo-venta.create', $cliente->id) }}" class="btn btn-app bg-primary"> --}}
+                                    <i class="fas fa-plus"></i> Nuevo
+                                </a>
+                            @else
+                                <a href="{{ route('ventas.ficha-del-cliente-recibo-venta.create', $cliente->id) }}" class="btn btn-app bg-primary">
+                                    <i class="fas fa-plus"></i> Nuevo
+                                </a>    
+                            @endif
                             
                             @break
                         @case('custom-tabs-5')

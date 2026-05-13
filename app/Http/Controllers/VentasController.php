@@ -881,6 +881,42 @@ class VentasController extends Controller
                 ->withInput();
         }
 
+        $totalPagos = 0;
+
+        // EFECTIVO
+        foreach ($request->Efectivo ?? [] as $efectivo) {
+            $totalPagos += (float) $efectivo;
+        }
+
+        // TRANSFERENCIAS
+        foreach ($request->Transferencias ?? [] as $transferencia) {
+            if (!empty($transferencia['Total'])) {
+                $totalPagos += (float) $transferencia['Total'];
+            }
+        }
+
+        // CHEQUES
+        foreach ($request->Cheques ?? [] as $cheque) {
+            if (!empty($cheque['Total'])) {
+                $totalPagos += (float) $cheque['Total'];
+            }
+        }
+
+        // TARJETAS
+        foreach ($request->Tarjetas ?? [] as $tarjeta) {
+            if (!empty($tarjeta['Total'])) {
+                $totalPagos += (float) $tarjeta['Total'];
+            }
+        }
+
+        $totalItems = collect($request->items)->sum('Total');
+
+        if ($totalPagos < $totalItems) {
+            return redirect()->back()
+                ->withErrors(['pagos' => 'El importe cobrado es mayor que el importe del recibo.'])
+                ->withInput();
+        }
+
         $user_id = Auth::id();
 
         $cliente = Client::find($request->IdCliente);
@@ -902,7 +938,7 @@ class VentasController extends Controller
         $data['RetencionIVA'] = $request->RetencionIVA;
         $data['RetencionGanancias'] = $request->RetencionGanancias;
         $data['RetencionSUSS'] = $request->RetencionSUSS;
-        $data['Estado'] = 'PENDIENTE'; // REVISAR
+        $data['Estado'] = 'PENDIENTE';
         $data['Total'] = $request->Total;
         $data['Observaciones'] = null;
         $data['NumeroTurno'] = 0;
@@ -1025,6 +1061,18 @@ class VentasController extends Controller
             ]);
 
         }
+
+        $totalImputado = $recibo_venta->itemsReciboVenta()->sum('Total');
+
+        $remanente = round($recibo_venta->Total - $totalImputado, 2);
+
+        if (abs($remanente) < 0.01) {
+            $remanente = 0;
+        }
+
+        $recibo_venta->update([
+            'Estado' => $remanente == 0 ? 'COMPLETO' : 'PENDIENTE'
+        ]);
 
         $factura_venta = FacturaVenta::find($itemData['IdFacturaVenta']);
 
@@ -1410,6 +1458,18 @@ class VentasController extends Controller
             }
 
         }
+
+        $totalImputado = $recibo_venta->itemsReciboVenta()->sum('Total');
+
+        $remanente = round($recibo_venta->Total - $totalImputado, 2);
+
+        if (abs($remanente) < 0.01) {
+            $remanente = 0;
+        }
+
+        $recibo_venta->update([
+            'Estado' => $remanente == 0 ? 'COMPLETO' : 'PENDIENTE'
+        ]);
 
         return redirect()->route('ventas.ficha-del-cliente-recibo-venta.show', $recibo_venta);
     }

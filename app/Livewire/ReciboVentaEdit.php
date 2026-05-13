@@ -189,21 +189,42 @@ class ReciboVentaEdit extends Component
         $this->fechaEmisionCheque = Carbon::today()->format('Y-m-d');
         $this->fechaVencimientoCheque = Carbon::today()->format('Y-m-d');
 
-        $this->facturas_venta = FacturaVenta::where('IdCliente', $this->recibo_venta->cliente->id)->where('Estado', 'PENDIENTE')->get();
         $this->items_recibo_venta = $this->recibo_venta->itemsReciboVenta;
+
+        $idsFacturasEnItems = $this->items_recibo_venta
+            ->pluck('IdFacturaVenta')
+            ->filter()
+            ->toArray();
+
+        $this->facturas_venta = FacturaVenta::where('IdCliente', $this->recibo_venta->cliente->id)
+            ->where('Estado', 'PENDIENTE')
+            ->whereNotIn('id', $idsFacturasEnItems)
+            ->with('itemsReciboVenta') // 🔥 importante para no hacer N+1
+            ->get()
+            ->map(function ($factura) {
+
+                $pagado = $factura->itemsReciboVenta->sum('Total');
+
+                $factura->pendiente = max(0, $factura->Total - $pagado);
+
+                return $factura;
+            })
+            ->filter(fn($f) => $f->pendiente > 0)
+            ->values();
+
         $this->next_recibo_numero = ReciboVenta::max('Numero') + 1;
 
+        // FC
         foreach ($this->facturas_venta as $factura_venta) {
-            $this->a_cobrar['fc' .$factura_venta->id] = 0;
+            $this->a_cobrar['fc' . $factura_venta->id] = 0;
         }
 
+        // RC
         foreach ($this->items_recibo_venta as $item_recibo_venta) {
             if ($item_recibo_venta->FacturaVenta) {
-                $factura_id = $item_recibo_venta->FacturaVenta->id;
 
-                $this->seleccionados[$factura_id] = true;
-
-                    $this->a_cobrar['rc' . $item_recibo_venta->id] = $item_recibo_venta->Total;
+                $this->seleccionados['rc' . $item_recibo_venta->id] = true;
+                $this->a_cobrar['rc' . $item_recibo_venta->id] = $item_recibo_venta->Total;
             }
         }
 
@@ -369,83 +390,87 @@ class ReciboVentaEdit extends Component
         $this->activeTab = $tabId;
     }
 
-    public function updatedSeleccionados($value, $key)
-    {
-        $id = intval($key);
+    
 
-        $item = $this->items_recibo_venta->firstWhere('FacturaVenta.id', $id);
+public function updatedSeleccionados($value, $key)
+{
+    // $key ahora es "rc12" o "fc45"
 
-        if ($value) {
+    $isRc = str_starts_with($key, 'rc');
+    $id = intval(substr($key, 2));
 
-            if ($item) {
-                $this->a_cobrar['rc' . $item->id] = $item->Total;
-            } else {
-                $factura = $this->facturas_venta->firstWhere('id', $id);
+    if ($isRc) {
+        $item = $this->items_recibo_venta->firstWhere('id', $id);
+        $factura = $item?->FacturaVenta;
+    } else {
+        $factura = $this->facturas_venta->firstWhere('id', $id);
+        $item = null;
+    }
 
-                if ($factura) {
-                    $this->a_cobrar['fc' . $id] = $factura->Total;
-                }
-            }
+    if (!$factura) return;
 
-        } else {
-            if ($item) {
-                $this->a_cobrar['rc' . $item->id] = 0;
-            } else {
-                $this->a_cobrar['fc' . $id] = 0;
-            }
-        }
+    if ($value) {
 
         $this->actualizarTotalImputado();
+
+        $remanente = max(0, $this->total_final - $this->total_imputado);
+
+$pagado = $factura->itemsReciboVenta?->sum('Total') ?? 0;
+$pendiente = max(0, $factura->Total - $pagado);
+
+$monto = min($pendiente, $remanente);
+
+        $this->a_cobrar[$key] = round($monto, 2);
+
+    } else {
+
+        $this->a_cobrar[$key] = 0;
     }
 
-    public function actualizarTotalImputado()
-    {
-        $this->total_imputado = 0;
+    $this->actualizarTotalImputado();
+}
 
-        foreach ($this->facturas_venta as $factura) {
-            $key = 'fc' . $factura->id;
+public function actualizarTotalImputado()
+{
+    $this->total_imputado = 0;
 
-            if (!empty($this->seleccionados[$factura->id])) {
-                $this->total_imputado += floatval($this->a_cobrar[$key] ?? 0);
-            }
-        }
+    foreach ($this->a_cobrar as $key => $monto) {
 
-        foreach ($this->items_recibo_venta as $item) {
-            $fid = $item->FacturaVenta->id;
-            $key = 'rc' . $item->id;
-
-            if (!empty($this->seleccionados[$fid])) {
-                $this->total_imputado += floatval($this->a_cobrar[$key] ?? 0);
-            }
+        if (!empty($this->seleccionados[$key])) {
+            $this->total_imputado += floatval($monto ?? 0);
         }
     }
+}
 
-    public function onACobrarChange($id, $value)
-    {
-        $factura = FacturaVenta::find($id);
+public function onACobrarChange($id, $value)
+{
+    $factura = FacturaVenta::find($id);
 
-        if (!$factura) return;
+    if (!$factura) return;
 
-        $max = floatval($factura->Total);
-        $value = floatval($value);
+    $value = floatval($value);
 
-        if ($value > $max) {
-            $value = $max;
-        }
+    // 🔥 remanente + lo que ya tenía este item
+    $key = 'fc' . $id;
 
-        $rcKey = 'rc' . $id;
-        $fcKey = 'fc' . $id;
-
-        if (array_key_exists($rcKey, $this->a_cobrar)) {
-            $this->a_cobrar[$rcKey] = $value;
-        }
-
-        if (array_key_exists($fcKey, $this->a_cobrar)) {
-            $this->a_cobrar[$fcKey] = $value;
-        }
-
-        $this->actualizarTotalImputado();
+    if (isset($this->a_cobrar[$key])) {
+        $actual = floatval($this->a_cobrar[$key]);
+    } else {
+        $actual = 0;
     }
+
+    $remanente = $this->total_final - ($this->total_imputado - $actual);
+
+    $max = min($factura->Total, $remanente);
+
+    if ($value > $max) {
+        $value = $max;
+    }
+
+    $this->a_cobrar[$key] = $value;
+
+    $this->actualizarTotalImputado();
+}
 
     public function onSeleccionChange($id, $value)
     {

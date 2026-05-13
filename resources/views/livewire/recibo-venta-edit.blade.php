@@ -100,7 +100,7 @@
                             <td>
                                 <input 
                                     type="checkbox" 
-                                    wire:model.live="seleccionados.{{ $id }}"
+                                    wire:model.live="seleccionados.rc{{ $item_recibo_venta->id }}"
                                 >
                             </td>
                             <td>{{ \Carbon\Carbon::parse($factura_venta->FechaEmision)->format('d/m/Y') }}</td>
@@ -122,9 +122,11 @@
                             </td>
                         </tr>
 
-                        @if (!empty($seleccionados[$id]) && $seleccionados[$id])
-                            <input type="hidden" name="items[{{ $id }}][IdItemReciboVenta]" value="{{ $item_recibo_venta->id }}">
-                            <input type="hidden" name="items[{{ $id }}][Total]" value="{{ $a_cobrar['rc' . $item_recibo_venta->id] ?? 0 }}">
+                        @php $key = 'rc' . $item_recibo_venta->id; @endphp
+
+                        @if (!empty($seleccionados[$key]) && $seleccionados[$key])
+                            <input type="hidden" name="items[{{ $key }}][IdItemReciboVenta]" value="{{ $item_recibo_venta->id }}">
+                            <input type="hidden" name="items[{{ $key }}][Total]" value="{{ $a_cobrar[$key] ?? 0 }}">
                         @endif
                     @endforeach
 
@@ -135,7 +137,7 @@
                             <td>
                                 <input 
                                     type="checkbox" 
-                                    wire:model.live="seleccionados.{{ $id }}"
+                                    wire:model.live="seleccionados.fc{{ $factura_venta->id }}"
                                 >
                             </td>
                             <td>{{ \Carbon\Carbon::parse($factura_venta->FechaEmision)->format('d/m/Y') }}</td>
@@ -144,7 +146,14 @@
                             <td style="min-width: 300px; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                 {{ number_format($factura_venta->Total, 2, ',', '.') }}
                             </td>
-                            <td>{{ number_format($factura_venta->Total, 2, ',', '.') }}</td>
+                            <td>
+                                {{
+                                    number_format(
+                                        $factura_venta->Total - $factura_venta->itemsReciboVenta->sum('Total'),
+                                        2, ',', '.'
+                                    )
+                                }}
+                            </td>                           
                             <td class="text-center align-middle">
                                 <input
                                     step="0.01"
@@ -156,9 +165,11 @@
                             </td>
                         </tr>
 
-                        @if (!empty($seleccionados[$id]) && $seleccionados[$id])
-                            <input type="hidden" name="items[{{ $id }}][IdFacturaVenta]" value="{{ $id }}">
-                            <input type="hidden" name="items[{{ $id }}][Total]" value="{{ $a_cobrar['fc' . $id] ?? 0 }}">
+                        @php $key = 'fc' . $id; @endphp
+
+                        @if (!empty($seleccionados[$key]) && $seleccionados[$key])
+                            <input type="hidden" name="items[{{ $key }}][IdFacturaVenta]" value="{{ $id }}">
+                            <input type="hidden" name="items[{{ $key }}][Total]" value="{{ $a_cobrar[$key] ?? 0 }}">
                         @endif
                     @endforeach
 
@@ -231,6 +242,7 @@
                                                 <td>
                                                     <input 
                                                         type="number"
+                                                        step="0.01"
                                                         name="Efectivo[Total]"
                                                         wire:model.live="efectivo">
 

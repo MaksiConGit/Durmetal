@@ -162,6 +162,10 @@ public function render()
         $this->rec_hasta
     )->orderBy('FechaEmision', 'desc')->get();
 
+    $recibo_pendiente_mas_antiguo = $recibos->where('Estado', 'PENDIENTE')
+        ->sortBy('FechaEmision')
+        ->first();
+
     $notas_de_credito = $this->filtrar(
         $this->cliente->notasDeCredito(),
         $this->nc_desde,
@@ -198,6 +202,7 @@ public function render()
         'notas_de_envio'   => $notas_de_envio,
         'facturas'         => $facturas,
         'recibos'          => $recibos,
+        'recibo_pendiente_mas_antiguo' => $recibo_pendiente_mas_antiguo,
         'notas_de_credito' => $notas_de_credito,
         'notas_de_debito'  => $notas_de_debito,
         'minutas'          => $minutas,
