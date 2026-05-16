@@ -34,6 +34,8 @@ use App\Models\TransferenciaCobro;
 use App\Models\Tratamiento;
 use App\Services\AfipService;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -707,12 +709,54 @@ class VentasController extends Controller
 
         $numero = $m[1] ?? null;
 
+        $configuracion_global = ConfiguracionGlobal::first();
+
+        // =======================
+        // QR AFIP (MISMO QUE B)
+        // =======================
+
+        $datos = [
+            "ver" => 1,
+            "fecha" => \Carbon\Carbon::parse($factura_venta->FechaEmision)->format('Y-m-d'),
+            "cuit" => (int) $configuracion_global->CUITEmpresa,
+            "ptoVta" => (int) $factura_venta->PuntoVenta ?? 1,
+            "tipoCmp" => 1,
+            "nroCmp" => (int) $factura_venta->Numero,
+            "importe" => (float) ($factura_venta->Neto + $factura_venta->IVA),
+            "moneda" => "PES",
+            "ctz" => 1,
+            "tipoDocRec" => 80,
+            "nroDocRec" => (int) $factura_venta->NumeroDocumentoCliente,
+            "tipoCodAut" => "E",
+            "codAut" => (int) $factura_venta->CAE ?? 12345678901234
+        ];
+
+        $json = json_encode($datos);
+        $base64 = base64_encode($json);
+
+        $urlQR = "https://www.arca.gob.ar/fe/qr/?p=" . $base64;
+
+        // =======================
+        // GENERAR QR
+        // =======================
+
+        $qr = new QrCode($urlQR);
+        $writer = new PngWriter();
+        $result = $writer->write($qr);
+
+        $qrBase64 = base64_encode($result->getString());
+
+        // =======================
+        // PDF
+        // =======================
+
         $pdf = Pdf::loadView('ventas.ficha-del-cliente.factura-venta-a-pdf', [
             'cliente' => $cliente,
             'factura_venta' => $factura_venta,
             'items_factura_venta' => $items_factura_venta,
             'numero' => $numero,
-            'configuracion_global' => ConfiguracionGlobal::first(),
+            'configuracion_global' => $configuracion_global,
+            'qrBase64' => $qrBase64 // 👈 ESTO FALTABA
         ])->setPaper('A4');
 
         return $pdf->stream('factura_venta.pdf');
@@ -732,12 +776,50 @@ class VentasController extends Controller
 
         $numero = $m[1] ?? null;
 
+        $configuracion_global = ConfiguracionGlobal::first();
+
+        // =======================
+        // QR AFIP
+        // =======================
+
+        $datos = [
+            "ver" => 1,
+            "fecha" => \Carbon\Carbon::parse($factura_venta->FechaEmision)->format('Y-m-d'),
+            "cuit" => (int) $configuracion_global->CUITEmpresa,
+            "ptoVta" => (int) $factura_venta->PuntoVenta ?? 1,
+            "tipoCmp" => (int) 6,
+            "nroCmp" => (int) $factura_venta->Numero,
+            "importe" => (float) ($factura_venta->Neto + $factura_venta->IVA),
+            "moneda" => "PES",
+            "ctz" => 1,
+            "tipoDocRec" => 80, //revisar
+            "nroDocRec" => (int) $factura_venta->NumeroDocumentoCliente,
+            "tipoCodAut" => "E",
+            "codAut" => (int) $factura_venta->CAE ?? 12345678901234
+        ];
+
+        $json = json_encode($datos);
+        $base64 = base64_encode($json);
+
+        $urlQR = "https://www.arca.gob.ar/fe/qr/?p=" . $base64;
+
+        // =======================
+        // GENERAR IMAGEN QR (BASE64)
+        // =======================
+
+        $qr = new QrCode($urlQR);
+        $writer = new PngWriter();
+        $result = $writer->write($qr);
+
+        $qrBase64 = base64_encode($result->getString());
+
         $pdf = Pdf::loadView('ventas.ficha-del-cliente.factura-venta-b-pdf', [
             'cliente' => $cliente,
             'factura_venta' => $factura_venta,
             'items_factura_venta' => $items_factura_venta,
             'numero' => $numero,
             'configuracion_global' => ConfiguracionGlobal::first(),
+            'qrBase64' => $qrBase64
         ])->setPaper('A4');
 
         return $pdf->stream('factura_venta.pdf');
@@ -1746,51 +1828,130 @@ class VentasController extends Controller
     public function fichaDelClienteNotaCreditoAPDF(NotaCreditoVenta $nota_credito)
     {
         $nuevo_cantidad_impresiones = $nota_credito->CantidadImpresiones + 1;
-
         $nota_credito->update(['CantidadImpresiones' => $nuevo_cantidad_impresiones]);
 
         $cliente = $nota_credito->cliente;
-
         $items_nota_credito = $nota_credito->itemsNotaCredito;
 
         preg_match('/' . $nota_credito->Letra . '\s*([0-9]+-[0-9]+)/', $nota_credito->NumeroCompleto, $m);
-
         $numero = $m[1] ?? null;
+
+        $configuracion_global = ConfiguracionGlobal::first();
+
+        // =======================
+        // QR AFIP (TIPO 3)
+        // =======================
+
+        $datos = [
+            "ver" => 1,
+            "fecha" => \Carbon\Carbon::parse($nota_credito->FechaEmision)->format('Y-m-d'),
+            "cuit" => (int) $configuracion_global->CUITEmpresa,
+            "ptoVta" => (int) ($nota_credito->PuntoVenta ?? 1),
+            "tipoCmp" => 3, // 👈 NOTA CRÉDITO A
+            "nroCmp" => (int) $nota_credito->Numero,
+            "importe" => (float) ($nota_credito->Neto + $nota_credito->IVA),
+            "moneda" => "PES",
+            "ctz" => 1,
+            "tipoDocRec" => 80,
+            "nroDocRec" => (int) $nota_credito->NumeroDocumentoCliente,
+            "tipoCodAut" => "E",
+            "codAut" => (int) ($nota_credito->CAE ?? 12345678901234)
+        ];
+
+        $json = json_encode($datos);
+        $base64 = base64_encode($json);
+
+        $urlQR = "https://www.arca.gob.ar/fe/qr/?p=" . $base64;
+
+        // =======================
+        // GENERAR QR
+        // =======================
+
+        $qr = new QrCode($urlQR);
+        $writer = new PngWriter();
+        $result = $writer->write($qr);
+
+        $qrBase64 = base64_encode($result->getString());
+
+        // =======================
+        // PDF
+        // =======================
 
         $pdf = Pdf::loadView('ventas.ficha-del-cliente.nota-credito-a-pdf', [
             'cliente' => $cliente,
             'nota_credito' => $nota_credito,
             'items_nota_credito' => $items_nota_credito,
             'numero' => $numero,
-            'configuracion_global' => ConfiguracionGlobal::first(),
+            'configuracion_global' => $configuracion_global,
+            'qrBase64' => $qrBase64 // 👈 IGUAL QUE FACTURA A
         ])->setPaper('A4');
 
-        return $pdf->stream('nota_credito.pdf');
+        return $pdf->stream('nota_credito_A.pdf');
     }
+
 
     public function fichaDelClienteNotaCreditoBPDF(NotaCreditoVenta $nota_credito)
     {
         $nuevo_cantidad_impresiones = $nota_credito->CantidadImpresiones + 1;
-
         $nota_credito->update(['CantidadImpresiones' => $nuevo_cantidad_impresiones]);
 
         $cliente = $nota_credito->cliente;
-
         $items_nota_credito = $nota_credito->itemsNotaCredito;
 
         preg_match('/' . $nota_credito->Letra . '\s*([0-9]+-[0-9]+)/', $nota_credito->NumeroCompleto, $m);
-
         $numero = $m[1] ?? null;
+
+        $configuracion_global = ConfiguracionGlobal::first();
+
+        // =======================
+        // QR AFIP (TIPO 8)
+        // =======================
+
+        $datos = [
+            "ver" => 1,
+            "fecha" => \Carbon\Carbon::parse($nota_credito->FechaEmision)->format('Y-m-d'),
+            "cuit" => (int) $configuracion_global->CUITEmpresa,
+            "ptoVta" => (int) ($nota_credito->PuntoVenta ?? 1),
+            "tipoCmp" => 8, // 👈 NOTA CRÉDITO B
+            "nroCmp" => (int) $nota_credito->Numero,
+            "importe" => (float) ($nota_credito->Neto + $nota_credito->IVA),
+            "moneda" => "PES",
+            "ctz" => 1,
+            "tipoDocRec" => 80,
+            "nroDocRec" => (int) $nota_credito->NumeroDocumentoCliente,
+            "tipoCodAut" => "E",
+            "codAut" => (int) ($nota_credito->CAE ?? 12345678901234)
+        ];
+
+        $json = json_encode($datos);
+        $base64 = base64_encode($json);
+
+        $urlQR = "https://www.arca.gob.ar/fe/qr/?p=" . $base64;
+
+        // =======================
+        // GENERAR QR
+        // =======================
+
+        $qr = new QrCode($urlQR);
+        $writer = new PngWriter();
+        $result = $writer->write($qr);
+
+        $qrBase64 = base64_encode($result->getString());
+
+        // =======================
+        // PDF
+        // =======================
 
         $pdf = Pdf::loadView('ventas.ficha-del-cliente.nota-credito-b-pdf', [
             'cliente' => $cliente,
             'nota_credito' => $nota_credito,
             'items_nota_credito' => $items_nota_credito,
             'numero' => $numero,
-            'configuracion_global' => ConfiguracionGlobal::first(),
+            'configuracion_global' => $configuracion_global,
+            'qrBase64' => $qrBase64 // 👈 igual que todas
         ])->setPaper('A4');
 
-        return $pdf->stream('nota_credito.pdf');
+        return $pdf->stream('nota_credito_B.pdf');
     }
 
     public function fichaDelClienteNotaCreditoMail(NotaCreditoVenta $nota_credito, Request $request)
@@ -2101,51 +2262,115 @@ class VentasController extends Controller
     public function fichaDelClienteNotaDebitoAPDF(FacturaVenta $nota_debito)
     {
         $nuevo_cantidad_impresiones = $nota_debito->CantidadImpresiones + 1;
-
         $nota_debito->update(['CantidadImpresiones' => $nuevo_cantidad_impresiones]);
 
         $items_nota_debito = $nota_debito->itemsFacturaVenta;
-
         $cliente = $nota_debito->cliente;
 
         preg_match('/' . $nota_debito->Letra . '\s*([0-9]+-[0-9]+)/', $nota_debito->NumeroCompleto, $m);
-
         $numero = $m[1] ?? null;
+
+        $configuracion_global = ConfiguracionGlobal::first();
+
+        // =======================
+        // QR AFIP (ND A)
+        // =======================
+
+        $datos = [
+            "ver" => 1,
+            "fecha" => \Carbon\Carbon::parse($nota_debito->FechaEmision)->format('Y-m-d'),
+            "cuit" => (int) $configuracion_global->CUITEmpresa,
+            "ptoVta" => (int) ($nota_debito->PuntoVenta ?? 1),
+            "tipoCmp" => 2, // 👈 NOTA DÉBITO A
+            "nroCmp" => (int) $nota_debito->Numero,
+            "importe" => (float) ($nota_debito->Neto + $nota_debito->IVA),
+            "moneda" => "PES",
+            "ctz" => 1,
+            "tipoDocRec" => 80,
+            "nroDocRec" => (int) $nota_debito->NumeroDocumentoCliente,
+            "tipoCodAut" => "E",
+            "codAut" => (int) ($nota_debito->CAE ?? 12345678901234)
+        ];
+
+        $json = json_encode($datos);
+        $base64 = base64_encode($json);
+        $urlQR = "https://www.arca.gob.ar/fe/qr/?p=" . $base64;
+
+        $qr = new QrCode($urlQR);
+        $writer = new PngWriter();
+        $result = $writer->write($qr);
+
+        $qrBase64 = base64_encode($result->getString());
+
+        // =======================
+        // PDF
+        // =======================
 
         $pdf = Pdf::loadView('ventas.ficha-del-cliente.nota-debito-a-pdf', [
             'cliente' => $cliente,
             'nota_debito' => $nota_debito,
             'items_nota_debito' => $items_nota_debito,
             'numero' => $numero,
-            'configuracion_global' => ConfiguracionGlobal::first(),
+            'configuracion_global' => $configuracion_global,
+            'qrBase64' => $qrBase64
         ])->setPaper('A4');
 
-        return $pdf->stream('nota_debito.pdf');
+        return $pdf->stream('nota_debito_A.pdf');
     }
 
     public function fichaDelClienteNotaDebitoBPDF(FacturaVenta $nota_debito)
     {
         $nuevo_cantidad_impresiones = $nota_debito->CantidadImpresiones + 1;
-
         $nota_debito->update(['CantidadImpresiones' => $nuevo_cantidad_impresiones]);
 
         $items_nota_debito = $nota_debito->itemsFacturaVenta;
-
         $cliente = $nota_debito->cliente;
 
         preg_match('/' . $nota_debito->Letra . '\s*([0-9]+-[0-9]+)/', $nota_debito->NumeroCompleto, $m);
-
         $numero = $m[1] ?? null;
+
+        $configuracion_global = ConfiguracionGlobal::first();
+
+        // =======================
+        // QR AFIP (ND B)
+        // =======================
+
+        $datos = [
+            "ver" => 1,
+            "fecha" => \Carbon\Carbon::parse($nota_debito->FechaEmision)->format('Y-m-d'),
+            "cuit" => (int) $configuracion_global->CUITEmpresa,
+            "ptoVta" => (int) ($nota_debito->PuntoVenta ?? 1),
+            "tipoCmp" => 7, // 👈 NOTA DÉBITO B
+            "nroCmp" => (int) $nota_debito->Numero,
+            "importe" => (float) ($nota_debito->Neto + $nota_debito->IVA),
+            "moneda" => "PES",
+            "ctz" => 1,
+            "tipoDocRec" => 80,
+            "nroDocRec" => (int) $nota_debito->NumeroDocumentoCliente,
+            "tipoCodAut" => "E",
+            "codAut" => (int) ($nota_debito->CAE ?? 12345678901234)
+        ];
+
+        $json = json_encode($datos);
+        $base64 = base64_encode($json);
+        $urlQR = "https://www.arca.gob.ar/fe/qr/?p=" . $base64;
+
+        $qr = new QrCode($urlQR);
+        $writer = new PngWriter();
+        $result = $writer->write($qr);
+
+        $qrBase64 = base64_encode($result->getString());
 
         $pdf = Pdf::loadView('ventas.ficha-del-cliente.nota-debito-b-pdf', [
             'cliente' => $cliente,
             'nota_debito' => $nota_debito,
             'items_nota_debito' => $items_nota_debito,
             'numero' => $numero,
-            'configuracion_global' => ConfiguracionGlobal::first(),
+            'configuracion_global' => $configuracion_global,
+            'qrBase64' => $qrBase64
         ])->setPaper('A4');
 
-        return $pdf->stream('nota_debito.pdf');
+        return $pdf->stream('nota_debito_B.pdf');
     }
 
     public function fichaDelClienteNotaDebitoMail(FacturaVenta $nota_debito, Request $request)

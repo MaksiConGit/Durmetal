@@ -71,7 +71,7 @@
             .footer-separator {
                 width: 100%;
                 border-top: 1px solid #000;
-                margin-bottom: 60px;
+                margin-bottom: 10px; /* antes 60px */
             }
 
             .totales {
@@ -91,12 +91,12 @@
             }
 
             @page {
-                margin-bottom: 60px;
+                margin-bottom: 100px;
             }
 
             #footer {
                 position: fixed;
-                bottom: 40px; /* 🔼 sube todo el bloque */
+                bottom: 40px;
                 left: 0;
                 right: 0;
                 height: 110px;
@@ -267,18 +267,35 @@
         </table>
 
         <div id="footer">
+
             <div class="footer-separator"></div>
-            @php
-                $esExento = $cliente->condicionIVA->Nombre === 'Exento';
-            @endphp
-            
-            <table class="totales" style="float:right;">
-                <tr><td>Subtotal:</td><td>{{ number_format($subtotal, 2, ',', '.') }}</td></tr>
-                <tr><td>Otros Tributos:</td><td>{{ number_format(0, 2, ',', '.') }}</td></tr>
-                <tr><td><strong>Total:</strong></td>
-                    <td><strong>{{ number_format($subtotal, 2, ',', '.') }}</strong></td>
+
+            <table style="width:100%; margin-top:10px;">
+                <tr>
+
+                    @if ($factura_venta->PuntoVenta == 5)
+                        <!-- QR IZQUIERDA -->
+                        <td style="width:50%; vertical-align: top;">
+                            <img src="data:image/png;base64,{{ $qrBase64 }}" style="width: 200px;">
+                        </td>
+                    @endif
+
+                    @php
+                        $esExento = $cliente->condicionIVA->Nombre === 'Exento';
+                    @endphp
+                    <td style="width:50%; vertical-align: top;">
+                        <table class="totales">
+                            <tr><td>Subtotal:</td><td>{{ number_format($subtotal, 2, ',', '.') }}</td></tr>
+                            <tr><td>Otros Tributos:</td><td>{{ number_format(0, 2, ',', '.') }}</td></tr>
+                            <tr>
+                                <td><strong>Total:</strong></td>
+                                <td><strong>{{ number_format($subtotal, 2, ',', '.') }}</strong></td>
+                            </tr>
+                        </table>
+                    </td>
                 </tr>
             </table>
+
         </div>
 
     </body>
