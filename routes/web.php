@@ -49,19 +49,15 @@ use App\Models\FacturaVenta;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
 
     Route::get('/', function () {
         return view('ventas.buscar-documentos.index');
     })->name('index');
-    
-    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('clients', ClientController::class)->names('clients');
     Route::get('/clientes/buscar', [ClientController::class, 'search'])->name('clientes.buscar');
@@ -312,6 +308,11 @@ Route::middleware('auth')->group(function () {
         Route::get('compras/buscar-comprobantes', [ComprasController::class, 'buscarComprobantes'])->name('compras.buscar-comprobantes.index');
 
         // Sistema
+
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
         Route::prefix('sistema/actualizaciones')->group(function () {
             Route::resource('bancos', BancosController::class)->names([
                 'index'   => 'sistema.actualizaciones.bancos.index',

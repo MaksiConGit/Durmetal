@@ -55,9 +55,9 @@ class ClientSeeder extends Seeder
         $user_produccion = User::create([
             'id' => '2',
             'name' => 'produccion',
-            'Usuario' => 'produccion.produccion',
+            'Usuario' => 'prod.prod',
             'SuperUsuario' => 1,
-            'email' => 'produccion@produccion',
+            'email' => 'prod@prod',
             'NotificarErroresPorEmail' => 0,
             'EnviarReportePlanillaTurno' => 0,
             'UtilizarTurnoEntorno' => 1,
