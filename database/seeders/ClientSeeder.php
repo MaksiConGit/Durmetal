@@ -15,6 +15,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class ClientSeeder extends Seeder
 {
@@ -23,7 +24,11 @@ class ClientSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
+        Role::firstOrCreate(['name' => 'admin']);
+
+        Role::firstOrCreate(['name' => 'produccion']);
+
+        $user_admin = User::create([
             'id' => '1',
             'name' => 'admin',
             'Usuario' => 'admin.admin',
@@ -44,6 +49,32 @@ class ClientSeeder extends Seeder
             'IndiceBasePremio' => 1.0,
             'password' => '$2y$12$RfmcqnawgVnwBH4voQSaau3RPNW.OPq8FAuSXIcWlhTRKYfSr0emq',
         ]);
+
+        $user_admin->assignRole('admin');
+
+        $user_produccion = User::create([
+            'id' => '2',
+            'name' => 'produccion',
+            'Usuario' => 'produccion.produccion',
+            'SuperUsuario' => 1,
+            'email' => 'produccion@produccion',
+            'NotificarErroresPorEmail' => 0,
+            'EnviarReportePlanillaTurno' => 0,
+            'UtilizarTurnoEntorno' => 1,
+            'ArticuloShopPorDefecto' => '1',
+            'NroTablero' => '1',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Activo' => 1,
+            'Firma' => null,
+            'CobraPremio' => 1,
+            'IndiceBasePremio' => 1.0,
+            'password' => '$2y$12$RfmcqnawgVnwBH4voQSaau3RPNW.OPq8FAuSXIcWlhTRKYfSr0emq',
+        ]);
+
+        $user_produccion->assignRole('produccion');
 
         Province::create([
             'id' => '1',

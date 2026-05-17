@@ -47,6 +47,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li>
 
+          @role('admin')
           <li class="nav-item dropdown">
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
               <i class="fas fa-cart-plus mr-1"></i> COMPRAS
@@ -137,7 +138,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- End Level two -->
             </ul>
           </li>
-
+          @endrole
 
           <li class="nav-item dropdown">
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
@@ -221,6 +222,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li>
 
+          @role('admin')
           <li class="nav-item dropdown">
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle disabled">
               <i class="fas fa-sliders-h mr-1"></i> SISTEMA
@@ -353,6 +355,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             </ul>
           </li>
+          @endrole
 
         </ul>
 
