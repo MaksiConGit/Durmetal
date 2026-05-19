@@ -367,10 +367,10 @@
         <a href="#" class="brand-link dropdown-toggle" data-toggle="dropdown">
           
           <img src="{{ asset('template/assets/img/Fueguito-PNG.ico') }}" 
-              class="brand-image img-circle elevation-3 mr-3" 
+              class="brand-image img-circle elevation-3 mr-2" 
               style="opacity: .8">
 
-            <span class="brand-text font-weight-dark" style="font-size: 1rem;">
+            <span class="brand-text font-weight-dark ml-2 mt-1 d-inline-block" style="font-size: 1rem;">
                 {{ Auth::user()->name }}
             </span>
 

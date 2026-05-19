@@ -30,10 +30,45 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container-fluid ml-2">
-      <a href="{{ route('ventas.buscar-documentos') }}" class="navbar-brand">
-        <img src="{{asset('template/assets/img/Fueguito-PNG.ico')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-dark">Durmetal</span>
-      </a>
+      <div class="dropdown">
+          
+          <a href="#" class="navbar-brand dropdown-toggle" data-toggle="dropdown">
+              <img src="{{ asset('template/assets/img/Fueguito-PNG.ico') }}" 
+                  class="brand-image img-circle elevation-3" 
+                  style="opacity: .8">
+                <span class="brand-text font-weight-dark ml-2" style="font-size: 1rem;">
+                    {{ Auth::user()->name }}
+                </span>
+
+          </a>
+            <style>.dropdown-right {
+                transform: translateX(60px) !important;
+            }</style>
+            <ul class="dropdown-menu border-0 shadow dropdown-right">
+              @role('admin')
+              <li>
+                  <a href="{{ route('profile.edit') }}" class="dropdown-item">
+                      Perfil
+                  </a>
+              </li>
+
+              <li class="dropdown-divider"></li>
+              @endrole
+
+              <li>
+                  <a href="#" class="dropdown-item"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                      Cerrar sesión
+                  </a>
+              </li>
+
+          </ul>
+   
+          <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">
+            @csrf
+          </form>
+
+      </div>
 
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <!-- Left navbar links -->
