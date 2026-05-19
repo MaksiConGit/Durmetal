@@ -2,9 +2,6 @@
     <x-layout2>
         <x-slot name="title">Crear Recibo de Venta</x-slot>
 
-        <form action="{{ route('ventas.ficha-del-cliente-recibo-venta.store', $cliente)}}" method="POST">
-            @csrf
-
             <x-simple-table2>
 
                 <x-slot name="filtros">
@@ -14,9 +11,9 @@
                         <div class="col-2">
                             <div class="form-group mb-1">
                                 <label for="PuntoVenta" class="form-label mb-1" style="font-size: 0.8rem;">PUNTO DE VENTA</label>
-                                <select name="PuntoVenta" id="PuntoVenta" class="form-control form-control-sm py-0">
+                                <select wire:model.defer="punto_venta" id="PuntoVenta" class="form-control form-control-sm py-0">
                                     @foreach ($pto_ventas as $pto_venta)
-                                        <option value="{{ $pto_venta->id }}" {{$pto_venta->id == session('PuntoVenta') ? 'selected' : ''}}>
+                                        <option value="{{ $pto_venta->id }}">
                                             {{ $pto_venta->Nombre }}
                                         </option>
                                     @endforeach
@@ -28,9 +25,8 @@
                             <div class="form-group mb-1">
                                 <label for="Numero" class="form-label mb-1" style="font-size: 0.8rem;">NUMERO</label>
                                 <input type="text" id="Numero"
-                                    value="{{old('Numero', $next_recibo_numero)}}"
+                                    wire:model.defer="numero"
                                     class="form-control form-control-sm py-0" disabled>
-                                <input type="hidden" name="Numero" value="{{old('Numero', $next_recibo_numero)}}">
                             </div>
                         </div>
 
@@ -44,8 +40,8 @@
                         <div class="col-2">
                             <div class="form-group mb-1">
                                 <label for="FechaEmision" class="form-label mb-1" style="font-size: 0.8rem;">FECHA</label>
-                                <input type="date" id="FechaEmision" name="FechaEmision"
-                                    wire:model.live="fechaEmision"
+                                <input type="date" id="FechaEmision"
+                                    wire:model.live="fecha_emision"
                                     class="form-control form-control-sm py-0">
                             </div>
                         </div>
@@ -56,17 +52,16 @@
 
                         <div class="col-2">
                             <div class="form-group mb-1">
-                                <label for="filtro1" class="form-label mb-1" style="font-size: 0.8rem;">CODIGO CLIENTE</label>
-                                <input value="{{ $cliente->id }}" class="form-control form-control-sm py-0" disabled>
-                                <input type="hidden" name="IdCliente" value="{{ $cliente->id }}">
+                                <label for="Id" class="form-label mb-1" style="font-size: 0.8rem;">CODIGO CLIENTE</label>
+                                <input wire:model.defer="id_cliente" id="Id" class="form-control form-control-sm py-0" disabled>
                             </div>
                         </div>
 
                         <div class="col-2">
                             <div class="form-group mb-1">
-                                <label for="Numero" class="form-label mb-1" style="font-size: 0.8rem;">NOMBRE</label>
-                                <input type="text" id="Numero" name="Numero"
-                                    value="{{ $cliente->Nombre }}"
+                                <label for="Nombre" class="form-label mb-1" style="font-size: 0.8rem;">NOMBRE</label>
+                                <input type="text" id="Nombre"
+                                    wire:model.defer="nombre_cliente"
                                     class="form-control form-control-sm py-0" disabled>
                             </div>
                         </div>
@@ -97,8 +92,8 @@
                             <td>
                                 <input 
                                     type="checkbox" 
-                                    wire:model.live="seleccionados.{{ $id }}"
-                                >
+                                    wire:change="onSeleccionChange({{ $factura_venta->id }}, $event.target.checked)">
+                                
                             </td>
                             <td>{{ \Carbon\Carbon::parse($factura_venta->FechaEmision)->format('d/m/Y') }}</td>
                             <td>{{ \Carbon\Carbon::parse($factura_venta->FechaVencimiento)->format('d/m/Y') }}</td>
@@ -118,7 +113,7 @@
                             </td>
                         </tr>
 
-                        @if (!empty($seleccionados[$id]) && $seleccionados[$id])
+                        @if (!empty($facturas_seleccionadas[$id]) && $facturas_seleccionadas[$id])
                             <input type="hidden" name="items[{{ $id }}][IdFacturaVenta]" value="{{ $id }}">
                             <input type="hidden" name="items[{{ $id }}][Total]" value="{{ $a_cobrar[$id] ?? 0 }}">
                         @endif
@@ -194,7 +189,6 @@
                                                     <input 
                                                         type="number"
                                                         step="0.01"
-                                                        name="Efectivo[Total]"
                                                         wire:model.live="efectivo">
                                                 </td>
                                             </tr>
@@ -221,7 +215,7 @@
 
                                         <x-slot name="tbody">
 
-                                            @foreach ($filas as $index => $fila)
+                                            @foreach ($transferencias as $index => $tranferencia)
                                                 <tr>
                                                     <td class="text-center align-middle">
                                                         <button
@@ -229,16 +223,14 @@
                                                             class="btn btn-sidebar btn-sm bg-danger"
                                                             wire:click="limpiarFila({{ $index }})"
                                                             data-bs-toggle="tooltip"
-                                                            title="Eliminar programación"
                                                         >
                                                             <i class="fas fa-ban fa-fw text-white"></i>
                                                         </button>
                                                     </td>
 
                                                     <td>
-                                                        <select wire:model="filas.{{ $index }}.banco_id"
-                                                                    name="Transferencias[{{ $index }}][IdBanco]">
-                                                            <option value="">Seleccionar un banco</option>
+                                                        <select wire:model.live="transferencias.{{ $index }}.IdBanco">
+                                                            <option value="" hidden>Seleccionar un banco</option>
                                                             @foreach ($bancos as $banco)
                                                                 <option value="{{ $banco->id }}">{{ $banco->Nombre }}</option>
                                                             @endforeach
@@ -249,8 +241,7 @@
                                                         <input
                                                             type="number"
                                                             step="0.01"
-                                                            name="Transferencias[{{ $index }}][Total]"
-                                                            wire:model.live="filas.{{ $index }}.monto"
+                                                            wire:model.live="transferencias.{{ $index }}.Total"
                                                         >
                                                     </td>
                                                 </tr>
@@ -296,8 +287,8 @@
                                                     </td>
 
                                                     <td>
-                                                        <select wire:model="cheques.{{ $index }}.banco_id" style="max-width: 180px;" name="Cheques[{{ $index }}][IdBanco]">
-                                                            <option value="">Seleccionar un banco</option>
+                                                        <select wire:model.live="cheques.{{ $index }}.IdBanco" style="max-width: 180px;">
+                                                            <option value="" hidden>Seleccionar un banco</option>
                                                             @foreach ($bancos as $banco)
                                                                 <option value="{{ $banco->id }}">{{ $banco->Nombre }}</option>
                                                             @endforeach
@@ -305,33 +296,32 @@
                                                     </td>
 
                                                     <td>
-                                                        <input type="number" wire:model.live="cheques.{{ $index }}.numero" style="max-width: 80px;" name="Cheques[{{ $index }}][Numero]">
+                                                        <input type="number" wire:model.live="cheques.{{ $index }}.Numero" style="max-width: 80px;">
                                                     </td>
 
                                                     <td>
-                                                        <input type="date" wire:model.live="cheques.{{ $index }}.fecha_emision" style="max-width: 120px;" name="Cheques[{{ $index }}][FechaEmision]">
+                                                        <input type="date" wire:model.live="cheques.{{ $index }}.FechaEmision" style="max-width: 120px;">
                                                     </td>
 
                                                     <td>
-                                                        <input type="date" wire:model.live="cheques.{{ $index }}.fecha_vencimiento" style="max-width: 120px;" name="Cheques[{{ $index }}][FechaAcreditacion]">
+                                                        <input type="date" wire:model.live="cheques.{{ $index }}.FechaAcreditacion" style="max-width: 120px;">
                                                     </td>
 
                                                     <td>
-                                                        <input type="number" wire:model.live="cheques.{{ $index }}.plaza" style="max-width: 80px;" name="Cheques[{{ $index }}][Plaza]">
+                                                        <input type="number" wire:model.live="cheques.{{ $index }}.Plaza" style="max-width: 80px;">
                                                     </td>
 
                                                     <td class="text-center">
-                                                        <input type="hidden" name="Cheques[{{ $index }}][eCheck]" value="0">
-                                                        <input type="checkbox" wire:model.live="cheques.{{ $index }}.es_echeck" name="Cheques[{{ $index }}][eCheck]" value="1">
+                                                        <input type="hidden" value="0">
+                                                        <input type="checkbox" wire:model.live="cheques.{{ $index }}.EsEcheck" value="1">
                                                     </td>
 
                                                     <td>
                                                         <input 
                                                             type="number"
-                                                            name="Cheques[{{ $index }}][Total]"
                                                             min="0"
                                                             step="0.01"
-                                                            wire:model.live="cheques.{{ $index }}.monto"
+                                                            wire:model.live="cheques.{{ $index }}.Total"
                                                         >
                                                     </td>
                                                 </tr>
@@ -374,18 +364,16 @@
                                                     <td>
                                                         <input 
                                                             type="text"
-                                                            name="Tarjetas[{{ $index }}][Descripcion]"
-                                                            wire:model.live="tarjetas.{{ $index }}.descripcion"
+                                                            wire:model.live="tarjetas.{{ $index }}.Descripcion"
                                                         >
                                                     </td>
 
                                                     <td>
                                                         <input 
                                                             type="number"
-                                                            name="Tarjetas[{{ $index }}][Total]"
                                                             min="0"
                                                             step="0.01"
-                                                            wire:model.live="tarjetas.{{ $index }}.monto"
+                                                            wire:model.live="tarjetas.{{ $index }}.Total"
                                                         >
                                                     </td>
                                                 </tr>
@@ -417,7 +405,6 @@
                                                 <td>
                                                     <input 
                                                         type="number"
-                                                        name="RetencionDREI"
                                                         min="0"
                                                         step="0.01"
                                                         wire:model.live="retenciones.drei"
@@ -430,7 +417,6 @@
                                                 <td>
                                                     <input 
                                                         type="number"
-                                                        name="RetencionGanancias" 
                                                         min="0"
                                                         step="0.01"
                                                         wire:model.live="retenciones.ganancias"
@@ -443,7 +429,6 @@
                                                 <td>
                                                     <input 
                                                         type="number"
-                                                        name="RetencionIIBB"
                                                         min="0"
                                                         step="0.01"
                                                         wire:model.live="retenciones.iibb"
@@ -456,7 +441,6 @@
                                                 <td>
                                                     <input 
                                                         type="number"
-                                                        name="RetencionIVA"
                                                         min="0"
                                                         step="0.01"
                                                         wire:model.live="retenciones.iva"
@@ -469,7 +453,6 @@
                                                 <td>
                                                     <input 
                                                         type="number"
-                                                        name="RetencionSUSS"
                                                         min="0"
                                                         step="0.01"
                                                         wire:model.live="retenciones.suss"
@@ -560,9 +543,9 @@
 
                         <div class="d-flex justify-content-end mt-3">
 
-                            <button class="btn btn-app bg-primary">
+                            <a class="btn btn-app bg-primary disabled:opacity-25" wire:click="validar" wire:loading.class="disabled" wire:target="validar">
                                 <i class="fas fa-floppy-disk"></i> Guardar
-                            </button>
+                            </a>
 
                             <a class="btn btn-app bg-primary" href="{{ route('ventas.ficha-del-cliente.show', $cliente) }}">
                                 <i class="fas fa-ban"></i> Cancelar
@@ -575,8 +558,97 @@
                 </div>
         
             </div>
-    
-        </form>
+
+        <!-- .modal -->
+        <div class="modal fade" id="modal-confirmacion" wire:ignore.self>
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                        NUEVO RECIBO DE VENTA
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <div class="col-12">
+                                <div class="form-check">
+
+                                    <p>Confirme que desea crear el Recibo.</p>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer justify-content-end">
+
+                        <button type="button"
+                            class="btn btn-sidebar btn-sm bg-orange"
+                            wire:click="guardar"
+                            wire:loading.attr="disabled"
+                            wire:target="guardar"
+                            onclick="this.disabled=true; this.classList.add('disabled')">
+
+                            <span class="text-white">Sí, crear</span>
+                        </button>
+
+                        <a class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                            <span class="text-white">Cancelar</span>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal -->
+
+        <div class="modal fade" id="error-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning text-white">
+                        <h4 class="modal-title">Error</h4>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ $errors->first() }}</p>
+                    </div>
+                    <div class="modal-footer justify-content-end">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('livewire:init', () => {
+                Livewire.on('modal-confirmacion', () => {
+                    const modal = new bootstrap.Modal(
+                        document.getElementById('modal-confirmacion')
+                    );
+
+                    modal.show();
+                });
+            });
+
+                        document.addEventListener('livewire:init', () => {
+                Livewire.on('error-modal', () => {
+                    const modal = new bootstrap.Modal(
+                        document.getElementById('error-modal')
+                    );
+
+                    modal.show();
+                });
+            });
+        </script>
 
     </x-layout2>
     
