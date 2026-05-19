@@ -39,11 +39,26 @@ use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 use function PHPUnit\Framework\isEmpty;
 
 class VentasController extends Controller
 {
+
+    private function mapearCondicionIvaAfip($id)
+    {
+        return match ($id) {
+            1 => 4, // Exento
+            2 => 1, // Responsable Inscripto
+            3 => 7, // No categorizado
+            4 => 5, // Consumidor Final
+            5 => 6, // Monotributo
+            6 => 7, // No identificado
+            default => 5, // fallback: consumidor final
+        };
+    }
+
     public function trabajosSinFacturar()
     {
         $clientes = Client::all();
@@ -521,20 +536,7 @@ class VentasController extends Controller
 
         $letra = $mapa[$cliente->condicionIVA->id] ?? 'B';
 
-        function mapearCondicionIvaAfip($id)
-        {
-            return match ($id) {
-                1 => 4, // Exento
-                2 => 1, // Responsable Inscripto
-                3 => 7, // No categorizado
-                4 => 5, // Consumidor Final
-                5 => 6, // Monotributo
-                6 => 7, // No identificado
-                default => 5, // fallback: consumidor final
-            };
-        }
-
-        $condicion_iva_afip = mapearCondicionIvaAfip($cliente->IdCondicionIVA);
+        $condicion_iva_afip = $this->mapearCondicionIvaAfip($cliente->IdCondicionIVA);
 
         $data['Letra'] = $letra;
         $data['PuntoVenta'] = $request->PuntoVenta;
@@ -1618,20 +1620,7 @@ class VentasController extends Controller
         $cliente = Client::find($request->IdCliente);
         $factura_venta = FacturaVenta::find($request->IdFacturaVenta);
 
-        function mapearCondicionIvaAfip($id)
-        {
-            return match ($id) {
-                1 => 4,
-                2 => 1,
-                3 => 7,
-                4 => 5,
-                5 => 6,
-                6 => 7,
-                default => 5,
-            };
-        }
-
-        $condicion_iva_afip = mapearCondicionIvaAfip($cliente->IdCondicionIVA);
+        $condicion_iva_afip = $this->mapearCondicionIvaAfip($cliente->IdCondicionIVA);
 
         $data['IdFacturaVenta'] = $request->IdFacturaVenta;
         $data['Letra'] = $factura_venta->Letra;
