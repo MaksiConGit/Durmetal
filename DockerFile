@@ -2,12 +2,16 @@ FROM php:8.2-cli
 
 RUN apt-get update && apt-get install -y \
     libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
     libonig-dev \
     libxml2-dev \
     zip \
     unzip \
     git \
-    curl \
+    curl
+
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install bcmath gd
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -15,6 +19,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 
 COPY . .
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 RUN composer install --optimize-autoloader --no-interaction
 
