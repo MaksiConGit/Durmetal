@@ -6,17 +6,29 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libzip-dev \
     zip \
-    unzip
+    unzip \
+    curl
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-
 RUN docker-php-ext-install gd bcmath pdo pdo_mysql zip
 
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# 🔥 Instalar Node.js (CLAVE)
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs
 
 WORKDIR /app
 COPY . .
 
+# Dependencias PHP
 RUN composer install --optimize-autoloader --no-interaction
+
+# 🔥 Build de Vite (LO QUE TE FALTABA)
+RUN npm ci && npm run build
+
+# Permisos (recomendado)
+RUN chmod -R 775 storage bootstrap/cache
 
 CMD php artisan serve --host=0.0.0.0 --port=$PORT
