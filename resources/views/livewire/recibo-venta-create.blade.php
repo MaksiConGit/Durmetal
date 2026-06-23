@@ -101,7 +101,7 @@
                             <td style="min-width: 300px; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                 {{ number_format($factura_venta->Total, 2, ',', '.') }}
                             </td>
-                            <td>{{ number_format($factura_venta->Total, 2, ',', '.') }}</td>
+                            <td>{{ number_format(($factura_venta->Total - $factura_venta->itemsReciboVenta()->sum('Total')), 2, ',', '.') }}</td>
                             <td class="text-center align-middle">
                                 <input
                                     step="0.01"

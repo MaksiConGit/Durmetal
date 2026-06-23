@@ -188,15 +188,15 @@ class ReciboVentaCreate extends Component
                 }
             }
 
-            if ($this->total_final < $this->total_imputado) {
-                $this->addError(
-                    'total_final',
-                    "El importe cobrado es mayor que el importe del recibo"
-                );
+            // if ($this->total_final < $this->total_imputado) {
+            //     $this->addError(
+            //         'total_final',
+            //         "El importe cobrado es mayor que el importe del recibo"
+            //     );
 
-                $this->dispatch('error-modal');
-                return;
-            }
+            //     $this->dispatch('error-modal');
+            //     return;
+            // }
 
             $this->dispatch('modal-confirmacion');
 
@@ -346,7 +346,7 @@ class ReciboVentaCreate extends Component
                 'IdFacturaVenta' => $item['IdFacturaVenta'],
                 'IdSubiva' => 0,
                 'Descripcion' => $factura->NumeroCompleto,
-                'Total' => $item['Total'] ?? 0,
+                'Total' => $recibo_venta->Total ?? 0,
                 'FechaCreacion' => $now,
                 'CreadoPor' => $user_id,
                 'FechaActualizacion' => $now,
@@ -354,7 +354,19 @@ class ReciboVentaCreate extends Component
                 'Activo' => 1,
             ]);
 
-            $factura->update(['Estado' => 'COMPLETO']);
+        }
+
+        foreach ($this->facturas_seleccionadas as $item) {
+
+            $factura = FacturaVenta::find($item['IdFacturaVenta']);
+
+            $totalPagado = $factura->itemsReciboVenta()->sum('Total');
+
+            if ($totalPagado >= $factura->Total) {
+                $factura->update(['Estado' => 'COMPLETO']);
+            } else {
+                $factura->update(['Estado' => 'PENDIENTE']);
+            }
         }
 
         $totalImputado = $recibo_venta->itemsReciboVenta()->sum('Total');
@@ -564,7 +576,10 @@ class ReciboVentaCreate extends Component
         $factura = $this->facturas_venta->firstWhere('id', $id);
 
         if ($value) {
-            $this->a_cobrar[$id] = $factura->Total;
+            $pagado = $factura->itemsReciboVenta()->sum('Total');
+            $pendiente = $factura->Total - $pagado;
+
+            $this->a_cobrar[$id] = $pendiente;
         } else {
             $this->a_cobrar[$id] = null;
         }
@@ -589,8 +604,11 @@ class ReciboVentaCreate extends Component
     {
         $factura = FacturaVenta::find($id);
 
-        if ($factura->Total < $value) {
-            $value = $factura->Total;
+        $pagado = $factura->itemsReciboVenta()->sum('Total');
+        $pendiente = $factura->Total - $pagado;
+
+        if ($value > $pendiente) {
+            $value = $pendiente;
         }
 
         $this->a_cobrar[$id] = $value;
@@ -607,12 +625,15 @@ class ReciboVentaCreate extends Component
         if ($value) {
             $factura = $this->facturas_venta->firstWhere('id', $id);
 
+            $pagado = $factura->itemsReciboVenta()->sum('Total');
+            $pendiente = $factura->Total - $pagado;
+
             $this->facturas_seleccionadas[$id] = [
                 'IdFacturaVenta' => $id,
-                'Total' => floatval($factura->Total),
+                'Total' => floatval($pendiente),
             ];
 
-            $this->a_cobrar[$id] = floatval($factura->Total);
+            $this->a_cobrar[$id] = floatval($pendiente);
         } else {
             unset($this->facturas_seleccionadas[$id]);
             $this->a_cobrar[$id] = 0;
