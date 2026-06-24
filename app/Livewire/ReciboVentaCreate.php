@@ -188,6 +188,40 @@ class ReciboVentaCreate extends Component
                 }
             }
 
+            $totalDisponible = floatval($this->total_final);
+
+            $facturas = collect($this->facturas_seleccionadas)
+                ->sortBy('FechaVencimiento')
+                ->values();
+
+            $parcialEncontrada = false;
+
+            foreach ($facturas as $item) {
+                $factura = FacturaVenta::find($item['IdFacturaVenta']);
+
+                $pagado = $factura->itemsReciboVenta()->sum('Total');
+                $pendiente = $factura->Total - $pagado;
+
+                $aPagar = floatval($item['Total']);
+
+                if ($aPagar <= 0) continue;
+
+                if ($totalDisponible >= $pendiente) {
+                    $totalDisponible -= $pendiente;
+                } else {
+                    if ($parcialEncontrada) {
+                        $this->addError('facturas_seleccionadas', 'Solo puede haber una factura parcialmente pagada.');
+                        $this->dispatch('error-modal');
+                        return;
+                    }
+
+                    $parcialEncontrada = true;
+
+                    $totalDisponible = 0;
+                }
+            }
+
+
             // if ($this->total_final < $this->total_imputado) {
             //     $this->addError(
             //         'total_final',
@@ -337,16 +371,31 @@ class ReciboVentaCreate extends Component
             }
         }
 
-        foreach ($this->facturas_seleccionadas as $item) {
+        $facturas = collect($this->facturas_seleccionadas)
+            ->sortBy('FechaVencimiento')
+            ->values();
+
+        $totalDisponible = floatval($recibo_venta->Total);
+
+        foreach ($facturas as $item) {
 
             $factura = FacturaVenta::find($item['IdFacturaVenta']);
 
+            $totalPagado = $factura->itemsReciboVenta()->sum('Total');
+            $pendiente = $factura->Total - $totalPagado;
+
+            if ($pendiente <= 0) continue;
+
+            $montoAplicado = min($totalDisponible, $pendiente);
+
+            if ($montoAplicado <= 0) break;
+
             ItemReciboVenta::create([
                 'IdReciboVenta' => $recibo_venta->id,
-                'IdFacturaVenta' => $item['IdFacturaVenta'],
+                'IdFacturaVenta' => $factura->id,
                 'IdSubiva' => 0,
                 'Descripcion' => $factura->NumeroCompleto,
-                'Total' => $recibo_venta->Total ?? 0,
+                'Total' => $montoAplicado,
                 'FechaCreacion' => $now,
                 'CreadoPor' => $user_id,
                 'FechaActualizacion' => $now,
@@ -354,9 +403,10 @@ class ReciboVentaCreate extends Component
                 'Activo' => 1,
             ]);
 
+            $totalDisponible -= $montoAplicado;
         }
 
-        foreach ($this->facturas_seleccionadas as $item) {
+        foreach ($facturas as $item) {
 
             $factura = FacturaVenta::find($item['IdFacturaVenta']);
 
@@ -367,6 +417,7 @@ class ReciboVentaCreate extends Component
             } else {
                 $factura->update(['Estado' => 'PENDIENTE']);
             }
+            
         }
 
         $totalImputado = $recibo_venta->itemsReciboVenta()->sum('Total');
