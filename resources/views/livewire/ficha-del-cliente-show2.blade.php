@@ -239,18 +239,11 @@
                             </a>
                             @break
                         @case('custom-tabs-2')
-                        
-                            @if ($this->notaEnvio->Estado == 'PENDIENTE')
-                                <a 
-                                class="btn btn-app bg-primary {{ !$selectedId ? 'disabled' : '' }}" data-toggle="modal" data-target="#modal-edit">
-                                    <i class="fas fa-pen"></i> Modificar
-                                </a>
-                            @else
-                                <a 
-                                class="btn btn-app bg-primary {{ !$selectedId ? 'disabled' : '' }}" href="{{ route('ventas.ficha-del-cliente-nota-envio.edit', $selectedId) }}">
-                                    <i class="fas fa-pen"></i> Modificar
-                                </a>
-                            @endif
+
+                            <a 
+                            class="btn btn-app bg-primary {{ !$selectedId ? 'disabled' : '' }}" href="{{ route('ventas.ficha-del-cliente-nota-envio.edit', $selectedId) }}">
+                                <i class="fas fa-pen"></i> Modificar
+                            </a>
 
                             @break
                         @case('custom-tabs-3')

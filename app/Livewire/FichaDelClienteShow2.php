@@ -108,6 +108,8 @@ class FichaDelClienteShow2 extends Component
     public function setActiveTabParametros($tabId)
     {
         $this->activeTabParametros = $tabId;
+
+        $this->expanded = [];
     }
 
     private function calcularSaldo()
