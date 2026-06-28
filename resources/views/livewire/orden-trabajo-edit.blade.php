@@ -76,7 +76,13 @@
 
                     <div class="row d-flex justify-content-end ml-5">
                         <div>
-                            <button wire:click="guardar" class="btn btn-app bg-primary">
+                            <button 
+                                x-data="{ disabled: false }"
+                                x-on:click="disabled = true"
+                                x-bind:disabled="disabled"
+                                wire:click="guardar"
+                                class="btn btn-app bg-primary"
+                            >
                                 <i class="fas fa-floppy-disk"></i> Guardar
                             </button>
                         </div>
