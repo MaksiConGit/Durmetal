@@ -491,7 +491,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- /.modal -->
 
   <!-- .modal -->
-  <form action="{{ route('orden-trabajo.store') }}" method="POST">
+  <form action="{{ route('orden-trabajo.create') }}" method="GET">
     @csrf
     <div class="modal fade" id="modal-ingreso-materiales">
       <div class="modal-dialog modal-dialog-centered">
@@ -511,8 +511,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                   <div class="col-6">
                     <div class="form-group mb-0">
-                        <label for="pto_venta_id" class="font-weight-normal">PUNTO DE VENTA</label>
-                        <select name="pto_venta_id" id="pto_venta_id" class="form-control form-control-sm">
+                        <label for="pto_venta_seleccionado_id" class="font-weight-normal">PUNTO DE VENTA</label>
+                        <select name="pto_venta_seleccionado_id" id="pto_venta_seleccionado_id" class="form-control form-control-sm">
                           @foreach (\App\Models\PuntoDeVenta::all() as $pto_venta)
                             <option value="{{ $pto_venta->id }}">{{ $pto_venta->Nombre }}</option>    
                           @endforeach
@@ -533,7 +533,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
               <div class="modal-footer justify-content-end">
 
-                  <button class="btn btn-sidebar btn-sm bg-orange">
+                  <button type="submit" class="btn btn-sidebar btn-sm bg-orange">
                       <span class="text-white">Aceptar</span>
                       <i class="fas fa-check fa-fw text-white ml-2"></i>
                   </button>

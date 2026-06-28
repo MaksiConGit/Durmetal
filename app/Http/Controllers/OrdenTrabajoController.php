@@ -19,12 +19,19 @@ use Illuminate\Support\Facades\Mail;
 
 class OrdenTrabajoController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
-        $pto_ventas = PuntoDeVenta::all();
-        $next_orden_numero = OrdenTrabajo::max('Numero') + 1;
+        $data = $request->all();
 
-        return view('produccion.orden-trabajo.create', compact('pto_ventas', 'next_orden_numero'));
+        $pto_venta_seleccionado_id = $data['pto_venta_seleccionado_id'];
+        $pto_ventas = PuntoDeVenta::all();
+
+        $numero = $data['Numero'] ?? null;
+        $orden_trabajo = OrdenTrabajo::where('Numero', $numero)->first();
+
+        $items_orden_trabajo = $orden_trabajo ? ItemOrdenTrabajo::where('IdOrdenTrabajo', $orden_trabajo->id)->get() : collect();
+
+        return view('produccion.orden-trabajo.edit', compact('pto_ventas', 'pto_venta_seleccionado_id', 'numero', 'orden_trabajo', 'items_orden_trabajo'));
     }
 
     public function store(Request $request)

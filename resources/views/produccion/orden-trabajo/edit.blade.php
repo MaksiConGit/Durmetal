@@ -1,7 +1,9 @@
 @livewire('orden-trabajo-edit',
             ['orden_trabajo' => $orden_trabajo,
-            'items_orden_trabajo' => $items_orden_trabajo,
+            'items_orden_trabajo' => $items_orden_trabajo ?? null,
             'pto_ventas' => $pto_ventas,
+            'pto_venta_seleccionado_id' => $pto_venta_seleccionado_id ?? 1,
+            'numero' => $numero ?? null,
         ])
 
 {{-- <x-layout>
