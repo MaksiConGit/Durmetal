@@ -178,7 +178,7 @@ class VentasController extends Controller
         $data['Letra'] = 'X';
         $data['PuntoVenta'] = $request->PuntoVenta;
         $data['Numero'] = $request->Numero;
-        $data['NumeroCompleto'] = "NE X 0001-0000$request->Numero";
+        $data['NumeroCompleto'] = "NE X " . str_pad($request->PuntoVenta, 4, "0", STR_PAD_LEFT) . "-" . str_pad($request->Numero, 8, "0", STR_PAD_LEFT);
         $data['FechaEmision'] = $request->FechaEmision;
         $data['FechaVencimiento'] = now();
         $data['AfectarPlanillaTurno'] = 0;
@@ -541,7 +541,23 @@ class VentasController extends Controller
         $data['Letra'] = $letra;
         $data['PuntoVenta'] = $request->PuntoVenta;
         $data['Numero'] = $request->Numero;
-        $data['NumeroCompleto'] = "FC $letra 0001-0000$request->Numero";
+
+        $puntoVenta = $request->PuntoVenta;
+
+        $ultimoNumero = FacturaVenta::where('Letra', $letra)
+            ->where('PuntoVenta', $puntoVenta)
+            ->max('Numero');
+
+        $numero = $ultimoNumero ? $ultimoNumero + 1 : 1;
+
+        $data['Numero'] = $numero;
+
+        $data['NumeroCompleto'] =
+            "FC {$letra} " .
+            str_pad($puntoVenta, 4, "0", STR_PAD_LEFT) .
+            "-" .
+            str_pad($numero, 8, "0", STR_PAD_LEFT);
+
         $data['FechaEmision'] = $request->FechaEmision;
         $data['FechaVencimiento'] = $request->FechaVencimiento;
         $data['FechaEstadisticas'] = $request->FechaEmision;
@@ -1008,7 +1024,7 @@ class VentasController extends Controller
         $data['Letra'] = 'X';
         $data['PuntoVenta'] = $request->PuntoVenta;
         $data['Numero'] = $request->Numero;
-        $data['NumeroCompleto'] = "RC X 0001-0000$request->Numero";
+        $data['NumeroCompleto'] = "RC X " . str_pad($request->PuntoVenta, 4, "0", STR_PAD_LEFT) . "-" . str_pad($request->Numero, 8, "0", STR_PAD_LEFT);
         $data['FechaEmision'] = $request->FechaEmision;
         $data['IdCliente'] = $cliente->id;
         $data['RazonSocial'] = $cliente->Nombre;
@@ -1626,7 +1642,26 @@ class VentasController extends Controller
         $data['Letra'] = $factura_venta->Letra;
         $data['PuntoVenta'] = $request->PuntoVenta;
         $data['Numero'] = $request->Numero;
-        $data['NumeroCompleto'] = "NC $factura_venta->Letra 0001-0000$request->Numero";
+        $data['NumeroCompleto'] = "NC  0001-0000$request->Numero";
+
+        $letra = $factura_venta->Letra;
+
+        $puntoVenta = $request->PuntoVenta;
+
+        $ultimoNumero = NotaCreditoVenta::where('Letra', $letra)
+            ->where('PuntoVenta', $puntoVenta)
+            ->max('Numero');
+
+        $numero = $ultimoNumero ? $ultimoNumero + 1 : 1;
+
+        $data['Numero'] = $numero;
+
+        $data['NumeroCompleto'] =
+            "NC {$letra} " .
+            str_pad($puntoVenta, 4, "0", STR_PAD_LEFT) .
+            "-" .
+            str_pad($numero, 8, "0", STR_PAD_LEFT);
+
         $data['FechaEmision'] = $request->FechaEmision;
         $data['FechaVencimiento'] = $request->FechaEmision;
         $data['FechaEstadisticas'] = $request->FechaEmision; // REVISAR
@@ -2011,7 +2046,29 @@ class VentasController extends Controller
         $data['Letra'] = $factura_venta->Letra;
         $data['PuntoVenta'] = $request->PuntoVenta;
         $data['Numero'] = $request->Numero;
+
         $data['NumeroCompleto'] = "ND $factura_venta->Letra 0001-0000$request->Numero";
+
+
+        $letra = $factura_venta->Letra;
+
+        $puntoVenta = $request->PuntoVenta;
+
+        $ultimoNumero = FacturaVenta::where('Letra', $letra)
+            ->where('PuntoVenta', $puntoVenta)
+            ->where('EsNotaDeDebito', 1)
+            ->max('Numero');
+
+        $numero = $ultimoNumero ? $ultimoNumero + 1 : 1;
+
+        $data['Numero'] = $numero;
+
+        $data['NumeroCompleto'] =
+            "ND {$letra} " .
+            str_pad($puntoVenta, 4, "0", STR_PAD_LEFT) .
+            "-" .
+            str_pad($numero, 8, "0", STR_PAD_LEFT);
+
         $data['FechaEmision'] = $request->FechaEmision;
         $data['FechaVencimiento'] = $request->FechaEmision;
         $data['FechaEstadisticas'] = $request->FechaEmision;

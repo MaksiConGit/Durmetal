@@ -1123,7 +1123,7 @@
                                                     @endforeach
 
                                                     @php
-                                                        $filasFaltantes = max(0, 6 - count($nota_de_credito->itemsNotaCredito));
+                                                        $filasFaltantes = max(0, 6 - count($nota_de_debito->itemsFacturaVenta));
                                                     @endphp
 
                                                     @for ($i = 0; $i < $filasFaltantes; $i++)

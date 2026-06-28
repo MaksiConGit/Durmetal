@@ -327,7 +327,9 @@
 
                         <div class="d-flex justify-content-end mt-3">
 
-                            <button class="btn btn-app bg-primary">
+                            <button type="submit"
+                                    class="btn btn-app bg-primary"
+                                    onclick="this.disabled=true; this.innerHTML='Guardando...'; this.form.submit();">
                                 <i class="fas fa-floppy-disk"></i> Guardar
                             </button>
 

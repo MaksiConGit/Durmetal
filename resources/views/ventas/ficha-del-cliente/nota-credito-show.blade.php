@@ -241,12 +241,6 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-end">
 
-                <a href="{{ session('pdf_url') ?? '#' }}" 
-                target="_blank" 
-                class="btn btn-sm btn-success mr-2 {{ !session('pdf_url') ? 'disabled' : '' }}">
-                    <i class="bi bi-file-earmark-pdf"></i> Ver PDF
-                </a>
-
                 <a class="btn btn-sm btn-primary" 
                 href="{{ route('ventas.ficha-del-cliente.show', $nota_credito_venta->IdCliente) }}">
                     <i class="bi bi-x-circle"></i> Salir
