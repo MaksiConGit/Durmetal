@@ -29,7 +29,7 @@ class OrdenTrabajoEdit extends Component
     public $cliente_nombre = null;
     public array $items_orden_trabajo_edit = [];
     public $newItems = [];
-    private $tempId = -1;
+    public $tempId = -1;
 
     public $fecha_emision;
     public $pto_venta_seleccionado_id;
@@ -90,9 +90,11 @@ class OrdenTrabajoEdit extends Component
                     $this->dispatch('error-modal');
                     return;
                 }
+
+                $this->newItems[$index]['is_new'] = false;
             }
 
-            $this->dispatch('refresh-manual');
+            $this->dispatch('close-all');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             $this->dispatch('error-modal');
@@ -309,18 +311,24 @@ class OrdenTrabajoEdit extends Component
 
     public function cancelarItem($itemId)
     {
-        unset($this->newItems[$itemId]);
+        foreach ($this->newItems as $index => $item) {
 
-        // opcional: cerrar expandido si era ese
-        if ($this->expandedId === $itemId) {
-            $this->expandedId = null;
+            if ($item['id'] == $itemId) {
+
+                if ($item['id'] < 0) {
+                    unset($this->newItems[$index]);
+                    $this->newItems = array_values($this->newItems);
+                }
+
+                break;
+            }
         }
 
         if ($this->selectedIdItem === $itemId) {
             $this->selectedIdItem = null;
         }
     }
-
+    
     public function mount($orden_trabajo, $items_orden_trabajo, $pto_ventas)
     {
         $this->items_orden_trabajo = $items_orden_trabajo;
@@ -340,24 +348,24 @@ class OrdenTrabajoEdit extends Component
 
         }
 
-foreach ($this->items_orden_trabajo as $item) {
+        foreach ($this->items_orden_trabajo as $item) {
 
-    $this->newItems[$item->id] = [
-        'id' => $item->id, // IMPORTANTE: mantener ID real
-        'is_new' => false, // bandera opcional
+        $this->newItems[] = [
+            'id' => $item->id,
+                'is_new' => false, // bandera opcional
 
-        'tratamiento_id' => $item->IdTratamiento,
-        'dureza_id' => $item->IdDureza,
-        'material_id' => $item->IdMaterial,
-        'Descripcion' => $item->Descripcion,
-        'Cantidad' => $item->Cantidad,
-        'Peso' => $item->Peso,
-        'NroPlano' => $item->NroPlano,
+                'tratamiento_id' => $item->IdTratamiento,
+                'dureza_id' => $item->IdDureza,
+                'material_id' => $item->IdMaterial,
+                'Descripcion' => $item->Descripcion,
+                'Cantidad' => $item->Cantidad,
+                'Peso' => $item->Peso,
+                'NroPlano' => $item->NroPlano,
 
-        'DurezaSolicitadaMinima' => $item->DurezaSolicitadaMinima,
-        'DurezaSolicitadaMaxima' => $item->DurezaSolicitadaMaxima,
-    ];
-}
+                'DurezaSolicitadaMinima' => $item->DurezaSolicitadaMinima,
+                'DurezaSolicitadaMaxima' => $item->DurezaSolicitadaMaxima,
+            ];
+        }
 
         $this->materialesMap = Material::all()->keyBy('id');
         $this->tratamientosMap = Tratamiento::all()->keyBy('id');
@@ -365,39 +373,45 @@ foreach ($this->items_orden_trabajo as $item) {
 
     }
 
-    public function toggleExpand($id)
-    {
-        $this->expandedId = $this->expandedId === $id ? null : $id;
-    }
+public function toggleExpand($index)
+{
+    $this->expandedId = $this->expandedId === $index ? null : $index;
+}
 
 public function addNewItem()
 {
+
+    foreach ($this->newItems as $item) {
+        if (!empty($item['is_new'])) {
+            return;
+        }
+    }
+
     $newItemId = $this->tempId--; // 👈 CLAVE
 
     $defaultMaterial = Material::where('Predeterminado', 1)->first()->id ?? 1;
     $defaultTratamiento = Tratamiento::where('Predeterminado', 1)->first()->id ?? 1;
     $defaultDureza = Dureza::where('Predeterminado', 1)->first()->id ?? 1;
+    $this->newItems[] = [
+        'id' => $newItemId, // lo mantenés
+            'is_new' => true,
 
-    $this->newItems[$newItemId] = [
-        'id' => $newItemId,
-        'is_new' => true,
+            'Descripcion' => '',
+            'Cantidad' => 1,
+            'Peso' => 0,
+            'material_id' => $defaultMaterial,
+            'tratamiento_id' => $defaultTratamiento,
+            'NroPlano' => null,
+            'dureza_id' => $defaultDureza,
+            'DurezaSolicitadaMinima' => 0,
+            'DurezaSolicitadaMaxima' => 0,
+        ];
 
-        'Descripcion' => '',
-        'Cantidad' => 1,
-        'Peso' => 0,
-        'material_id' => $defaultMaterial,
-        'tratamiento_id' => $defaultTratamiento,
-        'NroPlano' => null,
-        'dureza_id' => $defaultDureza,
-        'DurezaSolicitadaMinima' => 0,
-        'DurezaSolicitadaMaxima' => 0,
-    ];
+$this->expandedId = $newItemId;
+$this->selectedIdItem = $newItemId;
 
-    $this->expandedId = $newItemId;
-
-    $this->dispatch('sync-expand');
-
-    $this->selectedIdItem = $newItemId;
+$this->dispatch('open-item', id: $newItemId);
+    // $this->dispatch('item-added', index: array_key_last($this->newItems));
 }
     
     public function cancelarCliente()
