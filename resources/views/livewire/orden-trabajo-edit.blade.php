@@ -10,13 +10,13 @@
             <div class="form-inline mt-5 mr-3 d-flex flex-column align-items-center">
 
                 <div class="form-group mb-3">
-<button 
-    type="button"
-    wire:click="addNewItem"
-    class="btn btn-app bg-primary"
->
-    <i class="fas fa-plus"></i> Nuevo
-</button>
+                <button 
+                    type="button"
+                    wire:click="addNewItem"
+                    class="btn btn-app bg-primary"
+                >
+                    <i class="fas fa-plus"></i> Nuevo
+                </button>
                 </div>
                 
 
@@ -78,21 +78,32 @@
                     <div class="col-2">
                         <div class="form-group mb-0">
                             <label for="NumeroRemitoCliente" class="font-weight-normal">N° REMITO CLIENTE</label>
-                            <input type="text" id="NumeroRemitoCliente" name="NumeroRemitoCliente" wire:model.live="numero_remito_cliente" class="form-control form-control-sm filtro-input">
+                            <input type="number" id="NumeroRemitoCliente" name="NumeroRemitoCliente" wire:model.live="numero_remito_cliente" class="form-control form-control-sm filtro-input">
                         </div>
                     </div>
 
-                <div class="row d-flex justify-content-end ml-5">
-                    <div>
-                        <button 
-                            x-bind:disabled="open !== null"
-                            wire:click="guardar"
-                            class="btn btn-app bg-primary"
-                        >
-                            <i class="fas fa-floppy-disk"></i> Guardar
-                        </button>
+                    <div 
+                        x-data="{ disabled: false }"
+                        wire:ignore
+                        class="row d-flex justify-content-end ml-5"
+                    >
+                        <div>
+                            <button 
+                                x-on:click="disabled = true"
+                                x-bind:disabled="disabled"
+                                wire:click="guardar"
+                                class="btn btn-app bg-primary"
+                            >
+                                <span x-show="!disabled">
+                                    <i class="fas fa-floppy-disk"></i> Guardar
+                                </span>
+
+                                <span x-show="disabled">
+                                    Guardando...
+                                </span>
+                            </button>
+                        </div>
                     </div>
-                </div>
 
                 </div>
 
@@ -157,30 +168,30 @@
             </x-slot>
             <x-slot name="tbody">
 
-<tbody x-on:close-all.window="open = null">
+            <tbody x-on:close-all.window="open = null">
 
                 @foreach ($newItems as $index => $newItem)
-<tr
-    wire:key="new-item-{{ $newItem['id'] }}"
-    @click="open = open === {{ $newItem['id'] }} ? null : {{ $newItem['id'] }}"
+                    <tr
+                        wire:key="new-item-{{ $newItem['id'] }}"
+                        @click="open = open === {{ $newItem['id'] }} ? null : {{ $newItem['id'] }}"
 
-                        style="cursor: pointer;"
-                    >
-                        <td>{{ $newItem['Descripcion'] }}</td>
-                        <td>{{ $materialesMap[$newItem['material_id']]->Nombre ?? '---' }}</td>
-                        <td>{{ $newItem['Cantidad'] }}</td>
-                        <td>{{ $newItem['Peso'] }}</td>
-                        <td>{{ $tratamientosMap[$newItem['tratamiento_id']]->Nombre ?? '---' }}</td>
-                        <td>{{ $durezasMap[$newItem['dureza_id']]->Nombre ?? '---' }}</td>
-                        <td>{{ $newItem['DurezaSolicitadaMinima'] }}</td>
-                        <td>{{ $newItem['DurezaSolicitadaMaxima'] }}</td>
-                        <td colspan="4"></td>
-                    </tr>
+                                            style="cursor: pointer;"
+                                        >
+                                            <td>{{ $newItem['Descripcion'] }}</td>
+                                            <td>{{ $materialesMap[$newItem['material_id']]->Nombre ?? '---' }}</td>
+                                            <td>{{ $newItem['Cantidad'] }}</td>
+                                            <td>{{ $newItem['Peso'] }}</td>
+                                            <td>{{ $tratamientosMap[$newItem['tratamiento_id']]->Nombre ?? '---' }}</td>
+                                            <td>{{ $durezasMap[$newItem['dureza_id']]->Nombre ?? '---' }}</td>
+                                            <td>{{ $newItem['DurezaSolicitadaMinima'] }}</td>
+                                            <td>{{ $newItem['DurezaSolicitadaMaxima'] }}</td>
+                                            <td colspan="4"></td>
+                                        </tr>
 
-<tr
-x-show="open === {{ $newItem['id'] }}"    x-cloak
-    x-transition
->                     
+                    <tr
+                    x-show="open === {{ $newItem['id'] }}"    x-cloak
+                        x-transition
+                    >                     
                             <td colspan="15" class="p-0">
                                 <div class="expand-wrapper">
 
@@ -215,7 +226,15 @@ x-show="open === {{ $newItem['id'] }}"    x-cloak
                                             style="height: 18rem; padding: 0.5rem;">
                                             <div class="row justify-content-center m-0">
                                                 <div class="col-10 card p-1">
-                                                    <div class="card-body p-2">
+                                                    <div class="card-body p-2"
+                                                        x-data
+                                                        x-on:keydown.enter.prevent="
+                                                            let inputs = Array.from(
+                                                                $el.querySelectorAll('input:not([type=hidden]):not([disabled]), select:not([disabled]), textarea:not([disabled])')
+                                                            );
+                                                            let index = inputs.indexOf(document.activeElement);
+                                                            if (inputs[index + 1]) inputs[index + 1].focus();
+                                                        ">
                                                         <div class="row justify-content-center m-0">
                                                             <div class="col-4 mb-2 px-1">
                                                                 <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">ITEM NRO</label>
@@ -235,7 +254,7 @@ x-show="open === {{ $newItem['id'] }}"    x-cloak
                                                         <div class="row justify-content-center m-0">
                                                             <div class="col-4 mb-2 px-1">
                                                                 <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">CANTIDAD</label>
-                                                                <input type="text" wire:model.defer="newItems.{{ $index }}.Cantidad" class="form-control form-control-sm p-1" style="height: 22px;">
+                                                                <input type="number" wire:model.defer="newItems.{{ $index }}.Cantidad" class="form-control form-control-sm p-1" style="height: 22px;">
                                                             </div>
                                                             <div class="col-4 mb-2 px-1">
                                                                 <label class="font-weight-normal mb-1" style="font-size: 0.75rem;">PESO</label>
@@ -267,6 +286,7 @@ x-show="open === {{ $newItem['id'] }}"    x-cloak
                                                             </div>
 
                                                             <!-- .modal -->
+                                                            
                                                             <div class="modal fade" id="modal-items-{{ $newItem['id'] }}-tratamiento" wire:ignore.self>
                                                                 <div class="modal-dialog modal-dialog-centered">
                                                                     <div class="modal-content">
@@ -281,6 +301,14 @@ x-show="open === {{ $newItem['id'] }}"    x-cloak
                                                                         <div class="modal-body">
 
                                                                             <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
+                                                                                <div class="mb-2">
+                                                                                    <input 
+                                                                                        type="text"
+                                                                                        wire:model.live="searchTratamiento"
+                                                                                        class="form-control"
+                                                                                        placeholder="Buscar tratamiento..."
+                                                                                    >
+                                                                                </div>
                                                                                 <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
                                                                                     <x-slot name="thead">
                                                                                         <tr>
@@ -290,16 +318,26 @@ x-show="open === {{ $newItem['id'] }}"    x-cloak
 
                                                                                     <x-slot name="tbody">
 
-                                                                                        @forelse ($tratamientos as $tratamiento)
-                                                                                            <tr wire:click.prevent="seleccionarTratamiento({{ $newItem['id'] }}, {{ $tratamiento->id }})"
+                                                                                        {{-- @forelse ($tratamientos as $tratamiento) --}}
+                                                                                        @php
+                                                                                            $maxFilas = 8;
+                                                                                            $cantidad = count($this->tratamientosFiltrados);
+                                                                                        @endphp
+                                                                                        @foreach ($this->tratamientosFiltrados as $tratamiento)
+                                                                                            <tr 
+                                                                                                wire:click.prevent="seleccionarTratamiento({{ $index }}, {{ $tratamiento->id }})"
                                                                                                 data-dismiss="modal"
                                                                                                 style="cursor:pointer; height: 55px;"
-                                                                                                class="{{ $newItem['tratamiento_id'] == $tratamiento->id ? 'table-primary' : '' }}">
+                                                                                                class="{{ $newItem['tratamiento_id'] == $tratamiento->id ? 'table-primary' : '' }}"
+                                                                                            >
                                                                                                 <td style="padding: 12px 18px;">{{ $tratamiento->Nombre }}</td>
                                                                                             </tr>
-                                                                                        @empty
-                                                                                            <tr><td colspan="8">No se encontraron resultados.</td></tr>
-                                                                                        @endforelse
+                                                                                        @endforeach
+                                                                                        @for ($i = $cantidad; $i < $maxFilas; $i++)
+                                                                                            <tr style="height: 55px;">
+                                                                                                <td style="padding: 12px 18px;">&nbsp;</td>
+                                                                                            </tr>
+                                                                                        @endfor
 
                                                                                     </x-slot>
                                                                                 </x-simple-table2>
@@ -370,6 +408,14 @@ x-show="open === {{ $newItem['id'] }}"    x-cloak
 
                                                                         <div class="modal-body">
                                                                             <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
+                                                                                <div class="mb-2">
+                                                                                    <input 
+                                                                                        type="text"
+                                                                                        wire:model.live="searchDureza"
+                                                                                        class="form-control"
+                                                                                        placeholder="Buscar dureza..."
+                                                                                    >
+                                                                                </div>
                                                                                 <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
                                                                                     <x-slot name="thead">
                                                                                         <tr>
@@ -378,7 +424,7 @@ x-show="open === {{ $newItem['id'] }}"    x-cloak
                                                                                     </x-slot>
 
                                                                                     <x-slot name="tbody">
-                                                                                        @forelse ($durezas as $dureza)
+                                                                                        {{-- @forelse ($durezas as $dureza)
                                                                                             <tr wire:click.prevent="seleccionarDureza({{ $newItem['id'] }}, {{ $dureza->id }})"
                                                                                                 data-dismiss="modal"
                                                                                                 style="cursor:pointer; height: 55px;"
@@ -387,7 +433,30 @@ x-show="open === {{ $newItem['id'] }}"    x-cloak
                                                                                             </tr>
                                                                                         @empty
                                                                                             <tr><td class="text-center" style="padding: 12px;">No se encontraron resultados.</td></tr>
-                                                                                        @endforelse
+                                                                                        @endforelse --}}
+
+                                                                                        @php
+                                                                                            $maxFilas = 8;
+                                                                                            $cantidad = count($this->durezasFiltradas);
+                                                                                        @endphp
+                                                                                        @foreach ($this->durezasFiltradas as $dureza)
+                                                                                            <tr 
+                                                                                                wire:click.prevent="seleccionarDureza({{ $index }}, {{ $dureza->id }})"
+                                                                                                data-dismiss="modal"
+                                                                                                style="cursor:pointer; height: 55px;"
+                                                                                                class="{{ $newItem['dureza_id'] == $dureza->id ? 'table-primary' : '' }}"
+                                                                                            >
+                                                                                                <td style="padding: 12px 18px;">{{ $dureza->Nombre }}</td>
+                                                                                            </tr>
+                                                                                        @endforeach
+                                                                                        @for ($i = $cantidad; $i < $maxFilas; $i++)
+                                                                                            <tr style="height: 55px;">
+                                                                                                <td style="padding: 12px 18px;">&nbsp;</td>
+                                                                                            </tr>
+                                                                                        @endfor
+
+
+
                                                                                     </x-slot>
                                                                                 </x-simple-table2>
                                                                                 </div>
@@ -458,6 +527,14 @@ x-show="open === {{ $newItem['id'] }}"    x-cloak
 
                                                                         <div class="modal-body">
                                                                             <div class="table-responsive" style="max-height: 70vh; overflow-y: auto;">
+                                                                                <div class="mb-2">
+                                                                                    <input 
+                                                                                        type="text"
+                                                                                        wire:model.live="searchMaterial"
+                                                                                        class="form-control"
+                                                                                        placeholder="Buscar material..."
+                                                                                    >
+                                                                                </div>
                                                                                 <x-simple-table2 class="table table-bordered table-hover table-striped w-100" style="font-size: 1rem;">
                                                                                     <x-slot name="thead">
                                                                                         <tr>
@@ -466,7 +543,7 @@ x-show="open === {{ $newItem['id'] }}"    x-cloak
                                                                                     </x-slot>
 
                                                                                     <x-slot name="tbody">
-                                                                                        @forelse ($materiales as $material)
+                                                                                        {{-- @forelse ($materiales as $material)
                                                                                             <tr wire:click.prevent="seleccionarMaterial({{ $newItem['id'] }}, {{ $material->id }})"
                                                                                                 data-dismiss="modal"
                                                                                                 style="cursor:pointer; height: 55px;"
@@ -475,7 +552,28 @@ x-show="open === {{ $newItem['id'] }}"    x-cloak
                                                                                             </tr>
                                                                                         @empty
                                                                                             <tr><td class="text-center" style="padding: 12px;">No se encontraron resultados.</td></tr>
-                                                                                        @endforelse
+                                                                                        @endforelse --}}
+
+                                                                                        @php
+                                                                                            $maxFilas = 8;
+                                                                                            $cantidad = count($this->materialesFiltrados);
+                                                                                        @endphp
+                                                                                        @foreach ($this->materialesFiltrados as $material)
+                                                                                            <tr 
+                                                                                                wire:click.prevent="seleccionarMaterial({{ $index }}, {{ $material->id }})"
+                                                                                                data-dismiss="modal"
+                                                                                                style="cursor:pointer; height: 55px;"
+                                                                                                class="{{ $newItem['material_id'] == $material->id ? 'table-primary' : '' }}"
+                                                                                            >
+                                                                                                <td style="padding: 12px 18px;">{{ $material->Nombre }}</td>
+                                                                                            </tr>
+                                                                                        @endforeach
+                                                                                        @for ($i = $cantidad; $i < $maxFilas; $i++)
+                                                                                            <tr style="height: 55px;">
+                                                                                                <td style="padding: 12px 18px;">&nbsp;</td>
+                                                                                            </tr>
+                                                                                        @endfor
+
                                                                                     </x-slot>
                                                                                 </x-simple-table2>
                                                                                 </div>

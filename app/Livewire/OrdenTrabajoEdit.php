@@ -40,6 +40,10 @@ class OrdenTrabajoEdit extends Component
     public $tratamientosMap;
     public $durezasMap;
 
+    public $searchTratamiento = '';
+    public $searchMaterial = '';
+    public $searchDureza = '';
+
 
     public $activeTabParametros = 'custom-tabs-1';
 
@@ -60,6 +64,36 @@ class OrdenTrabajoEdit extends Component
         $this->selectedId = $id;
     }
 
+    public function getTratamientosFiltradosProperty()
+    {
+        return \App\Models\Tratamiento::query()
+            ->when($this->searchTratamiento, function ($query) {
+                $query->where('Nombre', 'like', '%' . $this->searchTratamiento . '%');
+            })
+            ->orderBy('Nombre')
+            ->get();
+    }
+
+    public function getMaterialesFiltradosProperty()
+    {
+        return \App\Models\Material::query()
+            ->when($this->searchMaterial, function ($query) {
+                $query->where('Nombre', 'like', '%' . $this->searchMaterial . '%');
+            })
+            ->orderBy('Nombre')
+            ->get();
+    }
+
+    public function getDurezasFiltradasProperty()
+    {
+        return \App\Models\Dureza::query()
+            ->when($this->searchDureza, function ($query) {
+                $query->where('Nombre', 'like', '%' . $this->searchDureza . '%');
+            })
+            ->orderBy('Nombre')
+            ->get();
+    }
+
     public function validar()
     {
         try {
@@ -74,17 +108,6 @@ class OrdenTrabajoEdit extends Component
                     $this->addError(
                         "newItems.$index.Descripcion",
                         "El item debe tener descripción."
-                    );
-
-                    $this->dispatch('error-modal');
-                    return;
-                }
-
-                // 🔴 Validar cantidad mínima
-                if (!is_numeric($cantidad) || $cantidad < 0.01) {
-                    $this->addError(
-                        "newItems.$index.Cantidad",
-                        "El item #" . ($index + 1) . " debe tener una cantidad mínima de 0.01."
                     );
 
                     $this->dispatch('error-modal');
@@ -216,7 +239,7 @@ class OrdenTrabajoEdit extends Component
                     // CREATE
                     $itemModel = $orden->itemsOrdenTrabajo()->create([
                         'Descripcion' => $item['Descripcion'],
-                        'Cantidad' => $item['Cantidad'],
+                        'Cantidad' => $item['Cantidad'] ?? 0,
                         'Peso' => $item['Peso'] ?? 0,
                         'ItemNumero' => $orden->itemsOrdenTrabajo()->max('ItemNumero') + 1,
                         'IdMaterial' => $item['material_id'],
@@ -397,7 +420,7 @@ public function addNewItem()
             'is_new' => true,
 
             'Descripcion' => '',
-            'Cantidad' => 1,
+            'Cantidad' => null,
             'Peso' => 0,
             'material_id' => $defaultMaterial,
             'tratamiento_id' => $defaultTratamiento,
