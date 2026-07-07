@@ -231,8 +231,10 @@
                                                         x-on:keydown.enter.prevent="
                                                             let inputs = Array.from(
                                                                 $el.querySelectorAll('input:not([type=hidden]):not([disabled]), select:not([disabled]), textarea:not([disabled])')
-                                                            );
+                                                            ).filter(el => el.offsetParent !== null);
+
                                                             let index = inputs.indexOf(document.activeElement);
+
                                                             if (inputs[index + 1]) inputs[index + 1].focus();
                                                         ">
                                                         <div class="row justify-content-center m-0">
