@@ -147,31 +147,31 @@
 
               <!-- Level two dropdown-->
               <li class="dropdown-submenu">
-                <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle disabled">Reportes</a>
+                <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Reportes</a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                   <li>
-                    <a tabindex="-1" href="{{ route('reportes.materiales') }}" class="dropdown-item disabled">Materiales</a>
+                    <a tabindex="-1" href="{{ route('reportes.materiales') }}" class="dropdown-item">Materiales</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('reportes.materiales-resumido') }}" class="dropdown-item disabled">Materiales resumido</a>
+                    <a tabindex="-1" href="{{ route('reportes.materiales-resumido') }}" class="dropdown-item">Materiales resumido</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('reportes.materiales-resumido-excel') }}" class="dropdown-item disabled">Materiales resumido (Excel)</a>
+                    <a tabindex="-1" href="{{ route('reportes.materiales-resumido-excel') }}" class="dropdown-item">Materiales resumido (Excel)</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('reportes.pesos') }}" class="dropdown-item disabled">Peso por trataminetos entre fechas</a>
+                    <a tabindex="-1" href="{{ route('reportes.pesos') }}" class="dropdown-item">Peso por trataminetos entre fechas</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('reportes.pesos-resumido') }}" class="dropdown-item disabled">Peso por tratamientos entre fechas resumido</a>
+                    <a tabindex="-1" href="{{ route('reportes.pesos-resumido') }}" class="dropdown-item">Peso por tratamientos entre fechas resumido</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('reportes.trabajos-no-aptos') }}" class="dropdown-item disabled">Trabajos NO APTOS</a>
+                    <a tabindex="-1" href="{{ route('reportes.trabajos-no-aptos') }}" class="dropdown-item">Trabajos NO APTOS</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('reportes.premios') }}" class="dropdown-item disabled">Premios</a>
+                    <a tabindex="-1" href="{{ route('reportes.premios') }}" class="dropdown-item">Premios</a>
                   </li>
                   <li>
-                    <a tabindex="-1" href="{{ route('reportes.premios-por-aprobacion') }}" class="dropdown-item disabled">Premios - Por fecha de aprobación</a>
+                    <a tabindex="-1" href="{{ route('reportes.premios-por-aprobacion') }}" class="dropdown-item">Premios - Por fecha de aprobación</a>
                   </li>
                 </ul>
               </li>
