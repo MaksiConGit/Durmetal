@@ -67,7 +67,7 @@ class ReciboVentaCreate extends Component
         // CHEQUES
         'cheques' => 'nullable|array',
         'cheques.*.IdBanco' => 'nullable|exists:banco,id',
-        'cheques.*.Numero' => 'nullable',
+        'cheques.*.Numero' => 'nullable|max:8',
         'cheques.*.FechaEmision' => 'nullable|date',
         'cheques.*.FechaAcreditacion' => 'nullable|date',
         'cheques.*.Plaza' => 'nullable',
@@ -130,10 +130,11 @@ class ReciboVentaCreate extends Component
                 $banco = $cheque['IdBanco'] ?? null;
                 $numero = $cheque['Numero'] ?? null;
                 $fechaEmision = $cheque['FechaEmision'] ?? null;
+                $fechaAcreditacion = $cheque['FechaAcreditacion'] ?? null;
                 $plaza = $cheque['Plaza'] ?? null;
                 $total = $cheque['Total'] ?? null;
 
-                $campos = [$banco, $numero, $fechaEmision, $plaza, $total];
+                $campos = [$banco, $numero, $total];
 
                 $hayAlgo = collect($campos)->filter(fn($v) => $v !== null && $v !== '')->isNotEmpty();
                 $faltanCampos = collect($campos)->contains(fn($v) => $v === null || $v === '');
@@ -157,6 +158,33 @@ class ReciboVentaCreate extends Component
                     $this->dispatch('error-modal');
                     return;
                 }
+
+                if (!empty($fechaEmision) && Carbon::parse($fechaEmision)->gt(Carbon::today())) {
+
+                    $this->activeTab = 'custom-tabs-3';
+
+                    $this->addError(
+                        "cheques.$index.FechaEmision",
+                        "Cheque #" . ($index + 1) . ": la fecha de emisión no puede ser posterior a la fecha actual."
+                    );
+
+                    $this->dispatch('error-modal');
+                    return;
+                }
+
+                if (!empty($fechaAcreditacion) && Carbon::parse($fechaAcreditacion)->lt(Carbon::today())) {
+
+                    $this->activeTab = 'custom-tabs-3';
+
+                    $this->addError(
+                        "cheques.$index.FechaAcreditacion",
+                        "Cheque #" . ($index + 1) . ": la fecha de vencimiento no puede ser anterior a la fecha actual."
+                    );
+
+                    $this->dispatch('error-modal');
+                    return;
+                }
+
             }
 
             foreach ($this->tarjetas as $index => $tarjeta) {
@@ -458,7 +486,7 @@ class ReciboVentaCreate extends Component
             $this->cheques[$i] = [
                 'IdBanco' => '',
                 'Numero' => '',
-                'FechaEmision' => '',
+                'FechaEmision' => Carbon::today()->format('Y-m-d'),
                 'FechaAcreditacion' => Carbon::today()->format('Y-m-d'),
                 'Plaza' => '',
                 'eCheck' => false,

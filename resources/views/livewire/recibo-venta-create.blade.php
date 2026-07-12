@@ -253,8 +253,26 @@
 
                                 </div>
 
-                                <div class="tab-pane fade show {{ $activeTab === 'custom-tabs-3' ? 'active' : '' }}" id="custom-tabs-3" role="tabpanel" aria-labelledby="custom-tabs-3-tab" style="height:30rem">
+                                    <div 
+                                        class="tab-pane fade show {{ $activeTab === 'custom-tabs-3' ? 'active' : '' }}" 
+                                        id="custom-tabs-3" 
+                                        role="tabpanel" 
+                                        aria-labelledby="custom-tabs-3-tab" 
+                                        style="height:30rem"
 
+                                        x-data
+                                        x-on:keydown.enter.prevent="
+                                            let inputs = Array.from(
+                                                $el.querySelectorAll('input:not([type=hidden]), select')
+                                            );
+
+                                            let index = inputs.indexOf(document.activeElement);
+
+                                            if (inputs[index + 1]) {
+                                                inputs[index + 1].focus();
+                                            }
+                                        "
+                                    >
                                     <x-simple-table2-no-limit>
 
                                         <x-slot name="thead">
