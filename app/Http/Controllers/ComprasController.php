@@ -91,43 +91,66 @@ class ComprasController extends Controller
         $condiciones_IVA = IvaCondition::all();
         $retenciones_IIBB = RetencionIIBB::all();
         $cuentas_de_gastos = CuentaGastos::all();
+        $oldEmails = $proveedor->emails->pluck('Email')->toArray();
 
-        return view('compras.actualizaciones.proveedores.edit', compact('proveedor', 'localidades', 'provincias', 'condiciones_IVA', 'retenciones_IIBB', 'cuentas_de_gastos'));
+        return view('compras.actualizaciones.proveedores.edit', compact('proveedor', 'oldEmails', 'localidades', 'provincias', 'condiciones_IVA', 'retenciones_IIBB', 'cuentas_de_gastos'));
     }
 
-    public function proveedoresUpdate(StoreProveedorRequest $request, Proveedor $proveedor)
-    {
-        $data = $request->except('emails');
+public function proveedoresUpdate(StoreProveedorRequest $request, Proveedor $proveedor)
+{
+    // Solo campos que realmente querés guardar
+    $data = $request->only([
+        'Nombre',
+        'Direccion',
+        'Telefono',
+        'NumeroDocumento',
+        'NumeroIIBB',
+        'Saldo',
+        'IdCondicionIva',
+        'IdCuentaGastos',
+        'IdRetencionIIBB',
+        'Activo',
+    ]);
 
+    // Localidad (protegido contra null)
+    if ($request->filled('IdLocalidad')) {
         $localidad = City::find($request->IdLocalidad);
-        $provincia = $localidad->provincia;
 
-        $data['Localidad'] = $localidad->Nombre;
-        $data['Provincia'] = $provincia->Nombre;
-        $data['FechaActualizacion'] = now();
-        $data['ActualizadoPor'] = Auth::id();
-
-        $proveedor->update($data);
-
-        $proveedor->emails()->delete();
-    
-        foreach ($request->emails as $email) {
-            if ($email) {
-                $proveedor->emails()->create([
-                    'IdProveedor' => $proveedor->id,
-                    'Email' => $email,
-                    'FechaCreacion' => now(),
-                    'CreadoPor' => Auth::id(),
-                    'FechaActualizacion' => now(),
-                    'ActualizadoPor' => Auth::id(),
-                    'Activo' => 1,
-                    'IdProveedorEmail' => $proveedor->id . ',' . $email,
-                ]);
-            }
-        }    
-    
-        return redirect()->route('compras.actualizaciones.proveedores.index');
+        if ($localidad) {
+            $data['Localidad'] = $localidad->Nombre;
+            $data['Provincia'] = $localidad->provincia->Nombre ?? '';
+        }
     }
+
+    // Auditoría
+    $data['FechaActualizacion'] = now();
+    $data['ActualizadoPor'] = Auth::id();
+
+    // Update proveedor
+    $proveedor->update($data);
+
+    // Emails
+    $proveedor->emails()->delete();
+
+    foreach ($request->emails ?? [] as $email) {
+        if (!empty($email)) {
+            $proveedor->emails()->create([
+                'IdProveedor' => $proveedor->id,
+                'Email' => $email,
+                'FechaCreacion' => now(),
+                'CreadoPor' => Auth::id(),
+                'FechaActualizacion' => now(),
+                'ActualizadoPor' => Auth::id(),
+                'Activo' => 1,
+                'IdProveedorEmail' => $proveedor->id . ',' . $email,
+            ]);
+        }
+    }
+
+    return redirect()
+        ->route('compras.actualizaciones.proveedores.index')
+        ->with('success', 'Proveedor actualizado correctamente');
+}
 
     public function proveedoresDestroy(Proveedor $proveedor)
     {
