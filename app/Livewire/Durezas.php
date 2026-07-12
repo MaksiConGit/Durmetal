@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\Dureza;
 use Livewire\Component;
-use Illuminate\Database\QueryException;
 
 class Durezas extends Component
 {
@@ -34,28 +33,11 @@ class Durezas extends Component
     {
         if (!$id) return;
 
-        try {
-            $dureza = Dureza::find($id);
-
-            if ($dureza) {
-                $dureza->delete();
-            }
-
+        $dureza = Dureza::find($id);
+        if ($dureza) {
+            $dureza->delete();
+            $this->selectedItem = null;
             $this->durezas = Dureza::all();
-
-            $this->selectedDureza = Dureza::first();
-            $this->selectedItem = $this->selectedDureza?->id;
-
-        } catch (QueryException $e) {
-
-            // Código 1451 = foreign key constraint
-            if ($e->errorInfo[1] == 1451) {
-
-                session()->flash('error', 'No se puede eliminar la dureza porque hay items que la están usando.');
-
-            } else {
-                throw $e; // otro error, lo dejamos explotar
-            }
         }
     }
 

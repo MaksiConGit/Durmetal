@@ -1,6 +1,5 @@
 <div>
-    <x-layout2-sidebar-noerror>
-        
+    <x-layout2-sidebar>
         <x-slot name="title">Durezas</x-slot>
 
         <x-slot name="filtros">
@@ -66,12 +65,7 @@
                 @endforelse
             </x-slot>
         </x-simple-table2>
-        @if (session()->has('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-    </x-layout2-sidebar-noerror>
+    </x-layout2-sidebar>
 
   <!-- .modal -->
   <form action="{{ route('durezas.store') }}" method="POST">
@@ -167,7 +161,7 @@
   <!-- /.modal -->
 
   <!-- .modal -->
-    <form action="{{ $selectedItem ? route('durezas.update', $selectedItem) : '#' }}" method="POST">
+  <form action="{{ route('durezas.update', $selectedDureza) }}" method="POST">
     @csrf
     @method('PUT')
     <div class="modal fade" id="modal-edit">
@@ -188,7 +182,7 @@
                   <div class="col-6">
                       <div class="form-group mb-0">
                           <label for="Nombre" class="font-weight-normal">NOMBRE</label>
-                          <input type="text" id="Nombre" name="Nombre" value="{{ old('Descripcion', $selectedDureza->Descripcion ?? '') }}" class="form-control form-control-sm 
+                          <input type="text" id="Nombre" name="Nombre" value="{{ old('Nombre', $selectedDureza->Nombre) }}" class="form-control form-control-sm 
                             @if ($errors->has('Nombre'))
                                 is-invalid
                             @elseif (old('Nombre') && ! $errors->has('Nombre'))
@@ -206,7 +200,7 @@
                   <div class="col-6">
                       <div class="form-group mb-0">
                           <label for="Descripcion" class="font-weight-normal">DESCRIPCION</label>
-                          <input type="text" id="Descripcion" name="Descripcion" value="{{ old('Nombre', $selectedDureza->Nombre ?? '') }}" class="form-control form-control-sm 
+                          <input type="text" id="Descripcion" name="Descripcion" value="{{ old('Descripcion', $selectedDureza->Descripcion) }}" class="form-control form-control-sm 
                             @if ($errors->has('Descripcion'))
                                 is-invalid
                             @elseif (old('Descripcion') && ! $errors->has('Descripcion'))
