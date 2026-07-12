@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Programacion;
+use App\Models\OrdenTrabajo;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -25,6 +26,18 @@ class Horno extends Component
             $this->programacionesIdsPorHorno[$horno] = $items->pluck('id')->values()->toArray();
             $this->indiceActivo[$horno] = 0;
         }
+    }
+
+    public function abrirOrden($numero)
+    {
+        $orden = OrdenTrabajo::where('Numero', $numero)->first();
+
+        if (!$orden) {
+            session()->flash('error', 'No se encontró la orden de trabajo.');
+            return;
+        }
+
+        return redirect()->route('orden-trabajo.edit', $orden->id);
     }
 
     public function cambiarProgramacion($horno)

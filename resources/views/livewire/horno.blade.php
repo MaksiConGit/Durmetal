@@ -74,15 +74,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr wire:click="abrirOrden({{ $prog->itemOrdenTrabajo->ordenTrabajo->Numero }})"
+                                        style="cursor:pointer;">
+                                        
                                         <td>{{ $prog->itemOrdenTrabajo->ordenTrabajo->cliente->id }}</td>
+
                                         <td>
                                             {{ $prog->itemOrdenTrabajo->ordenTrabajo->Numero }}
                                             / {{ $prog->itemOrdenTrabajo->ItemNumero }}
                                         </td>
+
                                         <td>{{ $prog->itemOrdenTrabajo->Descripcion }}</td>
+
                                         <td>{{ $prog->itemOrdenTrabajo->material->Nombre }}</td>
+
                                         <td>{{ $prog->tipoProgramacion->Nombre }}</td>
+
                                     </tr>
                                 </tbody>
                             </table>

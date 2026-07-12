@@ -371,6 +371,12 @@ class OrdenTrabajoEdit extends Component
 
         }
 
+        if ($items_orden_trabajo && $items_orden_trabajo->count() > 0) {
+
+            $this->items_orden_trabajo = $items_orden_trabajo->load('certificados');
+            
+        }
+
         foreach ($this->items_orden_trabajo as $item) {
 
         $this->newItems[] = [
@@ -383,7 +389,7 @@ class OrdenTrabajoEdit extends Component
                 'Descripcion' => $item->Descripcion,
                 'Cantidad' => $item->Cantidad,
                 'Peso' => $item->Peso,
-                'NroPlano' => $item->NroPlano,
+                'NroPlano' => $item->certificados->first()?->NroPlano,
 
                 'DurezaSolicitadaMinima' => $item->DurezaSolicitadaMinima,
                 'DurezaSolicitadaMaxima' => $item->DurezaSolicitadaMaxima,
