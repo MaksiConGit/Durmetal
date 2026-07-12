@@ -28,11 +28,14 @@ class DurezaController extends Controller
 
     public function store(StoreDurezaRequest $request)
     {
-        
         $data = $request->all();
 
-        $dureza = Dureza::create($data);
-    
+        if (($data['Predeterminado'] ?? 0) == 1) {
+            Dureza::query()->update(['Predeterminado' => 0]);
+        }
+
+        Dureza::create($data);
+
         return redirect()->route('durezas.index');
     }
 
