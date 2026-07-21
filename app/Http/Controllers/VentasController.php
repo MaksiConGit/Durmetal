@@ -902,11 +902,49 @@ class VentasController extends Controller
 
         $cliente = $factura_venta->cliente;
 
-        $pdf_factura = Pdf::loadView('ventas.ficha-del-cliente.factura-venta-pdf', [
+$letra = $factura_venta->Letra;
+
+$configuracion_global = ConfiguracionGlobal::first();
+
+// =======================
+// QR AFIP (igual que PDF)
+// =======================
+
+$datos = [
+    "ver" => 1,
+    "fecha" => \Carbon\Carbon::parse($factura_venta->FechaEmision)->format('Y-m-d'),
+    "cuit" => (int) $configuracion_global->CUITEmpresa,
+    "ptoVta" => (int) $factura_venta->PuntoVenta ?? 1,
+    "tipoCmp" => $letra === 'A' ? 1 : 6,
+    "nroCmp" => (int) $factura_venta->Numero,
+    "importe" => (float) ($factura_venta->Neto + $factura_venta->IVA),
+    "moneda" => "PES",
+    "ctz" => 1,
+    "tipoDocRec" => 80,
+    "nroDocRec" => (int) $factura_venta->NumeroDocumentoCliente,
+    "tipoCodAut" => "E",
+    "codAut" => (int) $factura_venta->CAE ?? 12345678901234
+];
+
+$json = json_encode($datos);
+$base64 = base64_encode($json);
+$urlQR = "https://www.arca.gob.ar/fe/qr/?p=" . $base64;
+
+$qr = new QrCode($urlQR);
+$writer = new PngWriter();
+$result = $writer->write($qr);
+
+$qrBase64 = base64_encode($result->getString());
+$view = $letra === 'A'
+    ? 'ventas.ficha-del-cliente.factura-venta-a-pdf'
+    : 'ventas.ficha-del-cliente.factura-venta-b-pdf';
+
+$pdf_factura = Pdf::loadView($view, [
             'cliente' => $cliente,
             'factura_venta' => $factura_venta,
             'items_factura_venta' => $items_factura_venta,
             'numero' => $numero_completo_factura,
+'qrBase64' => $qrBase64,
             'configuracion_global' => ConfiguracionGlobal::first(),
         ])->setPaper('A4');
 
@@ -1978,51 +2016,105 @@ class VentasController extends Controller
         return $pdf->stream('nota_credito_B.pdf');
     }
 
-    public function fichaDelClienteNotaCreditoMail(NotaCreditoVenta $nota_credito, Request $request)
-    {
-        $ids = explode(',', $request->Emails);
+ public function fichaDelClienteNotaCreditoMail(NotaCreditoVenta $nota_credito, Request $request)
+{
+    $ids = explode(',', $request->Emails);
 
-        if (!$ids || count($ids) == 0) {
-            $emails = $nota_credito->cliente->emails->pluck('Email')->toArray();
-        } else {
-            $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
-        }
-
-        $nota_credito->CantidadEnviosPorCorreo = ($nota_credito->CantidadEnviosPorCorreo ?? 0) + 1;
-        $nota_credito->save();
-
-        $items_nota_credito = $nota_credito->itemsNotaCredito;
-
-        $numero_completo_nota = $nota_credito->NumeroCompleto;
-
-        $cliente = $nota_credito->cliente;
-
-        $pdf_nota = Pdf::loadView('ventas.ficha-del-cliente.nota-credito-pdf', [
-            'cliente' => $cliente,
-            'nota_credito' => $nota_credito,
-            'items_nota_credito' => $items_nota_credito,
-            'numero' => $numero_completo_nota,
-            'configuracion_global' => ConfiguracionGlobal::first(),
-        ])->setPaper('A4');
-
-        Mail::send('emails.nota-credito', [
-            'nota' => $nota_credito,
-            'numero' => $numero_completo_nota,
-            'nombre' => $nota_credito->cliente->Nombre,
-        ], function ($message) use ($emails, $pdf_nota, $numero_completo_nota) {
-
-            $message->to($emails)
-                    ->subject('NOTA DE CREDITO ' . $numero_completo_nota)
-                    ->attachData(
-                        $pdf_nota->output(),
-                        "{$numero_completo_nota}.pdf",
-                        ['mime' => 'application/pdf']
-                    );
-
-        });
-
-        return back()->with('success', 'Recibo enviada por correo correctamente.');
+    if (!$ids || count($ids) == 0) {
+        $emails = $nota_credito->cliente->emails->pluck('Email')->toArray();
+    } else {
+        $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
     }
+
+    $nota_credito->CantidadEnviosPorCorreo = ($nota_credito->CantidadEnviosPorCorreo ?? 0) + 1;
+    $nota_credito->save();
+
+    $items_nota_credito = $nota_credito->itemsNotaCredito;
+
+    $numero_completo_nota = $nota_credito->NumeroCompleto;
+
+    $cliente = $nota_credito->cliente;
+
+    // =======================
+    // LETRA + CONFIG
+    // =======================
+
+    $letra = $nota_credito->Letra;
+    $configuracion_global = ConfiguracionGlobal::first();
+
+    // =======================
+    // QR AFIP
+    // =======================
+
+    $datos = [
+        "ver" => 1,
+        "fecha" => \Carbon\Carbon::parse($nota_credito->FechaEmision)->format('Y-m-d'),
+        "cuit" => (int) $configuracion_global->CUITEmpresa,
+        "ptoVta" => (int) $nota_credito->PuntoVenta ?? 1,
+        "tipoCmp" => $letra === 'A' ? 3 : 8,
+        "nroCmp" => (int) $nota_credito->Numero,
+        "importe" => (float) ($nota_credito->Total ?? 0),
+        "moneda" => "PES",
+        "ctz" => 1,
+        "tipoDocRec" => 80,
+        "nroDocRec" => (int) $nota_credito->NumeroDocumentoCliente,
+        "tipoCodAut" => "E",
+        "codAut" => (int) $nota_credito->CAE ?? 12345678901234
+    ];
+
+    $json = json_encode($datos);
+    $base64 = base64_encode($json);
+    $urlQR = "https://www.arca.gob.ar/fe/qr/?p=" . $base64;
+
+    $qr = new QrCode($urlQR);
+    $writer = new PngWriter();
+    $result = $writer->write($qr);
+
+    $qrBase64 = base64_encode($result->getString());
+
+    // =======================
+    // VISTA SEGÚN LETRA
+    // =======================
+
+    $view = $letra === 'A'
+        ? 'ventas.ficha-del-cliente.nota-credito-a-pdf'
+        : 'ventas.ficha-del-cliente.nota-credito-b-pdf';
+
+    // =======================
+    // PDF
+    // =======================
+
+    $pdf_nota = Pdf::loadView($view, [
+        'cliente' => $cliente,
+        'nota_credito' => $nota_credito,
+        'items_nota_credito' => $items_nota_credito,
+        'numero' => $numero_completo_nota,
+        'configuracion_global' => $configuracion_global,
+        'qrBase64' => $qrBase64
+    ])->setPaper('A4');
+
+    // =======================
+    // MAIL
+    // =======================
+
+    Mail::send('emails.nota-credito', [
+        'nota' => $nota_credito,
+        'numero' => $numero_completo_nota,
+        'nombre' => $nota_credito->cliente->Nombre,
+    ], function ($message) use ($emails, $pdf_nota, $numero_completo_nota) {
+
+        $message->to($emails)
+                ->subject('NOTA DE CREDITO ' . $numero_completo_nota)
+                ->attachData(
+                    $pdf_nota->output(),
+                    "{$numero_completo_nota}.pdf",
+                    ['mime' => 'application/pdf']
+                );
+
+    });
+
+    return back()->with('success', 'Nota de crédito enviada por correo correctamente.');
+}
 
     public function fichaDelClienteNotaDebitoCreate(Client $cliente, FacturaVenta $factura_venta)
     {
@@ -2419,51 +2511,98 @@ class VentasController extends Controller
         return $pdf->stream('nota_debito_B.pdf');
     }
 
-    public function fichaDelClienteNotaDebitoMail(FacturaVenta $nota_debito, Request $request)
-    {
-        $ids = explode(',', $request->Emails);
+public function fichaDelClienteNotaDebitoMail(FacturaVenta $nota_debito, Request $request)
+{
+    $ids = explode(',', $request->Emails);
 
-        if (!$ids || count($ids) == 0) {
-            $emails = $nota_debito->cliente->emails->pluck('Email')->toArray();
-        } else {
-            $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
-        }
-
-        $nota_debito->CantidadEnviosPorCorreo = ($nota_debito->CantidadEnviosPorCorreo ?? 0) + 1;
-        $nota_debito->save();
-
-        $items_nota_debito = $nota_debito->itemsFacturaVenta;
-
-        $numero_completo_nota = $nota_debito->NumeroCompleto;
-
-        $cliente = $nota_debito->cliente;
-
-        $pdf_nota = Pdf::loadView('ventas.ficha-del-cliente.nota-debito-pdf', [
-            'cliente' => $cliente,
-            'nota_debito' => $nota_debito,
-            'items_nota_debito' => $items_nota_debito,
-            'numero' => $numero_completo_nota,
-            'configuracion_global' => ConfiguracionGlobal::first(),
-        ])->setPaper('A4');
-
-        Mail::send('emails.nota-debito', [
-            'nota' => $nota_debito,
-            'numero' => $numero_completo_nota,
-            'nombre' => $nota_debito->cliente->Nombre,
-        ], function ($message) use ($emails, $pdf_nota, $numero_completo_nota) {
-
-            $message->to($emails)
-                    ->subject('NOTA DE DEBITO ' . $numero_completo_nota)
-                    ->attachData(
-                        $pdf_nota->output(),
-                        "{$numero_completo_nota}.pdf",
-                        ['mime' => 'application/pdf']
-                    );
-
-        });
-
-        return back()->with('success', 'Recibo enviada por correo correctamente.');
+    if (!$ids || count($ids) == 0) {
+        $emails = $nota_debito->cliente->emails->pluck('Email')->toArray();
+    } else {
+        $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
     }
+
+    $nota_debito->CantidadEnviosPorCorreo = ($nota_debito->CantidadEnviosPorCorreo ?? 0) + 1;
+    $nota_debito->save();
+
+    $items_nota_debito = $nota_debito->itemsFacturaVenta;
+    $numero_completo_nota = $nota_debito->NumeroCompleto;
+    $cliente = $nota_debito->cliente;
+
+    $letra = $nota_debito->Letra;
+    $configuracion_global = ConfiguracionGlobal::first();
+
+    // =======================
+    // QR AFIP (igual factura)
+    // =======================
+
+    $datos = [
+        "ver" => 1,
+        "fecha" => \Carbon\Carbon::parse($nota_debito->FechaEmision)->format('Y-m-d'),
+        "cuit" => (int) $configuracion_global->CUITEmpresa,
+        "ptoVta" => (int) $nota_debito->PuntoVenta ?? 1,
+        "tipoCmp" => $letra === 'A' ? 2 : 7, // Nota Débito A = 2, B = 7
+        "nroCmp" => (int) $nota_debito->Numero,
+        "importe" => (float) ($nota_debito->Neto + $nota_debito->IVA),
+        "moneda" => "PES",
+        "ctz" => 1,
+        "tipoDocRec" => 80,
+        "nroDocRec" => (int) $nota_debito->NumeroDocumentoCliente,
+        "tipoCodAut" => "E",
+        "codAut" => (int) $nota_debito->CAE ?? 12345678901234
+    ];
+
+    $json = json_encode($datos);
+    $base64 = base64_encode($json);
+    $urlQR = "https://www.arca.gob.ar/fe/qr/?p=" . $base64;
+
+    $qr = new QrCode($urlQR);
+    $writer = new PngWriter();
+    $result = $writer->write($qr);
+
+    $qrBase64 = base64_encode($result->getString());
+
+    // =======================
+    // Vista según letra
+    // =======================
+
+    $view = $letra === 'A'
+        ? 'ventas.ficha-del-cliente.nota-debito-a-pdf'
+        : 'ventas.ficha-del-cliente.nota-debito-b-pdf';
+
+    // =======================
+    // PDF
+    // =======================
+
+    $pdf_nota = Pdf::loadView($view, [
+        'cliente' => $cliente,
+        'nota_debito' => $nota_debito,
+        'items_nota_debito' => $items_nota_debito,
+        'numero' => $numero_completo_nota,
+        'qrBase64' => $qrBase64,
+        'configuracion_global' => $configuracion_global,
+    ])->setPaper('A4');
+
+    // =======================
+    // Mail
+    // =======================
+
+    Mail::send('emails.nota-debito', [
+        'nota' => $nota_debito,
+        'numero' => $numero_completo_nota,
+        'nombre' => $cliente->Nombre,
+    ], function ($message) use ($emails, $pdf_nota, $numero_completo_nota) {
+
+        $message->to($emails)
+            ->subject('Nota de Débito ' . $numero_completo_nota)
+            ->attachData(
+                $pdf_nota->output(),
+                "{$numero_completo_nota}.pdf",
+                ['mime' => 'application/pdf']
+            );
+    });
+
+    return back()->with('success', 'Nota de débito enviada por correo correctamente.');
+}
 
     public function fichaDelClienteMinutaCreate(Client $cliente)
     {
