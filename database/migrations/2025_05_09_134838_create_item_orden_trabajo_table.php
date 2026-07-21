@@ -28,12 +28,12 @@ return new class extends Migration
             $table->integer('ItemNumero');
             $table->string('Descripcion');
             $table->integer('NroDeposito');
-            $table->float('Cantidad');
-            $table->float('Peso');
+            $table->float('Cantidad')->nullable();
+            $table->float('Peso')->nullable();
             $table->integer('CodigoComplejidad');
             $table->float('Coeficiente');
-            $table->integer('DurezaSolicitadaMinima');
-            $table->integer('DurezaSolicitadaMaxima');
+            $table->integer('DurezaSolicitadaMinima')->nullable();
+            $table->integer('DurezaSolicitadaMaxima')->nullable();
             $table->float('PrecioUnitario');
             $table->float('Total');
             $table->boolean('AfectaPlanillaTurno');

@@ -239,15 +239,15 @@ class OrdenTrabajoEdit extends Component
                     // CREATE
                     $itemModel = $orden->itemsOrdenTrabajo()->create([
                         'Descripcion' => $item['Descripcion'],
-                        'Cantidad' => $item['Cantidad'] ?? 0,
-                        'Peso' => $item['Peso'] ?? 0,
+                        'Cantidad' => $item['Cantidad'],
+                        'Peso' => $item['Peso'],
                         'ItemNumero' => $orden->itemsOrdenTrabajo()->max('ItemNumero') + 1,
                         'IdMaterial' => $item['material_id'],
                         'IdTratamiento' => $item['tratamiento_id'],
                         'IdDureza' => $item['dureza_id'],
                         'NroPlano' => $item['NroPlano'] ?? null,
-                        'DurezaSolicitadaMinima' => $item['DurezaSolicitadaMinima'] ?? 0,
-                        'DurezaSolicitadaMaxima' => $item['DurezaSolicitadaMaxima'] ?? 0,
+                        'DurezaSolicitadaMinima' => $item['DurezaSolicitadaMinima'],
+                        'DurezaSolicitadaMaxima' => $item['DurezaSolicitadaMaxima'],
 
                         'NroDeposito' => 0,
                         'CodigoComplejidad' => 0,
@@ -283,13 +283,13 @@ class OrdenTrabajoEdit extends Component
                         $itemModel->update([
                             'Descripcion' => $item['Descripcion'],
                             'Cantidad' => $item['Cantidad'],
-                            'Peso' => $item['Peso'] ?? 0,
+                            'Peso' => $item['Peso'],
                             'IdMaterial' => $item['material_id'],
                             'IdTratamiento' => $item['tratamiento_id'],
                             'IdDureza' => $item['dureza_id'],
                             'NroPlano' => $item['NroPlano'] ?? null,
-                            'DurezaSolicitadaMinima' => $item['DurezaSolicitadaMinima'] ?? 0,
-                            'DurezaSolicitadaMaxima' => $item['DurezaSolicitadaMaxima'] ?? 0,
+                            'DurezaSolicitadaMinima' => $item['DurezaSolicitadaMinima'],
+                            'DurezaSolicitadaMaxima' => $item['DurezaSolicitadaMaxima'],
 
                             'ActualizadoPor' => auth()->id(),
                             'FechaActualizacion' => now(),
@@ -425,15 +425,15 @@ public function addNewItem()
         'id' => $newItemId, // lo mantenés
             'is_new' => true,
 
-            'Descripcion' => '',
+            'Descripcion' => null,
             'Cantidad' => null,
-            'Peso' => 0,
+            'Peso' => null,
             'material_id' => $defaultMaterial,
             'tratamiento_id' => $defaultTratamiento,
             'NroPlano' => null,
             'dureza_id' => $defaultDureza,
-            'DurezaSolicitadaMinima' => 0,
-            'DurezaSolicitadaMaxima' => 0,
+            'DurezaSolicitadaMinima' => null,
+            'DurezaSolicitadaMaxima' => null,
         ];
 
 $this->expandedId = $newItemId;
