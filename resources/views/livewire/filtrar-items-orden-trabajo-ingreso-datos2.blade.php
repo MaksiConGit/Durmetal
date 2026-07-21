@@ -834,20 +834,27 @@
 
                     <a class="btn btn-sidebar btn-sm bg-orange"
                     href="#"
-                    onclick="
-                            setTimeout(() => location.reload(), 500);
+onclick="
+    const certId = @this.certificadoSeleccionado[{{ $item->id }}] ?? null;
 
-                            const ids = Array.from(
-                                document.querySelectorAll(
-                                    '#modal-email-{{ $item->id }} input[name=&quot;emails[]&quot;]:checked'
-                                )
-                            ).map(e => e.value);
+    if (!certId) {
+        alert('Selecciona o genera un certificado primero');
+        return false;
+    }
 
-                            const qs = new URLSearchParams({
-                                Emails: ids.join(',')
-                            });
+    setTimeout(() => location.reload(), 500);
 
-this.href = '{{ route('ingreso-datos.email', $certificadoSeleccionado[$item->id] ?? 0) }}?' + qs.toString();
+    const ids = Array.from(
+        document.querySelectorAll(
+            '#modal-email-{{ $item->id }} input[name=&quot;emails[]&quot;]:checked'
+        )
+    ).map(e => e.value);
+
+    const qs = new URLSearchParams({
+        Emails: ids.join(',')
+    });
+
+    this.href = '{{ url('ingreso-datos/email') }}/' + certId + '?' + qs.toString();
                     ">
                         <span class="text-white">Aceptar</span>
                         <i class="fas fa-check fa-fw text-white ml-2"></i>

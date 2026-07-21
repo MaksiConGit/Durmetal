@@ -183,21 +183,23 @@ public function imprimirCertificado($itemId)
     public function render()
     {
         $query = ItemOrdenTrabajo::with([
-            'ordenTrabajo.cliente',
-            'tratamiento',
-            'material',
-            'dureza',
-            'programacion.tipoProgramacion',
-            'programacion.medioEnfriamiento',
-            'programacion.ejecutadoPorOperador',
-            'certificados'
-        ])
-        ->whereIn('Estado', ['PENDIENTE', 'APROBADO'])
-        ->whereHas('programacion');
-
+                'ordenTrabajo.cliente',
+                'tratamiento',
+                'material',
+                'dureza',
+                'programacion.tipoProgramacion',
+                'programacion.medioEnfriamiento',
+                'programacion.ejecutadoPorOperador',
+                'certificados'
+            ])
+            ->whereIn('Estado', ['PENDIENTE', 'APROBADO'])
+            ->leftJoin('programacion', 'programacion.IdItemOrdenTrabajo', '=', 'item_orden_trabajo.id')
+            ->orderByRaw('programacion.id IS NOT NULL') // 🔥 sin programación primero
+            ->orderByDesc('item_orden_trabajo.FechaCreacion')
+            ->select('item_orden_trabajo.*');
+        
         if ($this->fecha_inicio && $this->fecha_fin) {
-            $query->whereBetween('FechaCreacion', [
-                Carbon::parse($this->fecha_inicio)->startOfDay(),
+$query->whereBetween('item_orden_trabajo.FechaCreacion', [                Carbon::parse($this->fecha_inicio)->startOfDay(),
                 Carbon::parse($this->fecha_fin)->endOfDay(),
             ]);
         }
