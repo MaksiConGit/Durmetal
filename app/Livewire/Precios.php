@@ -20,6 +20,13 @@ class Precios extends Component
     public $precio_nuevo = [];
     public $diferencia = [];
     public $coef_nuevo = [];
+    public $editPrecio;
+    public $editPorcentaje;
+    public $editCoeficiente;
+
+    public $createPrecio;
+    public $createPorcentaje;
+    public $createCoeficiente;
 
     public function mount()
     {
@@ -36,10 +43,54 @@ class Precios extends Component
 
     }
 
+    public function updatedCreatePrecio()
+    {
+        $this->recalcularCreate();
+    }
+
+    public function updatedCreatePorcentaje()
+    {
+        $this->recalcularCreate();
+    }
+
+    public function recalcularCreate()
+    {
+        if ($this->createPrecio !== null && $this->createPorcentaje !== null) {
+            $this->createCoeficiente = round(
+                floatval($this->createPrecio) * (floatval($this->createPorcentaje) / 100),
+                2
+            );
+        }
+    }
+
     public function selectItem($id)
     {
         $this->selectedItem = $id;
         $this->selectedCodigo = CodigoComplejidad::find($this->selectedItem);
+
+        $this->editPrecio = $this->selectedCodigo->Precio;
+        $this->editPorcentaje = $this->selectedCodigo->PorcentajeCoeficiente;
+        $this->editCoeficiente = $this->selectedCodigo->Coeficiente;
+    }
+
+    public function updatedEditPrecio()
+    {
+        $this->recalcularCoeficiente();
+    }
+
+    public function updatedEditPorcentaje()
+    {
+        $this->recalcularCoeficiente();
+    }
+
+    public function recalcularCoeficiente()
+    {
+        if ($this->editPrecio !== null && $this->editPorcentaje !== null) {
+            $this->editCoeficiente = round(
+                floatval($this->editPrecio) * (floatval($this->editPorcentaje) / 100),
+                2
+            );
+        }
     }
 
     public function deleteItem($id)

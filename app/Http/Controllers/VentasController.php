@@ -221,8 +221,8 @@ class VentasController extends Controller
                 'IdItemOrdenTrabajo' => $item_orden_trabajo->id,
                 'ItemNumero' => $index + 1,
                 'Descripcion' => $itemData['Descripcion'],
-                'Cantidad' => $item_orden_trabajo->Cantidad,
-                'Peso' => $item_orden_trabajo->Peso,
+                'Cantidad' => $item_orden_trabajo->Cantidad ?? 0,
+                'Peso' => $item_orden_trabajo->Peso ?? 0,
                 'CodigoComplejidad' => $itemData['CodigoComplejidad'],
                 'Coeficiente' => $itemData['Coeficiente'],
                 'PrecioUnitario' => $itemData['PrecioUnitario'],
@@ -237,6 +237,10 @@ class VentasController extends Controller
             ]);
 
             $item_orden_trabajo->update(['ConNotaEnvio' => 1]);
+
+            $item_orden_trabajo->update([
+                'CodigoComplejidad' => $itemData['CodigoComplejidad']
+            ]);
         }
 
         session()->forget('nota_envio_state');
@@ -438,6 +442,12 @@ class VentasController extends Controller
                         'FechaActualizacion'     => now(),
                         'ActualizadoPor'         => $user_id,
                     ]);
+
+                    if ($item_nota_envio->itemOrdenTrabajo) {
+                        $item_nota_envio->itemOrdenTrabajo->update([
+                            'CodigoComplejidad' => $itemData['CodigoComplejidad']
+                        ]);
+                    }
 
                     $ids_en_request[] = $item_nota_envio->id;
                 }

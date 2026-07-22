@@ -118,12 +118,12 @@
                             <!-- .modal -->
                             <form action="{{ route('ventas.precios.store', $selectedCodigo)}}" method="POST">
                                 @csrf
-                                <div class="modal fade" id="modal-create">
-                                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal fade" id="modal-create" wire:ignore.self>
+                                        <div class="modal-dialog modal-dialog-centered modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title">
-                                                NUEVA CODIGO DE COMPLEJIDAD
+                                                NUEVO CODIGO DE COMPLEJIDAD
                                                 </h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
@@ -147,7 +147,11 @@
                                                     <div class="col-2">
                                                         <div class="form-group mb-0">
                                                             <label for="Precio" class="font-weight-normal">PRECIO</label>
-                                                            <input type="number" id="Precio" name="Precio" value="{{ old('Precio') }}" class="form-control form-control-sm">
+                                                            <input type="number"
+                                                                id="Precio"
+                                                                name="Precio"
+                                                                wire:model.live="createPrecio"
+                                                                class="form-control form-control-sm">
                                                         </div>
                                                     </div>
 
@@ -164,14 +168,22 @@
                                                     <div class="col-2">
                                                         <div class="form-group mb-0">
                                                             <label for="PorcentajeCoeficiente" class="font-weight-normal">% COEFICIENTE</label>
-                                                            <input type="number" id="PorcentajeCoeficiente" name="PorcentajeCoeficiente" value="{{ old('PorcentajeCoeficiente') }}" class="form-control form-control-sm">
+                                                            <input type="number"
+                                                                id="PorcentajeCoeficiente"
+                                                                name="PorcentajeCoeficiente"
+                                                                wire:model.live="createPorcentaje"
+                                                                class="form-control form-control-sm">
                                                         </div>
                                                     </div>
 
                                                     <div class="col-2">
                                                         <div class="form-group mb-0">
                                                             <label for="Coeficiente" class="font-weight-normal">COEFICIENTE</label>
-                                                            <input type="number" id="Coeficiente" name="Coeficiente" value="{{ old('Coeficiente') }}" class="form-control form-control-sm">
+                                                            <input type="number"
+                                                                id="Coeficiente"
+                                                                name="Coeficiente"
+                                                                wire:model="createCoeficiente"
+                                                                class="form-control form-control-sm" readonly>
                                                         </div>
                                                     </div>
 
@@ -221,7 +233,7 @@
                             <form action="{{ route('ventas.precios.update', $selectedCodigo)}}" method="POST">
                                 @csrf
                                 @method('PUT')
-                                <div class="modal fade" id="modal-edit">
+                                <div class="modal fade" id="modal-edit" wire:ignore.self>
                                 <div class="modal-dialog modal-dialog-centered modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -252,7 +264,11 @@
                                                 <div class="col-2">
                                                     <div class="form-group mb-0">
                                                         <label for="Precio" class="font-weight-normal">PRECIO</label>
-                                                        <input type="text" id="Precio" name="Precio" value="{{ number_format(old('Precio', $selectedCodigo->Precio), 2, '.', '') }}" class="form-control form-control-sm">
+                                                        <input type="text" 
+                                                                id="Precio" 
+                                                                name="Precio"
+                                                                wire:model.live="editPrecio"
+                                                                class="form-control form-control-sm">
                                                     </div>
                                                 </div>
 
@@ -269,14 +285,22 @@
                                                 <div class="col-2">
                                                     <div class="form-group mb-0">
                                                         <label for="PorcentajeCoeficiente" class="font-weight-normal">% COEFICIENTE</label>
-                                                        <input type="number" id="PorcentajeCoeficiente" name="PorcentajeCoeficiente" value="{{ old('PorcentajeCoeficiente', $selectedCodigo->PorcentajeCoeficiente) }}" class="form-control form-control-sm">
+                                                        <input type="number" 
+                                                            id="PorcentajeCoeficiente" 
+                                                            name="PorcentajeCoeficiente"
+                                                            wire:model.live="editPorcentaje"
+                                                            class="form-control form-control-sm">
                                                     </div>
                                                 </div>
 
                                                 <div class="col-2">
                                                     <div class="form-group mb-0">
                                                         <label for="Coeficiente" class="font-weight-normal">COEFICIENTE</label>
-                                                        <input type="number" id="Coeficiente" name="Coeficiente" value="{{ old('Coeficiente', $selectedCodigo->Coeficiente) }}" class="form-control form-control-sm">
+                                                        <input type="number" 
+                                                            id="Coeficiente" 
+                                                            name="Coeficiente"
+                                                            wire:model="editCoeficiente"
+                                                            class="form-control form-control-sm" readonly>
                                                     </div>
                                                 </div>
 
