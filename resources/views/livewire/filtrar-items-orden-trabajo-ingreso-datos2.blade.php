@@ -838,11 +838,9 @@ onclick="
     const certId = @this.certificadoSeleccionado[{{ $item->id }}] ?? null;
 
     if (!certId) {
-        alert('Selecciona o genera un certificado primero');
+        alert('Seleccioná o generá un certificado primero');
         return false;
     }
-
-    setTimeout(() => location.reload(), 500);
 
     const ids = Array.from(
         document.querySelectorAll(
@@ -853,6 +851,11 @@ onclick="
     const qs = new URLSearchParams({
         Emails: ids.join(',')
     });
+
+    const url = '{{ url('ingreso-datos') }}/' + certId + '/email';
+
+    window.location.href = url + '?' + qs.toString();
+"
 
     this.href = '{{ url('ingreso-datos/email') }}/' + certId + '?' + qs.toString();
                     ">
