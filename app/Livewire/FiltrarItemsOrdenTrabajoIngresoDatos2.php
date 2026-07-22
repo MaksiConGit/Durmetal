@@ -193,6 +193,16 @@ public function imprimirCertificado($itemId)
                 'certificados'
             ])
             ->whereIn('Estado', ['PENDIENTE', 'APROBADO'])
+->whereIn('Estado', ['PENDIENTE', 'APROBADO'])
+
+->orderByRaw("CASE 
+    WHEN item_orden_trabajo.Estado = 'PENDIENTE' THEN 0
+    ELSE 1
+END")
+
+->orderByRaw('programacion.id IS NOT NULL') // sin programación primero
+
+->orderByDesc('item_orden_trabajo.FechaCreacion')
             ->leftJoin('programacion', 'programacion.IdItemOrdenTrabajo', '=', 'item_orden_trabajo.id')
             ->orderByRaw('programacion.id IS NOT NULL') // 🔥 sin programación primero
             ->orderByDesc('item_orden_trabajo.FechaCreacion')
