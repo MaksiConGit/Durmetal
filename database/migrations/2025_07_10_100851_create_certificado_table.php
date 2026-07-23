@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('Observaciones')->nullable();
             $table->integer('CantidadImpresiones');
             $table->integer('CantidadEnviosPorCorreo');
-            $table->float('Cantidad');
+            $table->float('Cantidad')->nullable();
             $table->foreignId('IdUsuario')->nullable()->constrained('users')
                                                             ->onDelete('restrict')
                                                             ->onUpdate('cascade');

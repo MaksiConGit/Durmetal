@@ -70,6 +70,11 @@ class ItemOrdenTrabajo extends Model
         return $this->belongsTo(OrdenTrabajo::class, 'IdOrdenTrabajo');
     }
 
+    public function itemNotaEnvio()
+    {
+        return $this->belongsTo(ItemNotaEnvio::class, 'IdOrdenTrabajo');
+    }
+
     public function programacion()
     {
         return $this->hasMany(Programacion::class, 'IdItemOrdenTrabajo');

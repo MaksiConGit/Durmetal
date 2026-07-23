@@ -33,4 +33,9 @@ class ItemNotaEnvio extends Model
     {
         return $this->belongsTo(ItemOrdenTrabajo::class, 'IdItemOrdenTrabajo');
     }
+
+    public function notaEnvio()
+    {
+        return $this->belongsTo(NotaEnvio::class, 'IdNotaEnvio');
+    }
 }

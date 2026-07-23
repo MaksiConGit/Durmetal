@@ -176,22 +176,84 @@
                         @click="open = open === {{ $newItem['id'] }} ? null : {{ $newItem['id'] }}"
 
                                             style="cursor: pointer;"
-                                        >
-                                            <td>{{ $newItem['Descripcion'] }}</td>
-                                            <td>{{ $materialesMap[$newItem['material_id']]->Nombre ?? '---' }}</td>
-                                            <td>{{ $newItem['Cantidad'] }}</td>
-                                            <td>{{ $newItem['Peso'] }}</td>
-                                            <td>{{ $tratamientosMap[$newItem['tratamiento_id']]->Nombre ?? '---' }}</td>
-                                            <td>{{ $durezasMap[$newItem['dureza_id']]->Nombre ?? '---' }}</td>
-                                            <td>{{ $newItem['DurezaSolicitadaMinima'] }}</td>
-                                            <td>{{ $newItem['DurezaSolicitadaMaxima'] }}</td>
-                                            <td colspan="4"></td>
-                                        </tr>
+                        >
+                            <td>{{ $newItem['Descripcion'] }}</td>
+                            <td>{{ $materialesMap[$newItem['material_id']]->Nombre ?? '---' }}</td>
+                            <td>{{ $newItem['Cantidad'] }}</td>
+                            <td>{{ $newItem['Peso'] }}</td>
+                            <td>{{ $tratamientosMap[$newItem['tratamiento_id']]->Nombre ?? '---' }}</td>
+                            <td>{{ $durezasMap[$newItem['dureza_id']]->Nombre ?? '---' }}</td>
+                            <td>{{ $newItem['DurezaSolicitadaMinima'] }}</td>
+                            <td>{{ $newItem['DurezaSolicitadaMaxima'] }}</td>
+                            <td>{{ $newItem['Estado'] }}</td>
+                            <td>{{ $newItem['CC'] }}</td>
 
-                    <tr
-                    x-show="open === {{ $newItem['id'] }}"    x-cloak
-                        x-transition
-                    >                     
+                            @if ($newItem['Estado'] == 'APROBADO')
+
+                                <td class="text-start align-middle">
+                                    <div class="d-flex align-items-center ms-2">
+                                        <div style="margin-right:12px;" >
+<button
+    type="button"
+    @click.stop="abrirModal('modal-certificado-{{$newItem['id']}}')"
+    class="d-flex align-items-center justify-content-center"
+    style="
+        width:52px;
+        height:26px;
+        background-color: {{ $newItem['CantidadCertificadosImpresos'] > 0 ? '#28a745' : '#f28c00' }};
+        color:white;
+        border:none;
+        border-radius:3px;
+    "
+>
+    @if ($newItem['CantidadCertificadosImpresos'] > 0)
+        <span style="margin-right:6px;">
+            {{ $newItem['CantidadCertificadosImpresos'] }}
+        </span>
+    @endif
+
+    <i class="fa fa-print"></i>
+</button>
+                                        </div>
+
+                                        <div>
+<button
+    type="button"
+    @click.stop="abrirModal('modal-correo-{{$newItem['id']}}')"
+    class="d-flex align-items-center justify-content-center"
+    style="
+        width:52px;
+        height:26px;
+        background-color: {{ $newItem['CantidadCertificadosEnviadosPorCorreo'] > 0 ? '#28a745' : '#f28c00' }};
+        color:white;
+        border:none;
+        border-radius:3px;
+    "
+>
+    @if ($newItem['CantidadCertificadosEnviadosPorCorreo'] > 0)
+        <span style="margin-right:6px;">
+            {{ $newItem['CantidadCertificadosEnviadosPorCorreo'] }}
+        </span>
+    @endif
+
+    <i class="fa fa-envelope"></i>
+</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ $newItem['NotaEnvio'] }}</td>
+                            @else
+                                <td></td>
+                                <td>{{ $newItem['NotaEnvio'] }}</td>
+                            @endif
+
+
+                        </tr>
+
+                        <tr
+                        x-show="open === {{ $newItem['id'] }}"    x-cloak
+                            x-transition
+                        >                     
                             <td colspan="15" class="p-0">
                                 <div class="expand-wrapper">
 
@@ -780,6 +842,326 @@
             </div>
         </div>
     </div>
+
+   @foreach ($items_orden_trabajo as $item)
+
+        <div
+            class="modal fade"
+            id="modal-certificado-{{ $item->id }}"
+            wire:ignore.self
+        >
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">IMPRIMIR CERTIFICADO</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-3">
+                                <label>&nbsp;</label>
+                                <select
+                                    class="form-control form-control-sm"
+                                    wire:model.live="certificadoSeleccionado.{{ $item->id }}"
+                                >
+                                    <option value="">Nuevo</option>
+                                    @foreach ($item->certificados as $certificado)
+                                        <option value="{{ $certificado->id }}">
+                                            {{ $certificado->Nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-3">
+                                <label>NUMERO DE PLANO</label>
+                                <input
+                                    type="text"
+                                    class="form-control form-control-sm"
+                                    wire:model.live="numeroPlano.{{ $item->id }}"
+                                >
+                            </div>
+
+                            <div class="col-3">
+                                <label>CANTIDAD</label>
+                                <input
+                                    type="text"
+                                    class="form-control form-control-sm"
+                                    wire:model.live="cantidad.{{ $item->id }}"
+                                >
+                            </div>
+
+                            <div class="col-3">
+                                <label>RESPONSABLE TECNICO</label>
+                                <select
+                                    class="form-control form-control-sm"
+                                    wire:model.live="responsableId.{{ $item->id }}"
+                                >
+                                    <option value="">Seleccione</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">
+                                            {{ $user->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label>OBSERVACIONES</label>
+                            <textarea
+                                class="form-control form-control-sm"
+                                rows="4"
+                                wire:model.live="observacionesCert.{{ $item->id }}"
+                            ></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary btn-sm" data-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        {{-- <a
+                            href="{{ route('ingreso-datos.pdf', $certificado->id) }}"
+                            target="_blank"
+                            class="btn btn-sm btn-primary"
+                        >
+                            Imprimir certificado
+                        </a> --}}
+                        <button
+                            wire:click="imprimirCertificado({{ $item->id }})"
+                            class="btn btn-sm btn-primary"
+                        >
+                            Imprimir certificado
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="modal fade"
+            id="modal-correo-{{ $item->id }}"
+            wire:ignore.self
+        >
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">ENVIAR CERTIFICADO POR CORREO</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-3">
+                                <label>&nbsp;</label>
+                                <select
+                                    class="form-control form-control-sm"
+                                    wire:model.live="certificadoSeleccionado.{{ $item->id }}"
+                                >
+                                    <option value="">Nuevo</option>
+                                    @foreach ($item->certificados as $certificado)
+                                        <option value="{{ $certificado->id }}">
+                                            {{ $certificado->Nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-3">
+                                <label>NUMERO DE PLANO</label>
+                                <input
+                                    type="text"
+                                    class="form-control form-control-sm"
+                                    wire:model.live="numeroPlano.{{ $item->id }}"
+                                >
+                            </div>
+
+                            <div class="col-3">
+                                <label>CANTIDAD</label>
+                                <input
+                                    type="text"
+                                    class="form-control form-control-sm"
+                                    wire:model.live="cantidad.{{ $item->id }}"
+                                >
+                            </div>
+
+                            <div class="col-3">
+                                <label>RESPONSABLE TECNICO</label>
+                                <select
+                                    class="form-control form-control-sm"
+                                    wire:model.live="responsableId.{{ $item->id }}"
+                                >
+                                    <option value="">Seleccione</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">
+                                            {{ $user->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label>OBSERVACIONES</label>
+                            <textarea
+                                class="form-control form-control-sm"
+                                rows="4"
+                                wire:model.live="observacionesCert.{{ $item->id }}"
+                            ></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary btn-sm" data-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        <a
+                            data-toggle="modal" 
+                            data-target="#modal-email-{{$item->id}}"
+                            class="btn btn-sm btn-primary"
+                        >
+                            Enviar
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    <!-- .modal -->
+    <div class="modal fade" id="modal-email-{{$item->id}}" wire:ignore.self>
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title text-bold">
+                    ENVIAR POR EMAIL
+                </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                <div class="row">
+
+                    <x-simple-table2>
+
+                        <x-slot name="thead">
+                            <tr>
+                                <th></th>
+                                <th>EMAIL</th>
+                            </tr>
+                        </x-slot>
+                        <x-slot name="tbody">
+                            @forelse ($item->ordenTrabajo->cliente->emails as $email)
+                                <tr>
+                                    <td>
+                                    <input type="checkbox"
+                                        name="emails[]"
+                                        value="{{ $email->id }}"
+                                        checked>
+                                    </td>
+                                    <td>{{ $email->Email }}</td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="2">No se encontraron resultados.</td></tr>
+                            @endforelse
+
+                        </x-slot>
+                    </x-simple-table2>
+                    </div>
+                    </div>
+
+                </div>
+
+                </div>
+
+                <div class="modal-footer justify-content-end">
+
+                    <a class="btn btn-sidebar btn-sm bg-orange"
+                    href="#"
+                    onclick="
+                        const certId = @this.certificadoSeleccionado[{{ $item->id }}] ?? null;
+
+                        if (!certId) {
+                            alert('Seleccioná o generá un certificado primero');
+                            return false;
+                        }
+
+                        @this.incrementarCorreo({{ $item->id }}).then(() => {
+                            window.location.href = url + '?' + qs.toString();
+                        });
+
+                        const ids = Array.from(
+                            document.querySelectorAll(
+                                '#modal-email-{{ $item->id }} input[name=&quot;emails[]&quot;]:checked'
+                            )
+                        ).map(e => e.value);
+
+                        const qs = new URLSearchParams({
+                            Emails: ids.join(',')
+                        });
+
+                        const url = '{{ url('ingreso-datos') }}/' + certId + '/email';
+
+                        window.location.href = url + '?' + qs.toString();
+                    ">
+                        <span class="text-white">Aceptar</span>
+                        <i class="fas fa-check fa-fw text-white ml-2"></i>
+                    </a>
+
+
+                    <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                        <span class="text-white">Cerrar</span>
+                        <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                    </button>
+
+                </div>
+                </div>
+                </div>
+
+    </div>
+    <!-- /.modal -->
+
+    @endforeach
+
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('abrirPdf', (event) => {
+                window.open(event.url, '_blank');
+            });
+        });
+    </script>
+
+    <script>
+        function abrirModal(id) {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+
+            if (typeof $ !== 'undefined') {
+                $('#' + id).modal('show');
+            } else {
+                const m = new bootstrap.Modal(modal);
+                m.show();
+            }
+        }
+    </script>
 
     <script>
         document.addEventListener('livewire:init', () => {

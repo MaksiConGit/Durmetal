@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Client;
 use App\Models\Dureza;
 use App\Models\Material;
+use App\Models\User;
 use App\Models\Tratamiento;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -22,6 +23,13 @@ class OrdenTrabajoEdit extends Component
     public $clientes;
     public $numero;
     public $pto_ventas;
+    public $users;
+
+    public $certificadoSeleccionado = [];
+    public $numeroPlano = [];
+    public $cantidad = [];
+    public $responsableId = [];
+    public $observacionesCert = [];
 
     public $expandedId = null;
     
@@ -358,6 +366,7 @@ class OrdenTrabajoEdit extends Component
         $this->pto_ventas = $pto_ventas;
         $this->numero = $orden_trabajo->Numero ?? OrdenTrabajo::max('Numero') + 1;
         $this->clientes = Client::all();
+        $this->users = User::all();
 
 
         if ($this->orden_trabajo) {
@@ -389,7 +398,13 @@ class OrdenTrabajoEdit extends Component
                 'Descripcion' => $item->Descripcion,
                 'Cantidad' => $item->Cantidad,
                 'Peso' => $item->Peso,
+                'Estado' => $item->Estado,
+                'CC' => $item->CodigoComplejidad,
+                'NotaEnvio' => $item->itemNotaEnvio->notaEnvio->NumeroCompleto,
                 'NroPlano' => $item->certificados->first()?->NroPlano,
+
+                'CantidadCertificadosImpresos' => $item->CantidadCertificadosImpresos,
+                'CantidadCertificadosEnviadosPorCorreo' => $item->CantidadCertificadosEnviadosPorCorreo,
 
                 'DurezaSolicitadaMinima' => $item->DurezaSolicitadaMinima,
                 'DurezaSolicitadaMaxima' => $item->DurezaSolicitadaMaxima,
@@ -402,46 +417,220 @@ class OrdenTrabajoEdit extends Component
 
     }
 
-public function toggleExpand($index)
-{
-    $this->expandedId = $this->expandedId === $index ? null : $index;
-}
+    public function actualizarCantidadCertificado($itemId, $tipo)
+    {
+        $item = ItemOrdenTrabajo::find($itemId);
 
-public function addNewItem()
-{
-
-    foreach ($this->newItems as $item) {
-        if (!empty($item['is_new'])) {
+        if (!$item) {
             return;
+        }
+
+        if ($tipo === 'impresion') {
+            $item->CantidadCertificadosImpresos++;
+        }
+
+        if ($tipo === 'correo') {
+            $item->CantidadCertificadosEnviadosPorCorreo++;
+        }
+
+        $item->ActualizadoPor = auth()->id();
+        $item->FechaActualizacion = now();
+
+        $item->save();
+
+
+        // Actualizar Livewire sin recargar
+        foreach ($this->newItems as $index => $i) {
+
+            if ($i['id'] == $itemId) {
+
+                $this->newItems[$index]['CantidadCertificadosImpresos'] =
+                    $item->CantidadCertificadosImpresos;
+
+                $this->newItems[$index]['CantidadCertificadosEnviadosPorCorreo'] =
+                    $item->CantidadCertificadosEnviadosPorCorreo;
+
+                break;
+            }
         }
     }
 
-    $newItemId = $this->tempId--; // 👈 CLAVE
+    public function incrementarCorreo($itemId)
+    {
+        $item = ItemOrdenTrabajo::find($itemId);
 
-    $defaultMaterial = Material::where('Predeterminado', 1)->first()->id ?? 1;
-    $defaultTratamiento = Tratamiento::where('Predeterminado', 1)->first()->id ?? 1;
-    $defaultDureza = Dureza::where('Predeterminado', 1)->first()->id ?? 1;
-    $this->newItems[] = [
-        'id' => $newItemId, // lo mantenés
-            'is_new' => true,
+        if (!$item) {
+            return;
+        }
 
-            'Descripcion' => null,
-            'Cantidad' => null,
-            'Peso' => null,
-            'material_id' => $defaultMaterial,
-            'tratamiento_id' => $defaultTratamiento,
-            'NroPlano' => null,
-            'dureza_id' => $defaultDureza,
-            'DurezaSolicitadaMinima' => null,
-            'DurezaSolicitadaMaxima' => null,
-        ];
+        $item->CantidadCertificadosEnviadosPorCorreo =
+            ($item->CantidadCertificadosEnviadosPorCorreo ?? 0) + 1;
 
-$this->expandedId = $newItemId;
-$this->selectedIdItem = $newItemId;
+        $item->save();
 
-$this->dispatch('open-item', id: $newItemId);
-    // $this->dispatch('item-added', index: array_key_last($this->newItems));
-}
+        foreach ($this->newItems as $index => $i) {
+            if ($i['id'] == $itemId) {
+                $this->newItems[$index]['CantidadCertificadosEnviadosPorCorreo'] =
+                    $item->CantidadCertificadosEnviadosPorCorreo;
+                break;
+            }
+        }
+    }
+
+    public function imprimirCertificado($itemId)
+    {
+        if (!empty($this->certificadoSeleccionado[$itemId])) {
+
+            $url = route('ingreso-datos.pdf', $this->certificadoSeleccionado[$itemId]);
+
+            $this->dispatch('abrirPdf', url: $url);
+
+            $this->actualizarCantidadCertificado($itemId, 'impresion');
+
+            return;
+        }
+
+        $this->validate([
+            "numeroPlano.$itemId"   => 'required|string|max:255',
+            "cantidad.$itemId"      => 'required|numeric|min:1',
+            "responsableId.$itemId" => 'required|exists:users,id',
+            "observacionesCert.$itemId" => 'nullable|string|max:1000',
+        ]);
+
+        $certificado = Certificado::create([
+            'IdItemOrdenTrabajo'       => $itemId,
+            'Nombre'                   => $this->numeroPlano[$itemId],
+            'NroPlano'                 => $this->numeroPlano[$itemId],
+            'Observaciones'            => $this->observacionesCert[$itemId] ?? null,
+            'Cantidad'                 => $this->cantidad[$itemId],
+            'ResponsableId'            => $this->responsableId[$itemId],
+            'CantidadImpresiones'      => 0,
+            'CantidadEnviosPorCorreo'  => 0,
+            'Predeterminado'           => 1,
+        ]);
+
+        $url = route('ingreso-datos.pdf', $certificado->id);
+
+        $this->dispatch('abrirPdf', url: $url);
+
+        $this->refreshItem($itemId);
+
+    }
+
+    public function enviarCertificadoPorCorreo($itemId)
+    {
+        $this->actualizarCantidadCertificado($itemId, 'correo');
+
+        // 🔹 Validar emails
+        if (
+            !isset($this->emailsSeleccionados[$itemId]) ||
+            count($this->emailsSeleccionados[$itemId]) === 0
+        ) {
+            $this->addError("emails.$itemId", 'Debe seleccionar al menos un email.');
+            return;
+        }
+
+        // 🔹 Si existe certificado → usarlo
+        if (!empty($this->certificadoSeleccionado[$itemId])) {
+
+            return redirect()->to(
+                route('ingreso-datos.email', $this->certificadoSeleccionado[$itemId])
+                . '?Emails=' . implode(',', $this->emailsSeleccionados[$itemId])
+            );
+
+        }
+
+        // 🔹 Validaciones SOLO si es nuevo
+        $this->validate([
+            "numeroPlano.$itemId"   => 'required|string|max:255',
+            "cantidad.$itemId"      => 'required|numeric|min:1',
+            "responsableId.$itemId" => 'required|exists:users,id',
+        ]);
+
+        // 🔹 Crear certificado
+        $certificado = Certificado::create([
+            'IdItemOrdenTrabajo'       => $itemId,
+            'Nombre'                   => $this->numeroPlano[$itemId],
+            'NroPlano'                 => $this->numeroPlano[$itemId],
+            'Observaciones'            => $this->observacionesCert[$itemId] ?? null,
+            'Cantidad'                 => $this->cantidad[$itemId],
+            'ResponsableId'            => $this->responsableId[$itemId],
+            'CantidadImpresiones'      => 0,
+            'CantidadEnviosPorCorreo'  => 0,
+            'Predeterminado'           => 1,
+        ]);
+
+
+        return redirect()->to(
+            route('ingreso-datos.email', $certificado->id)
+            . '?Emails=' . implode(',', $this->emailsSeleccionados[$itemId])
+        );
+    }
+
+    public function updatedCertificadoSeleccionado($value, $itemId)
+    {
+        if (!$value) {
+            // Nuevo
+            $this->numeroPlano[$itemId] = null;
+            $this->cantidad[$itemId] = null;
+            $this->responsableId[$itemId] = null;
+            $this->observacionesCert[$itemId] = null;
+            return;
+        }
+
+        $certificado = Certificado::find($value);
+
+        if ($certificado) {
+            $this->numeroPlano[$itemId]   = $certificado->NroPlano;
+            $this->cantidad[$itemId]      = $certificado->Cantidad;
+            $this->responsableId[$itemId] = $certificado->IdUsuario;
+            $this->observacionesCert[$itemId] = $certificado->Observaciones;
+        }
+    }
+
+    public function toggleExpand($index)
+    {
+        $this->expandedId = $this->expandedId === $index ? null : $index;
+    }
+
+    public function addNewItem()
+    {
+
+        foreach ($this->newItems as $item) {
+            if (!empty($item['is_new'])) {
+                return;
+            }
+        }
+
+        $newItemId = $this->tempId--; // 👈 CLAVE
+
+        $defaultMaterial = Material::where('Predeterminado', 1)->first()->id ?? 1;
+        $defaultTratamiento = Tratamiento::where('Predeterminado', 1)->first()->id ?? 1;
+        $defaultDureza = Dureza::where('Predeterminado', 1)->first()->id ?? 1;
+        $this->newItems[] = [
+            'id' => $newItemId, // lo mantenés
+                'is_new' => true,
+
+                'Descripcion' => null,
+                'Cantidad' => null,
+                'Peso' => null,
+                'material_id' => $defaultMaterial,
+                'tratamiento_id' => $defaultTratamiento,
+                'NroPlano' => null,
+                'dureza_id' => $defaultDureza,
+                'Estado' => 'PENDIENTE',
+                'CC' => NULL,
+                'NotaEnvio' => NULL,
+                'DurezaSolicitadaMinima' => null,
+                'DurezaSolicitadaMaxima' => null,
+            ];
+
+    $this->expandedId = $newItemId;
+    $this->selectedIdItem = $newItemId;
+
+    $this->dispatch('open-item', id: $newItemId);
+        // $this->dispatch('item-added', index: array_key_last($this->newItems));
+    }
     
     public function cancelarCliente()
     {
