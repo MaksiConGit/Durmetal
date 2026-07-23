@@ -185,6 +185,32 @@ class ReciboVentaCreate extends Component
                     return;
                 }
 
+                if (!empty($fechaEmision) && !empty($fechaAcreditacion) && Carbon::parse($fechaEmision)->gt(Carbon::parse($fechaAcreditacion))) {
+
+                    $this->activeTab = 'custom-tabs-3';
+
+                    $this->addError(
+                        "cheques.$index.FechaEmision",
+                        "Cheque #" . ($index + 1) . ": la fecha de emisión no puede ser posterior a la fecha de vencimiento."
+                    );
+
+                    $this->dispatch('error-modal');
+                    return;
+                }
+
+                if (!empty($fechaEmision) && !empty($fechaAcreditacion) && Carbon::parse($fechaAcreditacion)->lt(Carbon::parse($fechaEmision))) {
+
+                    $this->activeTab = 'custom-tabs-3';
+
+                    $this->addError(
+                        "cheques.$index.FechaAcreditacion",
+                        "Cheque #" . ($index + 1) . ": la fecha de vencimiento no puede ser anterior a la fecha de emisión."
+                    );
+
+                    $this->dispatch('error-modal');
+                    return;
+                }
+
             }
 
             foreach ($this->tarjetas as $index => $tarjeta) {
