@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePremioRequest;
 use App\Models\Certificado;
+use App\Models\ConfiguracionGlobal;
 use App\Models\Email;
 use App\Models\ItemPremio;
 use App\Models\Premio;
@@ -73,41 +74,15 @@ class IngresoDatosController extends Controller
 
     public function pdf(Certificado $certificado)
     {
-        // 🔹 Aumentar cantidad de impresiones
         $certificado->update([
             'CantidadImpresiones' => $certificado->CantidadImpresiones + 1
         ]);
 
-        // // 🔹 Relaciones necesarias
-        // $certificado->load([
-        //     'itemOrdenTrabajo.ordenTrabajo.cliente',
-        //     'itemOrdenTrabajo.material',
-        //     'itemOrdenTrabajo.tratamiento',
-        //     'responsableTecnico',
-        // ]);
+        $configuracion_global = ConfiguracionGlobal::first();
 
-        // $item = $certificado->itemOrdenTrabajo;
-        // $orden = $item->ordenTrabajo;
-        // $cliente = $orden->cliente;
-
-        // // 🔹 Fecha formateada
-        // $fecha = Carbon::parse($certificado->Fecha)->format('d/m/Y');
-
-        // // 🔹 Registro de trazabilidad (ejemplo)
-        // $registro_trazabilidad = sprintf(
-        //     'OT %s-%s',
-        //     $orden->Numero,
-        //     str_pad($item->ItemNumero, 4, '0', STR_PAD_LEFT)
-        // );
-
-        // 🔹 PDF
         $pdf = Pdf::loadView('produccion.ingreso-datos.pdf', [
             'certificado' => $certificado,
-            // 'item' => $item,
-            // 'orden' => $orden,
-            // 'cliente' => $cliente,
-            // 'fecha' => $fecha,
-            // 'registro_trazabilidad' => $registro_trazabilidad,
+            'configuracion_global' => $configuracion_global,
         ])->setPaper('A4', 'portrait');
 
         return $pdf->stream('produccion.ingreso-datos.pdf');
@@ -138,9 +113,12 @@ class IngresoDatosController extends Controller
             ($certificado->CantidadEnviosPorCorreo ?? 0) + 1;
         $certificado->save();
 
+        $configuracion_global = ConfiguracionGlobal::first();
+
         // 🔹 Generar el MISMO PDF que el método pdf()
         $pdf = Pdf::loadView('produccion.ingreso-datos.pdf', [
             'certificado' => $certificado,
+            'configuracion_global' => $configuracion_global,
         ])->setPaper('A4');
 
         // 🔹 Enviar mail

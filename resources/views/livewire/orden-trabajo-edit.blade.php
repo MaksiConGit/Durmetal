@@ -193,52 +193,51 @@
                                 <td class="text-start align-middle">
                                     <div class="d-flex align-items-center ms-2">
                                         <div style="margin-right:12px;" >
-<button
-    type="button"
-    @click.stop="abrirModal('modal-certificado-{{$newItem['id']}}')"
-    class="d-flex align-items-center justify-content-center"
-    style="
-        width:52px;
-        height:26px;
-        background-color: {{ $newItem['CantidadCertificadosImpresos'] > 0 ? '#28a745' : '#f28c00' }};
-        color:white;
-        border:none;
-        border-radius:3px;
-    "
->
-    @if ($newItem['CantidadCertificadosImpresos'] > 0)
-        <span style="margin-right:6px;">
-            {{ $newItem['CantidadCertificadosImpresos'] }}
-        </span>
-    @endif
-
-    <i class="fa fa-print"></i>
-</button>
+                                            <button
+                                                type="button"
+                                                @click.stop="abrirModal('modal-certificado-{{$newItem['id']}}')"
+                                                class="d-flex align-items-center justify-content-center"
+                                                style="
+                                                    width:52px;
+                                                    height:26px;
+                                                    background-color: {{ $newItem['CantidadCertificadosImpresos'] > 0 ? '#28a745' : '#f28c00' }};
+                                                    color:white;
+                                                    border:none;
+                                                    border-radius:3px;
+                                                "
+                                            >
+                                                @if ($newItem['CantidadCertificadosImpresos'] > 0)
+                                                    <span style="margin-right:6px;">
+                                                        {{ $newItem['CantidadCertificadosImpresos'] }}
+                                                    </span>
+                                                @endif
+                                            <i class="fa fa-print"></i>
+                                            </button>
                                         </div>
 
                                         <div>
-<button
-    type="button"
-    @click.stop="abrirModal('modal-correo-{{$newItem['id']}}')"
-    class="d-flex align-items-center justify-content-center"
-    style="
-        width:52px;
-        height:26px;
-        background-color: {{ $newItem['CantidadCertificadosEnviadosPorCorreo'] > 0 ? '#28a745' : '#f28c00' }};
-        color:white;
-        border:none;
-        border-radius:3px;
-    "
->
-    @if ($newItem['CantidadCertificadosEnviadosPorCorreo'] > 0)
-        <span style="margin-right:6px;">
-            {{ $newItem['CantidadCertificadosEnviadosPorCorreo'] }}
-        </span>
-    @endif
-
-    <i class="fa fa-envelope"></i>
-</button>
+                                            <button
+                                                type="button"
+                                                @click.stop="abrirModal('modal-correo-{{$newItem['id']}}')"
+                                                class="d-flex align-items-center justify-content-center"
+                                                style="
+                                                    width:52px;
+                                                    height:26px;
+                                                    background-color: {{ $newItem['CantidadCertificadosEnviadosPorCorreo'] > 0 ? '#28a745' : '#f28c00' }};
+                                                    color:white;
+                                                    border:none;
+                                                    border-radius:3px;
+                                                "
+                                            >
+                                                @if ($newItem['CantidadCertificadosEnviadosPorCorreo'] > 0)
+                                                    <span style="margin-right:6px;">
+                                                        {{ $newItem['CantidadCertificadosEnviadosPorCorreo'] }}
+                                                    </span>
+                                                @endif
+                                                <i class="fa fa-envelope"></i>
+                                            </button>
                                         </div>
+                                        
                                     </div>
                                 </td>
                                 <td>{{ $newItem['NotaEnvio'] }}</td>

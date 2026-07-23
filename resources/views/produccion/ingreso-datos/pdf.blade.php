@@ -51,21 +51,87 @@ body {
 
 .firma-contenedor {
     position: fixed;
-    bottom: 20mm; /* distancia desde abajo */
+    bottom: 20mm;
     left: 20mm;
     right: 20mm;
+}
+
+.header-factura {
+    font-family: DejaVu Sans, sans-serif;
+    font-size: 12px;
+}
+
+.header-factura .header-right span {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.header-factura table {
+    font-size: 10px;
 }
 
 </style>
 </head>
 
 <body>
+<div class="header-factura">
+
+<table class="header" style="width:100%; border-collapse:collapse;">
+    <tr>
+
+        <td style="width: 100%; position: relative; border-right: 0.5px solid #000;">
+
+            <img src="{{ public_path('AdminLTE-3.2.0/dist/img/SRLComprimido.jpg') }}"
+                style="width: 400px; display:block;">
+
+            <div style="
+                font-size:11px;
+                margin-top: 5px;
+                width: 400px;
+                text-align: center;
+                font-weight: bold;
+            ">
+                Ing. Miguel A. Caruana
+            </div>
+
+        <div style="
+            position: absolute;
+            right: -90px;
+            top: 35px;
+            width: 280px;
+            font-size:10px;
+            text-align: left;
+            line-height: 1.4;
+        ">
+            {{ $configuracion_global->DomicilioEmpresa }}<br>
+            {{ $configuracion_global->LocalidadEmpresa }}, {{ $configuracion_global->ProvinciaEmpresa }}<br>
+            {{ $configuracion_global->TelefonoEmpresa }}<br>
+            IVA Responsable Inscripto
+        </div>
+
+        </td>
+
+    </tr>
+        
+    <br>
+
+    <tr>
+        <td colspan="2" style="border-top: 0.5px solid #000;"></td>
+    </tr>
+
+
+</table>
+
+</div>
+
+<br>
+<br>
+<br>
 
 <div class="titulo">
     CERTIFICADO DE TRATAMIENTO TERMICO
 </div>
 
-<!-- Registro + Fecha -->
 <table class="tabla-100">
     <tr>
         <td>
@@ -113,7 +179,6 @@ TRAT. EFECTUADO:
 
 <br><br>
 
-<!-- PROPIEDADES + RESULTADOS -->
 <table class="tabla-100">
     <tr>
         <td width="60%" valign="top">
@@ -139,7 +204,6 @@ TRAT. EFECTUADO:
 <div class="subtitulo">OBSERVACIONES</div>
 <div class="observaciones"></div>
 
-<!-- Firmas -->
 <table class="tabla-100">
     <tr>
         <td width="50%">

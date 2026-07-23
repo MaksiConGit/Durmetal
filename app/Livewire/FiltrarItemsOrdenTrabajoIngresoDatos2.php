@@ -33,6 +33,9 @@ class FiltrarItemsOrdenTrabajoIngresoDatos2 extends Component
     public $responsableId = [];
     public $observaciones = [];
 
+    public $observacionesCert = [];
+
+
     public function mount()
     {
         $this->fecha_fin = now()->format('Y-m-d');
@@ -40,43 +43,82 @@ class FiltrarItemsOrdenTrabajoIngresoDatos2 extends Component
         $this->users = User::all();
     }
 
-public function imprimirCertificado($itemId)
-{
-    if (!empty($this->certificadoSeleccionado[$itemId])) {
+    public function actualizarCantidadCertificado($itemId, $tipo)
+    {
+        $item = ItemOrdenTrabajo::find($itemId);
 
-        $url = route('ingreso-datos.pdf', $this->certificadoSeleccionado[$itemId]);
+        if (!$item) return;
+
+        if ($tipo === 'impresion') {
+            $item->CantidadCertificadosImpresos++;
+        }
+
+        if ($tipo === 'correo') {
+            $item->CantidadCertificadosEnviadosPorCorreo++;
+        }
+
+        $item->ActualizadoPor = auth()->id();
+        $item->FechaActualizacion = now();
+
+        $item->save();
+    }
+
+    public function incrementarCorreo($itemId)
+    {
+        $item = ItemOrdenTrabajo::find($itemId);
+
+        if (!$item) return;
+
+        $item->CantidadCertificadosEnviadosPorCorreo =
+            ($item->CantidadCertificadosEnviadosPorCorreo ?? 0) + 1;
+
+        $item->save();
+    }
+
+    public function imprimirCertificado($itemId)
+    {
+        if (!empty($this->certificadoSeleccionado[$itemId])) {
+
+            $url = route('ingreso-datos.pdf', $this->certificadoSeleccionado[$itemId]);
+
+            $this->dispatch('abrirPdf', url: $url);
+
+            $this->actualizarCantidadCertificado($itemId, 'impresion');
+
+            return;
+        }
+
+        $this->validate([
+            "numeroPlano.$itemId"   => 'required|string|max:255',
+            "cantidad.$itemId"      => 'required|numeric|min:1',
+            "responsableId.$itemId" => 'required|exists:users,id',
+            "observacionesCert.$itemId" => 'nullable|string|max:1000',
+        ]);
+
+        $certificado = Certificado::create([
+            'IdItemOrdenTrabajo'       => $itemId,
+            'Nombre'                   => $this->numeroPlano[$itemId],
+            'NroPlano'                 => $this->numeroPlano[$itemId],
+            'Observaciones'            => $this->observacionesCert[$itemId] ?? null,
+            'Cantidad'                 => $this->cantidad[$itemId],
+            'ResponsableId'            => $this->responsableId[$itemId],
+            'CantidadImpresiones'      => 0,
+            'CantidadEnviosPorCorreo'  => 0,
+            'Predeterminado'           => 1,
+        ]);
+
+        $url = route('ingreso-datos.pdf', $certificado->id);
 
         $this->dispatch('abrirPdf', url: $url);
 
-        return;
+        $this->refreshItem($itemId);
+
     }
-
-    $this->validate([
-        "numeroPlano.$itemId"   => 'required|string|max:255',
-        "cantidad.$itemId"      => 'required|numeric|min:1',
-        "responsableId.$itemId" => 'required|exists:users,id',
-        "observaciones.$itemId" => 'nullable|string|max:1000',
-    ]);
-
-    $certificado = Certificado::create([
-        'IdItemOrdenTrabajo'       => $itemId,
-        'Nombre'                   => $this->numeroPlano[$itemId],
-        'NroPlano'                 => $this->numeroPlano[$itemId],
-        'Observaciones'            => $this->observaciones[$itemId] ?? null,
-        'Cantidad'                 => $this->cantidad[$itemId],
-        'ResponsableId'            => $this->responsableId[$itemId],
-        'CantidadImpresiones'      => 0,
-        'CantidadEnviosPorCorreo'  => 0,
-        'Predeterminado'           => 1,
-    ]);
-
-    $url = route('ingreso-datos.pdf', $certificado->id);
-
-    $this->dispatch('abrirPdf', url: $url);
-}
 
     public function enviarCertificadoPorCorreo($itemId)
     {
+        $this->actualizarCantidadCertificado($itemId, 'correo');
+
         // 🔹 Validar emails
         if (
             !isset($this->emailsSeleccionados[$itemId]) ||
@@ -93,6 +135,7 @@ public function imprimirCertificado($itemId)
                 route('ingreso-datos.email', $this->certificadoSeleccionado[$itemId])
                 . '?Emails=' . implode(',', $this->emailsSeleccionados[$itemId])
             );
+
         }
 
         // 🔹 Validaciones SOLO si es nuevo
@@ -107,7 +150,7 @@ public function imprimirCertificado($itemId)
             'IdItemOrdenTrabajo'       => $itemId,
             'Nombre'                   => $this->numeroPlano[$itemId],
             'NroPlano'                 => $this->numeroPlano[$itemId],
-            'Observaciones'            => $this->observaciones[$itemId] ?? null,
+            'Observaciones'            => $this->observacionesCert[$itemId] ?? null,
             'Cantidad'                 => $this->cantidad[$itemId],
             'ResponsableId'            => $this->responsableId[$itemId],
             'CantidadImpresiones'      => 0,
@@ -115,10 +158,32 @@ public function imprimirCertificado($itemId)
             'Predeterminado'           => 1,
         ]);
 
+
         return redirect()->to(
             route('ingreso-datos.email', $certificado->id)
             . '?Emails=' . implode(',', $this->emailsSeleccionados[$itemId])
         );
+    }
+
+    public function updatedCertificadoSeleccionado($value, $itemId)
+    {
+        if (!$value) {
+            // Nuevo
+            $this->numeroPlano[$itemId] = null;
+            $this->cantidad[$itemId] = null;
+            $this->responsableId[$itemId] = null;
+            $this->observacionesCert[$itemId] = null;
+            return;
+        }
+
+        $certificado = Certificado::find($value);
+
+        if ($certificado) {
+            $this->numeroPlano[$itemId]   = $certificado->NroPlano;
+            $this->cantidad[$itemId]      = $certificado->Cantidad;
+            $this->responsableId[$itemId] = $certificado->IdUsuario;
+            $this->observacionesCert[$itemId] = $certificado->Observaciones;
+        }
     }
 
     public function cancelarCliente()
@@ -154,30 +219,6 @@ public function imprimirCertificado($itemId)
         in_array($id, $this->expandedInner)
             ? $this->expandedInner = array_diff($this->expandedInner, [$id])
             : $this->expandedInner[] = $id;
-    }
-
-    /**
-     * 🔥 Cuando cambia el certificado
-     */
-    public function updatedCertificadoSeleccionado($value, $itemId)
-    {
-        if (!$value) {
-            // Nuevo
-            $this->numeroPlano[$itemId] = null;
-            $this->cantidad[$itemId] = null;
-            $this->responsableId[$itemId] = null;
-            $this->observaciones[$itemId] = null;
-            return;
-        }
-
-        $certificado = Certificado::find($value);
-
-        if ($certificado) {
-            $this->numeroPlano[$itemId]   = $certificado->NroPlano;
-            $this->cantidad[$itemId]      = $certificado->Cantidad;
-            $this->responsableId[$itemId] = $certificado->IdUsuario;
-            $this->observaciones[$itemId] = $certificado->Observaciones;
-        }
     }
 
     public function render()
