@@ -96,7 +96,7 @@
                         <label for="filtro3" class="font-weight-normal">EJEC. POR OPERADOR</label>
                         <select name="EjecutadoPorOperador" id="filtro3" class="form-control form-control-sm">
                             @foreach ($usuarios as $usuario)
-                                <option value="{{$usuario->id}}" {{$usuario->id == old('EjecutadoPorOperador') ? 'selected' : ''}}>{{$usuario->name}}</option>                            
+                                <option value="{{$usuario->id}}" {{$usuario->id == old('EjecutadoPorOperador') ? 'selected' : ''}}>{{$usuario->Nombre}}</option>                            
                             @endforeach
                         </select>
                     </div>
