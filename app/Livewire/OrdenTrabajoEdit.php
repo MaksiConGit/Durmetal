@@ -400,7 +400,7 @@ class OrdenTrabajoEdit extends Component
                 'Peso' => $item->Peso,
                 'Estado' => $item->Estado,
                 'CC' => $item->CodigoComplejidad,
-                'NotaEnvio' => $item->itemNotaEnvio->notaEnvio->NumeroCompleto,
+                'NotaEnvio' => $item->itemNotaEnvio->notaEnvio->NumeroCompleto ?? null,
                 'NroPlano' => $item->certificados->first()?->NroPlano,
 
                 'CantidadCertificadosImpresos' => $item->CantidadCertificadosImpresos,
