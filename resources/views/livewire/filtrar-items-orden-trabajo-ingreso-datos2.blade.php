@@ -653,7 +653,7 @@
                                     <option value="">Seleccione</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}">
-                                            {{ $user->name }}
+                                            {{ $user->Nombre }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -756,7 +756,7 @@
                                     <option value="">Seleccione</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}">
-                                            {{ $user->name }}
+                                            {{ $user->Nombre }}
                                         </option>
                                     @endforeach
                                 </select>
