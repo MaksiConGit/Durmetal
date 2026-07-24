@@ -30,15 +30,8 @@ class ClientSeeder extends Seeder
 
         $user_admin = User::create([
             'id' => '1',
-            'name' => 'admin',
-            'Usuario' => 'admin.admin',
-            'SuperUsuario' => 1,
-            'email' => 'admin@admin',
-            'NotificarErroresPorEmail' => 0,
-            'EnviarReportePlanillaTurno' => 0,
-            'UtilizarTurnoEntorno' => 1,
-            'ArticuloShopPorDefecto' => '1',
-            'NroTablero' => '1',
+            'Nombre' => 'Caruana Miguel Angel',
+            'Usuario' => 'miguel.caruana',
             'FechaCreacion' => now(),
             'CreadoPor' => 1,
             'FechaActualizacion' => now(),
@@ -47,22 +40,41 @@ class ClientSeeder extends Seeder
             'Firma' => null,
             'CobraPremio' => 1,
             'IndiceBasePremio' => 1.0,
-            'password' => '$2y$12$RfmcqnawgVnwBH4voQSaau3RPNW.OPq8FAuSXIcWlhTRKYfSr0emq',
+            'Contraseña' => '$2y$12$RfmcqnawgVnwBH4voQSaau3RPNW.OPq8FAuSXIcWlhTRKYfSr0emq',
+
+            // 'SuperUsuario' => 1,
+            // 'email' => 'admin@admin',
+            // 'NotificarErroresPorEmail' => 0,
+            // 'EnviarReportePlanillaTurno' => 0,
+            // 'UtilizarTurnoEntorno' => 1,
+            // 'ArticuloShopPorDefecto' => '1',
+            // 'NroTablero' => '1',
+
+        ]);
+        
+        $user_admin->assignRole('admin');
+
+        $user_admin = User::create([
+            'id' => '2',
+            'Nombre' => 'Usuario Administrador',
+            'Usuario' => 'admin@admin',
+            'FechaCreacion' => now(),
+            'CreadoPor' => 1,
+            'FechaActualizacion' => now(),
+            'ActualizadoPor' => 1,
+            'Activo' => 1,
+            'Firma' => null,
+            'CobraPremio' => 1,
+            'IndiceBasePremio' => 1.0,
+            'Contraseña' => '$2y$12$RfmcqnawgVnwBH4voQSaau3RPNW.OPq8FAuSXIcWlhTRKYfSr0emq',
         ]);
 
         $user_admin->assignRole('admin');
 
         $user_produccion = User::create([
-            'id' => '2',
-            'name' => 'produccion',
-            'Usuario' => 'prod.prod',
-            'SuperUsuario' => 1,
-            'email' => 'prod@prod',
-            'NotificarErroresPorEmail' => 0,
-            'EnviarReportePlanillaTurno' => 0,
-            'UtilizarTurnoEntorno' => 1,
-            'ArticuloShopPorDefecto' => '1',
-            'NroTablero' => '1',
+            'id' => '3',
+            'Nombre' => 'Usuario Producción',
+            'Usuario' => 'usuario@prod',
             'FechaCreacion' => now(),
             'CreadoPor' => 1,
             'FechaActualizacion' => now(),
@@ -71,7 +83,7 @@ class ClientSeeder extends Seeder
             'Firma' => null,
             'CobraPremio' => 1,
             'IndiceBasePremio' => 1.0,
-            'password' => '$2y$12$RfmcqnawgVnwBH4voQSaau3RPNW.OPq8FAuSXIcWlhTRKYfSr0emq',
+            'Contraseña' => '$2y$12$RfmcqnawgVnwBH4voQSaau3RPNW.OPq8FAuSXIcWlhTRKYfSr0emq',
         ]);
 
         $user_produccion->assignRole('produccion');
