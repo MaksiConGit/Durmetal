@@ -28,34 +28,42 @@ class ClientSeeder extends Seeder
 
         Role::firstOrCreate(['name' => 'produccion']);
 
+        $users = [
+            ['id' => 3, 'Nombre' => 'Karbiche Marcelo Alejandro', 'Usuario' => 'marcelo.karbiche', 'SuperUsuario' => false, 'CobraPremio' => 1, 'IndiceBasePremio' => 1.0],
+            ['id' => 4, 'Nombre' => 'Caruana Miguel Angel', 'Usuario' => 'miguel.caruana', 'SuperUsuario' => true,  'CobraPremio' => 0, 'IndiceBasePremio' => 1.0],
+            ['id' => 5, 'Nombre' => 'Perezutti Jose Carlos', 'Usuario' => 'jose.perezutti', 'SuperUsuario' => false, 'CobraPremio' => 1, 'IndiceBasePremio' => 1.0],
+            ['id' => 6, 'Nombre' => 'Silva Rolando German', 'Usuario' => 'rolando.silva', 'SuperUsuario' => false, 'CobraPremio' => 1, 'IndiceBasePremio' => 0.35],
+            ['id' => 7, 'Nombre' => 'operador1', 'Usuario' => 'operador1', 'SuperUsuario' => false, 'CobraPremio' => 0, 'IndiceBasePremio' => 1.0],
+            ['id' => 8, 'Nombre' => 'Karcher Lautaro', 'Usuario' => 'lautaro.karcher', 'SuperUsuario' => false, 'CobraPremio' => 1, 'IndiceBasePremio' => 0.15],
+            ['id' => 9, 'Nombre' => 'Sistema Anterior', 'Usuario' => 'sistema.anterior', 'SuperUsuario' => false, 'CobraPremio' => 0, 'IndiceBasePremio' => 1.0],
+            ['id' => 10, 'Nombre' => 'Marta Aladro', 'Usuario' => 'marta.aladro', 'SuperUsuario' => true,  'CobraPremio' => 0, 'IndiceBasePremio' => 1.0],
+            ['id' => 11, 'Nombre' => 'Silva Rolando German', 'Usuario' => 'taller', 'SuperUsuario' => false, 'CobraPremio' => 0, 'IndiceBasePremio' => 1.0],
+            ['id' => 12, 'Nombre' => 'Andres Freytes', 'Usuario' => 'andres.freytes', 'SuperUsuario' => false, 'CobraPremio' => 1, 'IndiceBasePremio' => 0.9],
+        ];
+
+        foreach ($users as $data) {
+
+            $user = User::create([
+                'id' => $data['id'],
+                'Nombre' => $data['Nombre'],
+                'Usuario' => $data['Usuario'],
+                'Activo' => 1,
+                'Firma' => 'firmas/firma' . $data['id'] . '.jpg',
+                'CobraPremio' => $data['CobraPremio'],
+                'IndiceBasePremio' => $data['IndiceBasePremio'],
+                'FechaCreacion' => now(),
+                'CreadoPor' => 1,
+                'FechaActualizacion' => now(),
+                'ActualizadoPor' => 1,
+                'Contraseña' => '$2y$12$RfmcqnawgVnwBH4voQSaau3RPNW.OPq8FAuSXIcWlhTRKYfSr0emq',
+            ]);
+
+            $rol = $data['SuperUsuario'] ? 'admin' : 'produccion';
+            $user->assignRole($rol);
+        }
+
         $user_admin = User::create([
             'id' => '1',
-            'Nombre' => 'Caruana Miguel Angel',
-            'Usuario' => 'miguel.caruana',
-            'FechaCreacion' => now(),
-            'CreadoPor' => 1,
-            'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
-            'Activo' => 1,
-            'Firma' => 'firmas/firma1.jpg',
-            'CobraPremio' => 1,
-            'IndiceBasePremio' => 1.0,
-            'Contraseña' => '$2y$12$RfmcqnawgVnwBH4voQSaau3RPNW.OPq8FAuSXIcWlhTRKYfSr0emq',
-
-            // 'SuperUsuario' => 1,
-            // 'email' => 'admin@admin',
-            // 'NotificarErroresPorEmail' => 0,
-            // 'EnviarReportePlanillaTurno' => 0,
-            // 'UtilizarTurnoEntorno' => 1,
-            // 'ArticuloShopPorDefecto' => '1',
-            // 'NroTablero' => '1',
-
-        ]);
-        
-        $user_admin->assignRole('admin');
-
-        $user_admin = User::create([
-            'id' => '2',
             'Nombre' => 'Usuario Administrador',
             'Usuario' => 'admin@admin',
             'FechaCreacion' => now(),
@@ -72,7 +80,7 @@ class ClientSeeder extends Seeder
         $user_admin->assignRole('admin');
 
         $user_produccion = User::create([
-            'id' => '3',
+            'id' => '2',
             'Nombre' => 'Usuario Producción',
             'Usuario' => 'usuario@prod',
             'FechaCreacion' => now(),

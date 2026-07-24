@@ -234,23 +234,17 @@ class FiltrarItemsOrdenTrabajoIngresoDatos2 extends Component
                 'certificados'
             ])
             ->whereIn('Estado', ['PENDIENTE', 'APROBADO'])
-->whereIn('Estado', ['PENDIENTE', 'APROBADO'])
 
-->orderByRaw("CASE 
-    WHEN item_orden_trabajo.Estado = 'PENDIENTE' THEN 0
-    ELSE 1
-END")
+            ->orderByRaw("CASE 
+                WHEN item_orden_trabajo.Estado = 'PENDIENTE' THEN 0
+                ELSE 1
+            END")
 
-->orderByRaw('programacion.id IS NOT NULL') // sin programación primero
+            ->orderByDesc('item_orden_trabajo.FechaCreacion');
 
-->orderByDesc('item_orden_trabajo.FechaCreacion')
-            ->leftJoin('programacion', 'programacion.IdItemOrdenTrabajo', '=', 'item_orden_trabajo.id')
-            ->orderByRaw('programacion.id IS NOT NULL') // 🔥 sin programación primero
-            ->orderByDesc('item_orden_trabajo.FechaCreacion')
-            ->select('item_orden_trabajo.*');
-        
         if ($this->fecha_inicio && $this->fecha_fin) {
-$query->whereBetween('item_orden_trabajo.FechaCreacion', [                Carbon::parse($this->fecha_inicio)->startOfDay(),
+            $query->whereBetween('item_orden_trabajo.FechaCreacion', [
+                Carbon::parse($this->fecha_inicio)->startOfDay(),
                 Carbon::parse($this->fecha_fin)->endOfDay(),
             ]);
         }
