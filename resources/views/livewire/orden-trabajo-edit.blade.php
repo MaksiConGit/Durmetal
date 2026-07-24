@@ -1019,7 +1019,7 @@
                             <textarea
                                 class="form-control form-control-sm"
                                 rows="4"
-                                wire:model.live="observacionesCert.{{ $item->id }}"
+                                wire:model.defer="observacionesCert.{{ $item->id }}"
                             ></textarea>
                         </div>
 

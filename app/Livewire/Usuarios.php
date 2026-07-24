@@ -88,6 +88,9 @@ class Usuarios extends Component
             'ActualizadoPor' => auth()->id(),
         ]);
 
+        $usuario_->Firma = 'firmas/firma'.$usuario_->id.'.jpg';
+        $usuario_->save();
+
         $Rol = Role::find($this->Rol);
 
         $usuario_->assignRole($Rol);
@@ -153,20 +156,17 @@ class Usuarios extends Component
             return;
         }
 
-        // Opcional: evitar que un usuario se elimine a sí mismo
         if ($usuario->id == auth()->id()) {
             session()->flash('mensaje', 'No podés eliminar tu propio usuario.');
             return;
         }
 
-        // Quita roles/permisos de Spatie antes de borrar
         $usuario->syncRoles([]);
 
         $usuario->delete();
 
         $this->usuarios = User::all();
 
-        // Limpiar selección
         $this->usuarioSeleccionadoId = null;
 
         session()->flash('mensaje', 'Usuario eliminado correctamente');

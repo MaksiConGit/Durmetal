@@ -17,6 +17,7 @@ class Certificado extends Model
         'CantidadEnviosPorCorreo',
         'Cantidad',
         'IdUsuario',
+        'Observaciones',
         'Predeterminado',
     ];
 

@@ -479,16 +479,6 @@ class OrdenTrabajoEdit extends Component
 
     public function imprimirCertificado($itemId)
     {
-        if (!empty($this->certificadoSeleccionado[$itemId])) {
-
-            $url = route('ingreso-datos.pdf', $this->certificadoSeleccionado[$itemId]);
-
-            $this->dispatch('abrirPdf', url: $url);
-
-            $this->actualizarCantidadCertificado($itemId, 'impresion');
-
-            return;
-        }
 
         $this->validate([
             "numeroPlano.$itemId"   => 'required|string|max:255',
@@ -497,13 +487,36 @@ class OrdenTrabajoEdit extends Component
             "observacionesCert.$itemId" => 'nullable|string|max:1000',
         ]);
 
+        if (!empty($this->certificadoSeleccionado[$itemId])) {
+
+            $certificado = Certificado::find($this->certificadoSeleccionado[$itemId]);
+
+            if ($certificado) {
+                $certificado->update([
+                    'Nombre'        => $this->numeroPlano[$itemId],
+                    'NroPlano'      => $this->numeroPlano[$itemId],
+                    'Observaciones' => $this->observacionesCert[$itemId],
+                    'Cantidad'      => $this->cantidad[$itemId],
+                    'IdUsuario' => $this->responsableId[$itemId],
+                ]);
+            }
+
+            $url = route('ingreso-datos.pdf', $certificado);
+
+            $this->dispatch('abrirPdf', url: $url);
+
+            $this->actualizarCantidadCertificado($itemId, 'impresion');
+
+            return;
+        }
+
         $certificado = Certificado::create([
             'IdItemOrdenTrabajo'       => $itemId,
             'Nombre'                   => $this->numeroPlano[$itemId],
             'NroPlano'                 => $this->numeroPlano[$itemId],
             'Observaciones'            => $this->observacionesCert[$itemId] ?? null,
             'Cantidad'                 => $this->cantidad[$itemId],
-            'ResponsableId'            => $this->responsableId[$itemId],
+            'IdUsuario'                => $this->responsableId[$itemId],
             'CantidadImpresiones'      => 0,
             'CantidadEnviosPorCorreo'  => 0,
             'Predeterminado'           => 1,

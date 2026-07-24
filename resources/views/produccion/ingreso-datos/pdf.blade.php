@@ -39,10 +39,6 @@ body {
     text-align: right;
 }
 
-.observaciones {
-    height: 50px;
-}
-
 .linea-firma {
     border-top: 1px dotted #000;
     width: 300px;
@@ -183,46 +179,61 @@ TRAT. EFECTUADO:
     <tr>
         <td width="60%" valign="top">
             <div class="subtitulo">PROP.MECANICAS SOLICITADAS</div>
-            Mínimo: 432.00<br>
-            Máximo: 4243.00<br>
-            Dureza Tipo: HRF
+            Mínimo: {{ number_format($certificado->itemOrdenTrabajo->DurezaSolicitadaMinima, 2) }}<br>
+            Máximo: {{ number_format($certificado->itemOrdenTrabajo->DurezaSolicitadaMaxima, 2) }}<br>
+            Dureza Tipo: {{ $certificado->itemOrdenTrabajo->Dureza->Nombre }}
         </td>
 
         <td width="40%" valign="top">
             <div class="subtitulo derecha">RESULTADOS OBTENIDOS</div>
             <div class="derecha">
-                Mínimo: 0.00<br>
-                Máximo: 0.00<br>
-                Promedio: 0.00
+                @php
+                    $prog = $certificado->itemOrdenTrabajo->programacion->last();
+                    $min = $prog->DurezaMinima ?? 0;
+                    $max = $prog->DurezaMaxima ?? 0;
+                    $promedio = ($min + $max) / 2;
+                @endphp
+
+                Mínimo: {{ number_format($min, 2) }}<br>
+                Máximo: {{ number_format($max ?? 0, 2) }}<br>
+                Promedio: {{ number_format($promedio ?? 0, 2) }}
             </div>
         </td>
     </tr>
 </table>
 
-<br>
 
 <div class="subtitulo">OBSERVACIONES</div>
-<div class="observaciones"></div>
+<div class="observaciones">
+    {{ $certificado->Observaciones }}
+</div>
 
 <table class="tabla-100">
     <tr>
-        <td width="50%">
+        <td width="50%" style="vertical-align: bottom;">
             Responsable técnico:
-            {{ $certificado->responsableTecnico->Nombre ?? 'Caruana Miguel Angel' }}
+            {{ $certificado->usuario->Nombre }}
         </td>
 
-<td width="40%" style="text-align:center;">
-    
-    <div style="
-        border-top:1px dotted #000;
-        width:250px;
-        margin:0 auto 5px auto;
-    "></div>
+        <td width="40%" style="text-align:center;">
 
-    Firma responsable técnico
+            @if($certificado->usuario && $certificado->usuario->Firma)
 
-</td>
+                <img 
+                    src="{{ public_path($certificado->usuario->Firma) }}" 
+                    style="height:160px; margin-bottom:5px;">
 
+            @endif
+
+            <div style="
+                border-top:1px dotted #000;
+                width:250px;
+                margin:0 auto 5px auto;
+            "></div>
+
+            Firma responsable técnico
+
+        </td>
     </tr>
 </table>
 
