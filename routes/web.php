@@ -309,6 +309,8 @@ Route::middleware('auth')->group(function () {
 
         // Sistema
 
+        Route::get('sistema/configuraciones/usuarios', UsuarioController::class)->name('usuarios');
+
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -371,14 +373,14 @@ Route::middleware('auth')->group(function () {
             'impresoras-fiscales' => 'impresora_fiscal'
             ])->except(['show']);
 
-            Route::resource('usuarios', UsuarioController::class)->names([
-                'index'   => 'sistema.configuracion.usuarios.index',
-                'create'  => 'sistema.configuracion.usuarios.create',
-                'store'   => 'sistema.configuracion.usuarios.store',
-                'edit'    => 'sistema.configuracion.usuarios.edit',
-                'update'  => 'sistema.configuracion.usuarios.update',
-                'destroy' => 'sistema.configuracion.usuarios.destroy',
-            ])->except(['show']);
+            // Route::resource('usuarios', UsuarioController::class)->names([
+            //     'index'   => 'sistema.configuracion.usuarios.index',
+            //     'create'  => 'sistema.configuracion.usuarios.create',
+            //     'store'   => 'sistema.configuracion.usuarios.store',
+            //     'edit'    => 'sistema.configuracion.usuarios.edit',
+            //     'update'  => 'sistema.configuracion.usuarios.update',
+            //     'destroy' => 'sistema.configuracion.usuarios.destroy',
+            // ])->except(['show']);
 
             Route::resource('reglas', ReglaController::class)->names([
                 'index'   => 'sistema.configuracion.reglas.index',

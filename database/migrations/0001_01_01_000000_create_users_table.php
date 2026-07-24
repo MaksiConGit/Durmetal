@@ -13,27 +13,27 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('Usuario');
-            $table->boolean('SuperUsuario');
-            $table->string('email')->unique()->nullable();
-            $table->boolean('NotificarErroresPorEmail');
-            $table->boolean('EnviarReportePlanillaTurno');
-            $table->boolean('UtilizarTurnoEntorno');
-            $table->string('ArticuloShopPorDefecto');
-            $table->string('NroTablero');
+            $table->string('Nombre');
+            $table->string('Usuario')->unique()->nullable();
+            $table->string('Contraseña')->nullable();
+            $table->boolean('CobraPremio');
+            $table->boolean('Activo');
+            $table->string('Firma')->nullable();
+            $table->float('IndiceBasePremio');
+
+            // $table->boolean('NotificarErroresPorEmail');
+            // $table->boolean('EnviarReportePlanillaTurno');
+            // $table->boolean('UtilizarTurnoEntorno');
+            // $table->string('ArticuloShopPorDefecto');
+            // $table->string('NroTablero');
             $table->date('FechaCreacion')->nullable();
             $table->integer('CreadoPor');
             $table->date('FechaActualizacion')->nullable();
             $table->integer('ActualizadoPor');
-            $table->boolean('Activo');
-            $table->string('Firma')->nullable();
-            $table->boolean('CobraPremio');
-            $table->float('IndiceBasePremio');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password')->nullable();
+
+            // $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
-            $table->timestamps();
+            // $table->timestamps();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

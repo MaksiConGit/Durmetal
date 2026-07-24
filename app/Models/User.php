@@ -19,11 +19,20 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'Nombre',
+        'Usuario',
+        'Contraseña',
+        'CobraPremio',
         'IndiceBasePremio',
+        'Activo',
+        'Firma',
+        'FechaCreacion',
+        'CreadoPor',
+        'FechaActualizacion',
+        'ActualizadoPor',
     ];
+
+    public $timestamps = false;
 
     /**
      * The attributes that should be hidden for serialization.
@@ -51,5 +60,10 @@ class User extends Authenticatable
     public function factoresPremioUsuario()
     {
         return $this->hasMany(FactorPremioUsuario::class, 'IdUsuario');
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->Contraseña;
     }
 }

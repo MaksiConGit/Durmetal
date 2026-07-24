@@ -37,7 +37,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   class="brand-image img-circle elevation-3" 
                   style="opacity: .8">
                 <span class="brand-text font-weight-dark ml-2" style="font-size: 1rem;">
-                    {{ Auth::user()->name }}
+                    {{ Auth::user()->Usuario }}
                 </span>
 
           </a>
@@ -260,7 +260,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           @role('admin')
           <li class="nav-item dropdown">
-            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle disabled">
+            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
               <i class="fas fa-sliders-h mr-1"></i> SISTEMA
             </a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
@@ -269,7 +269,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="dropdown-submenu">
                 <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Configuración</a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
-                  <li>
+                  {{-- <li>
                     <a tabindex="-1" href="{{ route('sistema.configuracion.configuracion-global.index') }}" class="dropdown-item">Configuración global</a>
                   </li>
                   <li>
@@ -283,11 +283,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </li>
                   <li>
                     <a tabindex="-1" href="{{ route('sistema.configuracion.impresoras-fiscales.index') }}" class="dropdown-item">Impresoras fiscales</a>
-                  </li>
+                  </li> --}}
                   <li>
-                    <a tabindex="-1" href="{{ route('sistema.configuracion.usuarios.index') }}" class="dropdown-item">Usuarios</a>
+                    <a tabindex="-1" href="{{ route('usuarios') }}" class="dropdown-item">Usuarios</a>
                   </li>
-                  <li>
+                  {{-- <li>
                     <a tabindex="-1" href="{{ route('sistema.configuracion.reglas.index') }}" class="dropdown-item">Reglas</a>
                   </li>
                   <li>
@@ -307,12 +307,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </li>
                   <li>
                     <a tabindex="-1" href="{{ route('sistema.configuracion.tipos-de-mensajes.index') }}" class="dropdown-item">Tipos de mensajes</a>
-                  </li>
+                  </li> --}}
                 </ul>
               </li>
 
               <!-- Level two dropdown-->
-              <li class="dropdown-submenu">
+              {{-- <li class="dropdown-submenu">
                 <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Mantenimiento</a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                   <li>
@@ -322,10 +322,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a tabindex="-1" href="#" class="dropdown-item">Revisar mensajes del sistema</a>
                   </li>
                 </ul>
-              </li>
+              </li> --}}
 
               <!-- Level two dropdown-->
-              <li class="dropdown-submenu">
+              {{-- <li class="dropdown-submenu">
                 <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Desarrollador</a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                   <li>
@@ -387,7 +387,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a tabindex="-1" href="{{ route('sistema.actualizaciones.tarjetas.index') }}" class="dropdown-item">Tarjetas</a>
                   </li>
                 </ul>
-              </li>
+              </li> --}}
 
             </ul>
           </li>
