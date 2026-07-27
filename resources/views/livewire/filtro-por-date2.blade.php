@@ -64,7 +64,7 @@
                         <td>{{ $programacion->NumeroHorno }}</td>
                         <td>{{ $programacion->Temperatura }}</td>
                         <td>{{ $programacion->medioEnfriamiento->Nombre }}</td>
-                        <td>{{ $programacion->ejecutadoPorOperador->name }}</td>
+                        <td>{{ $programacion->ejecutadoPorOperador->Nombre }}</td>
                     </tr>
 
                     <tr class="expandable-body" style="display: {{ in_array($programacion->programacion_ids, $expanded) ? 'table-row' : 'none' }};">

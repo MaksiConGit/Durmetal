@@ -45,7 +45,7 @@ class FiltroPorDate2 extends Component
                 'medio_enfriamiento.Nombre as NombreMedioEnfriamiento',
                 'programacion.NumeroHorno',
                 'programacion.EjecutadoPorOperador',
-                'users.name as NombreEjecutadoPorOperador',
+                'users.Nombre as NombreEjecutadoPorOperador',
                 DB::raw('GROUP_CONCAT(programacion.id) as programacion_ids')
             )
             ->join('medio_enfriamiento', 'medio_enfriamiento.id', '=', 'programacion.IdMedioEnfriamiento')
@@ -69,7 +69,7 @@ class FiltroPorDate2 extends Component
                 'medio_enfriamiento.Nombre',
                 'programacion.NumeroHorno',
                 'programacion.EjecutadoPorOperador',
-                'users.name'
+                'users.Nombre'
             )
             ->orderByDesc('programacion.FechaCarga')
             ->orderBy('programacion.EjecutadoPorOperador')

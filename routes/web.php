@@ -373,14 +373,14 @@ Route::middleware('auth')->group(function () {
             'impresoras-fiscales' => 'impresora_fiscal'
             ])->except(['show']);
 
-            // Route::resource('usuarios', UsuarioController::class)->names([
-            //     'index'   => 'sistema.configuracion.usuarios.index',
-            //     'create'  => 'sistema.configuracion.usuarios.create',
-            //     'store'   => 'sistema.configuracion.usuarios.store',
-            //     'edit'    => 'sistema.configuracion.usuarios.edit',
-            //     'update'  => 'sistema.configuracion.usuarios.update',
-            //     'destroy' => 'sistema.configuracion.usuarios.destroy',
-            // ])->except(['show']);
+            Route::resource('usuarios', UsuarioController::class)->names([
+                'index'   => 'sistema.configuracion.usuarios.index',
+                'create'  => 'sistema.configuracion.usuarios.create',
+                'store'   => 'sistema.configuracion.usuarios.store',
+                'edit'    => 'sistema.configuracion.usuarios.edit',
+                'update'  => 'sistema.configuracion.usuarios.update',
+                'destroy' => 'sistema.configuracion.usuarios.destroy',
+            ])->except(['show']);
 
             Route::resource('reglas', ReglaController::class)->names([
                 'index'   => 'sistema.configuracion.reglas.index',

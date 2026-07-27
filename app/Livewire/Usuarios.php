@@ -114,6 +114,7 @@ class Usuarios extends Component
         $this->validate([
             'editNombre' => 'required|string|max:255|unique:users,Nombre,' . $this->usuarioSeleccionadoId,
             'editUsuario' => 'required|string|max:255|unique:users,Usuario,' . $this->usuarioSeleccionadoId,
+            'editContraseña' => 'nullable|min:8',
             'editRol' => 'required|exists:roles,id',
             'editCobraPremio' => 'required|bool',
             'editIndiceBasePremio' => 'nullable',
@@ -129,7 +130,11 @@ class Usuarios extends Component
         $usuario->Usuario = $this->editUsuario;
         $usuario->CobraPremio = $this->editCobraPremio;
         $usuario->IndiceBasePremio = $this->editIndiceBasePremio ?? 0;
- 
+
+        if (!empty($this->editContraseña)) {
+            $usuario->Contraseña = Hash::make($this->editContraseña);
+        }
+
         $usuario->FechaActualizacion = now();
         $usuario->ActualizadoPor = auth()->id();
 

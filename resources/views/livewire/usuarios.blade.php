@@ -463,7 +463,50 @@
 
                         <div class="col-6">
 
-                           
+                            <div class="form-group mb-0" x-data="{ mostrar: false }">
+
+                                <label class="font-weight-normal">
+                                    CONTRASEÑA
+                                </label>
+
+                                <div class="input-group input-group-sm">
+
+                                    <input 
+                                        :type="mostrar ? 'text' : 'password'"
+                                        class="form-control form-control-sm @error('editContraseña') is-invalid @enderror"
+                                        wire:model.live="editContraseña"
+                                        id="editContraseña">
+
+                                    <div class="input-group-append">
+
+                                        <button 
+                                            type="button"
+                                            class="btn bg-orange password-btn"
+                                            title="Mostrar / ocultar contraseña"
+                                            @click="mostrar = !mostrar">
+
+                                            <i class="fas"
+                                            :class="mostrar ? 'fa-eye-slash' : 'fa-eye'">
+                                            </i>
+
+                                        </button>
+
+                                    </div>
+                                    
+
+                                    
+                                    @error('editContraseña')
+                                        <span class="invalid-feedback">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
+
+                                                                    <small class="form-text text-muted">
+                                        Dejar vacío para mantener la contraseña actual
+                                    </small>
+
+                            </div>
                         </div>
 
                     </div>
