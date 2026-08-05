@@ -1071,10 +1071,9 @@
                             @forelse ($item->ordenTrabajo->cliente->emails as $email)
                                 <tr>
                                     <td>
-                                    <input type="checkbox"
-                                        name="emails[]"
-                                        value="{{ $email->id }}"
-                                        checked>
+                                        <input type="checkbox"
+                                            value="{{ $email->id }}"
+                                            wire:model="emails">
                                     </td>
                                     <td>{{ $email->Email }}</td>
                                 </tr>
@@ -1093,7 +1092,7 @@
 
                 <div class="modal-footer justify-content-end">
 
-                    <a class="btn btn-sidebar btn-sm bg-orange"
+                    {{-- <a class="btn btn-sidebar btn-sm bg-orange"
                     href="#"
                     onclick="
                         const certId = @this.certificadoSeleccionado[{{ $item->id }}] ?? null;
@@ -1123,8 +1122,15 @@
                     ">
                         <span class="text-white">Aceptar</span>
                         <i class="fas fa-check fa-fw text-white ml-2"></i>
-                    </a>
+                    </a> --}}
 
+                    <button
+                        wire:click="enviarCertificadoPorCorreo({{ $item->id }})"
+                        class="btn btn-sidebar btn-sm bg-orange"
+                    >
+                        <span class="text-white">Aceptar</span>
+                        <i class="fas fa-check fa-fw text-white ml-2"></i>
+                    </button>
 
                     <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
                         <span class="text-white">Cerrar</span>

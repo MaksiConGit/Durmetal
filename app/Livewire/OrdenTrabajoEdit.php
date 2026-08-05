@@ -7,6 +7,7 @@ use App\Models\Dureza;
 use App\Models\Material;
 use App\Models\User;
 use App\Models\Tratamiento;
+use App\Models\Email;
 use Carbon\Carbon;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +53,7 @@ class OrdenTrabajoEdit extends Component
     public $searchMaterial = '';
     public $searchDureza = '';
 
+    public $emails = [];
 
     public $activeTabParametros = 'custom-tabs-1';
 
@@ -368,6 +370,7 @@ class OrdenTrabajoEdit extends Component
         $this->clientes = Client::all();
         $this->users = User::all();
 
+        $this->emails = Email::pluck('id')->toArray();
 
         if ($this->orden_trabajo) {
             $this->fecha_emision = $orden_trabajo->FechaEmision;
@@ -530,53 +533,110 @@ class OrdenTrabajoEdit extends Component
 
     }
 
-    public function enviarCertificadoPorCorreo($itemId)
+    // public function enviarCertificadoPorCorreo($itemId)
+    // {
+    //     $this->actualizarCantidadCertificado($itemId, 'correo');
+
+    //     // 🔹 Validar emails
+    //     if (
+    //         !isset($this->emailsSeleccionados[$itemId]) ||
+    //         count($this->emailsSeleccionados[$itemId]) === 0
+    //     ) {
+    //         $this->addError("emails.$itemId", 'Debe seleccionar al menos un email.');
+    //         return;
+    //     }
+
+    //     // 🔹 Si existe certificado → usarlo
+    //     if (!empty($this->certificadoSeleccionado[$itemId])) {
+
+    //         return redirect()->to(
+    //             route('ingreso-datos.email', $this->certificadoSeleccionado[$itemId])
+    //             . '?Emails=' . implode(',', $this->emailsSeleccionados[$itemId])
+    //         );
+
+    //     }
+
+    //     // 🔹 Validaciones SOLO si es nuevo
+    //     $this->validate([
+    //         "numeroPlano.$itemId"   => 'required|string|max:255',
+    //         "cantidad.$itemId"      => 'required|numeric|min:1',
+    //         "responsableId.$itemId" => 'required|exists:users,id',
+    //     ]);
+
+    //     // 🔹 Crear certificado
+    //     $certificado = Certificado::create([
+    //         'IdItemOrdenTrabajo'       => $itemId,
+    //         'Nombre'                   => $this->numeroPlano[$itemId],
+    //         'NroPlano'                 => $this->numeroPlano[$itemId],
+    //         'Observaciones'            => $this->observacionesCert[$itemId] ?? null,
+    //         'Cantidad'                 => $this->cantidad[$itemId],
+    //         'ResponsableId'            => $this->responsableId[$itemId],
+    //         'CantidadImpresiones'      => 0,
+    //         'CantidadEnviosPorCorreo'  => 0,
+    //         'Predeterminado'           => 1,
+    //     ]);
+
+
+    //     return redirect()->to(
+    //         route('ingreso-datos.email', $certificado->id)
+    //         . '?Emails=' . implode(',', $this->emailsSeleccionados[$itemId])
+    //     );
+    // }
+
+
+public function enviarCertificadoPorCorreo($itemId)
     {
-        $this->actualizarCantidadCertificado($itemId, 'correo');
-
-        // 🔹 Validar emails
-        if (
-            !isset($this->emailsSeleccionados[$itemId]) ||
-            count($this->emailsSeleccionados[$itemId]) === 0
-        ) {
-            $this->addError("emails.$itemId", 'Debe seleccionar al menos un email.');
-            return;
-        }
-
-        // 🔹 Si existe certificado → usarlo
-        if (!empty($this->certificadoSeleccionado[$itemId])) {
-
-            return redirect()->to(
-                route('ingreso-datos.email', $this->certificadoSeleccionado[$itemId])
-                . '?Emails=' . implode(',', $this->emailsSeleccionados[$itemId])
-            );
-
-        }
-
-        // 🔹 Validaciones SOLO si es nuevo
+        // 🔹 Validación
         $this->validate([
             "numeroPlano.$itemId"   => 'required|string|max:255',
             "cantidad.$itemId"      => 'required|numeric|min:1',
             "responsableId.$itemId" => 'required|exists:users,id',
+            "observacionesCert.$itemId" => 'nullable|string|max:1000',
         ]);
 
-        // 🔹 Crear certificado
-        $certificado = Certificado::create([
-            'IdItemOrdenTrabajo'       => $itemId,
-            'Nombre'                   => $this->numeroPlano[$itemId],
-            'NroPlano'                 => $this->numeroPlano[$itemId],
-            'Observaciones'            => $this->observacionesCert[$itemId] ?? null,
-            'Cantidad'                 => $this->cantidad[$itemId],
-            'ResponsableId'            => $this->responsableId[$itemId],
-            'CantidadImpresiones'      => 0,
-            'CantidadEnviosPorCorreo'  => 0,
-            'Predeterminado'           => 1,
-        ]);
+        // 🔹 Crear o actualizar certificado
+        if (!empty($this->certificadoSeleccionado[$itemId])) {
+
+            $certificado = Certificado::find($this->certificadoSeleccionado[$itemId]);
+
+            if ($certificado) {
+                $certificado->update([
+                    'Nombre'        => $this->numeroPlano[$itemId],
+                    'NroPlano'      => $this->numeroPlano[$itemId],
+                    'Observaciones' => $this->observacionesCert[$itemId],
+                    'Cantidad'      => $this->cantidad[$itemId],
+                    'IdUsuario'     => $this->responsableId[$itemId],
+                ]);
+            }
+
+        } else {
+
+            $certificado = Certificado::create([
+                'IdItemOrdenTrabajo'       => $itemId,
+                'Nombre'                   => $this->numeroPlano[$itemId],
+                'NroPlano'                 => $this->numeroPlano[$itemId],
+                'Observaciones'            => $this->observacionesCert[$itemId] ?? null,
+                'Cantidad'                 => $this->cantidad[$itemId],
+                'IdUsuario'                => $this->responsableId[$itemId],
+                'CantidadImpresiones'      => 0,
+                'CantidadEnviosPorCorreo'  => 0,
+                'Predeterminado'           => 1,
+            ]);
+        }
+
+        // 🔹 Obtener emails seleccionados
+        $emails = Email::whereIn('id', $this->emails)->pluck('id')->implode(',');
 
 
+        // 🔹 Convertir a string tipo: mail1,mail2,mail3
+
+
+        // 🔹 Actualizar contador
+        $this->actualizarCantidadCertificado($itemId, 'correo');
+
+        // 🔥 REDIRECCIÓN (igual que el <a>)
         return redirect()->to(
-            route('ingreso-datos.email', $certificado->id)
-            . '?Emails=' . implode(',', $this->emailsSeleccionados[$itemId])
+            url("ingreso-datos/{$certificado->id}/email") . '?Emails=' . $emails
         );
     }
 
