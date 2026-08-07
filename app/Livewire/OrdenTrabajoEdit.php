@@ -529,8 +529,6 @@ class OrdenTrabajoEdit extends Component
 
         $this->dispatch('abrirPdf', url: $url);
 
-        $this->refreshItem($itemId);
-
     }
 
     // public function enviarCertificadoPorCorreo($itemId)
