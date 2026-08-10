@@ -4,8 +4,8 @@
         style="cursor:pointer;"
         aria-expanded="{{ $expandido ? 'true' : 'false' }}"
     >
-        <td>{{ $usuario->email }}</td>
-        <td>{{ $usuario->name }}</td>
+        <td>{{ $usuario->Usuario }}</td>
+        <td>{{ $usuario->Nombre }}</td>
         <td>{{ number_format($usuario->IndiceBasePremio, 2, '.', '') }}</td>
         <td>{{ $this->promedio }}</td>
     </tr>

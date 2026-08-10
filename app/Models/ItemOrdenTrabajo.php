@@ -80,11 +80,17 @@ class ItemOrdenTrabajo extends Model
         return $this->hasMany(Programacion::class, 'IdItemOrdenTrabajo');
     }
 
-    public function codigoComplejidad()
-    {
-        return $this->hasOne(\App\Models\CodigoComplejidad::class, 'CC', 'CodigoComplejidad')
-                    ->whereColumn('IdTratamiento', 'IdTratamiento');
-    }
+public function codigoComplejidad()
+{
+    return $this->hasOne(
+        \App\Models\CodigoComplejidad::class,
+        'CC',
+        'CodigoComplejidad'
+    )->where(
+        'codigo_complejidad.IdTratamiento',
+        $this->IdTratamiento
+    );
+}
 
     public function certificados()
     {
