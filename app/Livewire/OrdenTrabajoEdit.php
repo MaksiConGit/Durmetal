@@ -298,6 +298,7 @@ class OrdenTrabajoEdit extends Component
                             'IdTratamiento' => $item['tratamiento_id'],
                             'IdDureza' => $item['dureza_id'],
                             'NroPlano' => $item['NroPlano'] ?? null,
+                            'CodigoComplejidad' => $item['CC'],
                             'DurezaSolicitadaMinima' => $item['DurezaSolicitadaMinima'],
                             'DurezaSolicitadaMaxima' => $item['DurezaSolicitadaMaxima'],
 
@@ -768,6 +769,13 @@ public function enviarCertificadoPorCorreo($itemId)
     {
         if (isset($this->newItems[$itemId])) {
             $this->newItems[$itemId]['material_id'] = $materialId;
+        }
+    }
+
+    public function seleccionarCC($index, $cc)
+    {
+        if (isset($this->newItems[$index])) {
+            $this->newItems[$index]['CC'] = $cc;
         }
     }
 

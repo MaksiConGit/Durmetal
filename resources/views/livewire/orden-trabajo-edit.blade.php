@@ -327,7 +327,7 @@
                                                                 <label class="font-weight-normal mb-1" style="font-size: 0.7rem;">TRATAMIENTO</label>
                                                                 <div class="input-group input-group-sm">
                                                                     <select
-                                                                        wire:model.defer="newItems.{{ $index }}.tratamiento_id"
+                                                                        wire:model.live="newItems.{{ $index }}.tratamiento_id"
                                                                         class="form-control form-control-sm p-1"
                                                                         style="height: 22px; font-size: 0.7rem; line-height: 1; padding-right: 20px;">
                                                                         @foreach ($tratamientos as $tratamiento)
@@ -657,6 +657,137 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+
+                                                            @if (!$newItem['is_new'])
+                                                                
+                                                                <div class="col-4 mb-2 px-1">
+                                                                    <label class="font-weight-normal mb-1" style="font-size: 0.7rem;">CC</label>
+                                                                    <div class="input-group input-group-sm">
+
+                                                                        <select
+                                                                            wire:model.defer="newItems.{{ $index }}.CC"
+                                                                            class="form-control form-control-sm p-1"
+                                                                            style="height: 22px; font-size: 0.7rem; line-height: 1; padding-right: 20px;">
+
+                                                                                @php
+                                                                                    $tratamiento = $tratamientosMap[$newItem['tratamiento_id']] ?? null;
+                                                                                @endphp
+
+                                                                                <option
+                                                                                    value="0"
+                                                                                    style="font-size: 0.7rem; white-space: nowrap;"
+                                                                                    {{ ($newItem['CC'] ?? 0) == 0 ? 'selected' : '' }}
+                                                                                >
+                                                                                    0
+                                                                                </option>
+
+                                                                                @foreach ($tratamiento?->precios?->sortBy('CC') ?? collect() as $precio)
+
+                                                                                    <option
+                                                                                        value="{{ $precio->CC }}"
+                                                                                        style="font-size: 0.7rem; white-space: nowrap;"
+                                                                                        {{ ($newItem['CC'] ?? null) == $precio->CC ? 'selected' : '' }}
+                                                                                    >
+                                                                                        {{ $precio->CC }}
+                                                                                    </option>
+                                                                                @endforeach
+                                                                        </select>
+                                                                        <div class="input-group-append">
+                                                                            <button type="button"
+                                                                                    class="btn btn-sidebar btn-xs bg-orange p-1"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#modal-items-{{ $newItem['id'] }}-cc">
+                                                                                <i class="fas fa-search fa-xs text-white"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                
+                                                                <!-- .modal -->
+                                                                <div class="modal fade" id="modal-items-{{ $newItem['id'] }}-cc" wire:ignore.self>
+                                                                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                            <h5 class="modal-title text-bold">
+                                                                                BUSCAR CC
+                                                                            </h5>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+
+                                                                            <div class="row">
+
+                                                                                <x-simple-table2>
+
+                                                                                    <x-slot name="thead">
+                                                                                        <tr>
+                                                                                            <th>CC</th>
+                                                                                            <th>DESCRIPCION</th>
+                                                                                            <th>PRECIO</th>
+                                                                                            <th>COEFICIENTE</th>
+                                                                                        </tr>
+                                                                                    </x-slot>
+                                                                                    <x-slot name="tbody">
+                                                                                        @php
+                                                                                            $tratamiento = $tratamientosMap[$newItem['tratamiento_id']] ?? null;
+                                                                                        @endphp
+
+                                                                                        @forelse ($tratamiento?->precios?->sortBy('CC') ?? collect() as $precio)
+
+                                                                                            <tr
+                                                                                                wire:click="seleccionarCC({{ $index }}, {{ $precio->CC }})"
+                                                                                                data-dismiss="modal"
+                                                                                                style="cursor: pointer; height: 55px;"
+                                                                                                class="{{ ($newItem['CC'] ?? 0) == $precio->CC ? 'table-primary' : '' }}"
+                                                                                            >
+                                                                                                <td>{{ $precio->CC }}</td>
+
+                                                                                                <td
+                                                                                                    style="min-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                                                                                                    title="{{ $precio->Descripcion }}"
+                                                                                                >
+                                                                                                    {{ $precio->Descripcion }}
+                                                                                                </td>
+
+                                                                                                <td>
+                                                                                                    {{ number_format($precio->Precio, 2, ',', '.') }}
+                                                                                                </td>
+
+                                                                                                <td>
+                                                                                                    {{ number_format($precio->Coeficiente, 3, ',', '.') }}
+                                                                                                </td>
+                                                                                            </tr>
+
+                                                                                        @empty
+                                                                                            <tr><td colspan="8">No se encontraron resultados.</td></tr>
+                                                                                        @endforelse
+                                                                                    </x-slot>
+                                                                                </x-simple-table2>
+                                                                                </div>
+                                                                                </div>
+
+                                                                            </div>
+
+                                                                            </div>
+
+                                                                            <div class="modal-footer justify-content-end">
+
+                                                                                <button class="btn btn-sidebar btn-sm bg-orange" data-dismiss="modal">
+                                                                                    <span class="text-white">Cerrar</span>
+                                                                                    <i class="fas fa-xmark fa-fw text-white ml-2"></i>
+                                                                                </button>
+
+                                                                            </div>
+                                                                            </div>
+                                                                            </div>
+
+                                                                </div>
+                                                                <!-- /.modal -->
+                                                                
+                                                            @endif
 
                                                         </div>
 
