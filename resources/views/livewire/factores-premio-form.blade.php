@@ -49,7 +49,7 @@
                                     </td>
                                     <td>{{ $factor->Nombre ?? 'Factor #' . $factor->id }}</td>
                                     <td>
-                                        <input type="text"
+                                        <input type="number"
                                             name="ValorFactor[{{$key}}]"
                                             wire:key="input-{{ $key }}"
                                             wire:model.live="valores.{{ $key }}"
