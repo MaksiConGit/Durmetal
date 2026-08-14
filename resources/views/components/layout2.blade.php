@@ -264,7 +264,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <i class="fas fa-sliders-h mr-1"></i> SISTEMA
             </a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-
               <!-- Level two dropdown-->
               <li class="dropdown-submenu">
                 <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Configuración</a>
@@ -310,7 +309,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </li> --}}
                 </ul>
               </li>
-
+              <li><a href="{{ route('afip.formulario-certificado') }}" class="dropdown-item">ARCA</a></li>
               <!-- Level two dropdown-->
               {{-- <li class="dropdown-submenu">
                 <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Mantenimiento</a>

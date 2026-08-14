@@ -1268,4 +1268,20 @@ class AfipService
     {
         return number_format((float)$value, 2, '.', '');
     }
+
+    public function crearCertificadoProduccion($cuit, $username, $password, $alias = 'afipsdk')
+    {
+        $data = [
+            'cuit' => $cuit,
+            'username' => $username,
+            'password' => $password,
+            'alias' => $alias,
+        ];
+
+        return $this->afip->CreateAutomation(
+            'create-cert-prod',
+            $data,
+            true
+        );
+    }
 }

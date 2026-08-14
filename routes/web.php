@@ -56,7 +56,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
 
     Route::get('/', function () {
-        return view('ventas.buscar-documentos.index');
+        return view('tableros.hornos.index');
     })->name('index');
 
     Route::resource('clients', ClientController::class)->names('clients');
@@ -310,6 +310,16 @@ Route::middleware('auth')->group(function () {
         // Sistema
 
         Route::get('sistema/configuraciones/usuarios', UsuarioController::class)->name('usuarios');
+
+        Route::get('/afip/certificado', [
+            AfipController::class,
+            'formularioCertificado'
+        ])->name('afip.formulario-certificado');
+
+        Route::post('/afip/certificado', [
+            AfipController::class,
+            'crearCertificadoProduccion'
+        ])->name('afip.crear-certificado');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

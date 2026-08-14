@@ -38,4 +38,42 @@ class AfipController extends Controller
             ], 500);
         }
     }
+
+    public function formularioCertificado()
+    {
+        return view('arca.certificado');
+    }
+
+    public function crearCertificadoProduccion(
+        Request $request,
+        AfipService $afipService
+    ) {
+        $request->validate([
+            'cuit' => ['required', 'digits:11'],
+            'username' => ['required', 'string'],
+            'password' => ['required', 'string'],
+            'alias' => ['nullable', 'string', 'max:100'],
+        ]);
+
+        try {
+            $response = $afipService->crearCertificadoProduccion(
+                $request->cuit,
+                $request->username,
+                $request->password,
+                $request->alias ?? 'afipsdk'
+            );
+
+            return back()->with(
+                'success',
+                'Certificado de producción creado correctamente.'
+            );
+
+        } catch (\Throwable $e) {
+            return back()
+                ->withInput($request->except('password'))
+                ->withErrors([
+                    'afip' => $e->getMessage()
+                ]);
+        }
+    }
 }
