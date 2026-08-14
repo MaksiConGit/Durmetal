@@ -13,7 +13,7 @@ class AfipService
     {
         $this->afip = new Afip([
             'CUIT' => env('AFIP_CUIT'),
-            'access_token' => env('AFIP_ACCESS_TOKEN'),
+            'access_token' => '6u8I7tcgUzD1YQZ65O55VVgLZaP4V8caATPiXuEBZZzjTBaukOio1oW7SBX3g3l1',
         ]);
     }
 
