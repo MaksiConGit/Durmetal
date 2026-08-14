@@ -2682,7 +2682,7 @@ public function fichaDelClienteNotaDebitoMail(FacturaVenta $nota_debito, Request
             ->sortBy('FechaEmision')
             ->values();
 
-        $saldo = $cliente->SaldoSistemaAnterior;
+        $saldo = $cliente->Saldo;
 
         foreach ($documentos as $item) {
             if (in_array($item['tipo'], ['factura', 'debito'])) {

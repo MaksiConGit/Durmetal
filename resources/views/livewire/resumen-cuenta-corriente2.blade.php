@@ -70,7 +70,7 @@
             @if($cliente)
 
                 @php 
-                    $saldo = $cliente->SaldoSistemaAnterior; 
+                    $saldo = $cliente->Saldo; 
                     $minFilas = 9;
                 @endphp
 

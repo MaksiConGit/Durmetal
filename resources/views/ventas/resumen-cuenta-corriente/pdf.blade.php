@@ -163,7 +163,7 @@
             </thead>
 
             <tbody>
-                @php $saldoActual = $cliente->SaldoSistemaAnterior; @endphp
+                @php $saldoActual = $cliente->Saldo; @endphp
 
                 <tr>
                     <td colspan="3" class="descripcion"><strong>SALDO ANTERIOR</strong></td>
