@@ -253,7 +253,7 @@
                 @foreach($items_factura_venta as $item_factura_venta)
 
                     @php
-                        $subtotal = $factura_venta->Neto + $factura_venta->IVA;
+                        $subtotal = $item_factura_venta->Neto + $item_factura_venta->IVA;
                     @endphp
 
                     <tr>
@@ -262,7 +262,7 @@
                         <td>{{ number_format($item_factura_venta->Cantidad, 2, ',', '.') }}</td>
                         <td>{{ number_format($item_factura_venta->PrecioUnitario, 2, ',', '.') }}</td>
                         <td>{{ number_format($item_factura_venta->AlicuotaIVA, 2, ',', '.') }}</td>
-                        <td>{{ number_format($item_factura_venta->Neto, 2, ',', '.') }}</td>
+                        <td>{{ number_format($subtotal, 2, ',', '.') }}</td>
                     </tr>
                 @endforeach
             </tbody>
@@ -280,6 +280,10 @@
                             <img src="data:image/png;base64,{{ $qrBase64 }}" style="width: 200px;">
                         </td>
                     @endif
+
+                    @php
+                        $subtotal = $factura_venta->Neto + $factura_venta->IVA;
+                    @endphp
 
                     <!-- TOTALES DERECHA -->
                     <td style="width:50%; vertical-align: top;">

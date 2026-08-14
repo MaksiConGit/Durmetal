@@ -252,7 +252,7 @@
                 @foreach($items_factura_venta as $item_factura_venta)
 
                     @php
-                        $subtotal = $factura_venta->Neto + $factura_venta->IVA;
+                        $subtotal = $item_factura_venta->Neto + $item_factura_venta->IVA;
                     @endphp
 
                     <tr>
@@ -283,6 +283,11 @@
                     @php
                         $esExento = $cliente->condicionIVA->Nombre === 'Exento';
                     @endphp
+
+                    @php
+                        $subtotal = $factura_venta->Neto + $factura_venta->IVA;
+                    @endphp
+
                     <td style="width:50%; vertical-align: top;">
                         <table class="totales">
                             <tr><td>Subtotal:</td><td>{{ number_format($subtotal, 2, ',', '.') }}</td></tr>
