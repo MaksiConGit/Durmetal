@@ -83,7 +83,7 @@ class IngresoDatosController extends Controller
         $pdf = Pdf::loadView('produccion.ingreso-datos.pdf', [
             'certificado' => $certificado,
             'configuracion_global' => $configuracion_global,
-        ])->setPaper('A4', 'portrait');
+        ])->setPaper('A5', 'portrait');
 
         return $pdf->stream('produccion.ingreso-datos.pdf');
     }
@@ -119,7 +119,7 @@ class IngresoDatosController extends Controller
         $pdf = Pdf::loadView('produccion.ingreso-datos.pdf', [
             'certificado' => $certificado,
             'configuracion_global' => $configuracion_global,
-        ])->setPaper('A4');
+        ])->setPaper('A5');
 
         // 🔹 Enviar mail
 
