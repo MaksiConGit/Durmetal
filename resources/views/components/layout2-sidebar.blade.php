@@ -267,6 +267,7 @@
                   </li> --}}
                 </ul>
               </li>
+              <li><a href="{{ route('afip.formulario-certificado') }}" class="dropdown-item">ARCA</a></li>
               <li><a href="{{ route('afip.autorizar-produccion.form') }}" class="dropdown-item">ARCA Autorización</a></li>
               <!-- Level two dropdown-->
               {{-- <li class="dropdown-submenu">
