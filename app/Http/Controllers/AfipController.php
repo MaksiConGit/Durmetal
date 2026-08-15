@@ -76,4 +76,37 @@ class AfipController extends Controller
                 ]);
         }
     }
+
+    public function autorizarProduccion(
+        Request $request,
+        AfipService $afipService
+    ) {
+        $request->validate([
+            'cuit' => ['required', 'digits:11'],
+            'username' => ['required', 'string'],
+            'password' => ['required', 'string'],
+            'service' => ['nullable', 'string'],
+        ]);
+
+        try {
+            $response = $afipService->autorizarProduccion(
+                $request->cuit,
+                $request->username,
+                $request->password,
+                $request->service ?? 'wsfe'
+            );
+
+            return back()->with(
+                'success',
+                'Servicio de producción autorizado correctamente.'
+            );
+
+        } catch (\Throwable $e) {
+            return back()
+                ->withInput($request->except('password'))
+                ->withErrors([
+                    'afip' => $e->getMessage()
+                ]);
+        }
+    }
 }

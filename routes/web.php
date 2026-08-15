@@ -321,6 +321,18 @@ Route::middleware('auth')->group(function () {
             'crearCertificadoProduccion'
         ])->name('afip.crear-certificado');
 
+        Route::get(
+            '/afip/autorizar-produccion',
+            function () {
+                return view('arca.autorizar-produccion');
+            }
+        )->name('afip.autorizar-produccion.form');
+
+        Route::post(
+            '/afip/autorizar-produccion',
+            [AfipController::class, 'autorizarProduccion']
+        )->name('afip.autorizar-produccion');
+
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

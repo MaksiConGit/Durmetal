@@ -1284,4 +1284,25 @@ class AfipService
             true
         );
     }
+
+    public function autorizarProduccion(
+        string $cuit,
+        string $username,
+        string $password,
+        string $service = 'wsfe'
+    ) {
+        $data = [
+            'cuit' => $cuit,
+            'username' => $username,
+            'password' => $password,
+            'alias' => 'afipsdk',
+            'service' => $service,
+        ];
+
+        return $this->afip->CreateAutomation(
+            'auth-web-service-prod',
+            $data,
+            true
+        );
+    }
 }
