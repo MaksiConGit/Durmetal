@@ -50,7 +50,7 @@ class SistemaSeeder extends Seeder
             'Color' => 0xFFFFFF,
             'ColorFondo' => 0x0000FF,
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'Activo' => 1,
         ]);
 
@@ -59,7 +59,7 @@ class SistemaSeeder extends Seeder
             'Color' => 0xFF0000,
             'ColorFondo' => 0xFFFF00,
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'Activo' => 1,
         ]);
 
@@ -68,43 +68,43 @@ class SistemaSeeder extends Seeder
             'Color' => 0xFFFFFF,
             'ColorFondo' => 0xFF0000,
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'Activo' => 1,
         ]);
 
         MensajeUsuario::create([
-            'IdUsuario' => 1,
+            'IdUsuario' => 0,
             'IdTipoMensajeUsuario' => 1,
             'FechaHora' => now(),
             'Mensaje' => 'Bienvenido',
             'Observaciones' => '',
             'Visto' => 0,
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'Activo' => 1,
         ]);
 
         MensajeUsuario::create([
-            'IdUsuario' => 1,
+            'IdUsuario' => 0,
             'IdTipoMensajeUsuario' => 2,
             'FechaHora' => now(),
             'Mensaje' => 'Revisar documentos',
             'Observaciones' => 'Urgente',
             'Visto' => 0,
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'Activo' => 1,
         ]);
 
         MensajeUsuario::create([
-            'IdUsuario' => 1,
+            'IdUsuario' => 0,
             'IdTipoMensajeUsuario' => 3,
             'FechaHora' => now(),
             'Mensaje' => 'Error en sistema',
             'Observaciones' => 'Fallo crítico',
             'Visto' => 0,
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'Activo' => 1,
         ]);
 
@@ -167,7 +167,7 @@ class SistemaSeeder extends Seeder
             'IdImpresoraFiscal' => 1,
             'NombreEtiquetadora' => 'Etiq01',
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
         ]);
 
@@ -176,7 +176,7 @@ class SistemaSeeder extends Seeder
             'IdImpresoraFiscal' => 1,
             'NombreEtiquetadora' => 'Etiq02',
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
         ]);
 
@@ -185,16 +185,16 @@ class SistemaSeeder extends Seeder
             'IdImpresoraFiscal' => 1,
             'NombreEtiquetadora' => 'Etiq03',
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
         ]);
 
         Tarjeta::create([
             'Nombre' => 'Tarjeta A',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
             'Archivado' => 0,
         ]);
@@ -202,9 +202,9 @@ class SistemaSeeder extends Seeder
         Tarjeta::create([
             'Nombre' => 'Tarjeta B',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
             'Archivado' => 1,
         ]);
@@ -212,9 +212,9 @@ class SistemaSeeder extends Seeder
         Tarjeta::create([
             'Nombre' => 'Tarjeta C',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 0,
             'Archivado' => 0,
         ]);

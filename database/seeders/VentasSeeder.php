@@ -69,9 +69,9 @@ class VentasSeeder extends Seeder
             'ClaveCertificadoFE' => '65z9mKF2hVag',
             'ClaveForzarValidacionCtaCteCliente' => '2QHn103r',
             'FechaCreacion' => null,
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => null,
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
             'CuentaEmailCertificados' => 'controldecalidad@durmetal.com.ar',
             'ServidorSMTPCertificados' => 'ev000653.ferozo.com',
@@ -95,9 +95,9 @@ class VentasSeeder extends Seeder
             'Nombre' => 'Proactividad',
             'ValorPredeterminado' => '1.00',
             'FechaCreacion' => now(),
-            'CreadoPor' => '1',
+            'CreadoPor' => '0',
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => '1',
+            'ActualizadoPor' => '0',
             'Activo' => '1',
         ]);
 
@@ -105,9 +105,9 @@ class VentasSeeder extends Seeder
             'Nombre' => 'Presentismo',
             'ValorPredeterminado' => '2.00',
             'FechaCreacion' => now(),
-            'CreadoPor' => '1',
+            'CreadoPor' => '0',
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => '1',
+            'ActualizadoPor' => '0',
             'Activo' => '1',
         ]);
 
@@ -115,31 +115,31 @@ class VentasSeeder extends Seeder
             'Nombre' => 'Predisposición Trab. en Equipo',
             'ValorPredeterminado' => '1.00',
             'FechaCreacion' => now(),
-            'CreadoPor' => '1',
+            'CreadoPor' => '0',
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => '1',
+            'ActualizadoPor' => '0',
             'Activo' => '1',
         ]);
 
         FactorPremioUsuario::create([
-            'IdUsuario' => '1',
+            'IdUsuario' => '0',
             'IdFactorPremio' => '1',
             'Valor' => '2.00',
             'FechaCreacion' => now(),
-            'CreadoPor' => '1',
+            'CreadoPor' => '0',
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => '1',
+            'ActualizadoPor' => '0',
             'Activo' => '1',
         ]);
 
         FactorPremioUsuario::create([
-            'IdUsuario' => '1',
+            'IdUsuario' => '0',
             'IdFactorPremio' => '2',
             'Valor' => '1.00',
             'FechaCreacion' => now(),
-            'CreadoPor' => '1',
+            'CreadoPor' => '0',
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => '1',
+            'ActualizadoPor' => '0',
             'Activo' => '1',
         ]);
 
@@ -150,22 +150,22 @@ class VentasSeeder extends Seeder
             'Premio' => 1000000.22,
             'Estado' => 'COMPLETO',
             'FechaCreacion' => now(),
-            'CreadoPor' => '1',
+            'CreadoPor' => '0',
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => '1',
+            'ActualizadoPor' => '0',
         ]);
 
         ItemPremio::create([
             'IdPremio' => '1',
-            'IdUsuario' => 1,
+            'IdUsuario' => 0,
             'PremioBase' => 300000,
             'IndiceBase' => 1,
             'Coeficiente' => 0.9,
             'Premio' => 300000 * 1 * 0.9,
             'FechaCreacion' => now(),
-            'CreadoPor' => '1',
+            'CreadoPor' => '0',
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => '1',
+            'ActualizadoPor' => '0',
         ]);
 
         NotaEnvio::create([
@@ -196,9 +196,9 @@ class VentasSeeder extends Seeder
             'ReferenciaTurno' => 2020,
             'AjusteCtaCtePlanillaTurno' => 0.00,
             'FechaCreacion' => Carbon::now()->subDays(2)->toDateString(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now()->toDateString(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
             'PuntoVentaNumero' => '1003',
             'CantidadImpresiones' => 1,
@@ -219,9 +219,9 @@ class VentasSeeder extends Seeder
             'Total' => 4290.00,
             'Estado' => 'PENDIENTE',
             'FechaCreacion' => Carbon::now()->subDays(1)->toDateString(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now()->toDateString(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
         ]);
 
@@ -262,9 +262,9 @@ class VentasSeeder extends Seeder
             'NroFacturaNotaDebito' => null,
             'EntregarMercaderiaConRemitos' => 1,
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
             'CantidadImpresiones' => 1,
             'CantidadEnviosPorCorreo' => 0
@@ -307,9 +307,9 @@ class VentasSeeder extends Seeder
             'NroFacturaNotaDebito' => 'FC A 0001-00001001',
             'EntregarMercaderiaConRemitos' => 1,
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
             'CantidadImpresiones' => 1,
             'CantidadEnviosPorCorreo' => 0
@@ -319,9 +319,9 @@ class VentasSeeder extends Seeder
             'Nombre' => 'IVA 21%',
             'Tasa' => 21.00,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
             'Observaciones' => null
         ]);
@@ -330,9 +330,9 @@ class VentasSeeder extends Seeder
             'Nombre' => 'IVA 10.5%',
             'Tasa' => 10.50,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
             'Observaciones' => null
         ]);
@@ -341,9 +341,9 @@ class VentasSeeder extends Seeder
             'Nombre' => 'IVA Exento',
             'Tasa' => 0.00,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
             'Observaciones' => null
         ]);
@@ -352,9 +352,9 @@ class VentasSeeder extends Seeder
             'Nombre' => 'IVA 27%',
             'Tasa' => 27.00,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 0,
             'Observaciones' => null
         ]);
@@ -363,9 +363,9 @@ class VentasSeeder extends Seeder
             'Nombre' => 'IVA 2.5%',
             'Tasa' => 2.50,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 0,
             'Observaciones' => null
         ]);
@@ -374,9 +374,9 @@ class VentasSeeder extends Seeder
             'Nombre' => 'No Gravado',
             'Tasa' => 0.00,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
             'Observaciones' => null
         ]);
@@ -385,9 +385,9 @@ class VentasSeeder extends Seeder
             'Nombre' => 'IVA 0%',
             'Tasa' => 0.00,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
             'Observaciones' => null
         ]);
@@ -426,9 +426,9 @@ class VentasSeeder extends Seeder
             'ReferenciaTurno' => 654,
             'AfectarPlanillaTurno' => false,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
             'CantidadImpresiones' => 1,
             'CantidadEnviosPorCorreo' => 0
@@ -456,9 +456,9 @@ class VentasSeeder extends Seeder
             'AfectarPlanillaTurno' => false,
             'ControlarStock' => false,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1
         ]);
 
@@ -487,9 +487,9 @@ class VentasSeeder extends Seeder
             'ReferenciaTurno' => 987,
             'AfectarPlanillaTurno' => 1,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1,
             'LetraNumeroCompleto' => 'A-0001-00003001',
             'CantidadImpresiones' => 1,
@@ -504,9 +504,9 @@ class VentasSeeder extends Seeder
             'Descripcion' => 'FC A 0001-00001001',
             'Total' => 15000.00,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1
         ]);
 
@@ -519,9 +519,9 @@ class VentasSeeder extends Seeder
             'Estado' => 'Emitido',
             'Total' => rand(1000, 5000),
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
@@ -530,18 +530,18 @@ class VentasSeeder extends Seeder
             'Descripcion' => 'Producto o servicio',
             'Total' => rand(200, 1000),
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
         $banco = Banco::create([
             'Nombre' => '014 PCIA BUENOS AIRES',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -550,9 +550,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'HCBC',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -561,9 +561,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => '19 CREDICOOP',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -572,9 +572,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => '28 MACRO BANSUD',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -583,9 +583,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => '011 NACIÓN EMPRESA',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 1,
             'Activo' => true,
             'Archivado' => false,
@@ -594,9 +594,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => '33 NUEVO BCO DE SANTA FE',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -605,9 +605,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => '007 GALICIA',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -616,9 +616,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => '017 BBVA FRANCES',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -627,9 +627,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => '072 SANTANDER RIO',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -638,9 +638,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'CITIBANK',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -649,9 +649,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => '034 PATAGONIA',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -660,9 +660,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => '027 SUPERVILLE',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -671,9 +671,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'COMAFI',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -682,9 +682,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => '015 ICBC',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -693,9 +693,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => '020 BANCOR',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -704,9 +704,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'NACION JUB',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -715,9 +715,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'MACRO JUB',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -726,9 +726,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'RIO TARJ DEB',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -737,9 +737,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'BANCO DE LA PAMPA',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -748,9 +748,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'BANCO DE ENTRE RIOS',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -759,9 +759,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'BPN BANCO PROVINCIA DE NEUQUEN',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -770,9 +770,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'COINAG',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -781,9 +781,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => '15 HSBC BANK ARGENTINA SA',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -792,9 +792,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'DEBITO AUTOMATICO',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -803,9 +803,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'BANELCO',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -814,9 +814,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'LINK',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -825,9 +825,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'NO REG',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -836,9 +836,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => '14 BRUBANK',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -847,9 +847,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => '065 MUNICP ROSARIO',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -858,9 +858,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => '25 BCO BMA ( EX ITAU)',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -869,9 +869,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'PAGO ELECTRONICO',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -880,9 +880,9 @@ class VentasSeeder extends Seeder
         Banco::create([
             'Nombre' => 'NUEVO BCO CHACO',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Predeterminado' => 0,
             'Activo' => true,
             'Archivado' => false,
@@ -894,9 +894,9 @@ class VentasSeeder extends Seeder
             'Descripcion' => 'Banco Nación',
             'Total' => 1500.00,
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
@@ -908,36 +908,36 @@ class VentasSeeder extends Seeder
         DestinoCheque::create([
             'Nombre' => 'En cartera',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
         DestinoCheque::create([
             'Nombre' => 'Depositado',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
         DestinoCheque::create([
             'Nombre' => 'Endosado',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
         DestinoCheque::create([
             'Nombre' => 'Rechazado',
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
@@ -951,9 +951,9 @@ class VentasSeeder extends Seeder
             'Plaza' => 101,
             'eCheck' => false,
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
@@ -1312,9 +1312,9 @@ class VentasSeeder extends Seeder
             'ControlarStock' => 0,
             'Estado' => 'PENDIENTE',
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1
         ]);
 
@@ -1341,9 +1341,9 @@ class VentasSeeder extends Seeder
             'ControlarStock' => 0,
             'Estado' => 'PENDIENTE',
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => 1
         ]);
 

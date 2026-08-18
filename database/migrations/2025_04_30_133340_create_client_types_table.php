@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('Nombre');
             $table->date('FechaCreacion')->nullable();
-            $table->foreignId('CreadoPor')->constrained('users')
+            $table->foreignId('CreadoPor')->nullable()
+                                            ->constrained('users')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
             $table->date('FechaActualizacion')->nullable();
-            $table->foreignId('ActualizadoPor')->constrained('users')
+            $table->foreignId('ActualizadoPor')->nullable()
+                                            ->constrained('users')
                                             ->onDelete('restrict')
                                             ->onUpdate('cascade');
             $table->boolean('Activo');

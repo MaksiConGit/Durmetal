@@ -20,10 +20,10 @@ return new class extends Migration
                                                             ->onDelete('restrict')
                                                             ->onUpdate('cascade');
             $table->string('Nombre');
-            $table->string('Direccion');
-            $table->string('Localidad');
-            $table->string('Provincia');
-            $table->string('Telefono');
+            $table->string('Direccion')->nullable();
+            $table->string('Localidad')->nullable();
+            $table->string('Provincia')->nullable();
+            $table->string('Telefono')->nullable();
             $table->foreignId('IdCondicionIva')->nullable()->constrained('condicion_iva')
                                                             ->onDelete('restrict')
                                                             ->onUpdate('cascade');
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->foreignId('IdRetencionIIBB')->nullable()->constrained('retencion_iibb')
                                                             ->onDelete('restrict')
                                                             ->onUpdate('cascade');
-            $table->integer('NumeroIIBB');
+            $table->integer('NumeroIIBB')->nullable();
             $table->date('FechaCreacion')->nullable();
             $table->foreignId('CreadoPor')->nullable()->constrained('users')
                                                         ->onDelete('restrict')

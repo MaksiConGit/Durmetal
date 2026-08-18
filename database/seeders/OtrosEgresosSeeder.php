@@ -20,9 +20,9 @@ class OtrosEgresosSeeder extends Seeder
             'Nombre' => 'Egreso de ejemplo',
             'Descripcion' => 'Descripción de ejemplo',
             'FechaCreacion' => Carbon::now()->toDateString(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now()->toDateString(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
@@ -31,9 +31,9 @@ class OtrosEgresosSeeder extends Seeder
             'Nombre' => 'Egreso cuenta hijo',
             'Descripcion' => 'Descripción de ejemplo hijo',
             'FechaCreacion' => Carbon::now()->toDateString(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now()->toDateString(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
@@ -44,9 +44,9 @@ class OtrosEgresosSeeder extends Seeder
             'IdCuentaOtrosEgresos' => 1,
             'Importe' => 1000,
             'FechaCreacion' => Carbon::now()->toDateString(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now()->toDateString(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
@@ -57,9 +57,9 @@ class OtrosEgresosSeeder extends Seeder
             'IdCuentaOtrosEgresos' => 2,
             'Importe' => 6534,
             'FechaCreacion' => Carbon::now()->toDateString(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now()->toDateString(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
     }

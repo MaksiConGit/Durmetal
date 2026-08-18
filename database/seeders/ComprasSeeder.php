@@ -33,9 +33,9 @@ class ComprasSeeder extends Seeder
             'BaseIncluyeIVA' => false,
             'BaseIncluyeImpuestosInternos' => false,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
@@ -43,9 +43,9 @@ class ComprasSeeder extends Seeder
             'Nombre' => 'Gastos Administrativos',
             'Descripcion' => 'Cuenta para gastos administrativos generales',
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
@@ -53,14 +53,14 @@ class ComprasSeeder extends Seeder
             'Nombre' => 'Gastos Operativos',
             'Descripcion' => 'Cuenta para gastos de operación',
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
         Proveedor::create([
-            'IdLocalidad' => 1,
+            'IdLocalidad' => 0,
             'IdCuentaGastos' => 1,
             'Nombre' => 'Proveedor Ejemplo S.A.',
             'Direccion' => 'Calle Falsa 123',
@@ -73,9 +73,9 @@ class ComprasSeeder extends Seeder
             'IdRetencionIIBB' => 1,
             'NumeroIIBB' => 123456,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
@@ -83,9 +83,9 @@ class ComprasSeeder extends Seeder
             'IdProveedor' => 1,
             'Email' => 'contacto@proveedor1.com',
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
             'IdProveedorEmail' => 'PRV001-EMAIL01',
         ]);
@@ -94,9 +94,9 @@ class ComprasSeeder extends Seeder
             'IdProveedor' => 1,
             'Email' => 'ventas@proveedor1.com',
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
             'IdProveedorEmail' => 'PRV001-EMAIL02',
         ]);
@@ -125,9 +125,9 @@ class ComprasSeeder extends Seeder
             'NumeroTurno' => 1,
             'ReferenciaTurno' => 2023001,
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
             'CantidadEnviosPorCorreo' => 0,
             'CantidadImpresiones' => 0,
@@ -139,9 +139,9 @@ class ComprasSeeder extends Seeder
             'Descripcion' => 'Pago parcial mediante cheque',
             'Total' => 2500,
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
@@ -154,9 +154,9 @@ class ComprasSeeder extends Seeder
             'Plaza' => 'CABA',
             'eCheck' => false,
             'FechaCreacion' => now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
@@ -197,9 +197,9 @@ class ComprasSeeder extends Seeder
             'EsNotaDeDebito' => false,
             'NroFacturaNotaDebito' => null,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
             'LetraPuntoVentaNumeroIdProveedor' => 'A-0001-2001-1',
         ]);
@@ -241,9 +241,9 @@ class ComprasSeeder extends Seeder
             'EsNotaDeDebito' => true,
             'NroFacturaNotaDebito' => 'FC-0001-2001',
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
             'LetraPuntoVentaNumeroIdProveedor' => 'A-0001-2001-1',
         ]);
@@ -263,9 +263,9 @@ class ComprasSeeder extends Seeder
             'ControlarStock' => true,
             'Estado' => 'Activo',
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
@@ -305,9 +305,9 @@ class ComprasSeeder extends Seeder
             'NumeroTurno' => 1,
             'ReferenciaTurno' => 1,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
             'LetraPuntoVentaNumeroIdProveedor2' => 'A-0001-3001-1',
         ]);
@@ -326,9 +326,9 @@ class ComprasSeeder extends Seeder
             'AfectarPlanillaTurno' => false,
             'ControlarStock' => true,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
@@ -341,9 +341,9 @@ class ComprasSeeder extends Seeder
             'Estado' => 'COMPLETO',
             'Total' => 5000,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
 
@@ -352,9 +352,9 @@ class ComprasSeeder extends Seeder
             'Descripcion' => 'Resumen de insumos',
             'Total' => 5000,
             'FechaCreacion' => Carbon::now(),
-            'CreadoPor' => 1,
+            'CreadoPor' => 0,
             'FechaActualizacion' => Carbon::now(),
-            'ActualizadoPor' => 1,
+            'ActualizadoPor' => 0,
             'Activo' => true,
         ]);
     }
