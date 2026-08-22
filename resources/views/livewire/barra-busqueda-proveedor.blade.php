@@ -60,8 +60,8 @@
                   <th>PROVINCIA</th>
                   <th>TELEFONO</th>
                   <th>CONDICION IVA</th>
-                  <th>TIPO DOCUMENTO</th>
-                  <th>N° DOCUMENTO</th>
+                  <th>CUIT</th>
+                  <th>RETENCION IIBB</th>
                   <th>ACTIVO</th>
               </tr>
           </x-slot>
@@ -72,13 +72,13 @@
                       style="cursor: pointer;">
                       <td>{{ $proveedor->id }}</td>
                       <td>{{ $proveedor->Nombre }}</td>
-                      <td>{{ $proveedor->Domicilio }}</td>
+                      <td>{{ $proveedor->Direccion }}</td>
                       <td>{{ $proveedor->localidad->Nombre ?? 'Ciudad no asignada' }}</td>
                       <td>{{ $proveedor->localidad->provincia->Nombre ?? 'Provincia no asignada' }}</td>
                       <td>{{ $proveedor->Telefono }}</td>
                       <td>{{ $proveedor->condicionIVA->Nombre }}</td>
-                      <td>{{ $proveedor->TipoDocumento }}</td>
-                      <td>{{ $proveedor->NroDocumento }}</td>
+                      <td>{{ $proveedor->NumeroDocumento }}</td>
+                      <td>{{ $proveedor->retencionIIBB->Nombre ?? 'N/A' }}</td>
                       <td class="text-center">
                           <input type="checkbox" {{ $proveedor->Activo == 1 ? 'checked' : '' }} disabled>
                       </td>

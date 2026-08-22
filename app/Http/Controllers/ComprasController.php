@@ -39,14 +39,14 @@ class ComprasController extends Controller
 
     public function proveedoresCreate()
     {
-        $localidades = City::all();
-        $provincias = Province::all();
-        $condiciones_IVA = IvaCondition::all();
-        $retenciones_IIBB = RetencionIIBB::all();
-        $cuentas_de_gastos = CuentaGastos::all();
-        $next_id = Proveedor::max('id') + 1;
+        // $localidades = City::all();
+        // $provincias = Province::all();
+        // $condiciones_IVA = IvaCondition::all();
+        // $retenciones_IIBB = RetencionIIBB::all();
+        // $cuentas_de_gastos = CuentaGastos::all();
+        // $next_id = Proveedor::max('id') + 1;
 
-        return view('compras.actualizaciones.proveedores.create', compact('localidades', 'provincias', 'condiciones_IVA', 'retenciones_IIBB', 'cuentas_de_gastos', 'next_id'));
+        return view('compras.actualizaciones.proveedores.create');
     }
 
     public function proveedoresStore(StoreProveedorRequest $request)
