@@ -126,7 +126,7 @@ class FichaDelClienteShow2 extends Component
         $totalRecibos  = $this->cliente->recibosVenta()->sum('Total');
         $totalCreditos = $this->cliente->notasDeCredito()->sum('Total');
 
-        $this->saldo = $this->cliente->SaldoSistemaAnterior
+        $this->saldo = $this->cliente->Saldo
             + $totalFacturas
             + $totalDebitos
             - $totalRecibos
