@@ -1,24 +1,31 @@
     <x-simple-table2>
         <x-slot name="filtros">
-            <div class="row">
-            <div class="col-2">
-                <div class="form-group mb-0">
-                    <label for="filtro1" class="font-weight-normal">CODIGO</label>
-                    <input type="text" id="filtro1" name="filtro1" wire:model.live="codigo" class="form-control form-control-sm">
+            <div class="row align-items-end">
+                <div class="col-2">
+                    <div class="form-group mb-0">
+                        <label for="filtro1" class="font-weight-normal">CODIGO</label>
+                        <input type="text" id="filtro1" name="filtro1" wire:model.live="codigo" class="form-control form-control-sm">
+                    </div>
                 </div>
-            </div>
-            <div class="col-2">
-                <div class="form-group mb-0">
-                    <label for="filtro1" class="font-weight-normal">NOMBRE</label>
-                    <input type="text" id="filtro1" name="filtro1" wire:model.live="nombre" class="form-control form-control-sm">
+                <div class="col-2">
+                    <div class="form-group mb-0">
+                        <label for="filtro1" class="font-weight-normal">NOMBRE</label>
+                        <input type="text" id="filtro1" name="filtro1" wire:model.live="nombre" class="form-control form-control-sm">
+                    </div>
                 </div>
-            </div>
-            <div class="col-2">
-                <div class="form-group mb-0">
-                    <label for="filtro1" class="font-weight-normal">N° DOCUMENTO</label>
-                    <input type="text" id="filtro1" name="filtro1" wire:model.live="documento" class="form-control form-control-sm">
+                <div class="col-2">
+                    <div class="form-group mb-0">
+                        <label for="filtro1" class="font-weight-normal">N° DOCUMENTO</label>
+                        <input type="text" id="filtro1" name="filtro1" wire:model.live="documento" class="form-control form-control-sm">
+                    </div>
                 </div>
-            </div>
+                <div class="col-auto ml-auto">
+                    <a href="{{ route('compras.actualizaciones.proveedores.create') }}"
+                    class="btn btn-sm text-white"
+                    style="background-color: #f39c12;">
+                        NUEVO PROVEEDOR
+                    </a>
+                </div>
             </div>
         </div>
         </x-slot>
