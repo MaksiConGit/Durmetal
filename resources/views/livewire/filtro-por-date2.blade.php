@@ -42,6 +42,19 @@
 
         <x-data-table-acordion2>
 
+            <x-slot name="filtros">
+                <div class="row">
+                    <div class="col-2">
+                        <label>DESDE FECHA</label>
+                        <input type="date" class="form-control form-control-sm" wire:model.live="FechaCarga">
+                    </div>
+                    <div class="col-2">
+                        <label>HASTA FECHA</label>
+                        <input type="date" class="form-control form-control-sm" wire:model.live="FechaDescarga">
+                    </div>
+                </div>
+            </x-slot>
+
             <x-slot name="thead">
                 <tr class="bg-secondary text-white">
                     <th>FECHA CARGA</th>
