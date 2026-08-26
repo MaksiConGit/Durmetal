@@ -243,6 +243,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <li>
                     <a tabindex="-1" href="{{ route('clients.index') }}" class="dropdown-item">Clientes</a>
                   </li>
+                  @role('admin')
                   <li>
                     <a tabindex="-1" href="{{ route('factores-premio.index') }}" class="dropdown-item">Factores Premio</a>
                   </li>
@@ -252,6 +253,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <li>
                     <a tabindex="-1" href="{{ route('repartir-premios.index') }}" class="dropdown-item">Repartir Premios</a>
                   </li>
+                  @endrole
+
                 </ul>
               </li>
               <!-- End Level two -->
