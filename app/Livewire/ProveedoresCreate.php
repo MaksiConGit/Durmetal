@@ -182,14 +182,12 @@ class ProveedoresCreate extends Component
 
             'Nombre' => $this->Nombre,
             'IdCondicionIva' => $this->IdCondicionIva,
-            'Saldo' => $this->Saldo ?: 0,
+            'SaldoSistemaAnterior' => $this->Saldo ?: 0,
             'NumeroIIBB' => $this->NumeroIIBB,
             'IdCuentaGastos' => $this->IdCuentaGastos,
 
             'Localidad' => $localidad->Nombre,
             'Provincia' => $localidad->provincia->Nombre ?? '',
-
-            'SaldoSistemaAnterior' => 0,
 
             'FechaCreacion' => now(),
             'CreadoPor' => Auth::id(),

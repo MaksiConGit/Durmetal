@@ -125,7 +125,7 @@ class FichaDelProveedorShow2 extends Component
         $totalCreditos = $this->proveedor->notasCreditoCompra()->sum('Total');
         $totalOrdenesPago = $this->proveedor->ordenesPago()->sum('Total');
 
-        $this->saldo = $this->proveedor->Saldo
+        $this->saldo = $this->proveedor->SaldoSistemaAnterior
             + $totalFacturas
             + $totalDebitos
             - $totalCreditos
