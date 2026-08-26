@@ -20,6 +20,23 @@
   <!-- iCheck for checkboxes and radio inputs -->
   <link rel="stylesheet" href="{{asset('AdminLTE-3.2.0/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
   @livewireStyles
+  <style>
+    .dropdown-submenu {
+        position: relative;
+    }
+
+    .dropdown-submenu > .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 100%;
+        margin-top: -1px;
+    }
+
+    .dropdown-submenu.show > .dropdown-menu {
+        display: block;
+    }
+</style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
 <!-- Site wrapper -->
@@ -147,7 +164,13 @@
 
               <!-- Level two dropdown-->
               <li class="dropdown-submenu">
-                <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Reportes</a>
+                <a href="#"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  class="dropdown-item dropdown-toggle">
+                    Reportes
+                </a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                   <li>
                     <a tabindex="-1" href="{{ route('reportes.materiales') }}" class="dropdown-item">Materiales</a>
@@ -180,7 +203,13 @@
 
               <!-- Level two dropdown-->
               <li class="dropdown-submenu">
-                <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Actualizaciones</a>
+                <a href="#"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  class="dropdown-item dropdown-toggle">
+                    Actualizaciones
+                </a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                   <li>
                     <a tabindex="-1" href="{{ route('durezas.index') }}" class="dropdown-item">Durezas</a>
@@ -647,6 +676,38 @@
       "responsive": true,
     });
   });
+</script>
+<script>
+    $(document).ready(function () {
+
+        $(document).on('click', '.dropdown-submenu > .dropdown-toggle', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const $submenu = $(this).parent();
+
+            // Cerrar todos los otros submenús del mismo dropdown
+            $submenu
+                .siblings('.dropdown-submenu')
+                .removeClass('show')
+                .find('.dropdown-menu')
+                .removeClass('show');
+
+            // Abrir/cerrar el seleccionado
+            $submenu.toggleClass('show');
+        });
+
+        // Cuando se cierra un dropdown principal,
+        // cerrar también todos sus submenús
+        $('.nav-item.dropdown').on('hidden.bs.dropdown', function () {
+            $(this)
+                .find('.dropdown-submenu')
+                .removeClass('show')
+                .find('.dropdown-menu')
+                .removeClass('show');
+        });
+
+    });
 </script>
 @yield('js')
 
