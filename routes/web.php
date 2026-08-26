@@ -264,7 +264,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('compras/resumen-mensual-egresos', [ComprasController::class, 'resumenMensualEgresos'])->name('compras.resumen-mensual-egresos.index');
 
-        Route::get('compras/resumen-cuenta-corriente/{proveedor?}', [ComprasController::class, 'resumenCuentaCorriente'])->name('compras.resumen-cuenta-corriente.index');
+        Route::get('compras/resumen-cuenta-corriente', [ComprasController::class, 'resumenCuentaCorriente'])->name('compras.resumen-cuenta-corriente');
 
         Route::get('compras/listado-movimientos-por-cuentas-gastos', [ComprasController::class, 'listadoMovimientosCuentasGastos'])->name('compras.listado-movimientos-por-cuentas-gastos.index');
 

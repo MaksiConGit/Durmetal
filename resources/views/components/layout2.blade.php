@@ -93,7 +93,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li><a href="{{ route('compras.ficha-del-proveedor.index') }}" class="dropdown-item">Ficha del proveedor</a></li>
               <li><a href="{{ route('compras.listado-de-saldos-proveedores.index') }}" class="dropdown-item">Listado de saldos</a></li>
               <li><a href="{{ route('compras.listado-movimientos-por-cuentas-gastos.index') }}" class="dropdown-item">Listado de movimientos por cuentas de gastos</a></li>
-              <li><a href="{{ route('compras.resumen-cuenta-corriente.index') }}" class="dropdown-item">Resumen de cuenta cte</a></li>
+              <li><a href="{{ route('compras.resumen-cuenta-corriente') }}" class="dropdown-item">Resumen de cuenta cte</a></li>
               <li><a href="{{ route('compras.resumen-mensual-egresos.index') }}" class="dropdown-item">Resumen mensual de egresos</a></li>
               <li><a href="{{ route('compras.listado-de-iva.index') }}" class="dropdown-item">Listado de IVA Compras</a></li>
               <li><a href="{{ route('compras.listado-de-cheques-proveedores.index') }}" class="dropdown-item">Listado de cheques a proveedores</a></li>

@@ -1,4 +1,7 @@
-<x-layout>
+@livewire('ficha-del-proveedor-show2', ['proveedor' => $proveedor])
+
+
+{{-- <x-layout>
     <x-slot name="title">Compras</x-slot>
     <x-slot name="breadcrumbs">
         <li class="nav-home">
@@ -435,4 +438,4 @@
 
     </x-panel-horizontal-5-no-title>
 
-</x-layout>
+</x-layout> --}}
