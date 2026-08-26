@@ -250,9 +250,9 @@ public function proveedoresUpdate(StoreProveedorRequest $request, Proveedor $pro
     }
 
     // Resumen de cuenta corriente proveedor
-    public function resumenCuentaCorriente()
+    public function resumenCuentaCorriente(Request $request)
     {
-        $proveedor_id = request('proveedor_id');
+        $proveedor_id = array_key_first($request->query());
 
         return view('compras.resumen-cuenta-corriente.index', compact('proveedor_id'));
     }
