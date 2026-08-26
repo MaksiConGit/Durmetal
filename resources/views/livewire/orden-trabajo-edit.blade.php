@@ -1,5 +1,9 @@
 <div>
-
+<style>
+    .tabla-clientes-scroll {
+    height: 500px;
+}
+</style>
 <div x-data="{ open: null }"
      x-on:open-item.window="open = $event.detail.id">
     <x-layout2-sidebar>
@@ -874,60 +878,82 @@
 
                 <div class="row">
 
-                    <x-simple-table2>
+                    <div class="col-12">
+            <div class="tabla-clientes-scroll">
 
-                        <x-slot name="filtros">
+                        <x-simple-table2>
 
-                            <div class="row">
-                                <div class="col-3">
-                                    <div class="form-group mb-0">
-                                        <label for="filtro1" class="font-weight-normal">NOMBRE</label>
-                                        <input type="text" id="filtro1" name="filtro1" class="form-control form-control-sm">
+                            <x-slot name="filtros">
+
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="form-group mb-0">
+                                            <label for="searchClienteNombre" class="font-weight-normal">
+                                                NOMBRE
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                id="searchClienteNombre"
+                                                wire:model.live.debounce.300ms="searchClienteNombre"
+                                                class="form-control form-control-sm"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="form-group mb-0">
+                                            <label for="searchClienteDocumento" class="font-weight-normal">
+                                                NUMERO DE DOCUMENTO
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                id="searchClienteDocumento"
+                                                wire:model.live.debounce.300ms="searchClienteDocumento"
+                                                class="form-control form-control-sm"
+                                            >
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
-                                    <div class="form-group mb-0">
-                                        <label for="filtro2" class="font-weight-normal">NUMERO DE DOCUMENTO</label>
-                                        <input type="text" id="filtro2" name="filtro1" class="form-control form-control-sm">
-                                    </div>
-                                </div>
-                            </div>
 
-                        </x-slot>
+                            </x-slot>
 
-                        <x-slot name="thead">
-                            <tr>
-                                <th>CODIGO</th>
-                                <th>NOMBRE</th>
-                                <th>TIPO DE DOCUMENTO</th>
-                                <th>NUMERO</th>
-                                <th>DOMICILIO</th>
-                                <th>LOCALIDAD</th>
-                                <th>PROVINCIA</th>
-                                <th>ACTIVO</th>
-                            </tr>
-                        </x-slot>
-                        <x-slot name="tbody">
-                            
-                            @forelse ($clientes as $cliente)
-                                <tr wire:click.prevent="seleccionarCliente({{ $cliente->id }})"
-                                    style="cursor:pointer;"
-                                    class="{{ $cliente_id == $cliente->id ? 'table-primary' : '' }}"
-                                    data-dismiss="modal">
-                                    <td>{{ $cliente->id }}</td>
-                                    <td>{{ $cliente->Nombre }}</td>
-                                    <td>{{ $cliente->TipoDocumento }}</td>
-                                    <td>{{ $cliente->NroDocumento }}</td>
-                                    <td>{{ $cliente->Domicilio }}</td>
-                                    <td>{{ $cliente->localidad->Nombre ?? 'Ciudad no asignada' }}</td>
-                                    <td>{{ $cliente->localidad->provincia->Nombre ?? 'Provincia no asignada' }}</td>
-                                    <td><input type="checkbox" name="" id="" disabled {{ $cliente->Activo == 1 ? 'checked' : '' }}></td>
+                            <x-slot name="thead">
+                                <tr>
+                                    <th>CODIGO</th>
+                                    <th>NOMBRE</th>
+                                    <th>TIPO DE DOCUMENTO</th>
+                                    <th>NUMERO</th>
+                                    <th>DOMICILIO</th>
+                                    <th>LOCALIDAD</th>
+                                    <th>PROVINCIA</th>
+                                    <th>ACTIVO</th>
                                 </tr>
-                            @empty
-                                <tr><td colspan="8">No se encontraron resultados.</td></tr>
-                            @endforelse
-                        </x-slot>
-                    </x-simple-table2>
+                            </x-slot>
+                            <x-slot name="tbody">
+                                    
+                                @forelse ($this->clientesFiltrados as $cliente)
+                                    <tr wire:click.prevent="seleccionarCliente({{ $cliente->id }})"
+                                        style="cursor:pointer;"
+                                        class="{{ $cliente_id == $cliente->id ? 'table-primary' : '' }}"
+                                        data-dismiss="modal">
+                                        <td>{{ $cliente->id }}</td>
+                                        <td>{{ $cliente->Nombre }}</td>
+                                        <td>{{ $cliente->TipoDocumento }}</td>
+                                        <td>{{ $cliente->NroDocumento }}</td>
+                                        <td>{{ $cliente->Domicilio }}</td>
+                                        <td>{{ $cliente->localidad->Nombre ?? 'Ciudad no asignada' }}</td>
+                                        <td>{{ $cliente->localidad->provincia->Nombre ?? 'Provincia no asignada' }}</td>
+                                        <td><input type="checkbox" name="" id="" disabled {{ $cliente->Activo == 1 ? 'checked' : '' }}></td>
+                                    </tr>
+                                @empty
+                                    <tr><td colspan="8">No se encontraron resultados.</td></tr>
+                                @endforelse
+                            </x-slot>
+                        </x-simple-table2>
+                    </div>
+                    </div>
                     </div>
                     </div>
 

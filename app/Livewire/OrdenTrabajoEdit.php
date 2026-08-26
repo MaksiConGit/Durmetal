@@ -52,6 +52,8 @@ class OrdenTrabajoEdit extends Component
     public $searchTratamiento = '';
     public $searchMaterial = '';
     public $searchDureza = '';
+    public $searchClienteNombre = '';
+    public $searchClienteDocumento = '';
 
     public $emails = [];
 
@@ -99,6 +101,27 @@ class OrdenTrabajoEdit extends Component
         return \App\Models\Dureza::query()
             ->when($this->searchDureza, function ($query) {
                 $query->where('Nombre', 'like', '%' . $this->searchDureza . '%');
+            })
+            ->orderBy('Nombre')
+            ->get();
+    }
+
+    public function getClientesFiltradosProperty()
+    {
+        return Client::query()
+            ->when($this->searchClienteNombre, function ($query) {
+                $query->where(
+                    'Nombre',
+                    'like',
+                    '%' . $this->searchClienteNombre . '%'
+                );
+            })
+            ->when($this->searchClienteDocumento, function ($query) {
+                $query->where(
+                    'NroDocumento',
+                    'like',
+                    '%' . $this->searchClienteDocumento . '%'
+                );
             })
             ->orderBy('Nombre')
             ->get();
