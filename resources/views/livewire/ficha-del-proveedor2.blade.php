@@ -1,34 +1,44 @@
+<div style="height: 500px">
     <x-simple-table2>
         <x-slot name="filtros">
             <div class="row align-items-end">
                 <div class="col-2">
                     <div class="form-group mb-0">
                         <label for="filtro1" class="font-weight-normal">CODIGO</label>
-                        <input type="text" id="filtro1" name="filtro1" wire:model.live="codigo" class="form-control form-control-sm">
+                        <input type="text" id="filtro1" name="filtro1" placeholder="Buscar..."
+                            wire:model.live="codigo"
+                            class="form-control form-control-sm">
                     </div>
                 </div>
+
                 <div class="col-2">
                     <div class="form-group mb-0">
-                        <label for="filtro1" class="font-weight-normal">NOMBRE</label>
-                        <input type="text" id="filtro1" name="filtro1" wire:model.live="nombre" class="form-control form-control-sm">
+                        <label for="filtro2" class="font-weight-normal">NOMBRE</label>
+                        <input type="text" id="filtro2" name="filtro2" placeholder="Buscar..."
+                            wire:model.live="nombre"
+                            class="form-control form-control-sm">
                     </div>
                 </div>
+
                 <div class="col-2">
                     <div class="form-group mb-0">
-                        <label for="filtro1" class="font-weight-normal">N° DOCUMENTO</label>
-                        <input type="text" id="filtro1" name="filtro1" wire:model.live="documento" class="form-control form-control-sm">
+                        <label for="filtro3" class="font-weight-normal">N° DOCUMENTO</label>
+                        <input type="text" id="filtro3" name="filtro3" placeholder="Buscar..."
+                            wire:model.live="documento"
+                            class="form-control form-control-sm">
                     </div>
                 </div>
+
                 <div class="col-auto ml-auto">
                     <a href="{{ route('compras.actualizaciones.proveedores.create') }}"
-                    class="btn btn-sm text-white"
-                    style="background-color: #f39c12;">
+                        class="btn btn-sm text-white"
+                        style="background-color: #f39c12;">
                         NUEVO PROVEEDOR
                     </a>
                 </div>
             </div>
-        </div>
         </x-slot>
+
         <x-slot name="thead">
             <tr>
                 <th>CODIGO</th>
@@ -40,6 +50,7 @@
                 <th>CONDICION IVA</th>
             </tr>
         </x-slot>
+
         <x-slot name="tbody">
             @forelse ($proveedores as $proveedor)
                 <tr style="cursor: pointer;"
@@ -54,8 +65,9 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="9">No se encontraron resultados.</td>
+                    <td colspan="7">No se encontraron resultados.</td>
                 </tr>
             @endforelse
         </x-slot>
     </x-simple-table2>
+</div>

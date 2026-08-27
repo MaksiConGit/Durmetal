@@ -1,5 +1,5 @@
 <div>
-<div>
+<div style="height: 500px">
 <x-simple-table2>
     <x-slot name="filtros">
         <div class="row">

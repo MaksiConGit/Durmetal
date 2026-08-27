@@ -34,7 +34,7 @@ class FichaDelProveedor2 extends Component
         }
 
         return view('livewire.ficha-del-proveedor2', [
-            'proveedores' => $query->get()
+            'proveedores' => $query->orderBy('Nombre', 'asc')->get()
         ]);
     }
 }

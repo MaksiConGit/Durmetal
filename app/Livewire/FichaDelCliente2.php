@@ -66,6 +66,7 @@ class FichaDelCliente2 extends Component
                     ->where('ConNotaEnvio', false);
             }]);
         }])
+        ->orderBy('Nombre', 'asc')
         ->get();
 
         foreach ($clientes as $cliente) {
