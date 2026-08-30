@@ -1,0 +1,1 @@
+@livewire('factura-compra-create', ['proveedor' => $proveedor])

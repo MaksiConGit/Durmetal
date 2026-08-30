@@ -143,8 +143,8 @@ class FichaDelProveedorShow2 extends Component
             $this->proveedor->facturasCompra(),
             $this->fact_desde,
             $this->fact_hasta
-        )->orderBy('FechaEmision', 'desc')->get();
-
+        )->orderBy('FechaEmision', 'desc') ->orderBy('id', 'desc') ->get();
+        
         $notas_de_debito = $this->filtrar(
             $this->proveedor->notasDebitoCompra(),
             $this->nd_desde,

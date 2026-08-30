@@ -327,7 +327,7 @@ public function proveedoresUpdate(StoreProveedorRequest $request, Proveedor $pro
     // Factura Compra CRUD
     public function fichaFacturaCompraCreate(Proveedor $proveedor)
     {
-        return view('compras.ficha-del-proveedor.factura-compra.create', compact('proveedor'));
+        return view('compras.ficha-del-proveedor.factura-compra-create', compact('proveedor'));
     }
 
     public function fichaFacturaCompraStore(StoreFacturacompraRequest $request)

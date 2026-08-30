@@ -176,7 +176,7 @@
 
                     @switch($activeTabParametros)
                         @case('custom-tabs-1')
-                            <a href="{{ route('ventas.ficha-del-cliente-factura-venta.create', $proveedor->id) }}" class="btn btn-app bg-primary disabled">
+                            <a href="{{ route('compras.ficha-del-proveedor.factura-compra.create', $proveedor->id) }}" class="btn btn-app bg-primary">
                                 <i class="fas fa-plus"></i> Nuevo
                             </a>
                             
