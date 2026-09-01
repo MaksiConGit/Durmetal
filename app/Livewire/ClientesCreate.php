@@ -204,7 +204,7 @@ class ClientesCreate extends Component
 
             if (filled($email)) {
                 $cliente->emails()->create([
-                    'IdcLIENTE' => $cliente->id,
+                    'IdCliente' => $cliente->id,
                     'Email' => $email,
 
                     'FechaCreacion' => now(),
@@ -215,7 +215,7 @@ class ClientesCreate extends Component
 
                     'Activo' => 1,
 
-                    'IdcLIENTEEmail' => $cliente->id . ',' . $email,
+                    'IdClienteEmail' => $cliente->id . ',' . $email,
                 ]);
             }
         }
