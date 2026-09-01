@@ -827,9 +827,9 @@ public function enviarCertificadoPorCorreo($itemId)
     {
         return view('livewire.orden-trabajo-edit', [
             'expandedId' => $this->expandedId,
-            'tratamientos' => Tratamiento::all(),
-            'durezas' => Dureza::all(),
-            'materiales' => Material::all(),
+            'tratamientos' => Tratamiento::orderBy('nombre')->get(),
+            'durezas' => Dureza::orderBy('nombre')->get(),
+            'materiales' => Material::orderBy('nombre')->get(),
         ]);
     }
 }
