@@ -199,6 +199,7 @@
                                         <div style="margin-right:12px;" >
                                             <button
                                                 type="button"
+                                                disabled
                                                 @click.stop="abrirModal('modal-certificado-{{$newItem['id']}}')"
                                                 class="d-flex align-items-center justify-content-center"
                                                 style="
@@ -222,6 +223,7 @@
                                         <div>
                                             <button
                                                 type="button"
+                                                disabled
                                                 @click.stop="abrirModal('modal-correo-{{$newItem['id']}}')"
                                                 class="d-flex align-items-center justify-content-center"
                                                 style="

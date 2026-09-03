@@ -6,6 +6,7 @@ use App\Http\Requests\StorePremioRequest;
 use App\Models\Certificado;
 use App\Models\ConfiguracionGlobal;
 use App\Models\Email;
+use App\Models\ItemOrdenTrabajo;
 use App\Models\ItemPremio;
 use App\Models\Premio;
 use App\Models\Programacion;
@@ -88,6 +89,24 @@ class IngresoDatosController extends Controller
         return $pdf->stream('produccion.ingreso-datos.pdf');
     }
 
+    public function pdfSinCertificado(ItemOrdenTrabajo $item, Request $request)
+    {
+        $configuracion_global = ConfiguracionGlobal::first();
+        $cantidad = $request->Cantidad;
+        $observaciones = $request->Observaciones;
+        $usuario = User::find($request->Usuario);
+        
+        $pdf = Pdf::loadView('produccion.ingreso-datos.pdf-sin-certificado', [
+            'item' => $item,
+            'cantidad' => $cantidad,
+            'observaciones' => $observaciones,
+            'usuario' => $usuario,
+            'configuracion_global' => $configuracion_global,
+        ])->setPaper('A5', 'portrait');
+
+        return $pdf->stream('produccion.ingreso-datos.pdf-sin-certificado');
+    }
+
     public function email(Certificado $certificado, Request $request)
     {
         // 🔹 Obtener emails
@@ -134,6 +153,66 @@ class IngresoDatosController extends Controller
                 ->attachData(
                     $pdf->output(),
                     'certificado-' . $certificado->id . '.pdf',
+                    ['mime' => 'application/pdf']
+                );
+        });
+
+        return back()->with('success', 'Certificado enviado por correo correctamente.');
+    }
+
+    public function emailSinCertificado(ItemOrdenTrabajo $item, Request $request)
+    {
+        $cantidad = $request->Cantidad;
+        $observaciones = $request->Observaciones;
+        $usuario = User::find($request->Usuario);
+
+        // 🔹 Obtener emails
+        $ids = explode(',', $request->Emails ?? '');
+
+        if (!$ids || count($ids) === 0 || $ids[0] === '') {
+            // Emails del cliente (ajustá la relación si cambia)
+            $emails = $item
+                ->ordenTrabajo
+                ->cliente
+                ->emails
+                ->pluck('Email')
+                ->toArray();
+        } else {
+            $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
+        }
+
+        // dd($emails);
+
+        // 🔹 Contador de envíos por mail
+        // $certificado->CantidadEnviosPorCorreo =
+        //     ($certificado->CantidadEnviosPorCorreo ?? 0) + 1;
+        // $certificado->save();
+
+        $configuracion_global = ConfiguracionGlobal::first();
+
+        // 🔹 Generar el MISMO PDF que el método pdf()
+        $pdf = Pdf::loadView('produccion.ingreso-datos.pdf-sin-certificado', [
+            'item' => $item,
+            'cantidad' => $cantidad,
+            'observaciones' => $observaciones,
+            'usuario' => $usuario,
+            'configuracion_global' => $configuracion_global,
+        ])->setPaper('A5');
+
+        // 🔹 Enviar mail
+
+        Mail::send('emails.sin-certificado', [
+            'item' => $item,
+            'cantidad' => $cantidad,
+        ], function ($message) use ($emails, $pdf, $item) {
+
+            $message->from('controldecalidad@durmetal.com.ar', 'controldecalidad');
+
+            $message->to($emails)
+                ->subject('CERTIFICADO DE TRATAMIENTO TERMICO')
+                ->attachData(
+                    $pdf->output(),
+                    'certificado.pdf',
                     ['mime' => 'application/pdf']
                 );
         });

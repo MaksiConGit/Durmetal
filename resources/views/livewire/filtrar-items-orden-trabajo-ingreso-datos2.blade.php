@@ -164,6 +164,7 @@
                                         <div style="margin-right:12px;" >
                                             <button
                                                 type="button"
+                                                wire:click="inicializarCertificado({{ $item->id }})"
                                                 @click.stop="abrirModal('modal-certificado-{{$item->id}}')"
                                                 class="d-flex align-items-center justify-content-center"
                                                 style="
@@ -187,6 +188,7 @@
                                         <div>
                                             <button
                                                 type="button"
+                                                wire:click="inicializarCertificado({{ $item->id }})"
                                                 @click.stop="abrirModal('modal-correo-{{$item->id}}')"
                                                 class="d-flex align-items-center justify-content-center"
                                                 style="
@@ -294,7 +296,7 @@
                                                         
                                                         <td>{{ \Carbon\Carbon::parse($programacion->FechaCarga)->format('d/m/Y H:i') }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($programacion->FechaDescarga)->format('d/m/Y H:i') }}</td>
-                                                        <td>{{ $programacion->ejecutadoPorOperador->name }}</td>
+                                                        <td>{{ $programacion->ejecutadoPorOperador->Nombre }}</td>
                                                         <td>{{ $programacion->Temperatura }}</td>
                                                         <td>{{ $programacion->medioEnfriamiento->Nombre }}</td>
                                                         <td>{{ $programacion->DurezaMinima }}</td>
@@ -685,11 +687,18 @@
                         </a> --}}
                         <button
                             wire:click="imprimirCertificado({{ $item->id }})"
+                            wire:loading.attr="disabled"
+                            wire:target="imprimirCertificado({{ $item->id }})"
                             class="btn btn-sm btn-primary"
                         >
-                            Imprimir certificado
-                        </button>
+                            <span wire:loading.remove wire:target="imprimirCertificado({{ $item->id }})">
+                                Imprimir certificado
+                            </span>
 
+                            <span wire:loading wire:target="imprimirCertificado({{ $item->id }})">
+                                Imprimiendo...
+                            </span>
+                        </button>
                     </div>
 
                 </div>
@@ -822,7 +831,7 @@
                                     <td>
                                         <input type="checkbox"
                                             value="{{ $email->id }}"
-                                            wire:model="emails">
+                                            wire:model="emails.{{ $item->id }}">
                                     </td>
                                     <td>{{ $email->Email }}</td>
                                 </tr>
@@ -874,8 +883,17 @@
                     </a> --}}
 
                     <button
-                        wire:click="enviarCertificadoPorCorreo({{ $item->id }})"
+                        type="button"
                         class="btn btn-sidebar btn-sm bg-orange"
+                        wire:click="enviarCertificadoPorCorreo({{ $item->id }})"
+                        x-data
+                        @click="
+                            $el.disabled = true;
+                            $el.innerHTML = `
+                                <span class='text-white'>Enviando...</span>
+                                <i class='fas fa-spinner fa-spin fa-fw text-white ml-2'></i>
+                            `;
+                        "
                     >
                         <span class="text-white">Aceptar</span>
                         <i class="fas fa-check fa-fw text-white ml-2"></i>

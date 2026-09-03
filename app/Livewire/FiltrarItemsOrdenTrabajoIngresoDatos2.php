@@ -44,7 +44,7 @@ class FiltrarItemsOrdenTrabajoIngresoDatos2 extends Component
         $this->fecha_inicio = now()->subMonth()->format('Y-m-d');
         $this->users = User::all();
 
-        $this->emails = Email::pluck('id')->toArray();
+        $this->emails = [];
     }
 
     public function actualizarCantidadCertificado($itemId, $tipo)
@@ -83,7 +83,7 @@ class FiltrarItemsOrdenTrabajoIngresoDatos2 extends Component
     {
 
         $this->validate([
-            "numeroPlano.$itemId"   => 'required|string|max:255',
+            "numeroPlano.$itemId"   => 'nullable|string|max:255',
             "cantidad.$itemId"      => 'required|numeric|min:1',
             "responsableId.$itemId" => 'required|exists:users,id',
             "observacionesCert.$itemId" => 'nullable|string|max:1000',
@@ -112,21 +112,36 @@ class FiltrarItemsOrdenTrabajoIngresoDatos2 extends Component
             return;
         }
 
-        $certificado = Certificado::create([
-            'IdItemOrdenTrabajo'       => $itemId,
-            'Nombre'                   => $this->numeroPlano[$itemId],
-            'NroPlano'                 => $this->numeroPlano[$itemId],
-            'Observaciones'            => $this->observacionesCert[$itemId] ?? null,
-            'Cantidad'                 => $this->cantidad[$itemId],
-            'IdUsuario'                => $this->responsableId[$itemId],
-            'CantidadImpresiones'      => 0,
-            'CantidadEnviosPorCorreo'  => 0,
-            'Predeterminado'           => 1,
-        ]);
+        if ($this->numeroPlano[$itemId]) {
 
-        $url = route('ingreso-datos.pdf', $certificado->id);
+            $certificado = Certificado::create([
+                'IdItemOrdenTrabajo'       => $itemId,
+                'Nombre'                   => $this->numeroPlano[$itemId],
+                'NroPlano'                 => $this->numeroPlano[$itemId],
+                'Observaciones'            => $this->observacionesCert[$itemId] ?? null,
+                'Cantidad'                 => $this->cantidad[$itemId],
+                'IdUsuario'                => $this->responsableId[$itemId],
+                'CantidadImpresiones'      => 0,
+                'CantidadEnviosPorCorreo'  => 0,
+                'Predeterminado'           => 1,
+            ]);
 
-        $this->dispatch('abrirPdf', url: $url);
+            $url = route('ingreso-datos.pdf', $certificado->id);
+
+            $this->dispatch('abrirPdf', url: $url);
+        }
+        else {
+            $item = ItemOrdenTrabajo::with('ordenTrabajo')->findOrFail($itemId);
+
+            $url = route('ingreso-datos.pdf-sin-certificado', [
+                'item'          => $item->id,
+                'Cantidad'      => $this->cantidad[$itemId],
+                'Observaciones' => $this->observacionesCert[$itemId] ?? null,
+                'Usuario'       => $this->responsableId[$itemId],
+            ]);
+
+            $this->dispatch('abrirPdf', url: $url);
+        }
 
     }
 
@@ -184,11 +199,14 @@ class FiltrarItemsOrdenTrabajoIngresoDatos2 extends Component
     {
         // 🔹 Validación
         $this->validate([
-            "numeroPlano.$itemId"   => 'required|string|max:255',
-            "cantidad.$itemId"      => 'required|numeric|min:1',
+            "numeroPlano.$itemId" => 'nullable|string|max:255',
+            "cantidad.$itemId" => 'required|numeric|min:1',
             "responsableId.$itemId" => 'required|exists:users,id',
             "observacionesCert.$itemId" => 'nullable|string|max:1000',
         ]);
+
+        // 🔹 Obtener el ItemOrdenTrabajo y su OrdenTrabajo
+        $item = ItemOrdenTrabajo::with('ordenTrabajo')->findOrFail($itemId);
 
         // 🔹 Crear o actualizar certificado
         if (!empty($this->certificadoSeleccionado[$itemId])) {
@@ -197,52 +215,105 @@ class FiltrarItemsOrdenTrabajoIngresoDatos2 extends Component
 
             if ($certificado) {
                 $certificado->update([
-                    'Nombre'        => $this->numeroPlano[$itemId],
-                    'NroPlano'      => $this->numeroPlano[$itemId],
-                    'Observaciones' => $this->observacionesCert[$itemId],
-                    'Cantidad'      => $this->cantidad[$itemId],
-                    'IdUsuario'     => $this->responsableId[$itemId],
+                    'Nombre' => $this->numeroPlano[$itemId],
+                    'NroPlano' => $this->numeroPlano[$itemId],
+                    'Observaciones' => $this->observacionesCert[$itemId] ?? null,
+                    'Cantidad' => $this->cantidad[$itemId],
+                    'IdUsuario' => $this->responsableId[$itemId],
                 ]);
             }
 
         } else {
 
-            $certificado = Certificado::create([
-                'IdItemOrdenTrabajo'       => $itemId,
-                'Nombre'                   => $this->numeroPlano[$itemId],
-                'NroPlano'                 => $this->numeroPlano[$itemId],
-                'Observaciones'            => $this->observacionesCert[$itemId] ?? null,
-                'Cantidad'                 => $this->cantidad[$itemId],
-                'IdUsuario'                => $this->responsableId[$itemId],
-                'CantidadImpresiones'      => 0,
-                'CantidadEnviosPorCorreo'  => 0,
-                'Predeterminado'           => 1,
-            ]);
+            if ($this->numeroPlano[$itemId]) {
+                $certificado = Certificado::create([
+                    'IdItemOrdenTrabajo' => $itemId,
+                    'Nombre' => $this->numeroPlano[$itemId],
+                    'NroPlano' => $this->numeroPlano[$itemId],
+                    'Observaciones' => $this->observacionesCert[$itemId] ?? null,
+                    'Cantidad' => $this->cantidad[$itemId],
+                    'IdUsuario' => $this->responsableId[$itemId],
+                    'CantidadImpresiones' => 0,
+                    'CantidadEnviosPorCorreo' => 0,
+                    'Predeterminado' => 1,
+                ]);
+            }
         }
 
-        // 🔹 Obtener emails seleccionados
-        $emails = Email::whereIn('id', $this->emails)->pluck('id')->implode(',');
+        // 🔹 Obtener SOLO los emails del cliente de la orden
+        $emailsSeleccionados = $this->emails[$itemId] ?? [];
 
+        if (empty($emailsSeleccionados)) {
+            $this->addError(
+                "emails.$itemId",
+                'Debe seleccionar al menos un email.'
+            );
 
-        // 🔹 Convertir a string tipo: mail1,mail2,mail3
+            return;
+        }
 
+        $emails = implode(',', $emailsSeleccionados);
 
         // 🔹 Actualizar contador
         $this->actualizarCantidadCertificado($itemId, 'correo');
 
-        // 🔥 REDIRECCIÓN (igual que el <a>)
-        return redirect()->to(
-            url("ingreso-datos/{$certificado->id}/email") . '?Emails=' . $emails
-        );
+        // 🔥 Redirección
+        // return redirect()->to(
+        //     url("ingreso-datos/{$certificado->id}/email") . '?Emails=' . $emails
+        // );
+
+        if (!empty($certificado)) {
+            return redirect()->route('ingreso-datos.email', [
+                'certificado' => $certificado->id,
+                'Emails' => $emails,
+            ]);
+        }
+
+        return redirect()->route('ingreso-datos.email-sin-certificado', [
+            'item' => $itemId,
+            'Cantidad' => $this->cantidad[$itemId],
+            'Observaciones' => $this->observacionesCert[$itemId],
+            'Usuario' => $this->responsableId[$itemId],
+            'Emails' => $emails,
+        ]);
+    }
+
+    public function inicializarCertificado($itemId)
+    {
+        $item = ItemOrdenTrabajo::findOrFail($itemId);
+
+        if (!isset($this->cantidad[$itemId])) {
+            $this->cantidad[$itemId] = $item->Cantidad;
+        }
+
+        if (!isset($this->numeroPlano[$itemId])) {
+            $this->numeroPlano[$itemId] = null;
+        }
+
+        if (!isset($this->responsableId[$itemId])) {
+            $this->responsableId[$itemId] = auth()->id();
+        }
+
+        if (!isset($this->observacionesCert[$itemId])) {
+            $this->observacionesCert[$itemId] = null;
+        }
+
+        if (!isset($this->emails[$itemId])) {
+            $this->emails[$itemId] = $item->ordenTrabajo->cliente->emails
+                ->pluck('id')
+                ->toArray();
+        }
     }
 
     public function updatedCertificadoSeleccionado($value, $itemId)
     {
+        $item = ItemOrdenTrabajo::with('ordenTrabajo')->findOrFail($itemId);
+
         if (!$value) {
             // Nuevo
             $this->numeroPlano[$itemId] = null;
-            $this->cantidad[$itemId] = null;
-            $this->responsableId[$itemId] = null;
+            $this->cantidad[$itemId] = $item->Cantidad;
+            $this->responsableId[$itemId] = auth()->id();
             $this->observacionesCert[$itemId] = null;
             return;
         }

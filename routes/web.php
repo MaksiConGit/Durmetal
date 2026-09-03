@@ -115,11 +115,15 @@ Route::middleware('auth')->group(function () {
     Route::get('ingreso-datos', [IngresoDatosController::class, 'index'])->name('ingreso-datos.index');
     Route::put('ingreso-datos/update', [IngresoDatosController::class, 'update'])->name('ingreso-datos.update');
     Route::get('ingreso-datos/pdf/{certificado}', [IngresoDatosController::class, 'pdf'])->name('ingreso-datos.pdf');
+    Route::get('ingreso-datos/pdf-sin-certificado/{item}', [IngresoDatosController::class, 'pdfSinCertificado'])->name('ingreso-datos.pdf-sin-certificado');
     Route::get(
         '/ingreso-datos/{certificado}/email',
         [IngresoDatosController::class, 'email']
     )->name('ingreso-datos.email');
-
+    Route::get(
+        '/ingreso-datos/{item}/email-sin-certificado',
+        [IngresoDatosController::class, 'emailSinCertificado']
+    )->name('ingreso-datos.email-sin-certificado');
     Route::get('reportes/materiales', [ReporteController::class, 'materiales'])->name('reportes.materiales');
     Route::get('reportes/materiales-resumido', [ReporteController::class, 'materialesResumido'])->name('reportes.materiales-resumido');
     Route::get('reportes/materiales-resumido-excel', [ReporteController::class, 'materialesResumidoExcel'])->name('reportes.materiales-resumido-excel');
