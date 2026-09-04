@@ -37,12 +37,12 @@
                         <div class="col-2 d-flex flex-column justify-content-end">
                             @php
                                 $mapa = [
-                                    1 => 'B',
+                                    0 => 'B',
+                                    1 => 'A',
                                     2 => 'A',
-                                    3 => 'A',
-                                    4 => 'B',
-                                    5 => 'A',
-                                    6 => 'B',
+                                    3 => 'B',
+                                    4 => 'A',
+                                    5 => 'B',
                                 ];
 
                                 $letra = $mapa[$cliente->condicionIVA->id] ?? 'B';
