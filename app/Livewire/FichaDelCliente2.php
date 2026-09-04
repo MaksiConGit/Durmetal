@@ -22,7 +22,7 @@ class FichaDelCliente2 extends Component
         $query = Client::query();
 
         if (!empty($this->codigo)) {
-            $query->where('id', 'like', "%{$this->codigo}%");
+            $query->where('id', $this->codigo);
         }
 
         if (!empty($this->nombre)) {
@@ -66,6 +66,9 @@ class FichaDelCliente2 extends Component
                     ->where('ConNotaEnvio', false);
             }]);
         }])
+        ->when(!empty($this->codigo), function ($q) {
+            $q->orderByRaw('id = ? DESC', [$this->codigo]);
+        })
         ->orderBy('Nombre', 'asc')
         ->get();
 
