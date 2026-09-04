@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             OtrosEgresosSeeder::class,
             ComprasSeeder::class,
             SistemaSeeder::class,
+            DurmetalSeeder::class,
         ]);
 
         // Tratamiento::factory(20)->create();
