@@ -1,5 +1,74 @@
 <div>
+    <style>
+    .tabla-principal {
+        width: 100% !important;
+        height: calc(100vh - 300px) !important;
+        max-height: none !important;
+        overflow-y: auto !important;
+        overflow-x: auto !important;
+    }
 
+        .tabla-principal > div {
+            height: 100% !important;
+            max-height: none !important;
+        }
+
+        .tabla-principal table {
+            width: 100% !important;
+            font-size: 11px !important;
+        }
+
+        .tabla-principal table > thead > tr > th {
+            font-size: 15px !important;
+            padding: 3px 4px !important;
+            line-height: 1 !important;
+            white-space: nowrap;
+        }
+
+        .tabla-principal table > tbody > tr:not(.expandable-body) > td {
+            font-size: 14px !important;
+            padding: 2px 4px !important;
+            line-height: 1 !important;
+            height: 24px !important;
+            vertical-align: middle !important;
+        }
+
+        .tabla-principal .toggle-row {
+            width: 20px !important;
+            height: 20px !important;
+            padding: 0 !important;
+            font-size: 9px !important;
+            line-height: 1 !important;
+        }
+
+        .tabla-principal .cert-btn {
+            width: 40px !important;
+            height: 20px !important;
+            padding: 0 !important;
+            font-size: 9px !important;
+            line-height: 1 !important;
+        }
+
+        .tabla-principal .expandable-body td {
+            padding: 3px !important;
+        }
+
+        .tabla-principal .tabla-programaciones {
+            font-size: 10px !important;
+        }
+
+        .tabla-principal .tabla-programaciones th {
+            font-size: 9px !important;
+            padding: 2px 3px !important;
+            line-height: 1 !important;
+        }
+
+        .tabla-principal .tabla-programaciones td {
+            font-size: 9px !important;
+            padding: 2px 3px !important;
+            line-height: 1 !important;
+        }
+    </style>
     <x-layout2-sidebar>
 
         <x-slot name="title">Ingreso de datos de producción por OT</x-slot>
@@ -106,6 +175,8 @@
             </div>
 
         </x-slot>
+
+            <div class="tabla-principal">
 
             <x-data-table-acordion3>
 
@@ -492,7 +563,7 @@
                 </x-slot>
 
             </x-data-table-acordion3>
-
+            </div>
     </x-layout2-sidebar>
 
     <form id="delete-form" method="POST" style="display:none;">
