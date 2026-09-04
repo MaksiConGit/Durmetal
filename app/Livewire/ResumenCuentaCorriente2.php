@@ -25,6 +25,9 @@ class ResumenCuentaCorriente2 extends Component
 
     public $periodo_id;
 
+    public $searchClienteNombre = '';
+    public $searchClienteDocumento = '';
+
     public function mount($cliente_id)
     {
         $this->clientes = Client::all();
@@ -33,7 +36,33 @@ class ResumenCuentaCorriente2 extends Component
         $this->cliente_desde = now()->subMonth(3)->toDateString();
         $this->cliente_hasta = now()->toDateString();
 
+        $this->filtrarClientes();
         $this->loadCliente();
+    }
+
+    public function updatedSearchClienteNombre()
+    {
+        $this->filtrarClientes();
+    }
+
+    public function updatedSearchClienteDocumento()
+    {
+        $this->filtrarClientes();
+    }
+
+    private function filtrarClientes()
+    {
+        $query = Client::query();
+
+        if (trim($this->searchClienteNombre) !== '') {
+            $query->where('Nombre', 'like', '%' . trim($this->searchClienteNombre) . '%');
+        }
+
+        if (trim($this->searchClienteDocumento) !== '') {
+            $query->where('NroDocumento', 'like', '%' . trim($this->searchClienteDocumento) . '%');
+        }
+
+        $this->clientes = $query->get();
     }
 
     public function cancelarCliente()
