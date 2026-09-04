@@ -17,7 +17,7 @@ return new class extends Migration
                                                                         ->onDelete('restrict')
                                                                         ->onUpdate('cascade');
             $table->string('Nombre');
-            $table->string('Descripcion');
+            $table->string('Descripcion')->nullable();
             $table->date('FechaCreacion')->nullable();
             $table->foreignId('CreadoPor')->nullable()->constrained('users')
                                                         ->onDelete('restrict')
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreignId('ActualizadoPor')->nullable()->constrained('users')
                                                             ->onDelete('restrict')
                                                             ->onUpdate('cascade');
+            $table->boolean('Archivado')->nullable()->default(0);
             $table->boolean('Activo');
         });
     }

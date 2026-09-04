@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            // ClientSeeder::class,
             ProdSeeder::class,
             ProductionSeeder::class,
             VentasSeeder::class,
@@ -27,6 +26,7 @@ class DatabaseSeeder extends Seeder
             ComprasSeeder::class,
             SistemaSeeder::class,
             DurmetalSeeder::class,
+            FixSeeder::class,
         ]);
 
         // Tratamiento::factory(20)->create();
