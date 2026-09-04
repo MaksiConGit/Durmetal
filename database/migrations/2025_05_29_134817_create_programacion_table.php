@@ -32,7 +32,7 @@ return new class extends Migration
             $table->foreignId('IdMedioEnfriamiento')->constrained('medio_enfriamiento')
                                                     ->onDelete('restrict')
                                                     ->onUpdate('cascade');
-            $table->integer('NumeroHorno');
+            $table->integer('NumeroHorno')->nullable();
             $table->foreignId('EjecutadoPorOperador')->constrained('users')
                                                     ->onDelete('restrict')
                                                     ->onUpdate('cascade');

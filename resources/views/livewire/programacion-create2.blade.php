@@ -112,27 +112,27 @@
 
                     <div class="d-flex justify-content-between align-items-center mb-4 mt-2">
                         <div class="custom-control custom-radio">
-                            <input class="custom-control-input" type="radio" id="customRadio1" name="NumeroHorno" value="1" checked>
+                            <input class="custom-control-input" type="radio" id="customRadio1" name="NumeroHorno" value="1" @checked(!$bloquearHorno) @disabled($bloquearHorno)>
                             <label for="customRadio1" class="custom-control-label font-weight-normal">H1</label>
                         </div>
                         <div class="custom-control custom-radio">
-                            <input class="custom-control-input" type="radio" id="customRadio2" name="NumeroHorno" value="2">
+                            <input class="custom-control-input" type="radio" id="customRadio2" name="NumeroHorno" value="2" @disabled($bloquearHorno)>
                             <label for="customRadio2" class="custom-control-label font-weight-normal">H2</label>
                         </div>
                         <div class="custom-control custom-radio">
-                            <input class="custom-control-input" type="radio" id="customRadio3" name="NumeroHorno" value="3">
+                            <input class="custom-control-input" type="radio" id="customRadio3" name="NumeroHorno" value="3" @disabled($bloquearHorno)>
                             <label for="customRadio3" class="custom-control-label font-weight-normal">H3</label>
                         </div>
                         <div class="custom-control custom-radio">
-                            <input class="custom-control-input" type="radio" id="customRadio4" name="NumeroHorno" value="4">
+                            <input class="custom-control-input" type="radio" id="customRadio4" name="NumeroHorno" value="4" @disabled($bloquearHorno)>
                             <label for="customRadio4" class="custom-control-label font-weight-normal">H4</label>
                         </div>
                         <div class="custom-control custom-radio">
-                            <input class="custom-control-input" type="radio" id="customRadio5" name="NumeroHorno" value="5">
+                            <input class="custom-control-input" type="radio" id="customRadio5" name="NumeroHorno" value="5" @disabled($bloquearHorno)>
                             <label for="customRadio5" class="custom-control-label font-weight-normal">H5</label>
                         </div>
                         <div class="custom-control custom-radio">
-                            <input class="custom-control-input" type="radio" id="customRadio6" name="NumeroHorno" value="6">
+                            <input class="custom-control-input" type="radio" id="customRadio6" name="NumeroHorno" value="6" @disabled($bloquearHorno)>
                             <label for="customRadio6" class="custom-control-label font-weight-normal">H6</label>
                         </div>
                     </div>

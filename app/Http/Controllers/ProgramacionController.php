@@ -83,7 +83,7 @@ class ProgramacionController extends Controller
                     'FechaDescarga' => $data['FechaDescarga'],
                     'Temperatura' => $data['Temperatura'],
                     'IdMedioEnfriamiento' => $data['IdMedioEnfriamiento'],
-                    'NumeroHorno' => $data['NumeroHorno'],
+                    'NumeroHorno' => $data['NumeroHorno'] ?? null,
                     'EjecutadoPorOperador' => $data['EjecutadoPorOperador'],
                     'CreadoPor' => $user_id,
                     'ActualizadoPor' => $user_id,

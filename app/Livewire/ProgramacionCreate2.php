@@ -15,6 +15,7 @@ class ProgramacionCreate2 extends Component
     public $IdTipoProgramacion;
     public $Temperatura;
     public $IdMedioEnfriamiento;
+    public $bloquearHorno = false;
 
     public function mount($items)
     {
@@ -22,6 +23,11 @@ class ProgramacionCreate2 extends Component
         $this->IdTipoProgramacion = old('IdTipoProgramacion', TipoProgramacion::first()?->id ?? null);
         $this->Temperatura = 0;
         $this->IdMedioEnfriamiento = 7;
+  
+        $this->bloquearHorno = collect($this->items)
+            ->every(function ($item) {
+                return in_array($item->IdTratamiento, [16, 37, 62]);
+            });
     }
 
 
