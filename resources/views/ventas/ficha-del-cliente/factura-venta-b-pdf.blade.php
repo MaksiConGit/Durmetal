@@ -229,7 +229,7 @@
                 <td>{{ $factura_venta->condicionIVA->Nombre ?? "N/A" }}</td>
             </tr>
             <tr>
-                <td class="label">DNI:</td>
+                <td class="label">CUIT:</td>
                 <td>{{ $factura_venta->NumeroDocumentoCliente }}</td>
             </tr>
             <tr>

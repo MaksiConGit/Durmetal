@@ -229,7 +229,7 @@
                 <td>{{ $factura_venta->condicionIVA->Nombre ?? "N/A" }}</td>
             </tr>
             <tr>
-                <td class="label">DNI:</td>
+                <td class="label">CUIT:</td>
                 <td>{{ $factura_venta->NumeroDocumentoCliente }}</td>
             </tr>
             <tr>
@@ -298,7 +298,9 @@
                         @endphp
 
                         @php
-                            $subtotal = $factura_venta->Neto + $factura_venta->IVA;
+                            $subtotal = $factura_venta->Neto;
+                            $iva = $factura_venta->IVA;
+                            $total = $factura_venta->Neto + $factura_venta->IVA;
                         @endphp
 
                         <td style="width:50%; vertical-align: top;">
@@ -308,12 +310,16 @@
                                     <td>{{ number_format($subtotal, 2, ',', '.') }}</td>
                                 </tr>
                                 <tr>
+                                    <td>IVA:</td>
+                                    <td>{{ number_format($iva, 2, ',', '.') }}</td>
+                                </tr>
+                                <tr>
                                     <td>Otros Tributos:</td>
                                     <td>{{ number_format(0, 2, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Total:</strong></td>
-                                    <td><strong>{{ number_format($subtotal, 2, ',', '.') }}</strong></td>
+                                    <td><strong>{{ number_format($total, 2, ',', '.') }}</strong></td>
                                 </tr>
                             </table>
                         </td>

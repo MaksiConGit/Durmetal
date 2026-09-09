@@ -49,13 +49,13 @@ class VentasController extends Controller
     private function mapearCondicionIvaAfip($id)
     {
         return match ($id) {
-            1 => 4, // Exento
-            2 => 1, // Responsable Inscripto
-            3 => 7, // No categorizado
-            4 => 5, // Consumidor Final
-            5 => 6, // Monotributo
-            6 => 7, // No identificado
-            default => 5, // fallback: consumidor final
+            0 => 4, // Exento
+            1 => 1, // Responsable Inscripto
+            2 => 7, // No categorizado
+            3 => 5, // Consumidor Final
+            4 => 6, // Monotributo
+            5 => 7, // No identificado
+            default => 3, // fallback: consumidor final
         };
     }
 
@@ -536,12 +536,12 @@ class VentasController extends Controller
         $cliente = Client::find($request->IdCliente);
 
         $mapa = [
-            1 => 'B',
+            0 => 'B',
+            1 => 'A',
             2 => 'A',
-            3 => 'A',
-            4 => 'B',
-            5 => 'A',
-            6 => 'B',
+            3 => 'B',
+            4 => 'A',
+            5 => 'B',
         ];
 
         $letra = $mapa[$cliente->condicionIVA->id] ?? 'B';
@@ -908,7 +908,9 @@ class VentasController extends Controller
 
         $items_factura_venta = $factura_venta->itemsFacturaVenta;
 
-        $numero_completo_factura = $factura_venta->NumeroCompleto;
+        preg_match('/' . $factura_venta->Letra . '\s*([0-9]+-[0-9]+)/', $factura_venta->NumeroCompleto, $m);
+
+        $numero_completo_factura = $m[1] ?? null;
 
         $cliente = $factura_venta->cliente;
 
@@ -981,13 +983,16 @@ $pdf_factura = Pdf::loadView($view, [
             ];
         }
 
+        $numero_completo_factura = $factura_venta->NumeroCompleto;
+
         Mail::send('emails.factura-venta', [
             'factura' => $factura_venta,
             'numero' => $numero_completo_factura,
             'nombre' => $factura_venta->cliente->Nombre,
         ], function ($message) use ($emails, $pdf_factura, $numero_completo_factura, $pdfs_notas, $adjuntar_notas) {
 
-            $message->to($emails)
+            $message->from('durmetal@durmetal.com', 'Durmetal')
+                    ->to($emails)
                     ->subject('Factura ' . $numero_completo_factura)
                     ->attachData(
                         $pdf_factura->output(),
