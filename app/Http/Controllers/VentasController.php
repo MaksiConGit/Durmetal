@@ -325,7 +325,8 @@ class VentasController extends Controller
             'nombre' => $nota_envio->cliente->Nombre,
         ], function ($message) use ($emails, $pdf_nota, $numero_completo_nota) {
 
-            $message->to($emails)
+            $message->from('durmetal@durmetal.com', 'Durmetal')
+                    ->to($emails)
                     ->subject('NOTA DE ENVIO ' . $numero_completo_nota)
                     ->attachData(
                         $pdf_nota->output(),
@@ -914,49 +915,49 @@ class VentasController extends Controller
 
         $cliente = $factura_venta->cliente;
 
-$letra = $factura_venta->Letra;
+        $letra = $factura_venta->Letra;
 
-$configuracion_global = ConfiguracionGlobal::first();
+        $configuracion_global = ConfiguracionGlobal::first();
 
-// =======================
-// QR AFIP (igual que PDF)
-// =======================
+        // =======================
+        // QR AFIP (igual que PDF)
+        // =======================
 
-$datos = [
-    "ver" => 1,
-    "fecha" => \Carbon\Carbon::parse($factura_venta->FechaEmision)->format('Y-m-d'),
-    "cuit" => (int) $configuracion_global->CUITEmpresa,
-    "ptoVta" => (int) $factura_venta->PuntoVenta ?? 1,
-    "tipoCmp" => $letra === 'A' ? 1 : 6,
-    "nroCmp" => (int) $factura_venta->Numero,
-    "importe" => (float) ($factura_venta->Neto + $factura_venta->IVA),
-    "moneda" => "PES",
-    "ctz" => 1,
-    "tipoDocRec" => 80,
-    "nroDocRec" => (int) $factura_venta->NumeroDocumentoCliente,
-    "tipoCodAut" => "E",
-    "codAut" => (int) $factura_venta->CAE ?? 12345678901234
-];
+        $datos = [
+            "ver" => 1,
+            "fecha" => \Carbon\Carbon::parse($factura_venta->FechaEmision)->format('Y-m-d'),
+            "cuit" => (int) $configuracion_global->CUITEmpresa,
+            "ptoVta" => (int) $factura_venta->PuntoVenta ?? 1,
+            "tipoCmp" => $letra === 'A' ? 1 : 6,
+            "nroCmp" => (int) $factura_venta->Numero,
+            "importe" => (float) ($factura_venta->Neto + $factura_venta->IVA),
+            "moneda" => "PES",
+            "ctz" => 1,
+            "tipoDocRec" => 80,
+            "nroDocRec" => (int) $factura_venta->NumeroDocumentoCliente,
+            "tipoCodAut" => "E",
+            "codAut" => (int) $factura_venta->CAE ?? 12345678901234
+        ];
 
-$json = json_encode($datos);
-$base64 = base64_encode($json);
-$urlQR = "https://www.arca.gob.ar/fe/qr/?p=" . $base64;
+        $json = json_encode($datos);
+        $base64 = base64_encode($json);
+        $urlQR = "https://www.arca.gob.ar/fe/qr/?p=" . $base64;
 
-$qr = new QrCode($urlQR);
-$writer = new PngWriter();
-$result = $writer->write($qr);
+        $qr = new QrCode($urlQR);
+        $writer = new PngWriter();
+        $result = $writer->write($qr);
 
-$qrBase64 = base64_encode($result->getString());
-$view = $letra === 'A'
-    ? 'ventas.ficha-del-cliente.factura-venta-a-pdf'
-    : 'ventas.ficha-del-cliente.factura-venta-b-pdf';
+        $qrBase64 = base64_encode($result->getString());
+        $view = $letra === 'A'
+            ? 'ventas.ficha-del-cliente.factura-venta-a-pdf'
+            : 'ventas.ficha-del-cliente.factura-venta-b-pdf';
 
-$pdf_factura = Pdf::loadView($view, [
+        $pdf_factura = Pdf::loadView($view, [
             'cliente' => $cliente,
             'factura_venta' => $factura_venta,
             'items_factura_venta' => $items_factura_venta,
             'numero' => $numero_completo_factura,
-'qrBase64' => $qrBase64,
+            'qrBase64' => $qrBase64,
             'configuracion_global' => ConfiguracionGlobal::first(),
         ])->setPaper('A4');
 
@@ -1657,7 +1658,8 @@ $pdf_factura = Pdf::loadView($view, [
             'nombre' => $recibo_venta->cliente->Nombre,
         ], function ($message) use ($emails, $pdf_nota, $numero_completo_recibo) {
 
-            $message->to($emails)
+            $message->from('durmetal@durmetal.com', 'Durmetal')
+                    ->to($emails)
                     ->subject('RECIBO ' . $numero_completo_recibo)
                     ->attachData(
                         $pdf_nota->output(),
@@ -2118,7 +2120,8 @@ $pdf_factura = Pdf::loadView($view, [
         'nombre' => $nota_credito->cliente->Nombre,
     ], function ($message) use ($emails, $pdf_nota, $numero_completo_nota) {
 
-        $message->to($emails)
+        $message->from('durmetal@durmetal.com', 'Durmetal')
+                ->to($emails)
                 ->subject('NOTA DE CREDITO ' . $numero_completo_nota)
                 ->attachData(
                     $pdf_nota->output(),
@@ -2607,7 +2610,8 @@ public function fichaDelClienteNotaDebitoMail(FacturaVenta $nota_debito, Request
         'nombre' => $cliente->Nombre,
     ], function ($message) use ($emails, $pdf_nota, $numero_completo_nota) {
 
-        $message->to($emails)
+        $message->from('durmetal@durmetal.com', 'Durmetal')
+            ->to($emails)
             ->subject('Nota de Débito ' . $numero_completo_nota)
             ->attachData(
                 $pdf_nota->output(),
@@ -2802,7 +2806,8 @@ public function fichaDelClienteNotaDebitoMail(FacturaVenta $nota_debito, Request
             'cliente' => $cliente,
         ], function ($message) use ($emails, $pdf, $cliente) {
 
-            $message->to($emails)
+            $message->from('durmetal@durmetal.com', 'Durmetal')
+                    ->to($emails)
                     ->subject('Resumen de Cuenta Corriente')
                     ->attachData(
                         $pdf->output(),
