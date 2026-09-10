@@ -55,7 +55,7 @@ class ListadoSaldo2 extends Component
                 ->whereDate('FechaEmision', '<=', $this->hasta_fecha)
                 ->sum('Total');
 
-            $cliente->saldo = $cliente->SaldoSistemaAnterior
+            $cliente->saldo = $cliente->Saldo
                 - $recibo_total
                 + $factura_total
                 - $nota_credito_total;
