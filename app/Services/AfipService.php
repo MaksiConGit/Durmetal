@@ -1296,7 +1296,7 @@ class AfipService
             'cuit' => $cuit,
             'username' => $username,
             'password' => $password,
-            'alias' => 'afipsdk',
+            'alias' => 'durmetalsrl',
             'service' => $service,
         ];
 
