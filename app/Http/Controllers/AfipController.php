@@ -63,10 +63,12 @@ class AfipController extends Controller
                 $request->alias ?? 'afipsdk'
             );
 
-            return back()->with(
-                'success',
-                'Certificado de producción creado correctamente.'
-            );
+            dd($response);
+
+            // return back()->with(
+            //     'success',
+            //     'Certificado de producción creado correctamente.'
+            // );
 
         } catch (\Throwable $e) {
             return back()
