@@ -56,7 +56,7 @@
             id="alias"
             name="alias"
             class="form-control"
-            value="{{ old('alias', 'afipsdk') }}"
+            value="{{ old('alias', 'durmetalsrl') }}"
         >
 
         @error('alias')

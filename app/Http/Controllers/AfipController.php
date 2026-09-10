@@ -60,7 +60,7 @@ class AfipController extends Controller
                 $request->cuit,
                 $request->username,
                 $request->password,
-                $request->alias ?? 'afipsdk'
+                $request->alias ?? 'durmetalsrl'
             );
 
             dd($response);
