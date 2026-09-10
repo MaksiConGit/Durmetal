@@ -14,8 +14,8 @@ class AfipService
         $this->afip = new Afip([
             'CUIT' => env('AFIP_CUIT'),
             'access_token' => 'PHhLSxkgIAXnzew8AyHTLAiVbTCyofWcXnxuhJGPmUdFg51MyHDa00A1UJbQb9eQ',
-            'cert' => storage_path('app/afip/certificado.crt'),
-            'key' => storage_path('app/afip/clave.key'),
+            'cert' => file_get_contents(storage_path('app/afip/certificado.crt')),
+            'key' => file_get_contents(storage_path('app/afip/clave.key')),
             'production' => true,
         ]);
     }
