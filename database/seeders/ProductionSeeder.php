@@ -44,8 +44,8 @@ class ProductionSeeder extends Seeder
         ]);
 
         PuntoDeVenta::create([
-            'Nombre' => '1 - DURMETAL',
-            'Numero' => '1',
+            'Nombre' => '5 - DURMETAL',
+            'Numero' => '5',
             'Tipo' => 'MANUAL',   
             'NotaCreditoComparteTalonario' => '0',
             'NotaDebitoComparteTalonario' => '0',
@@ -65,8 +65,8 @@ class ProductionSeeder extends Seeder
         ]);
 
         PuntoDeVenta::create([
-            'Nombre' => '5 - AFIP WS',
-            'Numero' => '5',
+            'Nombre' => '1 - AFIP WS',
+            'Numero' => '1',
             'Tipo' => 'ELECTRONICO',   
             'NotaCreditoComparteTalonario' => '0',
             'NotaDebitoComparteTalonario' => '0',

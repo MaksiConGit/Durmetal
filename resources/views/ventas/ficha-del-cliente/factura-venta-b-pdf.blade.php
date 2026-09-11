@@ -273,7 +273,7 @@
                 <table style="width:100%; margin-top:10px;">
                     <tr>
 
-                        @if ($factura_venta->PuntoVenta == 5)
+                        @if ($factura_venta->PuntoVenta == 1)
                             <!-- QR IZQUIERDA -->
                             <td style="width:30%; vertical-align: top;">
                                 <img src="data:image/png;base64,{{ $qrBase64 }}" style="width: 200px;">
