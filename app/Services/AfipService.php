@@ -30,6 +30,11 @@ class AfipService
         return $this->afip->ElectronicBilling->ExecuteRequest('FEParamGetCondicionIvaReceptor');
     }
 
+    public function obtenerPuntosVenta()
+    {
+        return $this->afip->ElectronicBilling->GetSalesPoints();
+    }
+
     public function crearFacturaA($body)
     {
         $afip = $this->afip;
@@ -42,7 +47,7 @@ class AfipService
         $importe_gravado = (float) ($body['importe_gravado'] ?? 100);
         $importe_exento_iva = (float) ($body['importe_exento_iva'] ?? 0);
         $importe_iva = (float) ($body['importe_iva'] ?? 21);
-        $punto_de_venta = (int) ($body['punto_de_venta'] ?? 1);
+        $punto_de_venta = 1;
         $concepto = (int) ($body['concepto'] ?? 1);
         $condicion_iva_receptor = (int) ($body['condicion_iva_receptor'] ?? 1);
 
@@ -219,7 +224,7 @@ class AfipService
         // =========================
         // 📥 INPUTS
         // =========================
-        $punto_de_venta = (int) ($body['punto_de_venta'] ?? 1);
+        $punto_de_venta = 1;
         $concepto = (int) ($body['concepto'] ?? 1);
         $tipo_de_documento = (int) ($body['tipo_de_documento'] ?? 99);
         $numero_de_documento = (int) ($body['numero_de_documento'] ?? 0);
@@ -410,7 +415,7 @@ class AfipService
         $importe_exento_iva = (float) ($body['importe_exento_iva'] ?? 0);
         $importe_iva = (float) ($body['importe_iva'] ?? 21);
 
-        $punto_de_venta = (int) ($body['punto_de_venta'] ?? 1);
+        $punto_de_venta = 1;
         $concepto = (int) ($body['concepto'] ?? 1);
         $condicion_iva_receptor = (int) ($body['condicion_iva_receptor'] ?? 1);
 
@@ -627,7 +632,7 @@ class AfipService
         $importe_exento_iva = (float) ($body['importe_exento_iva'] ?? 0);
         $importe_iva = (float) ($body['importe_iva'] ?? 21);
 
-        $punto_de_venta = (int) ($body['punto_de_venta'] ?? 1);
+        $punto_de_venta = 1;
         $concepto = (int) ($body['concepto'] ?? 1);
         $condicion_iva_receptor = (int) ($body['condicion_iva_receptor'] ?? 5);
 
@@ -824,7 +829,7 @@ class AfipService
         $importe_exento_iva = (float) ($body['importe_exento_iva'] ?? 0);
         $importe_iva = (float) ($body['importe_iva'] ?? 0);
 
-        $punto_de_venta = (int) ($body['punto_de_venta'] ?? 1);
+        $punto_de_venta = 1;
         $concepto = (int) ($body['concepto'] ?? 1);
         $condicion_iva_receptor = (int) ($body['condicion_iva_receptor'] ?? 1);
 
@@ -1038,7 +1043,7 @@ class AfipService
         $importe_exento_iva = (float) ($body['importe_exento_iva'] ?? 0);
         $importe_iva = (float) ($body['importe_iva'] ?? 0);
 
-        $punto_de_venta = (int) ($body['punto_de_venta'] ?? 1);
+        $punto_de_venta = 1;
         $concepto = (int) ($body['concepto'] ?? 1);
         $condicion_iva_receptor = (int) ($body['condicion_iva_receptor'] ?? 5);
 
