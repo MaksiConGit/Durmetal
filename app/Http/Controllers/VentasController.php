@@ -661,7 +661,7 @@ class VentasController extends Controller
             $nota_envio->update(['Estado' => 'COMPLETO']);
         }
 
-        if ((int)$data['PuntoVenta'] === 5) {
+        if ((int)$data['PuntoVenta'] === 1) {
 
             try {
                 function mapearTipoDocumentoAfip($tipo)
@@ -1814,7 +1814,7 @@ class VentasController extends Controller
 
         }
 
-        if ((int)$data['PuntoVenta'] === 5) {
+        if ((int)$data['PuntoVenta'] === 1) {
 
             try {
                 function mapearTipoDocumentoAfip($tipo)
@@ -2298,7 +2298,7 @@ class VentasController extends Controller
             ]);
         }
 
-        if ((int)$data['PuntoVenta'] === 5) {
+        if ((int)$data['PuntoVenta'] === 1) {
 
             try {
 
