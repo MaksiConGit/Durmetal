@@ -175,7 +175,7 @@ class OrdenTrabajoEdit extends Component
 
             $orden->PuntoVenta = $this->pto_venta_seleccionado_id ?? 1;
             $orden->FechaEmision = $this->fecha_emision;
-            $orden->NumeroRemitoCliente = $this->numero_remito_cliente ?? null;
+            $orden->NumeroRemitoCliente = $this->numero_remito_cliente ?: null;
 
             $orden->IdCliente = $this->cliente_id;
             $orden->RazonSocial = $cliente->Nombre ?? null;
