@@ -44,9 +44,9 @@ class AfipService
         // =========================
         $numero_de_documento = (int) ($body['numero_de_documento'] ?? 0);
         $tipo_de_documento = (int) ($body['tipo_de_documento'] ?? 80); // ⚠️ A = CUIT
-        $importe_gravado = (float) ($body['importe_gravado'] ?? 100);
-        $importe_exento_iva = (float) ($body['importe_exento_iva'] ?? 0);
-        $importe_iva = (float) ($body['importe_iva'] ?? 21);
+        $importe_gravado = round((float) ($body['importe_gravado'] ?? 100), 2);
+        $importe_exento_iva = round((float) ($body['importe_exento_iva'] ?? 0), 2);
+        $importe_iva = round((float) ($body['importe_iva'] ?? 21), 2);
         $punto_de_venta = 1;
         $concepto = (int) ($body['concepto'] ?? 1);
         $condicion_iva_receptor = (int) ($body['condicion_iva_receptor'] ?? 1);
@@ -61,7 +61,10 @@ class AfipService
         $lastVoucher = $afip->ElectronicBilling->GetLastVoucher($punto_de_venta, $tipo_de_factura);
         $numero_de_factura = $lastVoucher + 1;
 
-        $importe_total = $importe_gravado + $importe_iva + $importe_exento_iva;
+        $importe_total = round(
+            $importe_gravado + $importe_iva + $importe_exento_iva,
+            2
+        );
 
         // =========================
         // 🧾 AFIP
@@ -114,103 +117,103 @@ class AfipService
         // =========================
         // 📄 TEMPLATE (FORMATO NUEVO)
         // =========================
-        $templateParams = [
-            "file_name" => 'factura-a-' . str_pad((string) $numero_de_factura, 8, '0', STR_PAD_LEFT) . '.pdf',
-            "send_to" => $body['email'] ?? null,
-            "template" => [
-                "name" => "invoice-a",
-                "params" => [
+        // $templateParams = [
+        //     "file_name" => 'factura-a-' . str_pad((string) $numero_de_factura, 8, '0', STR_PAD_LEFT) . '.pdf',
+        //     "send_to" => $body['email'] ?? null,
+        //     "template" => [
+        //         "name" => "invoice-a",
+        //         "params" => [
 
-                    // Comprobante
-                    "voucher_number" => $numero_de_factura,
-                    "sales_point" => $punto_de_venta,
-                    "issue_date" => date('d/m/Y'),
-                    "cae_due_date" => $caeDue,
-                    "cae" => (string) $billResponse['CAE'],
+        //             // Comprobante
+        //             "voucher_number" => $numero_de_factura,
+        //             "sales_point" => $punto_de_venta,
+        //             "issue_date" => date('d/m/Y'),
+        //             "cae_due_date" => $caeDue,
+        //             "cae" => (string) $billResponse['CAE'],
 
-                    // Emisor
-                    "issuer_cuit" => (int) env('AFIP_CUIT'),
-                    "issuer_business_name" => $config->RazonSocialEmpresa,
-                    "issuer_address" => $config->DomicilioEmpresa,
-                    "issuer_iva_condition" => "Responsable Inscripto",
-                    "issuer_gross_income" => $config->IIBBEmpresa,
-                    "issuer_activity_start_date" => $this->formatearFecha(
-                        $config->FechaInicioActividadesEmpresa
-                    ),
+        //             // Emisor
+        //             "issuer_cuit" => (int) env('AFIP_CUIT'),
+        //             "issuer_business_name" => $config->RazonSocialEmpresa,
+        //             "issuer_address" => $config->DomicilioEmpresa,
+        //             "issuer_iva_condition" => "Responsable Inscripto",
+        //             "issuer_gross_income" => $config->IIBBEmpresa,
+        //             "issuer_activity_start_date" => $this->formatearFecha(
+        //                 $config->FechaInicioActividadesEmpresa
+        //             ),
 
-                    // 🔥 Receptor (corregido para A)
-                    "receiver_name" => $body['razon_social'] ?? 'Cliente',
-                    "receiver_address" => $body['domicilio'] ?? '-',
-                    "receiver_document_type" => $tipo_de_documento,
-                    "receiver_document_number" => $numero_de_documento,
-                    "receiver_iva_condition" => $body['condicion_iva'] ?? 'Responsable Inscripto',
+        //             // 🔥 Receptor (corregido para A)
+        //             "receiver_name" => $body['razon_social'] ?? 'Cliente',
+        //             "receiver_address" => $body['domicilio'] ?? '-',
+        //             "receiver_document_type" => $tipo_de_documento,
+        //             "receiver_document_number" => $numero_de_documento,
+        //             "receiver_iva_condition" => $body['condicion_iva'] ?? 'Responsable Inscripto',
 
-                    // Factura
-                    "sale_condition" => $body['condicion_venta'] ?? 'Contado',
-                    "currency_id" => "ARS",
-                    "currency_rate" => 1,
-                    "concept" => $concepto,
+        //             // Factura
+        //             "sale_condition" => $body['condicion_venta'] ?? 'Contado',
+        //             "currency_id" => "ARS",
+        //             "currency_rate" => 1,
+        //             "concept" => $concepto,
 
-                    // 🔥 Items (con vat_rate obligatorio)
-                    "items" => !empty($body['items'])
-                        ? array_map(function ($item, $index) {
-                            return [
-                                "code" => str_pad($index + 1, 3, '0', STR_PAD_LEFT),
-                                "description" => $item['description'] ?? 'Item',
-                                "quantity" => $item['quantity'] ?? 1,
-                                "unit_price" => $item['unit_price'] ?? 0, // SIN IVA
-                                "subtotal" => $item['total'] ?? 0,
-                                "vat_rate" => $item['vat_rate'] ?? 21
-                            ];
-                        }, $body['items'], array_keys($body['items']))
-                        : [
-                            [
-                                "code" => "001",
-                                "description" => "Servicio",
-                                "quantity" => 1,
-                                "unit_price" => $importe_gravado,
-                                "subtotal" => $importe_gravado,
-                                "vat_rate" => 21
-                            ]
-                        ],
+        //             // 🔥 Items (con vat_rate obligatorio)
+        //             "items" => !empty($body['items'])
+        //                 ? array_map(function ($item, $index) {
+        //                     return [
+        //                         "code" => str_pad($index + 1, 3, '0', STR_PAD_LEFT),
+        //                         "description" => $item['description'] ?? 'Item',
+        //                         "quantity" => $item['quantity'] ?? 1,
+        //                         "unit_price" => $item['unit_price'] ?? 0, // SIN IVA
+        //                         "subtotal" => $item['total'] ?? 0,
+        //                         "vat_rate" => $item['vat_rate'] ?? 21
+        //                     ];
+        //                 }, $body['items'], array_keys($body['items']))
+        //                 : [
+        //                     [
+        //                         "code" => "001",
+        //                         "description" => "Servicio",
+        //                         "quantity" => 1,
+        //                         "unit_price" => $importe_gravado,
+        //                         "subtotal" => $importe_gravado,
+        //                         "vat_rate" => 21
+        //                     ]
+        //                 ],
 
-                    // Totales
-                    "vat_amount" => $importe_iva,
-                    "tributes_amount" => 0,
-                    "total_amount" => $importe_total,
+        //             // Totales
+        //             "vat_amount" => $importe_iva,
+        //             "tributes_amount" => 0,
+        //             "total_amount" => $importe_total,
 
-                    // 🔥 Obligatorios A
-                    "net_amount_taxed" => $importe_gravado,
-                    "net_amount_untaxed" => 0,
-                    "exempt_amount" => $importe_exento_iva,
+        //             // 🔥 Obligatorios A
+        //             "net_amount_taxed" => $importe_gravado,
+        //             "net_amount_untaxed" => 0,
+        //             "exempt_amount" => $importe_exento_iva,
 
-                    "vat_breakdown" => [
-                        [
-                            "vat_rate_id" => 21,
-                            "taxable_base" => $importe_gravado,
-                            "vat_subtotal" => $importe_iva
-                        ]
-                    ],
+        //             "vat_breakdown" => [
+        //                 [
+        //                     "vat_rate_id" => 21,
+        //                     "taxable_base" => $importe_gravado,
+        //                     "vat_subtotal" => $importe_iva
+        //                 ]
+        //             ],
 
-                    // Fechas
-                    "billing_from" => date('01/m/Y'),
-                    "billing_to" => date('t/m/Y'),
-                    "payment_due_date" => date('d/m/Y', strtotime('+10 days')),
-                ]
-            ]
-        ];
+        //             // Fechas
+        //             "billing_from" => date('01/m/Y'),
+        //             "billing_to" => date('t/m/Y'),
+        //             "payment_due_date" => date('d/m/Y', strtotime('+10 days')),
+        //         ]
+        //     ]
+        // ];
 
-        // =========================
-        // 📄 PDF
-        // =========================
-        $pdfResponse = $afip->ElectronicBilling->CreatePDF($templateParams);
+        // // =========================
+        // // 📄 PDF
+        // // =========================
+        // $pdfResponse = $afip->ElectronicBilling->CreatePDF($templateParams);
 
-        if (!$pdfResponse || !isset($pdfResponse['file'])) {
-            throw new \Exception('Error al generar el PDF');
-        }
+        // if (!$pdfResponse || !isset($pdfResponse['file'])) {
+        //     throw new \Exception('Error al generar el PDF');
+        // }
 
         return [
-            'file' => $pdfResponse['file'],
+            // 'file' => $pdfResponse['file'],
             'cae' => $billResponse['CAE'],
             'cae_vencimiento' => $billResponse['CAEFchVto'],
             'numero' => $numero_de_factura

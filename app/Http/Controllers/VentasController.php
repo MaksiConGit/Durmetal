@@ -704,8 +704,7 @@ class VentasController extends Controller
                 }
 
                 return redirect()
-                    ->route('ventas.ficha-del-cliente-factura-venta.show', $factura_venta)
-                    ->with('pdf_url', $afipResponse['file']);
+                    ->route('ventas.ficha-del-cliente-factura-venta.show', $factura_venta);
                     
             } catch (\Throwable $e) {
                 return redirect()->back()->withErrors([
