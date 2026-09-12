@@ -41,6 +41,41 @@
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
 <!-- Site wrapper -->
 <div class="wrapper">
+
+  @if(Auth::id() === 0)
+      @if(env('AFIP_PRODUCTION', false))
+          <div style="
+              position: fixed;
+              bottom: 15px;
+              left: 15px;
+              z-index: 99999;
+              padding: 12px 20px;
+              border-radius: 8px;
+              background-color: #dc3545;
+              color: white;
+              font-weight: bold;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+          ">
+              🔴🔴 PRODUCCIÓN — FACTURAS REALES 🔴🔴
+          </div>
+      @else
+          <div style="
+              position: fixed;
+              bottom: 15px;
+              left: 15px;
+              z-index: 99999;
+              padding: 12px 20px;
+              border-radius: 8px;
+              background-color: #28a745;
+              color: white;
+              font-weight: bold;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+          ">
+              🟢 ENTORNO LOCAL — NO SE EMITEN FACTURAS REALES
+          </div>
+      @endif
+  @endif
+
     <!-- Navbar -->
   <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container-fluid ml-3">
