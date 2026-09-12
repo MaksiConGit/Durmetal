@@ -611,38 +611,9 @@ class VentasController extends Controller
         $data['CantidadImpresiones'] = 0;
         $data['CantidadEnviosPorCorreo'] = 0;
 
-        $factura_venta = FacturaVenta::create($data);
-
         $itemsParaAfip = [];
 
         foreach ($request->items as $index => $itemData) {
-            $item_factura_venta = ItemFacturaVenta::create([
-                'IdFacturaVenta' => $factura_venta->id,
-                'ItemNumero' => $index + 1,
-                'Descripcion' => $itemData['Descripcion'],
-                'NroDeposito' => 1,
-                'Cantidad' => 1,
-                'PrecioCosto' => 0,
-                'PrecioUnitarioNeto' => 0,
-                'PrecioUnitario' => $itemData['Neto'],
-                'IdImpuestoIva' => 1,
-                'AlicuotaIVA' => 21,
-                'ImpuestosInternos' => 0,
-                'ImpuestoCombustible' => 0,
-                'ImpuestoTV' => 0,
-                'ImpuestoInterno' => 0,
-                'Neto' => $itemData['Neto'],
-                'IVA' => $itemData['IVA'],
-                'Total' => $itemData['Neto'] + $itemData['IVA'],
-                'AfectarPlanillaTurno' => 0,
-                'ControlarStock' => 0,
-                'Estado' => 'PENDIENTE',
-                'FechaCreacion' => now(),
-                'CreadoPor' => $user_id,
-                'FechaActualizacion' => now(),
-                'ActualizadoPor' => $user_id,
-                'Activo' => 1,
-            ]);
 
             $itemsParaAfip[] = [
                 'description' => $itemData['Descripcion'],
@@ -650,15 +621,6 @@ class VentasController extends Controller
                 'unit_price' => $itemData['Neto'],
                 'total' => $itemData['Neto'] + $itemData['IVA'],
             ];
-
-            $nota_envio = NotaEnvio::find($itemData['IdNotaEnvio']);
-
-            $item_factura_venta_nota_envio = ItemFacturaVentaNotaEnvio::create([
-                'IdItemFacturaVenta' => $item_factura_venta->id,
-                'IdNotaEnvio' => $nota_envio->id,
-            ]);
-
-            $nota_envio->update(['Estado' => 'COMPLETO']);
         }
 
         if ((int)$data['PuntoVenta'] === 1) {
@@ -692,6 +654,8 @@ class VentasController extends Controller
                     ? $afipService->crearFacturaA($payloadAfip)
                     : $afipService->crearFacturaB($payloadAfip);
 
+                $factura_venta = FacturaVenta::create($data);
+
                 $factura_venta->update([
                     'CAE' => $afipResponse['cae'],
                     'FechaVencimientoCAE' => $afipResponse['cae_vencimiento'],
@@ -700,16 +664,50 @@ class VentasController extends Controller
                         . '-' . str_pad($afipResponse['numero'], 8, '0', STR_PAD_LEFT),
                 ]);
 
+                foreach ($request->items as $index => $itemData) {
+                    $item_factura_venta = ItemFacturaVenta::create([
+                        'IdFacturaVenta' => $factura_venta->id,
+                        'ItemNumero' => $index + 1,
+                        'Descripcion' => $itemData['Descripcion'],
+                        'NroDeposito' => 1,
+                        'Cantidad' => 1,
+                        'PrecioCosto' => 0,
+                        'PrecioUnitarioNeto' => 0,
+                        'PrecioUnitario' => $itemData['Neto'],
+                        'IdImpuestoIva' => 1,
+                        'AlicuotaIVA' => 21,
+                        'ImpuestosInternos' => 0,
+                        'ImpuestoCombustible' => 0,
+                        'ImpuestoTV' => 0,
+                        'ImpuestoInterno' => 0,
+                        'Neto' => $itemData['Neto'],
+                        'IVA' => $itemData['IVA'],
+                        'Total' => $itemData['Neto'] + $itemData['IVA'],
+                        'AfectarPlanillaTurno' => 0,
+                        'ControlarStock' => 0,
+                        'Estado' => 'PENDIENTE',
+                        'FechaCreacion' => now(),
+                        'CreadoPor' => $user_id,
+                        'FechaActualizacion' => now(),
+                        'ActualizadoPor' => $user_id,
+                        'Activo' => 1,
+                    ]);
+
+                    $nota_envio = NotaEnvio::find($itemData['IdNotaEnvio']);
+
+                    $item_factura_venta_nota_envio = ItemFacturaVentaNotaEnvio::create([
+                        'IdItemFacturaVenta' => $item_factura_venta->id,
+                        'IdNotaEnvio' => $nota_envio->id,
+                    ]);
+
+                    $nota_envio->update(['Estado' => 'COMPLETO']);
+                }
+
                 return redirect()
                     ->route('ventas.ficha-del-cliente-factura-venta.show', $factura_venta)
                     ->with('pdf_url', $afipResponse['file']);
                     
             } catch (\Throwable $e) {
-
-                $factura_venta->update([
-                    'Observaciones' => $e->getMessage(),
-                ]);
-
                 return redirect()->back()->withErrors([
                     'afip' => $e->getMessage()
                 ]);
@@ -717,7 +715,52 @@ class VentasController extends Controller
 
         }
 
-        return redirect()->route('ventas.ficha-del-cliente-factura-venta.show', $factura_venta);
+        if ((int)$data['PuntoVenta'] === 5) {
+
+            $factura_venta = FacturaVenta::create($data);
+
+            foreach ($request->items as $index => $itemData) {
+                $item_factura_venta = ItemFacturaVenta::create([
+                    'IdFacturaVenta' => $factura_venta->id,
+                    'ItemNumero' => $index + 1,
+                    'Descripcion' => $itemData['Descripcion'],
+                    'NroDeposito' => 1,
+                    'Cantidad' => 1,
+                    'PrecioCosto' => 0,
+                    'PrecioUnitarioNeto' => 0,
+                    'PrecioUnitario' => $itemData['Neto'],
+                    'IdImpuestoIva' => 1,
+                    'AlicuotaIVA' => 21,
+                    'ImpuestosInternos' => 0,
+                    'ImpuestoCombustible' => 0,
+                    'ImpuestoTV' => 0,
+                    'ImpuestoInterno' => 0,
+                    'Neto' => $itemData['Neto'],
+                    'IVA' => $itemData['IVA'],
+                    'Total' => $itemData['Neto'] + $itemData['IVA'],
+                    'AfectarPlanillaTurno' => 0,
+                    'ControlarStock' => 0,
+                    'Estado' => 'PENDIENTE',
+                    'FechaCreacion' => now(),
+                    'CreadoPor' => $user_id,
+                    'FechaActualizacion' => now(),
+                    'ActualizadoPor' => $user_id,
+                    'Activo' => 1,
+                ]);
+
+                $nota_envio = NotaEnvio::find($itemData['IdNotaEnvio']);
+
+                $item_factura_venta_nota_envio = ItemFacturaVentaNotaEnvio::create([
+                    'IdItemFacturaVenta' => $item_factura_venta->id,
+                    'IdNotaEnvio' => $nota_envio->id,
+                ]);
+
+                $nota_envio->update(['Estado' => 'COMPLETO']);
+            }
+
+            return redirect()->route('ventas.ficha-del-cliente-factura-venta.show', $factura_venta);
+            
+        }
     }
 
     public function fichaDelClienteFacturaVentaShow(FacturaVenta $factura_venta)
