@@ -305,7 +305,7 @@ class VentasController extends Controller
             $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
         }
         
-        $emails[] = 'durmetal@durmetal.com';
+        $emails[] = 'durmetal@durmetal.com.ar';
         $emails = array_unique($emails);
 
         $nota_envio->CantidadEnviosPorCorreo = ($nota_envio->CantidadEnviosPorCorreo ?? 0) + 1;
@@ -949,7 +949,7 @@ class VentasController extends Controller
             $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
         }
 
-        $emails[] = 'durmetal@durmetal.com';
+        $emails[] = 'durmetal@durmetal.com.ar';
         $emails = array_unique($emails);
 
         $factura_venta->CantidadEnviosPorCorreo = ($factura_venta->CantidadEnviosPorCorreo ?? 0) + 1;
@@ -1686,7 +1686,7 @@ class VentasController extends Controller
             $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
         }
 
-        $emails[] = 'durmetal@durmetal.com';
+        $emails[] = 'durmetal@durmetal.com.ar';
         $emails = array_unique($emails);
 
         $recibo_venta->CantidadEnviosPorCorreo = ($recibo_venta->CantidadEnviosPorCorreo ?? 0) + 1;
@@ -2094,7 +2094,7 @@ class VentasController extends Controller
         $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
     }
 
-    $emails[] = 'durmetal@durmetal.com';
+    $emails[] = 'durmetal@durmetal.com.ar';
     $emails = array_unique($emails);
 
     $nota_credito->CantidadEnviosPorCorreo = ($nota_credito->CantidadEnviosPorCorreo ?? 0) + 1;
@@ -2593,7 +2593,7 @@ public function fichaDelClienteNotaDebitoMail(FacturaVenta $nota_debito, Request
         $emails = Email::whereIn('Id', $ids)->pluck('Email')->toArray();
     }
 
-    $emails[] = 'durmetal@durmetal.com';
+    $emails[] = 'durmetal@durmetal.com.ar';
     $emails = array_unique($emails);
 
     $nota_debito->CantidadEnviosPorCorreo = ($nota_debito->CantidadEnviosPorCorreo ?? 0) + 1;
@@ -2793,7 +2793,7 @@ public function fichaDelClienteNotaDebitoMail(FacturaVenta $nota_debito, Request
             return back()->with('error', 'No se seleccionaron direcciones de correo válidas.');
         }
 
-        $emails[] = 'durmetal@durmetal.com';
+        $emails[] = 'durmetal@durmetal.com.ar';
         $emails = array_unique($emails);
 
         /*
