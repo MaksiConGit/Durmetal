@@ -132,15 +132,15 @@ class BuscarDocumentos2 extends Component
         $id = $documento['Id'];
         switch ($tipo) {
             case 'FacturaVenta':
-                return route('ventas.ficha-del-cliente-factura-venta.create', $id);
+                return route('ventas.ficha-del-cliente-factura-venta.edit', $id);
             case 'NotaEnvio':
-                return route('ventas.ficha-del-cliente-nota-envio.create', $id);
+                return route('ventas.ficha-del-cliente-nota-envio.edit', $id);
             case 'NotaDebito':
-                return route('ventas.ficha-del-cliente-factura-venta.create', $id);
+                return route('ventas.ficha-del-cliente-factura-venta.edit', $id);
             case 'NotaCreditoVenta':
-                return route('ventas.ficha-del-cliente-factura-venta.create', $id);
+                return route('ventas.ficha-del-cliente-factura-venta.edit', $id);
             case 'ReciboVenta':
-                return route('ventas.ficha-del-cliente-recibo-venta.create', $id);
+                return route('ventas.ficha-del-cliente-recibo-venta.edit', $id);
             default:
                 return '#';
         }
