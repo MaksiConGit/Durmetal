@@ -391,6 +391,7 @@ class OrdenTrabajoEdit extends Component
         $this->items_orden_trabajo = $items_orden_trabajo;
         $this->pto_ventas = $pto_ventas;
         $this->numero = $orden_trabajo->Numero ?? OrdenTrabajo::max('Numero') + 1;
+        $this->numero_remito_cliente = $orden_trabajo->NumeroRemitoCliente ?? null;
         $this->clientes = Client::all();
         $this->users = User::all();
 

@@ -190,7 +190,7 @@ body {
 
     <tr>
         <td>
-            Rto/OC del cliente N°:
+            Rto/OC del cliente N°: {{ $certificado->itemOrdenTrabajo->ordenTrabajo->NumeroRemitoCliente }}
         </td>
 
         <td>

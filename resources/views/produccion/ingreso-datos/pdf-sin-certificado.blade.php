@@ -191,6 +191,11 @@ body {
     <tr>
         <td>
             Rto/OC del cliente N°:
+            {{ $item->ordenTrabajo->NumeroRemitoCliente }}
+        </td>
+
+        <td>
+            Plano N°:
         </td>
     </tr>
 </table>
