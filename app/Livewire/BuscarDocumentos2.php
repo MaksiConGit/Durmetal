@@ -110,6 +110,15 @@ class BuscarDocumentos2 extends Component
         }
 
         return $documentos->map(function($doc) {
+
+            $puedeModificar = true;
+
+            if ($doc instanceof \App\Models\NotaEnvio) {
+                $puedeModificar = $doc->itemsNotaEnvio->contains(
+                    fn($item) => $item->itemOrdenTrabajo?->ordenTrabajo !== null
+                );
+            }
+
             return [
                 'Id' => $doc->id,
                 'Tipo' => class_basename($doc),
@@ -122,6 +131,7 @@ class BuscarDocumentos2 extends Component
                 'Estado' => $doc->Estado,
                 'PorcentajeDescuento' => $doc->PorcentajeDescuento,
                 'Total' => $doc->Total,
+                'PuedeModificar' => $puedeModificar,
             ];
         })->sortByDesc('FechaEmision')->values();
     }

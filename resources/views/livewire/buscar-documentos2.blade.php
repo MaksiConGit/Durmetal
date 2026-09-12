@@ -138,7 +138,14 @@
             </x-slot>
             <x-slot name="tbody">
                 @forelse ($this->documentosFiltrados as $index => $documento)
-                    <tr style="cursor:pointer;" onclick="window.location='{{ $this->getUrlEditarDocumento($documento) }}'">
+                        <tr
+                            @if ($documento['PuedeModificar'])
+                                style="cursor: pointer;"
+                                onclick="window.location='{{ $this->getUrlEditarDocumento($documento) }}'"
+                            @else
+                                style="opacity: 0.5;"
+                            @endif
+                        >
                         <td>{{ \Carbon\Carbon::parse($documento['FechaEmision'])->format('j/n/Y') }}</td>
                         <td>{{ \Carbon\Carbon::parse($documento['FechaVencimiento'])->format('j/n/Y') }}</td>
                         <td>{{ $documento['NumeroCompleto'] }}</td>
