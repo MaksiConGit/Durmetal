@@ -43,7 +43,7 @@
 <div class="wrapper">
 
   @if(Auth::id() === 0)
-      @if(env('AFIP_PRODUCTION', false))
+      @if(config('app.env') === 'production')
           <div style="
               position: fixed;
               bottom: 15px;
