@@ -49,7 +49,7 @@ class BuscarComprobantes2 extends Component
 
         // --- Facturas de compra ---
         if ($this->filtroTipo === 'Todos' || $this->filtroTipo === 'FacturaCompra') {
-            $facturas = \App\Models\FacturaCompra::query()
+            $facturas = \App\Models\Facturacompra::query()
                 ->where('EsNotaDeDebito', 0)
                 ->when($this->fechaDesde, fn($q) => $q->whereDate('FechaEmision', '>=', $this->fechaDesde))
                 ->when($this->fechaHasta, fn($q) => $q->whereDate('FechaEmision', '<=', $this->fechaHasta))
@@ -63,7 +63,7 @@ class BuscarComprobantes2 extends Component
 
         // --- Notas de débito de compra ---
         if ($this->filtroTipo === 'Todos' || $this->filtroTipo === 'NotaDebitoCompra') {
-            $notasDebito = \App\Models\FacturaCompra::query()
+            $notasDebito = \App\Models\Facturacompra::query()
                 ->where('EsNotaDeDebito', 1)
                 ->when($this->fechaDesde, fn($q) => $q->whereDate('FechaEmision', '>=', $this->fechaDesde))
                 ->when($this->fechaHasta, fn($q) => $q->whereDate('FechaEmision', '<=', $this->fechaHasta))
