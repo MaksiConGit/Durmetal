@@ -74,6 +74,21 @@ class FichaDelClienteShow2 extends Component
         $this->calcularSaldo();
     }
 
+    public function puedeModificarNotaEnvio()
+    {
+        if (!$this->notaEnvio) {
+            return false;
+        }
+
+        foreach ($this->notaEnvio->itemsNotaEnvio as $item) {
+            if ($item->itemOrdenTrabajo?->ordenTrabajo) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function cancelarCliente()
     {
         $this->factura_venta_id = null;

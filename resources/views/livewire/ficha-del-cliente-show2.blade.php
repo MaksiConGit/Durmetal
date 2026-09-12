@@ -243,15 +243,19 @@
                             @break
                         @case('custom-tabs-2')
 
-                            <a 
-                                @if ($selectedId)
-                                class="btn btn-app bg-primary" href="{{ route('ventas.ficha-del-cliente-nota-envio.edit', $selectedId) }}" 
-                                @else
-                                class="btn btn-app bg-primary disabled" 
-                                @endif
-                            >
-                                <i class="fas fa-pen"></i> Modificar
-                            </a>
+                        <a 
+                            @if ($selectedId && $this->puedeModificarNotaEnvio())
+                                class="btn btn-app bg-primary"
+                                href="{{ route('ventas.ficha-del-cliente-nota-envio.edit', $selectedId) }}"
+                            @else
+                                class="btn btn-app bg-primary disabled"
+                                href="#"
+                                tabindex="-1"
+                                aria-disabled="true"
+                            @endif
+                        >
+                            <i class="fas fa-pen"></i> Modificar
+                        </a>
 
                             @break
                         @case('custom-tabs-3')
@@ -616,7 +620,7 @@
                                                     @foreach ($nota_de_envio->itemsNotaEnvio as $index => $item_nota_envio)
                                                         <tr>
                                                             <td>{{ $index + 1 }}</td>
-                                                            <td>{{ $item_nota_envio->itemOrdenTrabajo->ordenTrabajo->NumeroCompleto }}</td>
+                                                            <td>{{ $item_nota_envio->itemOrdenTrabajo->ordenTrabajo->NumeroCompleto ?? '-' }}</td>
                                                             <td>{{ $item_nota_envio->Descripcion }}</td>
                                                             <td>{{ number_format($item_nota_envio->Cantidad, 2, '.', '') }}</td>
                                                             <td>{{ number_format($item_nota_envio->Peso, 2, '.', '') }}</td>
